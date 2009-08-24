@@ -1,0 +1,10 @@
+## Interface: 30200
+## Author: Caellian
+## Title: |cffD7BEA5cael|rSmartAmmo
+## Notes: Smart ammunitions for Hunters
+## X-Revision: $Revision: 4 $
+## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
+## X-Email: sdkyron@gmail.com
+## X-Category: Hunters
+
+caelSmartAmmo.lua
