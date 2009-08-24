@@ -1,0 +1,120 @@
+local frame = CreateFrame("Frame", nil, UIParent)
+
+frame:SetWidth(311.5)
+frame:SetHeight(104.5)
+frame:SetPoint("BOTTOM", UIParent, "BOTTOM", -401, 43)
+
+local function ScrollFrame(self, delta)
+	if delta > 0 then
+		for i = 1, #frame.frames do
+			if IsShiftKeyDown() then
+				frame.frames[i]:ScrollToTop()
+			else
+				frame.frames[i]:ScrollUp()
+			end
+		end
+	elseif delta < 0 then
+		for i = 1, #frame.frames do
+			if IsShiftKeyDown() then
+				frame.frames[i]:ScrollToBottom()
+			else
+				frame.frames[i]:ScrollDown()
+			end
+		end
+	end
+end
+
+local function OnHyperlinkEnter(self, data, link)
+	local linktype, contents = data:sub(1,4),data:sub(6)
+	if linktype == "Clog" and contents ~= "" then
+		GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
+		GameTooltip:SetText(data:sub(6))
+		GameTooltip:Show()
+	end
+end
+
+local function OnHyperlinkLeave(self)
+	GameTooltip:Hide()
+end
+
+local function OnHyperlinkClick(self, data, link)
+	local linktype, contents = data:sub(1,4), data:sub(6)
+	if linktype == "Clog" and contents ~= "" and IsShiftKeyDown() then
+		ChatFrameEditBox:Show()
+		ChatFrameEditBox:Insert(contents)
+	end
+end
+
+local function OnLeave(self)
+	if GameTooltip:GetOwner() == self then
+		GameTooltip:Hide()
+	end
+end
+
+frame.frames = {}
+for i = 1, 3 do
+   local smf = CreateFrame("ScrollingMessageFrame", nil, frame)
+   smf:SetMaxLines(1000)
+   smf:SetFont([=[Interface\Addons\caelCombatLog\media\neuropol x cd rg.ttf]=], 9)
+	smf:SetSpacing(2)
+   smf:SetFading(false)
+	smf:SetScript("OnMouseWheel", ScrollFrame)
+	smf:EnableMouse(true)
+	smf:EnableMouseWheel(true)
+	smf:SetScript("OnHyperlinkEnter", OnHyperlinkEnter)
+	smf:SetScript("OnHyperlinkLeave", OnHyperlinkLeave)
+	smf:SetScript("OnHyperlinkClick", OnHyperlinkClick)
+	smf:SetScript("OnLeave", OnLeave)
+	if i == 1 or i == 3 then
+		smf:SetWidth(frame:GetWidth()/3 - 45)
+	else
+		smf:SetWidth(frame:GetWidth()/3 + 82)
+	end
+	frame.frames[i] = smf
+end
+
+frame.frames[1]:SetPoint("TOPLEFT")
+frame.frames[1]:SetPoint("BOTTOMLEFT")
+frame.frames[2]:SetPoint("TOP")
+frame.frames[2]:SetPoint("BOTTOM")
+frame.frames[3]:SetPoint("TOPRIGHT")
+frame.frames[3]:SetPoint("BOTTOMRIGHT")
+
+frame.frames[1]:SetJustifyH("LEFT")
+frame.frames[2]:SetJustifyH("CENTER")
+frame.frames[3]:SetJustifyH("RIGHT")
+
+local icon = "Interface\\LFGFrame\\LFGRole"
+
+local tex1 = frame:CreateTexture(nil, "ARTWORK")
+tex1:SetWidth(14)
+tex1:SetHeight(14)
+tex1:SetTexture(icon)
+tex1:SetTexCoord(1/2, 0, 1/2, 1, 3/4, 0, 3/4, 1)
+tex1:SetPoint("TOPLEFT", frame, "BOTTOMLEFT", 0, -5)
+
+local tex2 = frame:CreateTexture(nil, "ARTWORK")
+tex2:SetWidth(14)
+tex2:SetHeight(14)
+tex2:SetTexture(icon)
+tex2:SetTexCoord(3/4, 0, 3/4, 1, 1, 0, 1, 1)
+tex2:SetPoint("TOP", frame, "BOTTOM", 0, -5)
+
+local tex3 = frame:CreateTexture(nil, "ARTWORK")
+tex3:SetWidth(14)
+tex3:SetHeight(14)
+tex3:SetTexture(icon)
+tex3:SetTexCoord(1/4, 0, 1/4, 1, 1/2, 0, 1/2, 1)
+tex3:SetPoint("TOPRIGHT", frame, "BOTTOMRIGHT", 0, -5)
+
+cCLFrame = frame
+
+function OnEvent(self, event, ...)
+	if type(self[event]) == 'function' then
+		return self[event](self, event, ...)
+	else
+		print("Unhandled event: "..event)
+	end
+end
+
+frame:SetScript("OnEvent", OnEvent)
