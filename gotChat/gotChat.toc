@@ -1,0 +1,9 @@
+## Interface: 30200
+## Title: gotChat
+## Author: Gotai
+## Notes: Yet another chat mod.
+## Version: r1
+
+chatFrames.lua
+gotChat.lua
+chatTabs.lua
