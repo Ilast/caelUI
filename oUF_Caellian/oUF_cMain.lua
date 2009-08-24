@@ -349,7 +349,7 @@ local FormatTime = function(s)
 		return format("%dh", floor(s/hour + 0.5)), s % hour
 	elseif s >= minute then
 		if s <= minute * 5 then
-			return format('%d:%02d', floor(s/60), s % minute), s - floor(s)
+			return format("%d:%02d", floor(s/60), s % minute), s - floor(s)
 		end
 		return format("%dm", floor(s/minute + 0.5)), s % minute
 	elseif s >= minute / 12 then
@@ -634,6 +634,10 @@ local SetStyle = function(self, unit)
 			self.Reputation:SetStatusBarTexture(normTex)
 			self.Reputation:SetBackdrop(backdrop)
 			self.Reputation:SetBackdropColor(0, 0, 0)
+			self.Reputation:SetAlpha(0)
+
+			self.Reputation:HookScript("OnEnter", function(self) self:SetAlpha(1) end)
+			self.Reputation:HookScript("OnLeave", function(self) self:SetAlpha(0) end)
 
 			self.Reputation.bg = self.Reputation:CreateTexture(nil, "BORDER")
 			self.Reputation.bg:SetAllPoints(self.Reputation)
@@ -641,7 +645,6 @@ local SetStyle = function(self, unit)
 			self.Reputation.bg:SetVertexColor(0.15, 0.15, 0.15)
 
 			self.Reputation.PostUpdate = UpdateReputationColor
-			self.Reputation.MouseOver = true
 			self.Reputation.Tooltip = true
 		end
 
@@ -750,13 +753,16 @@ local SetStyle = function(self, unit)
 			elseif unit == "pet" then
 				self.Experience:SetPoint("TOPRIGHT", self, "TOPRIGHT", 0, 4)
 			end
+			self.Experience:SetAlpha(0)
+
+			self.Experience:HookScript("OnEnter", function(self) self:SetAlpha(1) end)
+			self.Experience:HookScript("OnLeave", function(self) self:SetAlpha(0) end)
 
 			self.Experience.bg = self.Experience:CreateTexture(nil, "BORDER")
 			self.Experience.bg:SetAllPoints(self.Experience)
 			self.Experience.bg:SetTexture(normTex)
 			self.Experience.bg:SetVertexColor(0.15, 0.15, 0.15)
 
-			self.Experience.MouseOver = true
 			self.Experience.Tooltip = true
 		end
 	end
