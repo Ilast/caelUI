@@ -63,11 +63,17 @@ local eventTable = {
 local data = {damageOut = 0, damageIn = 0, healingOut = 0, healingIn = 0}
 
 local function clearSummary()
-  data.damageIn = 0
-  data.damageOut = 0
-  data.healingIn = 0
-  data.healingOut = 0
+	data.damageIn = 0
+	data.damageOut = 0
+	data.healingIn = 0
+	data.healingOut = 0
 end
+
+local throttledEvents = {
+	["SPELL_ENERGIZE"] = {amount = 0, count = 0, formatString = "%s %s energize %s for %d %s. (%d hits)"},
+	["SPELL_PERIODIC_ENERGIZE"] = {amount = 0, count = 0, formatString = "%s %s energize %s for %d %s. (%d hits)"},
+	["SPELL_PERIODIC_HEAL"] = {amount = 0, count = 0, formatString = "%s %s heal %s for %d%7$s. (%6$d hits)"},
+}
 
 local Output = function(frame, color, text, critical, pet, prefix, tooltipMsg)
 local msg = format("%s%s%s%s%s%s%s|h", link:format(tooltipMsg or ""), (frame ~= 1 and prefix and prefix ~= "" and "|cffD7BEA5"..prefix.."|r" or ""), (color or ""), (pet and "·" or ""), text, (pet and "·" or ""), (frame == 1 and prefix and prefix ~= "" and "|cffD7BEA5"..prefix.."|r" or ""))
@@ -177,10 +183,11 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 
 		if amount == 0 then return end
 
-		text, crit, color = amount, critical, powerColors[powerType] 
-		scrollFrame = 2
+		color = powerColors[powerType]
+--		text, crit, color = amount, critical, powerColors[powerType]
+--		scrollFrame = 2
 
-		tooltipMsg = format("%s %s energize %s for %d %s.", (meSource and "Your" or sourceName.."'s"), (spellName), (meTarget and "you" or destName), amount, powerStrings[powerType])
+--		tooltipMsg = format("%s %s energize %s for %d %s.", (meSource and "Your" or sourceName.."'s"), (spellName), (meTarget and "you" or destName), amount, powerStrings[powerType])
 
 	elseif subEvent == "SPELL_DRAIN" or subEvent == "SPELL_PERIODIC_DRAIN" then
 
@@ -218,7 +225,7 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 
 	end
 
-	prefix = ""
+	prefix = prefix or ""
 	if overkill and overkill > 0 then prefix = scrollFrame ~= 1 and prefix.."k " or prefix.." k" end
 	if overheal and overheal > 0 then prefix = scrollFrame ~= 1 and prefix.."h " or prefix.." h" end
 	if absorbed and absorbed > 0 then prefix = scrollFrame ~= 1 and prefix.."a " or prefix.." a" end
@@ -237,6 +244,18 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 
 	if text then
 		Output(scrollFrame, color, text, crit, ispet, prefix, tooltipMsg)
+	end
+
+	local throttle = throttledEvents[subEvent]
+	if throttle then
+		throttle.amount = throttle.amount + amount
+		throttle.count = throttle.count + 1
+		if throttle.count >= 3 then
+			tooltipMsg = format(throttle.formatString, (meSource and "Your" or sourceName.."'s"), (spellName), (meTarget and "you" or destName), throttle.amount, powerStrings[powerType], throttle.count, (modString and modString ~= "" and " "..modString or ""))
+			Output(2, color, format("%s", throttle.amount), crit, ispet, prefix, tooltipMsg)
+			throttle.amount = 0
+			throttle.count = 0
+		end
 	end
 end
 
