@@ -1,0 +1,19 @@
+## Interface: 30200
+## Author: Caellian
+## Title: |cffD7BEA5oUF|r Caellian
+## Notes: Caellian's oUF layout
+## X-Revision: $Revision: 77 $
+## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
+## X-Email: sdkyron@gmail.com
+## X-Category: UnitFrame
+## RequiredDeps: oUF
+## OptionalDeps: oUF_BarFader, oUF_CombatFeedback, oUF_DebuffHighlight, oUF_Experience, oUF_MoveableFrames, oUF_ReadyCheck, oUF_Reputation, oUF_RuneBar, oUF_SpellRange, oUF_Swing, oUF_ThreatFeedback, oUF_TotemBar, oUF_WeaponEnchant
+
+oUF_cParty.xml
+oUF_cConfig.lua
+oUF_AspectCheck.lua
+oUF_cTags.lua
+
+modules\oUF_Smooth.lua
+
+oUF_cMain.lua
