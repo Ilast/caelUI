@@ -1,0 +1,11 @@
+## Interface: 30200
+## Author: Caellian
+## Title: |cffD7BEA5oUF|r ThreatFeedback
+## Notes: Threat module for oUF layouts
+## X-Revision: $Revision: 7 $
+## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
+## X-Email: sdkyron@gmail.com
+## X-Category: oUF
+## RequiredDeps: oUF
+
+oUF_ThreatFeedback.lua
