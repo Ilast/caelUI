@@ -1,0 +1,8 @@
+## Interface: 30200
+## Author: Gotai
+## Title: gotMacros?
+## Notes: Silly!
+## Version: r1
+
+macros.lua
+gotMacros.lua
