@@ -1,0 +1,14 @@
+## Interface: 30200
+## Title: SimpleBossWhisperer
+## Notes: Sets you to DND when you fight a boss, and some other crap.
+## Author: Rabbit
+## Version: 1.0
+## X-Category: Chat/Communication
+## X-Email: rabbit.magtheridon@gmail.com
+## X-Curse-Packaged-Version: r42
+## X-Curse-Project-Name: SimpleBossWhisperer
+## X-Curse-Project-ID: simple-boss-whisperer
+## X-Curse-Repository-ID: wow/simple-boss-whisperer/mainline
+
+SimpleBossWhisperer.lua
+
