@@ -98,7 +98,7 @@ for event, entry in pairs(throttledEvents) do
 end
 
 local Output = function(frame, color, text, critical, pet, prefix, suffix, tooltipMsg, throttle, noccl)
-local msg = format("%s%s%s%s%s|h", link:format(tooltipMsg or ""), ((frame == 2 or frame == 3) and prefix and prefix ~= "" and "|cffD7BEA5"..prefix.."|r" or ""), (color or ""), text,((frame == 1 or frame == 2) and suffix and suffix ~= "" and "|cffD7BEA5"..suffix.."|r" or ""))
+	local msg = format("%s%s%s%s%s|h", link:format(tooltipMsg or ""), ((frame == 2 or frame == 3) and prefix and prefix ~= "" and "|cffD7BEA5"..prefix.."|r" or ""), (color or ""), text, ((frame == 1 or frame == 2) and suffix and suffix ~= "" and "|cffD7BEA5"..suffix.."|r" or ""))
 
 	if not(noccl) then
 		for i, v in pairs(frames) do
@@ -274,12 +274,22 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 
 	prefix = prefix or ""
 	suffix = suffix or ""
-	if ispet then prefix = scrollFrame ~= 1 and prefix.."· " or prefix.." ·" end
-	if critical then prefix = scrollFrame ~= 1 and prefix.."• " or prefix.." •" end
+
+	if ispet then
+		prefix = (scrollFrame == 2 or scrollFrame == 3) and prefix.."· "
+		suffix = (scrollFrame == 1 or scrollFrame == 2) and suffix.." ·"
+	end
+
+	if critical then
+		prefix = (scrollFrame == 2 or scrollFrame == 3) and prefix.."• "
+		suffix = (scrollFrame == 1 or scrollFrame == 2) and suffix.." •"
+	end
+
 	if blocked then prefix = scrollFrame ~= 1 and prefix.."b " or prefix.." b" end
 	if resisted then prefix = scrollFrame ~= 1 and prefix.."r " or prefix.." r" end
 	if glancing then prefix = scrollFrame ~= 1 and  prefix.."g " or prefix.." g" end
 	if crushing then prefix = scrollFrame ~= 1 and  prefix.."c " or prefix.." c" end
+
 	if overkill and overkill > 0 then prefix = scrollFrame ~= 1 and prefix.."k " or prefix.." k" end
 	if overheal and overheal > 0 then prefix = scrollFrame ~= 1 and prefix.."h " or prefix.." h" end
 	if absorbed and absorbed > 0 then prefix = scrollFrame ~= 1 and prefix.."a " or prefix.." a" end
