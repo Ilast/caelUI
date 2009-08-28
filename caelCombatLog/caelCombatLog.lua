@@ -276,23 +276,23 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 	suffix = suffix or ""
 
 	if ispet then
-		prefix = (scrollFrame == 2 or scrollFrame == 3) and prefix.."· "
-		suffix = (scrollFrame == 1 or scrollFrame == 2) and suffix.." ·"
+		prefix = (scrollFrame == 2 or scrollFrame == 3) and prefix.."· " or prefix
+		suffix = (scrollFrame == 1 or scrollFrame == 2) and suffix.." ·" or prefix
 	end
 
 	if critical then
-		prefix = (scrollFrame == 2 or scrollFrame == 3) and prefix.."• "
-		suffix = (scrollFrame == 1 or scrollFrame == 2) and suffix.." •"
+		prefix = (scrollFrame == 2 or scrollFrame == 3) and prefix.."• " or prefix
+		suffix = (scrollFrame == 1 or scrollFrame == 2) and suffix.." •" or prefix
 	end
 
 	if blocked then prefix = scrollFrame ~= 1 and prefix.."b " or prefix.." b" end
-	if resisted then prefix = scrollFrame ~= 1 and prefix.."r " or prefix.." r" end
-	if glancing then prefix = scrollFrame ~= 1 and  prefix.."g " or prefix.." g" end
 	if crushing then prefix = scrollFrame ~= 1 and  prefix.."c " or prefix.." c" end
+	if glancing then prefix = scrollFrame ~= 1 and  prefix.."g " or prefix.." g" end
+	if resisted then prefix = scrollFrame ~= 1 and prefix.."r " or prefix.." r" end
 
-	if overkill and overkill > 0 then prefix = scrollFrame ~= 1 and prefix.."k " or prefix.." k" end
-	if overheal and overheal > 0 then prefix = scrollFrame ~= 1 and prefix.."h " or prefix.." h" end
 	if absorbed and absorbed > 0 then prefix = scrollFrame ~= 1 and prefix.."a " or prefix.." a" end
+	if overheal and overheal > 0 then prefix = scrollFrame ~= 1 and prefix.."h " or prefix.." h" end
+	if overkill and overkill > 0 then prefix = scrollFrame ~= 1 and prefix.."k " or prefix.." k" end
 
 	if subEvent == "SPELL_AURA_APPLIED" then
 		prefix = (scrollFrame == 2 or scrollFrame == 3) and prefix.."++ "
@@ -311,7 +311,6 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 
 	local throttle
 	if throttledEvents[subEvent] and not excludedSpells[spellName] then
---		throttle = throttledEvents[subEvent][destGUID == pet and "pet" or "player"][spellName]
 		throttle = throttledEvents[subEvent][ispet and "pet" or "player"][spellName]
 		throttle.amount = throttle.amount + amount - (overheal or overkill or 0)
 		if not throttle.elapsed then
@@ -362,43 +361,6 @@ local OnUpdate = function(self, elapsed)
 		end
 	end
 end
-
---[[
-local holdTime = 5
-local releaseDelay = 1
-local lastRelease = 0
-local OnUpdate = function(self, elapsed)
-	lastRelease = lastRelease + elapsed
-	for event, t in pairs(throttledEvents) do
-		for unit, throttledEvents in pairs(t) do
-			local isPet = unit == "pet"
-			for spellName, v in pairs(throttledEvents) do
-				if v.elapsed then
-					v.elapsed = v.elapsed + elapsed
-					if lastRelease >= releaseDelay and v.elapsed >= holdTime then
-						local hitString
-						if v.isCrit  > 0 then
-							hitString = format(" (%d |1hit;hits;, %d |1crit;crits;)", v.isHit, v.isCrit)
-						elseif v.isHit  > 1 then
-							hitString = format(" (%d hits)", v.isHit)
-						else
-							hitString = ""
-						end
-						if v.amount > 0 then
-							Output(event == "SPELL_PERIODIC_DAMAGE" and 3 or 2, v.color, format(v.format, ShortName(spellName), v.amount, hitString), nil, isPet, nil, nil, true, true)
-						end
-						v.amount = 0
-						v.isHit = 0
-						v.isCrit = 0
-						v.elapsed = nil
-						lastRelease = 0
-					end
-				end
-			end
-		end
-	end
-end
---]]
 
 cCL:SetScript("OnUpdate", OnUpdate)
 

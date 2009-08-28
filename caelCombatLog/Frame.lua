@@ -1,4 +1,4 @@
-local frame = CreateFrame("Frame", nil, UIParent)
+local frame = CreateFrame("Frame", "caelCombatLog", UIParent)
 
 frame:SetWidth(311.5)
 frame:SetHeight(104.5)
