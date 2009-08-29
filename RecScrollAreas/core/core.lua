@@ -105,16 +105,17 @@ local function Move(self, elapsed)
 end
 
 function RecScrollAreas:AddText(text, sticky, scrollarea)
+	if not text or not scrollarea then return end
 	local destination_area
 	if not sticky then
 		destination_area = RecScrollAreas.anim_strings[scrollarea]
 	else
 		destination_area = RecScrollAreas.anim_strings[scrollarea.."sticky"]
 	end
+	if not destination_area then return end
 	local t
 	-- If there are too many frames in the animation area, steal one of them first
-	if not destination_area then return end
-	if ((#destination_area or 0) >= RecScrollAreas.animations_per_scrollframe) then
+	if (destination_area and (#destination_area or 0) >= RecScrollAreas.animations_per_scrollframe) then
 		t = table.remove(destination_area, 1)
 
 	-- If there are frames in the recycle bin, then snatch one of them!
@@ -132,7 +133,7 @@ function RecScrollAreas:AddText(text, sticky, scrollarea)
 	-- Settings which need to be set/reset on each fontstring after it is created/obtained
 	if sticky then t.fontSize = RecScrollAreas.font_size_sticky else t.fontSize = RecScrollAreas.font_size_normal end
 	t.sticky = sticky
-	t.text:SetFont(RecScrollAreas.font, t.fontSize, RecScrollAreas.font_flags)
+	t.text:SetFont(sticky and RecScrollAreas.font_sticky or RecScrollAreas.font, t.fontSize, sticky and RecScrollAreas.font_flags_sticky or RecScrollAreas.font_flags)
 	t.text:SetText(text)
 	t.direction = destination_area.direction
 	t.inuse = true
