@@ -7,9 +7,8 @@ local GameTooltip = GameTooltip
 local ShowCloak, ShowHelm, noop = ShowCloak, ShowHelm, function() end
 _G.ShowCloak, _G.ShowHelm = noop, noop
 
-for _,check in pairs{InterfaceOptionsDisplayPanelShowCloak, InterfaceOptionsDisplayPanelShowHelm} do
-	check:Disable()
-	check.Enable = noop
+for k, v in next, {InterfaceOptionsDisplayPanelShowCloak, InterfaceOptionsDisplayPanelShowHelm} do
+	v:SetButtonState('DISABLED', true)
 end
 
 local function getFreeSlot()
@@ -56,15 +55,6 @@ local function onClick(self)
 	end
 end
 
-local getnacked = CreateFrame("CheckButton", "StripTease", PaperDollFrame, "OptionsCheckButtonTemplate")
-getnacked:ClearAllPoints()
-getnacked:SetHeight(22)
-getnacked:SetWidth(22)
-getnacked:SetPoint("LEFT", CharacterHeadSlot, "RIGHT", 7, -36)
-getnacked:SetToplevel(true)
-getnacked:SetChecked(true)
-getnacked:SetScript('OnClick', onClick)
-
 local undress = CreateFrame("Button", "StripTease_DressUpFrame", DressUpFrame, "UIPanelButtonTemplate")
 undress:SetPoint("RIGHT", DressUpFrameResetButton, "LEFT")
 undress:SetHeight(22)
@@ -72,35 +62,47 @@ undress:SetWidth(80)
 undress:SetText("Undress")
 undress:SetScript("OnClick", function() DressUpModel:Undress() end)
 
-local hcheck = CreateFrame("CheckButton", "HelmCheckBox", PaperDollFrame, "OptionsCheckButtonTemplate")
-hcheck:ClearAllPoints()
-hcheck:SetWidth(22)
-hcheck:SetHeight(22)
-hcheck:SetPoint("LEFT", CharacterHeadSlot, "RIGHT", 7, 6)
-hcheck:SetScript("OnClick", function() ShowHelm(not ShowingHelm()) end)
-hcheck:SetScript("OnEnter", function()
+local nacked = CreateFrame("CheckButton", "StripTease", PaperDollFrame, "OptionsCheckButtonTemplate")
+nacked:SetPoint("LEFT", CharacterHeadSlot, "RIGHT", 7, -36)
+nacked:SetToplevel(true)
+nacked:SetChecked(true)
+nacked:SetScript('OnClick', onClick)
+nacked:SetScript("OnEnter", function()
+	GameTooltip:SetOwner(this, "ANCHOR_RIGHT")
+	GameTooltip:SetText("Naked !")
+end)
+nacked:SetScript("OnLeave", function() GameTooltip:Hide() end)
+
+local helm = CreateFrame('CheckButton', 'HelmToggle', PaperDollFrame, "OptionsCheckButtonTemplate")
+helm:SetPoint("LEFT", CharacterHeadSlot, "RIGHT", 7, 6)
+helm:SetChecked(ShowingHelm())
+helm:SetToplevel()
+helm:RegisterEvent('PLAYER_FLAGS_CHANGED')
+helm:SetScript('OnClick', function() ShowHelm(not ShowingHelm()) end)
+helm:SetScript('OnEvent', function(self, event, unit)
+	if(unit == 'player') then
+		self:SetChecked(ShowingHelm())
+	end
+end)
+helm:SetScript("OnEnter", function()
  	GameTooltip:SetOwner(this, "ANCHOR_RIGHT")
 	GameTooltip:SetText("Toggles helmet model.")
 end)
-hcheck:SetScript("OnLeave", function() GameTooltip:Hide() end)
-hcheck:SetScript("OnEvent", function() hcheck:SetChecked(ShowingHelm()) end)
-hcheck:RegisterEvent("UNIT_MODEL_CHANGED")
-hcheck:SetToplevel(true)
+helm:SetScript("OnLeave", function() GameTooltip:Hide() end)
 
-local ccheck = CreateFrame("CheckButton", "CloakCheckBox", PaperDollFrame, "OptionsCheckButtonTemplate")
-ccheck:ClearAllPoints()
-ccheck:SetWidth(22)
-ccheck:SetHeight(22)
-ccheck:SetPoint("LEFT", CharacterHeadSlot, "RIGHT", 7, -15)
-ccheck:SetScript("OnClick", function() ShowCloak(not ShowingCloak()) end)
-ccheck:SetScript("OnEnter", function()
+local cloak = CreateFrame('CheckButton', 'CloakToggle', PaperDollFrame, "OptionsCheckButtonTemplate")
+cloak:SetPoint("LEFT", CharacterHeadSlot, "RIGHT", 7, -15)
+cloak:SetChecked(ShowingCloak())
+cloak:SetToplevel()
+cloak:RegisterEvent('PLAYER_FLAGS_CHANGED')
+cloak:SetScript('OnClick', function() ShowCloak(not ShowingCloak()) end)
+cloak:SetScript('OnEvent', function(self, event, unit)
+	if(unit == 'player') then
+		self:SetChecked(ShowingCloak())
+	end
+end)
+cloak:SetScript("OnEnter", function()
 	GameTooltip:SetOwner(this, "ANCHOR_RIGHT")
 	GameTooltip:SetText("Toggles cloak model.")
 end)
-ccheck:SetScript("OnLeave", function() GameTooltip:Hide() end)
-ccheck:SetScript("OnEvent", function() ccheck:SetChecked(ShowingCloak()) end)
-ccheck:RegisterEvent("UNIT_MODEL_CHANGED")
-ccheck:SetToplevel(true)
-
-hcheck:SetChecked(ShowingHelm())
-ccheck:SetChecked(ShowingCloak())
+cloak:SetScript("OnLeave", function() GameTooltip:Hide() end)

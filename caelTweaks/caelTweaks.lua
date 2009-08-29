@@ -153,7 +153,7 @@ end
 
 caelTweaks:RegisterEvent("UPDATE_PENDING_MAIL")
 caelTweaks.UPDATE_PENDING_MAIL = function()
-	if(HasNewMail() and not MailFrame:IsShown() and (AuctionFrame and not ActionFrame:IsShown())) then -- need more arg checks
+	if HasNewMail() and not MailFrame:IsShown() then
 		PlaySoundFile([=[Interface\AddOns\caelTweaks\media\mail.wav]=])
 	end
 end
