@@ -128,9 +128,9 @@ gM_Macros = {
 		show = "Steady Shot",
 		body = [=[/cast !Auto Shot
 			/castsequence reset=target Serpent Sting, Null
-			/cast Silencing Shot
 			/click gotMacros_Mark
 			/click gotMacros_AimS
+			/cast Silencing Shot
 			/click gotMacros_StdS]=],
 		nosound = true,
 		perChar = true,
