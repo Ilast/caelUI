@@ -75,6 +75,7 @@ local formatStrings = {
 	["SPELL_PERIODIC_ENERGIZE"] = "%s + %d%s", -- "%s energize for %d. %s"
 	["SPELL_PERIODIC_HEAL"] = "%s + %d%s", -- "%s heal for %d. %s"
 	["SPELL_PERIODIC_DAMAGE"] = "%s + %d%s", -- "%s damage for %d. %s"
+	["Volley"] = "%s + %d%s", -- "%s damage for %d. %s"
 }	
 
 local excludedSpells = {}
@@ -83,6 +84,10 @@ local throttledEvents = {
 	["SPELL_PERIODIC_ENERGIZE"] = {pet = {}, player = {}},
 	["SPELL_PERIODIC_HEAL"] = {pet = {}, player = {}},
 	["SPELL_PERIODIC_DAMAGE"] = {pet = {}, player = {}},
+}
+
+local throttledSpells = {
+	["Volley"] = {player = {amount = 0, isHit = 0, isCrit = 0, format = formatStrings["Volley"]}},
 }
 
 local tooltipStrings = {
@@ -99,8 +104,8 @@ for event, entry in pairs(throttledEvents) do
 		return newTable
 	end}
 	
-	for unit, spellTable in pairs(entry) do
-		setmetatable(spellTable, mt)
+	for unit, entry in pairs(entry) do
+		setmetatable(entry, mt)
 	end
 end
 
@@ -322,15 +327,18 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 	end
 
 	local throttle
-	if throttledEvents[subEvent] and not excludedSpells[spellName] then
-		throttle = throttledEvents[subEvent][ispet and "pet" or "player"][spellName]
-		throttle.amount = throttle.amount + amount - (overheal or overkill or 0)
+	if (throttledEvents[subEvent] or throttledSpells[spellName] and throttledSpells[spellName][ispet and "pet" or "player"]) and not excludedSpells[spellName] then 
+		if throttledSpells[spellName] then
+			throttle = throttledSpells[spellName][ispet and "pet" or "player"]
+		else
+			throttle = throttledEvents[subEvent][ispet and "pet" or "player"][spellName]  
+		end
+		throttle.amount = throttle.amount + (amount or 0) - (overheal or overkill or 0)
 		if not throttle.elapsed then
 			throttle.elapsed = 0
 		end
 		
 		throttle.color = color
-
 		throttle.scrollFrame = scrollFrame
 
 		if critical then
@@ -346,36 +354,46 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 end
 
 local holdTime = 5
-local OnUpdate = function(self, elapsed)
-	for event, t in pairs(throttledEvents) do
-		for unit, throttledEvents in pairs(t) do
+local UpdateThrottle = function(v, unit, spellName, elapsed)
+	if v.elapsed then
+		v.elapsed = v.elapsed + elapsed
+		if v.elapsed >= holdTime then
+
 			local isPet = unit == "pet"
-			for spellName, v in pairs(throttledEvents) do
-				if v.elapsed then
-					v.elapsed = v.elapsed + elapsed
-					if v.elapsed >= holdTime then
-						local hitString
-						if v.isCrit  > 0 then
-							hitString = format(" (%d |1hit;hits;, %d |1crit;crits;)", v.isHit, v.isCrit)
-						elseif v.isHit  > 1 then
-							hitString = format(" (%d hits)", v.isHit)
-						else
-							hitString = ""
-						end
-						if v.amount > 0 then
-							Output(v.scrollFrame, v.color, format(v.format, ShortName(spellName), v.amount, hitString), rsatext, nil, isPet, nil, nil, nil, true, true)
-						end
-						v.amount = 0
-						v.isHit = 0
-						v.isCrit = 0
-						v.elapsed = nil
-					end
-				end
+			local hitString
+			if v.isCrit  > 0 then
+				hitString = format(" (%d |1hit;hits;, %d |1crit;crits;)", v.isHit, v.isCrit)
+			elseif v.isHit  > 1 then
+				hitString = format(" (%d hits)", v.isHit)
+			else
+				hitString = ""
 			end
+			if v.amount > 0 then
+				Output(v.scrollFrame, v.color, format(v.format, ShortName(spellName), v.amount, hitString), rsatext, nil, isPet, nil, nil, nil, true, true)
+			end
+			v.amount = 0
+			v.isHit = 0
+			v.isCrit = 0
+			v.elapsed = nil
 		end
 	end
 end
 
+local OnUpdate = function(self, elapsed)
+	for event, t in pairs(throttledEvents) do
+		for unit, throttledEvents in pairs(t) do
+			for spellName, v in pairs(throttledEvents) do
+				UpdateThrottle(v, unit, spellName, elapsed)
+			end
+		end
+	end
+
+	for spellName, units in pairs(throttledSpells) do
+		for unit, data in pairs(units) do
+			UpdateThrottle(data, unit, spellName, elapsed)
+		end
+	end
+end
 cCL:SetScript("OnUpdate", OnUpdate)
 
 cCL:RegisterEvent("PLAYER_REGEN_DISABLED")
