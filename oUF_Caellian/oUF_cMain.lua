@@ -23,6 +23,15 @@ local _, class = UnitClass("player")
 local lowThreshold = settings.lowThreshold
 local highThreshold = settings.highThreshold
 
+local runeloadcolors = {
+	[1] = {.69,.31,.31},
+	[2] = {.69,.31,.31},
+	[3] = {.33,.59,.33},
+	[4] = {.33,.59,.33},
+	[5] = {.31,.45,.63},
+	[6] = {.31,.45,.63},
+}
+
 local colors = setmetatable({
 	power = setmetatable({
 		["MANA"] = {0.31, 0.45, 0.63},
@@ -664,26 +673,27 @@ local SetStyle = function(self, unit)
 			self.Swing.bg:SetVertexColor(0.15, 0.15, 0.15)
 		end
 
-		if IsAddOnLoaded("oUF_RuneBar") and class == "DEATHKNIGHT" then
-			self.RuneBar = {}
-			for i = 1, 6 do
-				self.RuneBar[i] = CreateFrame("StatusBar", self:GetName().."_RuneBar"..i, self)
-				self.RuneBar[i]:SetHeight(7)
-				self.RuneBar[i]:SetWidth(230/6 - 0.85)
-				if (i == 1) then
-					self.RuneBar[i]:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -1)
-				else
-					self.RuneBar[i]:SetPoint("TOPLEFT", self.RuneBar[i-1], "TOPRIGHT", 1, 0)
-				end
-				self.RuneBar[i]:SetStatusBarTexture(normTex)
-				self.RuneBar[i]:SetBackdrop(backdrop)
-				self.RuneBar[i]:SetBackdropColor(0, 0, 0)
-				self.RuneBar[i]:SetMinMaxValues(0, 1)
+		if class == "DEATHKNIGHT" then
+			self.Runes = CreateFrame('Frame', nil, self)
+			self.Runes:SetPoint('TOPLEFT', self, 'BOTTOMLEFT', 0, -1)
+			self.Runes:SetHeight(7)
+			self.Runes:SetWidth(230)
+			self.Runes:SetBackdrop(backdrop)
+			self.Runes:SetBackdropColor(0, 0, 0)
+			self.Runes.anchor = "TOPLEFT"
+			self.Runes.growth = "RIGHT"
+			self.Runes.height = 7
+			self.Runes.width = 230 / 6 - 0.85
 
-				self.RuneBar[i].bg = self.RuneBar[i]:CreateTexture(nil, "BORDER")
-				self.RuneBar[i].bg:SetAllPoints(self.RuneBar[i])
-				self.RuneBar[i].bg:SetTexture(normTex)
-				self.RuneBar[i].bg:SetVertexColor(0.15, 0.15, 0.15)
+			for i = 1, 6 do
+				self.Runes[i] = CreateFrame("StatusBar", self:GetName().."_Runes"..i, self.Runes)
+				self.Runes[i]:SetStatusBarTexture(normTex)
+				self.Runes[i]:SetStatusBarColor(unpack(runeloadcolors[i]))
+
+				self.Runes[i].bg = self.Runes[i]:CreateTexture(nil, "BORDER")
+				self.Runes[i].bg:SetAllPoints(self.Runes[i])
+				self.Runes[i].bg:SetTexture(normTex)
+				self.Runes[i].bg:SetVertexColor(0.15, 0.15, 0.15)
 			end
 		end
 
@@ -788,7 +798,7 @@ local SetStyle = function(self, unit)
 
 			self.Debuffs.initialAnchor = "TOPLEFT"
 			self.Debuffs["growth-y"] = "DOWN"
-			if IsAddOnLoaded("oUF_RuneBar") and class == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and class == "SHAMAN" then
+			if class == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and class == "SHAMAN" then
 				self.Debuffs:SetPoint("TOPLEFT", self, "BOTTOMLEFT", -1, -15)
 			else
 				self.Debuffs:SetPoint("TOPLEFT", self, "BOTTOMLEFT", -1, -7.5)
@@ -1016,7 +1026,7 @@ local SetStyle = function(self, unit)
 	self.FrameBackdrop:SetBackdropColor(0, 0, 0, 0)
 	self.FrameBackdrop:SetBackdropBorderColor(0, 0, 0)
 
-	if IsAddOnLoaded("oUF_RuneBar") and unit == "player" and class == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and unit == "player" and class == "SHAMAN" then
+	if unit == "player" and class == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and unit == "player" and class == "SHAMAN" then
 		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 4.5, -12)
 	else
 		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 4.5, -4.5)
