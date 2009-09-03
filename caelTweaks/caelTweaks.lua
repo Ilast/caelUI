@@ -224,14 +224,36 @@ WorldStateAlwaysUpFrame:SetScale(0.9)
 
 UIErrorsFrame:UnregisterEvent("UI_ERROR_MESSAGE")
 
+--[[	GM chat frame enhancement	]]
+
+caelTweaks:RegisterEvent("ADDON_LOADED")
+caelTweaks.ADDON_LOADED = function(self, event, name)
+	if(name ~= "Blizzard_GMChatUI") then return end
+
+	GMChatFrame:EnableMouseWheel()
+	GMChatFrame:SetScript("OnMouseWheel", ChatFrame1:GetScript("OnMouseWheel"))
+	GMChatFrame:ClearAllPoints()
+	GMChatFrame:SetHeight(ChatFrame1:GetHeight())
+	GMChatFrame:SetPoint("BOTTOMLEFT", ChatFrame1, "TOPLEFT", 0, 48)
+	GMChatFrame:SetPoint("BOTTOMRIGHT", ChatFrame1, "TOPRIGHT", 0, 48)
+	GMChatFrameCloseButton:ClearAllPoints()
+	GMChatFrameCloseButton:SetPoint("TOPRIGHT", GMChatFrame, "TOPRIGHT", 7, 8)
+	GMChatFrameUpButton:Hide()
+	GMChatFrameDownButton:Hide()
+	GMChatFrameBottomButton:Hide()
+	GMChatTab:Hide()
+
+	self:UnregisterEvent(event)
+end
+
 --[[	Some new slash commands	]]
 
 SlashCmdList["FRAMENAME"] = function() print(GetMouseFocus():GetName()) end
 SlashCmdList["PARENT"] = function() print(GetMouseFocus():GetParent():GetName()) end
 SlashCmdList["MASTER"] = function() ToggleHelpFrame() end
 SlashCmdList["RELOAD"] = function() ReloadUI() end
-SlashCmdList['ENABLE_ADDON'] = function(s) EnableAddOn(s) end
-SlashCmdList['DISABLE_ADDON'] = function(s) DisableAddOn(s) end
+SlashCmdList["ENABLE_ADDON"] = function(s) EnableAddOn(s) end
+SlashCmdList["DISABLE_ADDON"] = function(s) DisableAddOn(s) end
 
 SLASH_FRAMENAME1 = "/frame"
 SLASH_PARENT1 = "/parent"
