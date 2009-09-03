@@ -71,7 +71,7 @@ gM_Macros = {
 	["CDs"] = {
 		char = "Caellian, Caellianaia, Dynames",
 		icon = [=[Interface\Icons\Spell_Shadow_LastingAfflictions]=],
-		body = [=[/castrandom [target=pettarget, exists] Kill Command]=],
+		body = [=[/cast [target=pettarget, exists] Kill Command]=],
 		nosound = true,
 	},
 	["Foc"] = {
@@ -224,26 +224,6 @@ gM_Macros = {
 		char = "Caellian, Caellianaia, Dynames",
 		show = "Rapid Fire",
 		body = [=[/castsequence reset=3 Rapid Fire, Readiness, null]=],
-		nosound = true,
-		perChar = true,
-	},
--------------------
---[[	SHAMAN	]]--
--------------------
-	["DPS"] = {
-		char = "Pimiko",
-		show = "Stormstrike",
-		body = [=[/click [noexists][noharm][dead] gotMacros_T2
-			/click [combat, harm, nodead] gotMacros_CDs
-			/click [harm, nodead] gotMacros_StmS]=],
-		blizzmacro = true,
-		perChar = true,
-	},
-	["StmS"] = {
-		char = "Pimiko",
-		show = "Stormstrike",
-		body = [=[/startattack
-			/castrandom Stormstrike, Earth Shock, Lava Lash]=],
 		nosound = true,
 		perChar = true,
 	},
