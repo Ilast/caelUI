@@ -1,6 +1,7 @@
 ﻿local cCL, frames = cCLFrame, cCLFrame.frames
 cCLFrame = nil
 
+local holdTime = 5
 local player, damage, duration, tooltipMsg
 local deathChar = "††"
 
@@ -80,14 +81,18 @@ local formatStrings = {
 
 local excludedSpells = {}
 local throttledEvents = {
-	["SPELL_ENERGIZE"] = {pet = {}, player = {}},
-	["SPELL_PERIODIC_ENERGIZE"] = {pet = {}, player = {}},
-	["SPELL_PERIODIC_HEAL"] = {pet = {}, player = {}},
-	["SPELL_PERIODIC_DAMAGE"] = {pet = {}, player = {}},
+	["SPELL_ENERGIZE"] = {petIn = {}, playerIn = {}},
+	["SPELL_PERIODIC_ENERGIZE"] = {petIn = {}, playerIn = {}},
+	["SPELL_PERIODIC_HEAL"] = {petIn = {}, playerIn = {}},
+	["SPELL_PERIODIC_DAMAGE"] = {petIn = {}, petOut = {}, playerIn = {}, petOut = {}},
 }
 
 local throttledSpells = {
-	["Volley"] = {player = {amount = 0, isHit = 0, isCrit = 0, format = formatStrings["Volley"]}},
+	["Volley"] = {
+		playerIn = {amount = 0, isHit = 0, isCrit = 0, reportOnFade = true, format = formatStrings["Volley"]},
+		playerOut = {amount = 0, isHit = 0, isCrit = 0, reportOnFade = true, format = formatStrings["Volley"]},
+		petIn = {amount = 0, isHit = 0, isCrit = 0, reportOnFade = true, format = formatStrings["Volley"]},
+	},
 }
 
 local tooltipStrings = {
@@ -148,7 +153,6 @@ local FormatMissType = function(event, missType, amountMissed)
 	return resultStr
 end
 
-
 local ShortName = function(spellName)
 	if find(spellName, "[%s%-]") then
 		spellName = string.gsub(spellName, "(%a)[%l]*[%s%-]*", "%1") -- "(%a)[%l%p]*[%s%-]*"
@@ -169,6 +173,9 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 	local absorbed, amount, blocked, critical, crushing, enviromentalType, extraAmount, glancing, missAmount, missType, overheal, overkill, powerType, resisted, school, spellId, spellName, spellSchool
 	local ispet = sourceGUID == pet or destGUID == pet
 	scrollFrame = (sourceGUID == player or sourceGUID == pet) and 3 or 1
+	
+	local direction = (sourceGUID == player or sourceGUID == pet) and "Out" or "In"
+	local unitDirection = (ispet and "pet" or "player")..direction
 	
 	if subEvent == "SWING_DAMAGE" then
 
@@ -285,8 +292,13 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 			return
 		end
 
-		text = format("%s%s", scrollFrame == 2 and spellName or ShortName(spellName), amount and format(" (%d)", amount) or "")
+		if not (throttledSpells[spellName] and throttledSpells[spellName][unitDirection]) then
+			text = format("%s%s", scrollFrame == 2 and spellName or ShortName(spellName), amount and format(" (%d)", amount) or "")
+		end
 
+		if throttledSpells[spellName] and throttledSpells[spellName][unitDirection] and throttledSpells[spellName][unitDirection].reportOnFade then
+			throttledSpells[spellName][unitDirection].elapsed = holdTime
+		end
 	end
 
 	prefix = prefix or ""
@@ -312,34 +324,36 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 	if overkill and overkill > 0 then prefix = scrollFrame ~= 1 and prefix.."k " or prefix.." k" end
 
 	if subEvent:find("AURA_APPLIED") then
-		prefix = (scrollFrame == 2 or scrollFrame == 3) and prefix.."++ "
-		suffix = (scrollFrame == 1 or scrollFrame == 2) and suffix.." ++"
+		prefix = (scrollFrame == 2 or scrollFrame == 3) and not throttledSpells[spellName] and prefix.."++ "
+		suffix = (scrollFrame == 1 or scrollFrame == 2) and not throttledSpells[spellName] and suffix.." ++"
 	elseif subEvent:find("AURA_REMOVED") then
-		prefix = (scrollFrame == 2 or scrollFrame == 3) and prefix.."-- "
-		suffix = (scrollFrame == 1 or scrollFrame == 2) and suffix.." --"
+		prefix = (scrollFrame == 2 or scrollFrame == 3) and not throttledSpells[spellName] and prefix.."-- "
+		suffix = (scrollFrame == 1 or scrollFrame == 2) and not throttledSpells[spellName] and suffix.." --"
 	end
 
 	local valueType = eventTable[subEvent]
-	local direction = (sourceGUID == player or sourceGUID == pet) and "Out" or "In"
 
 	if valueType then
 		data[valueType..direction] = data[valueType..direction] + amount
 	end
 
 	local throttle
-	if (throttledEvents[subEvent] or throttledSpells[spellName] and throttledSpells[spellName][ispet and "pet" or "player"]) and not excludedSpells[spellName] then 
+	if (throttledEvents[subEvent] and throttledEvents[subEvent][unitDirection] or throttledSpells[spellName] and throttledSpells[spellName][unitDirection]) and not excludedSpells[spellName] then 
 		if throttledSpells[spellName] then
-			throttle = throttledSpells[spellName][ispet and "pet" or "player"]
+			throttle = throttledSpells[spellName][unitDirection]
 		else
-			throttle = throttledEvents[subEvent][ispet and "pet" or "player"][spellName]  
+			throttle = throttledEvents[subEvent][unitDirection][spellName]  
 		end
 		throttle.amount = throttle.amount + (amount or 0) - (overheal or overkill or 0)
-		if not throttle.elapsed then
+		if not throttle.elapsed and not throttle.reportOnFade then
 			throttle.elapsed = 0
 		end
 		
 		throttle.color = color
-		throttle.scrollFrame = scrollFrame
+
+		if not throttle.scrollFrame then
+			throttle.scrollFrame = scrollFrame
+		end
 
 		if critical then
 			throttle.isCrit = throttle.isCrit + 1
@@ -353,16 +367,15 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 	end
 end
 
-local holdTime = 5
 local UpdateThrottle = function(v, unit, spellName, elapsed)
 	if v.elapsed then
 		v.elapsed = v.elapsed + elapsed
 		if v.elapsed >= holdTime then
 
-			local isPet = unit == "pet"
+			local isPet = unit:find("pet")
 			local hitString
 			if v.isCrit  > 0 then
-				hitString = format(" (%d |1hit;hits;, %d |1crit;crits;)", v.isHit, v.isCrit)
+				hitString = format(" (%d |4hit:hits;, %d |4crit:crits;)", v.isHit, v.isCrit)
 			elseif v.isHit  > 1 then
 				hitString = format(" (%d hits)", v.isHit)
 			else
