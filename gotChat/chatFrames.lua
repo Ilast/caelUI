@@ -230,14 +230,14 @@ end
 chatFrames:SetScript("OnEvent", OnEvent)
 
 --[[	Bosses & monsters emotes to RWF	]]
-
+--[[
 chatFrames:RegisterEvent("CHAT_MSG_RAID_BOSS_EMOTE")
 chatFrames.CHAT_MSG_RAID_BOSS_EMOTE = function(self, event, arg1, arg2)
 	local string = format(arg1, arg2)
 	RaidNotice_AddMessage(RaidWarningFrame, string, ChatTypeInfo["RAID_WARNING"])
 	PlaySoundFile([=[Interface\Addons\caelMedia\Sounds\alarm.mp3]=])
 end
-
+--]]
 --[[	RaidNotice to Scrolling frame	]]
 
 local hooks = {} 
