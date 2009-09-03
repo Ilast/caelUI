@@ -173,8 +173,8 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 	local absorbed, amount, blocked, critical, crushing, enviromentalType, extraAmount, glancing, missAmount, missType, overheal, overkill, powerType, resisted, school, spellId, spellName, spellSchool
 	local ispet = sourceGUID == pet or destGUID == pet
 	scrollFrame = (sourceGUID == player or sourceGUID == pet) and 3 or 1
-	
-	local direction = (sourceGUID == player or sourceGUID == pet) and "Out" or "In"
+
+	local direction = (destGUID == player or destGUID == pet) and "In" or "Out"
 	local unitDirection = (ispet and "pet" or "player")..direction
 	
 	if subEvent == "SWING_DAMAGE" then
