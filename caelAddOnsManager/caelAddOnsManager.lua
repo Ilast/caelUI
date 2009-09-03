@@ -6,9 +6,9 @@
 	["base"] = {"!DamnBlizzardErrorFrame", "BadBoy", "BadBoy_CCleaner", "BadBoy_Levels", "Buffet-Lite", "Butsu",
 		"caelAddOnsManager", "caelCCBreak", "caelCombatLog", "caelEmote", "caelFactions", "caelFonts", "caelInterrupt",
 		"caelMinimap", "caelNamePlates", "caelCooldowns", "caelMap", "caelPanels", "caelStats", "caelTooltips", "caelTweaks",
-		"cargBags", "cargBags_Caellian", "GetReagents-Lite", "gotChat", "gotMacros", "gotQuests",
+		"GetReagents-Lite", "gotChat", "gotMacros", "gotQuests",
 		"oUF", "oUF_Caellian", "oUF_CombatFeedback", "oUF_DebuffHighlight", "oUF_Experience", "oUF_ReadyCheck", "oUF_Reputation", "oUF_SpellRange", "oUF_ThreatFeedback",
-		"rActionBarStyler", "rActionButtonStyler", "RecDamageMeter", "RecScrollAreas", "Snoopy", "tekKompare"
+		"rActionBarStyler", "rActionButtonStyler", "RecBags", "RecDamageMeter", "RecScrollAreas", "Snoopy", "tekKompare"
 	},
 	--[[---------------------------------------------------------------------------
 							  -=( Class-Specific Addons )=-
@@ -25,7 +25,7 @@
 		These addons will load if you use their set name after the slash command.
 		'/addonset raid' to load raid addons, for example.							--]]
 
-	["raid"]	= {"BigWigs", "BigWigs_Coliseum", "BigWigs_Extras", "BigWigs_Plugins" , "BigWigs_Ulduar", "SimpleBossWhisperer"},
+	["raid"]	= {"DBM-Coliseum", "DBM-Core", "DBM-GUI", "DBM-Ulduar", "SimpleBossWhisperer"},
 	["party"] = {},
 	["pvp"] = {},
 	["dev"] = {"Spew"},
