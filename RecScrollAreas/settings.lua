@@ -1,6 +1,6 @@
 -- Font Settings
 RecScrollAreas.font					= [=[Interface\Addons\RecScrollAreas\media\neuropol x cd rg.ttf]=]
-RecScrollAreas.font_sticky			= RecScrollAreas.font
+RecScrollAreas.font_sticky			= [=[Interface\Addons\RecScrollAreas\media\neuropol x cd bd.ttf]=]
 RecScrollAreas.font_flags			= ""	-- Some text can be hard to read without it.
 RecScrollAreas.font_flags_sticky	= "OUTLINE"
 RecScrollAreas.font_size_normal	= 12
@@ -22,6 +22,7 @@ RecScrollAreas.animation_delay				= 0.015	-- Frequency of animation updates. (in
 -- Then you can pipe input into each scroll area using:
 -- RecScrollAreas:AddText(text_to_show, sticky_style, scroll_area_identifer)
 --
-RecScrollAreas:CreateScrollArea("Notification", 140, 0, 515, "CENTER", "up")
-RecScrollAreas:CreateScrollArea("NotificationUP", 200, 385, 375, "RIGHT", "up")
-RecScrollAreas:CreateScrollArea("NotificationDOWN", 200, -385, 375, "LEFT", "down")
+RecScrollAreas:CreateScrollArea("Notification", 140, 0, 515, "CENTER", "down")
+RecScrollAreas:CreateScrollArea("Information", 100, 0, 160, "CENTER", "down")
+RecScrollAreas:CreateScrollArea("Outgoing", 200, 385, 375, "RIGHT", "up")
+RecScrollAreas:CreateScrollArea("Incoming", 200, -385, 375, "LEFT", "down")
