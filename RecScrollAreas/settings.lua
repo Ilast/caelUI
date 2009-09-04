@@ -1,7 +1,7 @@
 -- Font Settings
 RecScrollAreas.font					= [=[Interface\Addons\RecScrollAreas\media\neuropol x cd rg.ttf]=]
 RecScrollAreas.font_sticky			= [=[Interface\Addons\RecScrollAreas\media\neuropol x cd bd.ttf]=]
-RecScrollAreas.font_flags			= ""	-- Some text can be hard to read without it.
+RecScrollAreas.font_flags			= "OUTLINE"	-- Some text can be hard to read without it.
 RecScrollAreas.font_flags_sticky	= "OUTLINE"
 RecScrollAreas.font_size_normal	= 12
 RecScrollAreas.font_size_sticky	= 12
