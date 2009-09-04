@@ -19,6 +19,9 @@ local mode = "Fight"			-- Default display mode: "Total" or "Fight"
 
 ---------------------------------------------
 
+local GUIDCount = 0
+local ValidityCount = 0
+
 local raid = {}
 local display_frame = CreateFrame("Frame", "RecDamageMeter", UIParent)
 local bit_band = bit.band
@@ -28,7 +31,11 @@ local string_format = string.format
 local string_gsub = string.gsub
 local math_floor = math.floor
 local tonumber = tonumber
-local UnitGUID = UnitGUID
+local _UnitGUID = UnitGUID
+local UnitGUID = function(...)
+	GUIDCount = GUIDCount + 1
+	return _UnitGUID(...)
+end
 local UnitName = UnitName
 local GetNumRaidMembers = GetNumRaidMembers
 local GetNumPartyMembers = GetNumPartyMembers
@@ -192,7 +199,7 @@ local ids = { p = {}, r = {}, pp = {}, rp = {} }
 for i = 1, 4 do ids.p[i] = string_format("party%d", i); ids.pp[i] = string_format("partypet%d", i) end
 for i = 1, 40 do ids.r[i] = string_format("raid%d", i); ids.rp[i] = string_format("raidpet%d", i) end
 local function GetUnitValidity(source_guid, source_flags)
-
+	ValidityCount = ValidityCount + 1
 	if bit_band(source_flags, COMBATLOG_OBJECT_CONTROL_PLAYER) ~= 0 then
 		if bit_band(COMBATLOG_OBJECT_AFFILIATION_MINE)~=0 then
 			if source_guid == UnitGUID("player") or source_guid == UnitGUID("pet") then
@@ -257,6 +264,12 @@ display_frame.PLAYER_REGEN_ENABLED = function(self)
 		--else
 			need_reset = true
 		--end
+		
+		if ValidityCount > 0 then
+			print(format("GetUnitValidity calls: %d - UnitGUID calls: %d - Avg: %.2f per CLEU", ValidityCount, GUIDCount, GUIDCount/ValidityCount))
+			ValidityCount = 0
+			GUIDCount = 0
+		end
 		return
 end
 
