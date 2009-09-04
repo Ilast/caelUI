@@ -149,15 +149,6 @@ caelTweaks.PARTY_INVITE_REQUEST = function(self, event, name)
 	end
 end
 
---[[	Sound on new mail	]]
-
-caelTweaks:RegisterEvent("UPDATE_PENDING_MAIL")
-caelTweaks.UPDATE_PENDING_MAIL = function()
-	if HasNewMail() and not MailFrame:IsShown() then
-		PlaySoundFile([=[Interface\AddOns\caelTweaks\media\mail.wav]=])
-	end
-end
-
 --[[	Force readycheck warning	]]
 
 ReadyCheckListenerFrame:SetScript("OnShow", nil) -- Stop the default
