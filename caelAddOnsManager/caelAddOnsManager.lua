@@ -5,7 +5,7 @@
 		These addons will load for every user, always.								--]]
 	["base"] = {"!DamnBlizzardErrorFrame", "BadBoy", "BadBoy_CCleaner", "BadBoy_Levels", "Buffet-Lite", "Butsu",
 		"caelAddOnsManager", "caelCCBreak", "caelCombatLog", "caelEmote", "caelFactions", "caelFonts", "caelInterrupt",
-		"caelMinimap", "caelNamePlates", "caelCooldowns", "caelMap", "caelPanels", "caelStats", "caelTooltips", "caelTweaks",
+		"caelMinimap", "caelNamePlates", "caelCooldowns", "caelMap", "caelMedia", "caelPanels", "caelStats", "caelTooltips", "caelTweaks",
 		"GetReagents-Lite", "gotChat", "gotMacros", "gotQuests",
 		"oUF", "oUF_Caellian", "oUF_CombatFeedback", "oUF_DebuffHighlight", "oUF_Experience", "oUF_ReadyCheck", "oUF_Reputation", "oUF_SpellRange", "oUF_ThreatFeedback",
 		"rActionBarStyler", "rActionButtonStyler", "RecBags", "RecDamageMeter", "RecScrollAreas", "Snoopy", "tekKompare"
