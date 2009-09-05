@@ -114,7 +114,7 @@ for event, entry in pairs(throttledEvents) do
 	end
 end
 
-local Output = function(frame, color, text, rsatext, critical, pet, prefix, suffix, tooltipMsg, throttle, noccl)
+local Output = function(frame, color, text, rsaText, critical, pet, prefix, suffix, tooltipMsg, throttle, noccl)
 	local msg = format("%s%s%s%s%s|h", link:format(tooltipMsg or ""), ((frame == 2 or frame == 3) and prefix and prefix ~= "" and "|cffD7BEA5"..prefix.."|r" or ""), (color or ""), text, ((frame == 1 or frame == 2) and suffix and suffix ~= "" and "|cffD7BEA5"..suffix.."|r" or ""))
 
 	if not(noccl) then
@@ -124,7 +124,7 @@ local Output = function(frame, color, text, rsatext, critical, pet, prefix, suff
 	end
 
 	if RecScrollAreas and not(throttle) or (throttle and noccl) then
-		local rsamsg = format("%s%s%s%s|h", ((frame == 2 or frame == 3) and prefix and prefix ~= "" and "|cffD7BEA5"..prefix.."|r" or ""), (color or ""), rsatext or text, ((frame == 1 or frame == 2) and suffix and suffix ~= "" and "|cffD7BEA5"..suffix.."|r" or ""))
+		local rsamsg = format("%s%s%s%s|h", ((frame == 2 or frame == 3) and prefix and prefix ~= "" and "|cffD7BEA5"..prefix.."|r" or ""), (color or ""), rsaText or text, ((frame == 1 or frame == 2) and suffix and suffix ~= "" and "|cffD7BEA5"..suffix.."|r" or ""))
 		RecScrollAreas:AddText(rsamsg, critical, frame == 1 and "Incoming" or frame == 3 and "Outgoing" or "Information")
 	end
 end
@@ -167,20 +167,20 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 	local pet = UnitGUID("pet")
 	if not (sourceGUID == player or destGUID == player or sourceGUID == pet or destGUID == pet) then return end
 	
-	local meSource, meTarget = sourceGUID == player, destGUID == player
+	local meSource, meTarget, isPet = sourceGUID == player, destGUID == player, sourceGUID == pet or destGUID == pet
 	local modString
-	local color, crit, prefix, suffix, scrollFrame, text, rsatext, noccl
+	local color, crit, prefix, suffix, scrollFrame, text, rsaText, noccl
 	local absorbed, amount, blocked, critical, crushing, enviromentalType, extraAmount, glancing, missAmount, missType, overheal, overkill, powerType, resisted, school, spellId, spellName, spellSchool
-	local ispet = sourceGUID == pet or destGUID == pet
+
 	scrollFrame = (sourceGUID == player or sourceGUID == pet) and 3 or 1
 
 	local direction = (destGUID == player or destGUID == pet) and "In" or "Out"
-	local unitDirection = (ispet and "pet" or "player")..direction
+	local unitDirection = (isPet and "pet" or "player")..direction
 	
 	if subEvent == "SWING_DAMAGE" then
 
 		amount, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing = ...
-		text, rsatext, crit, color = amount - overkill, amount, critical, schoolColors[school <= 1 and 0 or school]
+		text, rsaText, crit, color = amount - overkill, amount, critical, schoolColors[school <= 1 and 0 or school]
 		
 		modString = CombatLog_String_DamageResultString(resisted, blocked, absorbed, critical, glancing, crushing, overheal, textMode, spellId, overkill) or ""
 		tooltipMsg = format(tooltipStrings[1], (meSource and "Your" or sourceName.."'s"), "melee swing", "hit", (meTarget and "you" or destName), amount, modString)
@@ -189,7 +189,7 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 
 		spellId, spellName, spellSchool, amount, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing = ...
 		spellSchool = school
-		text, rsatext, crit, color = amount - overkill, format("%s %s", ShortName(spellName), amount), critical, schoolColors[school <= 1 and 0 or school]
+		text, rsaText, crit, color = amount - overkill, format("%s %s", ShortName(spellName), amount), critical, schoolColors[school <= 1 and 0 or school]
 
 		modString = CombatLog_String_DamageResultString(resisted, blocked, absorbed, critical, glancing, crushing, overheal, textMode, spellId, overkill) or ""
 		tooltipMsg = format(tooltipStrings[1], (meSource and "Your" or sourceName.."'s"), (spellName), "hit", (meTarget and "you" or destName), amount, modString)
@@ -197,7 +197,7 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 	elseif subEvent == "SPELL_DAMAGE" then
 
 		spellId, spellName, spellSchool, amount, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing = ...
-		text, rsatext, crit, color = amount - overkill, format("%s %s", ShortName(spellName), amount), critical, schoolColors[spellSchool]
+		text, rsaText, crit, color = amount - overkill, format("%s %s", ShortName(spellName), amount), critical, schoolColors[spellSchool]
 
 		modString = CombatLog_String_DamageResultString(resisted, blocked, absorbed, critical, glancing, crushing, overheal, textMode, spellId, overkill) or ""
 		tooltipMsg = format(tooltipStrings[1], (meSource and "Your" or sourceName and sourceName.."'s" or ""), (spellName), "hit", (meTarget and "you" or destName), amount, modString)
@@ -205,7 +205,7 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 	elseif subEvent == "SPELL_PERIODIC_DAMAGE" or subEvent == "DAMAGE_SHIELD" or subEvent == "DAMAGE_SPLIT" then
 
 		spellId, spellName, spellSchool, amount, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing = ...
-		text, rsatext, crit, color = amount - overkill, format("%s %s", ShortName(spellName), amount), critical, schoolColors[spellSchool]
+		text, rsaText, crit, color = amount - overkill, format("%s %s", ShortName(spellName), amount), critical, schoolColors[spellSchool]
 
 		modString = CombatLog_String_DamageResultString(resisted, blocked, absorbed, critical, glancing, crushing, overheal, textMode, spellId, overkill) or ""
 		tooltipMsg = format(tooltipStrings[1], (meSource and "Your" or sourceName and sourceName.."'s" or ""), (spellName), "damaged", (meTarget and "you" or destName), amount, modString)
@@ -213,7 +213,7 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 	elseif subEvent == "ENVIRONMENTAL_DAMAGE" then
 
 		enviromentalType, amount, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing = ...
-		text, rsatext, color = amount, format("%s %s", _G["ACTION_ENVIRONMENTAL_DAMAGE_"..enviromentalType], amount), schoolColors[school <= 1 and 0 or school]
+		text, rsaText, color = amount, format("%s %s", _G["ACTION_ENVIRONMENTAL_DAMAGE_"..enviromentalType], amount), schoolColors[school <= 1 and 0 or school]
 
 		tooltipMsg = format(tooltipStrings[2], (meTarget and "You" or destName), amount, _G["ACTION_ENVIRONMENTAL_DAMAGE_"..enviromentalType])
 
@@ -221,7 +221,7 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 
 		spellId, spellName, spellSchool, amount, overheal, absorbed, critical = ...
 		if overheal < amount then
-			text, rsatext, crit, prefix = amount - overheal, format("%s %s", ShortName(spellName), amount), critical, sourceGUID == player and destGUID ~= player and "» " or "« "
+			text, rsaText, crit, prefix = amount - overheal, format("%s %s", ShortName(spellName), amount), critical, sourceGUID == player and destGUID ~= player and "» " or "« "
 		end
 
 		color = subEvent == "SPELL_PERIODIC_HEAL" and lightgreen or green
@@ -236,7 +236,7 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 
 		if amount == 0 then return end
 
-		text, rsatext, crit, color = amount, format("%s %s", ShortName(spellName), amount), critical, powerColors[powerType]
+		text, rsaText, crit, color = amount, format("%s %s", ShortName(spellName), amount), critical, powerColors[powerType]
 		scrollFrame = 2
 
 		tooltipMsg = format(tooltipStrings[1], (meSource and "Your" or sourceName.."'s"), (spellName), "energize", (meTarget and "you" or destName), amount, powerStrings[powerType])
@@ -244,7 +244,7 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 	elseif subEvent == "SPELL_DRAIN" or subEvent == "SPELL_PERIODIC_DRAIN" then
 
 		spellId, spellName, spellSchool, amount, powerType, extraAmount = ...
-		text, rsatext, crit, color = extraAmount, format("%s %s", ShortName(spellName), extraAmount), critical, powerColors[powerType]
+		text, rsaText, crit, color = extraAmount, format("%s %s", ShortName(spellName), extraAmount), critical, powerColors[powerType]
 		scrollFrame = 2
 
 		tooltipMsg = format(tooltipStrings[1], (meSource and "Your" or sourceName.."'s"), (spellName), "drain", (meTarget and "you" or destName), amount, powerStrings[powerType], extraAmount and "("..extraAmount.." gained)" or "")
@@ -252,7 +252,7 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 	elseif subEvent == "SPELL_LEECH" or subEvent == "SPELL_PERIODIC_LEECH" then
 
 		spellId, spellName, spellSchool, amount, powerType, extraAmount = ...
-		text, rsatext, crit, color = extraAmount, format("%s %s", ShortName(spellName), extraAmount), critical, powerColors[powerType]
+		text, rsaText, crit, color = extraAmount, format("%s %s", ShortName(spellName), extraAmount), critical, powerColors[powerType]
 		scrollFrame = 2
 
 		tooltipMsg = format(tooltipStrings[3], (meSource and "Your" or sourceName.."'s"), (spellName), (meTarget and "you" or destName), amount, powerStrings[powerType], extraAmount)
@@ -267,7 +267,7 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 	elseif subEvent == "RANGE_MISSED" or subEvent == "SPELL_MISSED" or subEvent == "SPELL_PERIODIC_MISSED" or subEvent == "DAMAGE_SHIELD_MISSED" then
 
 		spellId, spellName, spellSchool, missType, missAmount = ...
-		text, rsatext = missTypes[missType] or missType, format("%s %s", ShortName(spellName), missTypes[missType] or missType), schoolColors[spellSchool]
+		text, rsaText = missTypes[missType] or missType, format("%s %s", ShortName(spellName), missTypes[missType] or missType), schoolColors[spellSchool]
 
 		tooltipMsg = format(tooltipStrings[4], (meSource and "Your" or sourceName and sourceName.."'s" or ""), (spellName), (meTarget and "you" or destName), FormatMissType(subEvent, missType, missAmount))
 
@@ -278,8 +278,6 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 	elseif subEvent:find("AURA_APPLIED") or subEvent:find("AURA_REMOVED") then
 
 		spellId, spellName, spellSchool, auraType, amount = ...
-
-		if spellName == "Trueshot Aura" and not meSource then return end
 
 		color, noccl = schoolColors[spellSchool], true
 
@@ -306,7 +304,7 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 	prefix = prefix or ""
 	suffix = suffix or ""
 
-	if ispet then
+	if isPet then
 		prefix = (scrollFrame == 2 or scrollFrame == 3) and prefix.."· " or prefix
 		suffix = (scrollFrame == 1 or scrollFrame == 2) and suffix.." ·" or prefix
 	end
@@ -365,7 +363,7 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 	end
 
 	if text then
-		Output(scrollFrame, color, text, rsatext, crit, ispet, prefix, suffix, tooltipMsg, throttle, noccl)
+		Output(scrollFrame, color, text, rsaText, crit, isPet, prefix, suffix, tooltipMsg, throttle, noccl)
 	end
 end
 
@@ -384,7 +382,7 @@ local UpdateThrottle = function(v, unit, spellName, elapsed)
 				hitString = ""
 			end
 			if v.amount > 0 then
-				Output(v.scrollFrame, v.color, format(v.format, ShortName(spellName), v.amount, hitString), rsatext, nil, isPet, nil, nil, nil, true, true)
+				Output(v.scrollFrame, v.color, format(v.format, ShortName(spellName), v.amount, hitString), rsaText, nil, isPet, nil, nil, nil, true, true)
 			end
 			v.amount = 0
 			v.isHit = 0
