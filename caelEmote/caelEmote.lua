@@ -15,9 +15,9 @@ caelEmote:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 function caelEmote:COMBAT_LOG_EVENT_UNFILTERED(timestamp, subevent, sourceGUID, sourceName, sourceFlags, destGUID, destName)
 	if subevent == "PARTY_KILL" then
-		local pos = destName:find("-")
-		if pos then
-			destName = destName:sub(0, pos - 1)
+		local dashPos = destName:find("-")
+		if dashPos then
+			destName = destName:sub(0, dashPos - 1)
 		end
 		if targets[destName] then
 			if sourceName == playername then
