@@ -17,7 +17,7 @@ function caelEmote:COMBAT_LOG_EVENT_UNFILTERED(timestamp, subevent, sourceGUID, 
 	if subevent == "PARTY_KILL" then
 		local pos = destName:find("-")
 		if pos then
-			destName = destName:sub(0, pos-1)
+			destName = destName:sub(0, pos - 1)
 		end
 		if targets[destName] then
 			if sourceName == playername then
