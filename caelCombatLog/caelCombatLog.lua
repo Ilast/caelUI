@@ -115,7 +115,7 @@ for event, entry in pairs(throttledEvents) do
 	end
 end
 
-local Output = function(frame, color, text, rsaText, critical, pet, prefix, suffix, tooltipMsg, throttle, noccl)
+local Output = function(frame, rsaFrame, color, text, rsaText, critical, pet, prefix, suffix, tooltipMsg, throttle, noccl)
 	local msg = format("%s%s%s%s%s|h", link:format(tooltipMsg or ""), ((frame == 2 or frame == 3) and prefix and prefix ~= "" and "|cffD7BEA5"..prefix.."|r" or ""), (color or ""), text, ((frame == 1 or frame == 2) and suffix and suffix ~= "" and "|cffD7BEA5"..suffix.."|r" or ""))
 
 	if not(noccl) then
@@ -126,7 +126,7 @@ local Output = function(frame, color, text, rsaText, critical, pet, prefix, suff
 
 	if RecScrollAreas and (not(throttle) or (throttle and noccl)) then
 		local rsamsg = format("%s%s%s%s|h", ((frame == 2 or frame == 3) and prefix and prefix ~= "" and "|cffD7BEA5"..prefix.."|r" or ""), (color or ""), rsaText or text, ((frame == 1 or frame == 2) and suffix and suffix ~= "" and "|cffD7BEA5"..suffix.."|r" or ""))
-		RecScrollAreas:AddText(rsamsg, critical, frame == 1 and "Incoming" or frame == 3 and "Outgoing" or "Information")
+		RecScrollAreas:AddText(rsamsg, critical, rsaFrame and rsaFrame or frame == 1 and "Incoming" or frame == 3 and "Outgoing" or "Information")
 	end
 end
 
@@ -170,7 +170,7 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 	if not (sourceGUID == player or destGUID == player or sourceGUID == pet or destGUID == pet) then return end
 
 	local meSource, meTarget, isPet = sourceGUID == player, destGUID == player, sourceGUID == pet or destGUID == pet
-	local modString, tooltipMsg
+	local modString, tooltipMsg, rsaFrame
 	local color, crit, prefix, suffix, scrollFrame, text, rsaText, noccl
 	local absorbed, amount, blocked, critical, crushing, enviromentalType, extraAmount, glancing, missAmount, missType, overheal, overkill, powerType, resisted, school, spellId, spellName, spellSchool
 	local timeStamp = date("%H:%M:%S", timestamp)
@@ -301,7 +301,7 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 
 	elseif subEvent == "PARTY_KILL" or subEvent == "UNIT_DIED" or subEvent == "UNIT_DESTROYED" or subEvent == "UNIT_DISSIPATES" then
 
-		text, color, scrollFrame = deathChar.." "..destName.." "..deathChar, beige, 2
+		text, color, crit, scrollFrame, rsaFrame = deathChar.." "..destName.." "..deathChar, beige, true, 2, "Notification"
 
 	end
 
@@ -310,12 +310,12 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 
 	if isPet then
 		prefix = (scrollFrame == 2 or scrollFrame == 3) and prefix.."· " or prefix
-		suffix = (scrollFrame == 1 or scrollFrame == 2) and suffix.." ·" or prefix
+		suffix = (scrollFrame == 1 or scrollFrame == 2) and suffix.." ·" or suffix
 	end
 
 	if critical then
 		prefix = (scrollFrame == 2 or scrollFrame == 3) and prefix.."• " or prefix
-		suffix = (scrollFrame == 1 or scrollFrame == 2) and suffix.." •" or prefix
+		suffix = (scrollFrame == 1 or scrollFrame == 2) and suffix.." •" or suffix
 	end
 
 	if blocked then prefix = scrollFrame ~= 1 and prefix.."b " or prefix.." b" end
@@ -367,7 +367,7 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 	end
 
 	if text then
-		Output(scrollFrame, color, text, rsaText, crit, isPet, prefix, suffix, tooltipMsg, throttle, noccl)
+		Output(scrollFrame, rsaFrame, color, text, rsaText, crit, isPet, prefix, suffix, tooltipMsg, throttle, noccl)
 	end
 end
 
@@ -386,7 +386,7 @@ local UpdateThrottle = function(v, unit, spellName, elapsed)
 				hitString = ""
 			end
 			if v.amount > 0 then
-				Output(v.scrollFrame, v.color, format(v.format, ShortName(spellName), v.amount, hitString), rsaText, nil, isPet, nil, nil, nil, true, true)
+				Output(v.scrollFrame, nil, v.color, format(v.format, ShortName(spellName), v.amount, hitString), rsaText, nil, isPet, nil, nil, nil, true, true)
 			end
 			v.amount = 0
 			v.isHit = 0
@@ -416,7 +416,7 @@ cCL:SetScript("OnUpdate", OnUpdate)
 
 cCL:RegisterEvent("PLAYER_REGEN_DISABLED")
 function cCL:PLAYER_REGEN_DISABLED()
-	Output(2, red, "++ Combat ++", nil, true)
+	Output(2, "Notification", red, "++ Combat ++", nil, true)
 	PlaySoundFile([=[Interface\Addons\caelCombatLog\media\combat+.mp3]=])
 
 	duration = GetTime()
@@ -445,11 +445,12 @@ function cCL:PLAYER_REGEN_ENABLED()
 	t[#t+1] = (data.healingOut) > 0 and green..ShortValue(data.healingOut).."|r" or nil
 	t[#t+1] = (data.healingIn) > 0 and green..ShortValue(data.healingIn).."|r" or nil
 
-	Output(2, green, "-- Combat --", nil, true)
+	Output(2, "Notification", green, "-- Combat --", nil, true)
 	PlaySoundFile([=[Interface\Addons\caelCombatLog\media\combat-.mp3]=])
 
 	if #t > 0 then
 		tooltipMsg = format("%s%s%s%s%s", (floor(duration / 60) > 0) and (floor(duration / 60).."m "..(floor(duration) % 60).."s") or (floor(duration).."s").." in combat\n", data.damageOut > 0 and "Damage done: "..(data.damageOut).."\n" or "", data.damageIn > 0 and "Damage recieved: "..(data.damageIn).."\n" or "", data.healingOut > 0 and "Healing done: "..data.healingOut.."\n" or "", data.healingIn > 0 and "Healing recieved: "..data.healingIn.."\n" or "")
-		Output(2, nil, table.concat(t, beige.." ¦ "), nil, true, nil, nil, nil, tooltipMsg)
+		Output(2, "Notification", nil, table.concat(t, beige.." ¦ "), nil, true, nil, nil, nil, tooltipMsg)
+--		local Output = function(frame, rsaFrame, color, text, rsaText, critical, pet, prefix, suffix, tooltipMsg, throttle, noccl)
 	end
 end
