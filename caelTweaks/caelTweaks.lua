@@ -62,7 +62,7 @@ caelTweaks.MERCHANT_SHOW = function(self)
 			local GuildWealth = CanGuildBankRepair() and GetGuildBankWithdrawMoney() > cost
 			if(GuildWealth) then
 				RepairAllItems(1)
-				print(format("Guild Bank Repaired for %s.", formatMoney(cost)))
+				print(format("Guild bank repaired for %s.", formatMoney(cost)))
 			else
 				RepairAllItems()
 				print(format("Repaired for %s.", formatMoney(cost)))
