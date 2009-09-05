@@ -241,7 +241,7 @@ end
 
 --[[	RaidNotice to Scrolling frame	]]
 
-local hooks = {} 
+local hooks = {}
 hooks["RaidNotice_AddMessage"] = RaidNotice_AddMessage
 
 RaidNotice_AddMessage = function(noticeFrame, textString, colorInfo)
