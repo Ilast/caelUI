@@ -72,12 +72,12 @@ local function clearSummary()
 end
 
 local formatStrings = {
-	["SPELL_ENERGIZE"] = "%s + %d%s", -- "%s energize for %d. %s"
-	["SPELL_PERIODIC_ENERGIZE"] = "%s + %d%s", -- "%s energize for %d. %s"
-	["SPELL_PERIODIC_HEAL"] = "%s + %d%s", -- "%s heal for %d. %s"
-	["SPELL_PERIODIC_DAMAGE"] = "%s + %d%s", -- "%s damage for %d. %s"
-	["Volley"] = "%s + %d%s", -- "%s damage for %d. %s"
-}	
+	["SPELL_ENERGIZE"] = "%s + %d%s", -- "%s energize for %d %s"
+	["SPELL_PERIODIC_ENERGIZE"] = "%s + %d%s", -- "%s energize for %d %s"
+	["SPELL_PERIODIC_HEAL"] = "%s + %d%s", -- "%s heal for %d %s"
+	["SPELL_PERIODIC_DAMAGE"] = "%s + %d%s", -- "%s damage for %d %s"
+	["Volley"] = "%s + %d%s", -- "%s damage for %d %s"
+}
 
 local excludedSpells = {}
 
@@ -97,10 +97,10 @@ local throttledSpells = {
 }
 
 local tooltipStrings = {
-	[1] = "%s %s %s %s %s for %d. %s",
-	[2] = "%s %s suffer %d from %s.",
-	[3] = "%s %s %s leech %s for %d %s. (%s gained)",
-	[4] = "%s %s %s miss %s. %s",
+	[1] = "%s %s %s %s %s for %d %s",
+	[2] = "%s %s suffer %d from %s",
+	[3] = "%s %s %s leech %s for %d %s (%s gained)",
+	[4] = "%s %s %s miss %s %s",
 }
 
 for event, entry in pairs(throttledEvents) do
@@ -313,19 +313,45 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 		suffix = (scrollFrame == 1 or scrollFrame == 2) and suffix.." ·" or suffix
 	end
 
+	if blocked then
+		prefix = scrollFrame == 3 and prefix.."b " or prefix
+		suffix = scrollFrame == 1 and suffix.." b" or suffix
+	end
+
+	if crushing then
+		prefix = scrollFrame == 3 and prefix.."c " or prefix
+		suffix = scrollFrame == 1 and suffix.." c" or suffix
+	end
+
+	if glancing then
+		prefix = scrollFrame == 3 and prefix.."g " or prefix
+		suffix = scrollFrame == 1 and suffix.." g" or suffix
+	end
+
+	if resisted then
+		prefix = scrollFrame == 3 and prefix.."r " or prefix
+		suffix = scrollFrame == 1 and suffix.." r" or suffix
+	end
+
+	if absorbed and absorbed > 0 then
+		prefix = scrollFrame == 3 and prefix.."a " or prefix
+		suffix = scrollFrame == 1 and suffix.." a" or suffix
+	end
+
+	if overheal and overheal > 0 then
+		prefix = (scrollFrame == 2 or scrollFrame == 3) and prefix.."h " or prefix
+		suffix = scrollFrame == 1 and suffix.." h" or suffix
+	end
+
+	if overkill and overkill > 0 then
+		prefix = scrollFrame == 3 and prefix.."k " or prefix
+		suffix = scrollFrame == 1 and suffix.." k" or suffix
+	end
+
 	if critical then
 		prefix = (scrollFrame == 2 or scrollFrame == 3) and prefix.."• " or prefix
 		suffix = (scrollFrame == 1 or scrollFrame == 2) and suffix.." •" or suffix
 	end
-
-	if blocked then prefix = scrollFrame ~= 1 and prefix.."b " or prefix.." b" end
-	if crushing then prefix = scrollFrame ~= 1 and  prefix.."c " or prefix.." c" end
-	if glancing then prefix = scrollFrame ~= 1 and  prefix.."g " or prefix.." g" end
-	if resisted then prefix = scrollFrame ~= 1 and prefix.."r " or prefix.." r" end
-
-	if absorbed and absorbed > 0 then prefix = scrollFrame ~= 1 and prefix.."a " or prefix.." a" end
-	if overheal and overheal > 0 then prefix = scrollFrame ~= 1 and prefix.."h " or prefix.." h" end
-	if overkill and overkill > 0 then prefix = scrollFrame ~= 1 and prefix.."k " or prefix.." k" end
 
 	if subEvent:find("AURA_APPLIED") then
 		prefix = (scrollFrame == 2 or scrollFrame == 3) and not throttledSpells[spellName] and prefix.."++ "
