@@ -29,22 +29,20 @@ caelPanels.PLAYER_LOGIN = function(self)
 	CreatePanel("caelPanel5", 153, 90, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- TopRightBar
 	CreatePanel("caelPanel6", -153, 20, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- BottomLeftBar
 	CreatePanel("caelPanel7", 153, 20, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- BottomRightBar
-	if RecDamageMeter then -- Recount_MainWindow
+
+	if RecDamageMeter then
 		CreatePanel("caelPanel8", -647, 20, 167, 130.5, "BOTTOM", "BOTTOM", UIParent, RecDamageMeter, "BACKGROUND") -- MeterLeft
 		RecDamageMeter:ClearAllPoints()
 		RecDamageMeter:SetPoint("TOPLEFT", caelPanel8, "TOPLEFT", 3, -2.5)
---		RecDamageMeter:SetPoint("TOPLEFT", caelPanel8, "TOPLEFT", 1.5, 17.25)
---[[
-		Recount_MainWindow:SetScript("OnShow",function(frame)
-			caelPanel8:Show()
-		end)
-		Recount_MainWindow:SetScript("OnHide",function(frame)
-			caelPanel8:Hide()
-		end)
-		if Recount_MainWindow:IsVisible() then caelPanel8:Show() else caelPanel8:Hide() end]]
 	end
 
-	for i = 1, 9 do
+	if RecThreatMeter then
+		CreatePanel("caelPanel9", 647, 20, 167, 130.5, "BOTTOM", "BOTTOM", UIParent, RecThreatMeter, "BACKGROUND") -- MeterRight
+		RecThreatMeter:ClearAllPoints()
+		RecThreatMeter:SetPoint("TOPLEFT", caelPanel9, "TOPLEFT", 3, -2.5)
+	end
+
+	for i = 1, 10 do
 		local panel = panels[i]
 		if panel then
 			local gradient = panel:CreateTexture(nil, "BORDER")
