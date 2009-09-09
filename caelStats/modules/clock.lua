@@ -1,8 +1,8 @@
 local Holder = CreateFrame("Frame")
 
-caelStats.clock = caelPanel9:CreateFontString(nil, "OVERLAY")
+caelStats.clock = caelPanel10:CreateFontString(nil, "OVERLAY")
 caelStats.clock:SetFont(font, fontSize, fontOutline)
-caelStats.clock:SetPoint("RIGHT", caelPanel9, "RIGHT", -10, 0.5) 
+caelStats.clock:SetPoint("RIGHT", caelPanel10, "RIGHT", -10, 0.5) 
 
 local delay = 0
 local OnUpdate = function(self, elapsed)

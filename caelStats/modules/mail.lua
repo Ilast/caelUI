@@ -1,8 +1,8 @@
 local Holder = CreateFrame("Frame")
 
-caelStats.mail = caelPanel9:CreateFontString(nil, "OVERLAY")
+caelStats.mail = caelPanel10:CreateFontString(nil, "OVERLAY")
 caelStats.mail:SetFont(font, fontSize, fontOutline)
-caelStats.mail:SetPoint("CENTER", caelPanel9, "CENTER", 0, 0.5)
+caelStats.mail:SetPoint("CENTER", caelPanel10, "CENTER", 0, 0.5)
 
 local function OnEvent(self)
 	if HasNewMail() then

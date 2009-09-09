@@ -1,8 +1,8 @@
 local Holder = CreateFrame("Frame")
 
-caelStats.system = caelPanel9:CreateFontString(nil, "OVERLAY")
+caelStats.system = caelPanel10:CreateFontString(nil, "OVERLAY")
 caelStats.system:SetFont(font, fontSize, fontOutline)
-caelStats.system:SetPoint("LEFT", caelPanel9, "LEFT", 10, 0.5) 
+caelStats.system:SetPoint("LEFT", caelPanel10, "LEFT", 10, 0.5) 
 
 local Addons = {}
 local AddonsMemoryCompare = function(a, b)
