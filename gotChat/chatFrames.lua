@@ -7,11 +7,9 @@ local print = function(text)
 	DEFAULT_CHAT_FRAME:AddMessage("|cffD7BEA5cael|rChat: "..tostring(text))
 end
 
-local find = string.find
-local match = string.match
-
-local myName, _ = UnitName("player")
+local myName = UnitName("player")
 local _, myClass = UnitClass("player")
+local gsub, find, match, lower = string.gsub, string.find, string.match, string.lower
 local font, fontSize, fontOutline = [=[Interface\Addons\caelNamePlates\media\neuropol x cd rg.ttf]=], 12, ""
 
 local ChatFrameEditBox = ChatFrameEditBox
@@ -359,6 +357,8 @@ local function FilterFunc(_, _, msg, userID, _, _, _, _, chanID, ...)
 	if userID == UnitName("Player") then return false end
 	
 	if chanID == 1 or chanID == 2 then
+		msg = lower(msg) --lower all text
+		msg = gsub(msg, " ", "") --Remove spaces
 		for i, v in ipairs(craps) do
 			if find(msg, v) then
 				return true
