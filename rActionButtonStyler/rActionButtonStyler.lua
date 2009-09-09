@@ -23,7 +23,7 @@
 
   --FONT
   --the font you want to use for your button texts
-  local button_font = [=[Interface\Addons\rActionButtonStyler\media\neuropol x cd rg.ttf]=]
+  local button_font = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=]
   
   --hide the hotkey? 0/1
   local hide_hotkey = 1
