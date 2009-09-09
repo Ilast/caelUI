@@ -4,7 +4,7 @@ local caelPanels = CreateFrame("frame", nil, UIParent)
 
 local backdrop = {
 	bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
-	edgeFile = [=[Interface\Addons\caelPanels\media\glowTex]=], edgeSize = 2,
+	edgeFile = [=[Interface\Addons\caelMedia\Miscellaneous\glowtex]=], edgeSize = 2,
 	insets = {left = 3, right = 3, top = 3, bottom = 3}
 }
 
