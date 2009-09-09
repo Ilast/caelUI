@@ -1,7 +1,7 @@
 ﻿local caelTooltips = CreateFrame("Frame")
 
 --local TheOneScale = (768/tonumber(GetCVar("gxResolution"):match("%d+x(%d+)")))/GetCVar("uiScale")
-local font, fontsize = [=[Interface\Addons\caelTooltips\media\neuropol x cd rg.ttf]=], 9
+local font, fontsize = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 9
 local GameTooltip, GameTooltipStatusBar = _G["GameTooltip"], _G["GameTooltipStatusBar"]
 
 local _G = _G
@@ -32,7 +32,7 @@ local classification = {
 
 local backdrop = {
 	bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
-	edgeFile = [=[Interface\Addons\caelTooltips\media\glowTex]=], edgeSize = 2,
+	edgeFile = [=[Interface\Addons\caelMedia\Miscellaneous\glowtex]=], edgeSize = 2,
 	insets = {left = 3, right = 3, top = 3, bottom = 3}
 }
 
