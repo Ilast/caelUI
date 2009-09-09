@@ -1,6 +1,6 @@
 local caelTweaks = CreateFrame("Frame")
 
-local font, fontSize, fontOutline = [=[Interface\Addons\caelTweaks\media\neuropol x cd rg.ttf]=], 11, "OUTLINE"
+local font, fontSize, fontOutline = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 11, "OUTLINE"
 
 local print = function(text)
 	DEFAULT_CHAT_FRAME:AddMessage("|cffD7BEA5cael|rTweaks: "..tostring(text))
