@@ -309,8 +309,7 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 	suffix = suffix or ""
 
 	if isPet then
-		prefix = (scrollFrame == 2 or scrollFrame == 3) and prefix.."· " or prefix
-		suffix = (scrollFrame == 1 or scrollFrame == 2) and suffix.." ·" or suffix
+		suffix = (scrollFrame == 1 or scrollFrame == 2) and suffix.."·" or suffix
 	end
 
 	if blocked then
@@ -359,6 +358,10 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 	elseif subEvent:find("AURA_REMOVED") then
 		prefix = (scrollFrame == 2 or scrollFrame == 3) and not throttledSpells[spellName] and prefix.."-- "
 		suffix = (scrollFrame == 1 or scrollFrame == 2) and not throttledSpells[spellName] and suffix.." --"
+	end
+
+	if isPet then 
+		prefix = (scrollFrame == 2 or scrollFrame == 3) and prefix.."·" or prefix
 	end
 
 	local valueType = eventTable[subEvent]
