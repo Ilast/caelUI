@@ -55,7 +55,7 @@ frame.frames = {}
 for i = 1, 3 do
    local smf = CreateFrame("ScrollingMessageFrame", nil, frame)
    smf:SetMaxLines(1000)
-   smf:SetFont([=[Interface\Addons\caelCombatLog\media\neuropol x cd rg.ttf]=], 9)
+   smf:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 9)
 	smf:SetSpacing(2)
    smf:SetFading(false)
 	smf:SetScript("OnMouseWheel", ScrollFrame)

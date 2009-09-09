@@ -443,7 +443,7 @@ cCL:SetScript("OnUpdate", OnUpdate)
 cCL:RegisterEvent("PLAYER_REGEN_DISABLED")
 function cCL:PLAYER_REGEN_DISABLED()
 	Output(2, "Notification", red, "++ Combat ++", nil, true)
-	PlaySoundFile([=[Interface\Addons\caelCombatLog\media\combat+.mp3]=])
+	PlaySoundFile([=[Interface\Addons\caelMedia\Sounds\combat+.mp3]=])
 
 	duration = GetTime()
 	clearSummary()
@@ -472,7 +472,7 @@ function cCL:PLAYER_REGEN_ENABLED()
 	t[#t+1] = (data.healingIn) > 0 and green..ShortValue(data.healingIn).."|r" or nil
 
 	Output(2, "Notification", green, "-- Combat --", nil, true)
-	PlaySoundFile([=[Interface\Addons\caelCombatLog\media\combat-.mp3]=])
+	PlaySoundFile([=[Interface\Addons\caelMedia\Sounds\combat-.mp3]=])
 
 	if #t > 0 then
 		tooltipMsg = format("%s%s%s%s%s", (floor(duration / 60) > 0) and (floor(duration / 60).."m "..(floor(duration) % 60).."s") or (floor(duration).."s").." in combat\n", data.damageOut > 0 and "Damage done: "..(data.damageOut).."\n" or "", data.damageIn > 0 and "Damage recieved: "..(data.damageIn).."\n" or "", data.healingOut > 0 and "Healing done: "..data.healingOut.."\n" or "", data.healingIn > 0 and "Healing recieved: "..data.healingIn.."\n" or "")
