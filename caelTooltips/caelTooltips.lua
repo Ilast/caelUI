@@ -1,7 +1,7 @@
 ﻿local caelTooltips = CreateFrame("Frame")
 
-local TheOneScale = (768/tonumber(GetCVar("gxResolution"):match("%d+x(%d+)")))/GetCVar("uiScale")
-local font, fontsize = [=[Interface\Addons\caelTooltips\media\neuropol x cd rg.ttf]=], 9/TheOneScale
+--local TheOneScale = (768/tonumber(GetCVar("gxResolution"):match("%d+x(%d+)")))/GetCVar("uiScale")
+local font, fontsize = [=[Interface\Addons\caelTooltips\media\neuropol x cd rg.ttf]=], 9
 local GameTooltip, GameTooltipStatusBar = _G["GameTooltip"], _G["GameTooltipStatusBar"]
 
 local _G = _G
@@ -72,7 +72,7 @@ end
 
 GameTooltip_SetDefaultAnchor = function(self, parent)
 	self:SetOwner(parent, "ANCHOR_NONE")
-	self:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, 152/TheOneScale)
+	self:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, 152)
 	self.default = 1
 end
 
@@ -92,7 +92,7 @@ GameTooltip_UnitColor = function(unit)
 end
 
 local OnTooltipSetItem = function(self)
-	local link = select(2, self:GetItem())
+	local _, link = self:GetItem()
 	if link then
 		local id = tonumber(link:match("item:(%d+):"))
 
@@ -147,7 +147,7 @@ local OnTooltipSetUnit = function(self)
 
 		for i= offset, lines do
 			if(_G["GameTooltipTextLeft"..i]:GetText():find("^"..LEVEL)) then
-				_G["GameTooltipTextLeft"..i]:SetFormattedText("|cff%02x%02x%02x%d|r %s", r*255, g*255, b*255, level, race)
+				_G["GameTooltipTextLeft"..i]:SetFormattedText("|cff%02x%02x%02x%d|r %s", r*255, g*255, b*255, level > 0 and level or "??", race)
 				break
 			end
 		end
@@ -213,7 +213,7 @@ function caelTooltips:ApplyLayout()
 		end)
 
 		v:SetBackdrop(backdrop)
-		v:SetScale(TheOneScale)
+--		v:SetScale(TheOneScale)
 
 		local gradient = v:CreateTexture(nil, "BORDER")
 		gradient:SetTexture([=[Interface\ChatFrame\ChatFrameBackground]=])
