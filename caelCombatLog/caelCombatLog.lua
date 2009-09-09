@@ -445,7 +445,7 @@ cCL:SetScript("OnUpdate", OnUpdate)
 
 cCL:RegisterEvent("PLAYER_REGEN_DISABLED")
 function cCL:PLAYER_REGEN_DISABLED()
-	Output(2, "Notification", red, "++ Combat ++", nil, true)
+	Output(2, "Information", red, "++ Combat ++", nil, true)
 	PlaySoundFile([=[Interface\Addons\caelMedia\Sounds\combat+.mp3]=])
 
 	duration = GetTime()
@@ -474,7 +474,7 @@ function cCL:PLAYER_REGEN_ENABLED()
 	t[#t+1] = (data.healingOut) > 0 and green..ShortValue(data.healingOut).."|r" or nil
 	t[#t+1] = (data.healingIn) > 0 and green..ShortValue(data.healingIn).."|r" or nil
 
-	Output(2, "Notification", green, "-- Combat --", nil, true)
+	Output(2, "Information", green, "-- Combat --", nil, true)
 	PlaySoundFile([=[Interface\Addons\caelMedia\Sounds\combat-.mp3]=])
 
 	if #t > 0 then
