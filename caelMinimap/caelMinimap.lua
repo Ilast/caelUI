@@ -1,7 +1,7 @@
 local caelMinimap = CreateFrame("Frame", nil, Minimap)
 local dummy = function() end
 --[[
-local font, fontSize, fontOutline = [=[Interface\Addons\caelMinimap\media\neuropol x cd rg.ttf]=], 11, "OUTLINE"
+local font, fontSize, fontOutline = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 11, "OUTLINE"
 
 local AddonsMemoryCompare = function(a, b)
 	return a.memory > b.memory
@@ -173,7 +173,7 @@ Minimap:SetBackdrop{
 	insets = {left = -1, right = -0.5, top = -1.5, bottom = -0.5},
 }
 Minimap:SetBackdropColor(0, 0, 0, 1)
-Minimap:SetBlipTexture([=[Interface\Addons\caelMinimap\media\Charmed.tga]=])
+Minimap:SetBlipTexture([=[Interface\Addons\caelMedia\Miscellaneous\charmed.tga]=])
 
 MiniMapTracking:SetParent(Minimap)
 MiniMapTracking:ClearAllPoints()
@@ -189,7 +189,7 @@ MiniMapMailFrame:SetParent(Minimap)
 MiniMapMailFrame:ClearAllPoints()
 MiniMapMailFrame:SetPoint("TOP")
 MiniMapMailFrame:EnableMouse(false)
-MiniMapMailIcon:SetTexture([=[Interface\Addons\caelMinimap\media\mail]=])
+MiniMapMailIcon:SetTexture([=[Interface\Addons\caelMedia\Miscellaneous\mail]=])
 MiniMapMailIcon:Hide()
 
 --[[
