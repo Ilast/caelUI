@@ -11,11 +11,11 @@ end
 local caelFonts = CreateFrame("Frame")
 caelFonts:RegisterEvent("ADDON_LOADED")
 caelFonts:SetScript("OnEvent", function()
-	local NORMAL     = "Interface\\Addons\\caelFonts\\media\\neuropol x cd rg.ttf"
-	local BOLD       = "Interface\\Addons\\caelFonts\\media\\neuropol x cd bd.ttf"
-	local BOLDITALIC = "Interface\\Addons\\caelFonts\\media\\neuropol x cd bd it.ttf"
-	local ITALIC     = "Interface\\Addons\\caelFonts\\media\\neuropol x cd rg it.ttf"
-	local NUMBER     = "Interface\\Addons\\caelFonts\\media\\neuropol x cd bd.ttf"
+	local NORMAL     = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=]
+	local BOLD       = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd bd.ttf]=]
+	local BOLDITALIC = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd bd it.ttf]=]
+	local ITALIC     = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg it.ttf]=]
+	local NUMBER     = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd bd.ttf]=]
 
 	UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT = 12
 	CHAT_FONT_HEIGHTS = {7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24}
