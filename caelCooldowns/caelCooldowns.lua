@@ -1,4 +1,4 @@
-local TEXT_FONT = [=[Interface\Addons\caelCooldowns\media\neuropol x cd rg.ttf]=]
+local TEXT_FONT = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=]
 local FONT_SIZE = 14
 local MIN_SCALE = 0.5
 local MIN_DURATION = 1.5
