@@ -2,12 +2,12 @@
 
 local Player = WorldMapButton:CreateFontString(nil, "ARTWORK")
 Player:SetPoint("TOPLEFT", WorldMapButton, 0, 40)
-Player:SetFont([=[Interface\Addons\caelCooldowns\media\neuropol x cd rg.ttf]=], 11)
+Player:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 11)
 Player:SetTextColor(0.84, 0.75, 0.65)
 
 local Cursor = WorldMapButton:CreateFontString(nil, "ARTWORK")
 Cursor:SetPoint("TOPLEFT", WorldMapButton, 0, 20)
-Cursor:SetFont([=[Interface\Addons\caelCooldowns\media\neuropol x cd rg.ttf]=], 11)
+Cursor:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 11)
 Cursor:SetTextColor(0.84, 0.75, 0.65)
 
 WorldMapButton:HookScript("OnUpdate", function(self, u)
@@ -46,15 +46,15 @@ end
 local OnEvent = function()
 	for r = 1, 40 do
 		if UnitInParty(_G["WorldMapRaid"..r].unit) then
-			_G["WorldMapRaid"..r].icon:SetTexture([=[Interface\Addons\caelMap\media\partyIcon]=])
+			_G["WorldMapRaid"..r].icon:SetTexture([=[Interface\Addons\caelMedia\Miscellaneous\partyicon]=])
 		else
-			_G["WorldMapRaid"..r].icon:SetTexture([=[Interface\Addons\caelMap\media\raidIcon]=])
+			_G["WorldMapRaid"..r].icon:SetTexture([=[Interface\Addons\caelMedia\Miscellaneous\raidicon]=])
 		end
 		_G["WorldMapRaid"..r]:SetScript("OnUpdate", OnUpdate)
 	end
 
 	for p = 1, 4 do
-		_G["WorldMapParty"..p].icon:SetTexture([=[Interface\Addons\caelMap\media\partyIcon]=])
+		_G["WorldMapParty"..p].icon:SetTexture([=[Interface\Addons\caelMedia\Miscellaneous\partyicon]=])
 		_G["WorldMapParty"..p]:SetScript("OnUpdate", OnUpdate)
 	end
 end
