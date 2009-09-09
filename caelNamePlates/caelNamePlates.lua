@@ -1,9 +1,9 @@
 local caelNamePlates = CreateFrame("Frame", nil, UIParent)
 caelNamePlates:SetScript("OnEvent", function(self, event, ...) self[event](self, ...) end)
 
-local barTexture = [=[Interface\Addons\caelNamePlates\media\normTex]=]
+local barTexture = [=[Interface\Addons\caelNamePlates\media\normtex]=]
 local overlayTexture = [=[Interface\Tooltips\Nameplate-Border]=]
-local glowTexture = [=[Interface\Addons\caelNamePlates\media\glowTex]=]
+local glowTexture = [=[Interface\Addons\caelNamePlates\media\glowtex]=]
 local font, fontSize, fontOutline = [=[Interface\Addons\caelNamePlates\media\neuropol x cd rg.ttf]=], 9, "OUTLINE"
 local backdrop = {
 		edgeFile = glowTexture, edgeSize = 5,
