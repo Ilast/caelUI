@@ -22,7 +22,7 @@ function caelEmote:COMBAT_LOG_EVENT_UNFILTERED(timestamp, subevent, sourceGUID, 
 		if targets[destName] then
 			if sourceName == playername then
 				DoEmote("GLOAT", destName)
-				PlaySoundFile([=[Interface\Addons\caelEmote\media\godlike.mp3]=])
+				PlaySoundFile([=[Interface\Addons\caelMedia\Sounds\godlike.mp3]=])
 			end
 			targets[destName] = nil
 		end
