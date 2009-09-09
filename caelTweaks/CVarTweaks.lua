@@ -50,6 +50,7 @@ CVarTweaks.PLAYER_ENTERING_WORLD = function(self)
 	return ZoneChange(zone)
 end
 
+--[[
 Scales = {
 	["800"] = { ["600"] = 0.69999998807907},
 	["1024"] = { ["768"] = 0.69999998807907},
@@ -60,11 +61,18 @@ Scales = {
 	["1768"] = { ["992"] = 0.93000000715256},
 	["1920"] = { ["1200"] = 0.83999997377396, ["1080"] = 0.93000000715256},
 }
-
---[[
-	SetCVar("uiScale", 768/string.match(({GetScreenResolutions()})[GetCurrentResolution()], "%d+x(%d+)"))
-	SetCVar("uiScale", 768/tonumber(GetCVar("gxResolution"):match("%d+x(%d+)")))
 --]]
+
+Scales = {
+	["800"] = { ["600"] = 0.7},
+	["1024"] = { ["768"] = 0.7},
+	["1152"] = { ["864"] = 0.7},
+	["1280"] = { ["720"] = 0.93, ["960"] = 0.7, ["1024"] = 0.65},
+	["1600"] = { ["900"] = 0.93, ["1200"] = 0.7},
+	["1680"] = { ["1050"] = 0.84},
+	["1768"] = { ["992"] = 0.93},
+	["1920"] = { ["1200"] = 0.84, ["1080"] = 0.93},
+}
 
 CVarTweaks:RegisterEvent("PLAYER_LOGIN")
 CVarTweaks.PLAYER_LOGIN = function(self)
@@ -72,17 +80,17 @@ CVarTweaks.PLAYER_LOGIN = function(self)
 	if Scales[width] and Scales[width][height] then
 		SetCVar("useUiScale", 1)
 		SetCVar("uiScale", Scales[width][height])
+
+		WorldFrame:SetUserPlaced(false)
+		WorldFrame:ClearAllPoints()
+		WorldFrame:SetHeight(GetScreenHeight() * Scales[width][height])
+		WorldFrame:SetWidth(GetScreenWidth() * Scales[width][height])
+		WorldFrame:SetPoint("BOTTOM", UIParent, "BOTTOM")
 	else
 		SetCVar("useUiScale", 0)
 		print("Your resolution is not supported, UI Scale has been disabled.")
 	end
 end
-
-WorldFrame:ClearAllPoints()
-WorldFrame:SetUserPlaced()
-WorldFrame:SetHeight(GetScreenHeight() * (GetCVar("UIScale")))
-WorldFrame:SetWidth(GetScreenWidth() * (GetCVar("UIScale")))
-WorldFrame:SetAllPoints(UIParent)
 
 SetCVar("gxMultisample","1")
 SetCVar("gxMultisampleQuality","0.000000")
