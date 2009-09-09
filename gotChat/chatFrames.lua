@@ -10,7 +10,7 @@ end
 local myName = UnitName("player")
 local _, myClass = UnitClass("player")
 local gsub, find, match, lower = string.gsub, string.find, string.match, string.lower
-local font, fontSize, fontOutline = [=[Interface\Addons\caelNamePlates\media\neuropol x cd rg.ttf]=], 12, ""
+local font, fontSize, fontOutline = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 12, ""
 
 local ChatFrameEditBox = ChatFrameEditBox
 ChatFrameEditBox:SetAltArrowKeyMode(nil)
@@ -20,7 +20,7 @@ ChatFrameEditBox:SetPoint("BOTTOMLEFT",  ChatFrame1, "TOPLEFT", -4.5, 7)
 ChatFrameEditBox:SetPoint("BOTTOMRIGHT", ChatFrame1, "TOPRIGHT", 5, 7)
 ChatFrameEditBox:SetFont(font, fontSize, fontOutline)
 ChatFrameEditBox:SetBackdrop {bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
-	edgeFile = [=[Interface\Addons\gotChat\media\glowTex]=], edgeSize = 2,
+	edgeFile = [=[Interface\Addons\caelMedia\Miscellaneous\glowtex]=], edgeSize = 2,
 	insets = {left = 3, right = 3, top = 3, bottom = 3}
 }
 ChatFrameEditBox:SetBackdropColor(0, 0, 0, 0.5)
@@ -79,7 +79,7 @@ chatFrames.ADDON_LOADED = function(self, event, ...)
 			local frame = _G["ChatFrame"..i]
 			local dockHighlight = _G["ChatFrame"..i.."TabDockRegionHighlight"]
 
-			frame:SetFont([=[Interface\Addons\gotChat\media\neuropol x cd rg.ttf]=], 9)
+			frame:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 9)
 			dockHighlight:Hide()
 
 --			if i ~= 2 then

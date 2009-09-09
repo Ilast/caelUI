@@ -12,7 +12,7 @@ local updateFS = function(self, inc, flags, ...)
 		self = self:GetParent():GetFontString()
 	end
 
-	local font, fontSize = [=[Interface\Addons\gotChat\media\neuropol x cd rg.ttf]=], 9
+	local font, fontSize = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 9
 	if(inc) then
 		self:SetFont(font, fontSize + 1, flags, alpha)
 	else
