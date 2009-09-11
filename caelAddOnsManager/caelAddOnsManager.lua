@@ -8,7 +8,7 @@
 		"caelMinimap", "caelNamePlates", "caelCooldowns", "caelMap", "caelMedia", "caelPanels", "caelStats", "caelTooltips", "caelTweaks",
 		"GetReagents-Lite", "gotChat", "gotMacros", "gotQuests",
 		"oUF", "oUF_Caellian", "oUF_CombatFeedback", "oUF_DebuffHighlight", "oUF_Experience", "oUF_ReadyCheck", "oUF_Reputation", "oUF_SpellRange", "oUF_ThreatFeedback",
-		"rActionBarStyler", "rActionButtonStyler", "RecBags", "RecDamageMeter", "RecScrollAreas", "Snoopy", "tekKompare"
+		"rActionBarStyler", "rActionButtonStyler", "RecBags", "RecScrollAreas", "Snoopy", "tekKompare"
 	},
 	--[[---------------------------------------------------------------------------
 							  -=( Class-Specific Addons )=-
@@ -25,10 +25,10 @@
 		These addons will load if you use their set name after the slash command.
 		'/addonset raid' to load raid addons, for example.							--]]
 
-	["raid"]	= {"DBM-Coliseum", "DBM-Core", "DBM-GUI", "DBM-Ulduar", "SimpleBossWhisperer"},
-	["party"] = {},
+	["raid"]	= {"DBM-Coliseum", "DBM-Core", "DBM-GUI", "DBM-Ulduar", "RecDamageMeter", "RecThreatMeter", "SimpleBossWhisperer"},
+	["party"] = {"RecDamageMeter", "RecThreatMeter"},
 	["pvp"] = {},
-	["dev"] = {"Spew"},
+	["dev"] = {},
 }
 
 local function EnableSet(set)
