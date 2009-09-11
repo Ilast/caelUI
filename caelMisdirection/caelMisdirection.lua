@@ -15,12 +15,12 @@ function caelMisdirection_OnEvent(_, _, _, subEvent, _, sourceName, _, _, destNa
 		if  spellName == "Misdirection" then
 			if sourceName and UnitIsPlayer(destName) then
 				if UnitIsUnit(sourceName, "Caellian") and not UnitIsUnit(destName, "pet") then
+					SendChatMessage(("Misdirected"), "WHISPER", GetDefaultLanguage("player"), destName)
+					RaidNotice_AddMessage(RaidWarningFrame, "Misdirection on "..destName, textColor)
+
 					local index = GetChannelName("RaidHunter")
 					if (index ~= nil) then 
 						SendChatMessage(("misdirected ".. destName) , "CHANNEL", nil, index)
-						SendChatMessage(("Misdirected"), "WHISPER", GetDefaultLanguage("player"), destName)
---						RaidNotice_AddMessage(RaidWarningFrame, "|cffD7BEA5Misdirection on "..destName.."|r")
-						RaidNotice_AddMessage(RaidWarningFrame, "Misdirection on "..destName, textColor)
 					end
 				end
 			end
