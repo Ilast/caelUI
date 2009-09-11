@@ -38,11 +38,18 @@ local function OnHyperlinkLeave(self)
 end
 
 local function OnHyperlinkClick(self, data, link)
-	local linktype, contents = data:sub(1,4), data:sub(6)
-	if linktype == "Clog" and contents ~= "" and IsShiftKeyDown() then
-		ChatFrameEditBox:Show()
-		ChatFrameEditBox:Insert(contents)
-	end
+     local linktype, contents = data:sub(1, 4), data:sub(6)
+     if linktype == "Clog" and contents ~= "" and IsShiftKeyDown() then
+--		ChatFrameEditBox:Show()
+          local from, to, pos
+          for i = 1, 5 do
+				from, to = string.find(contents, "\n", pos or 1)
+				SendChatMessage(string.sub(contents, pos or 1, (from or 0) - 1))
+				if not from then return end
+				pos = (to or 0) + 1
+          end
+--		ChatFrameEditBox:Insert(contents:gsub("\n", " | "))
+     end
 end
 
 local function OnLeave(self)

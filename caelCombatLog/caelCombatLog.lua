@@ -163,6 +163,7 @@ local ShortName = function(spellName)
 	return spellName
 end
 
+local report = {}
 cCL:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID, sourceName, sourceFlags, destGUID, destName, destFlags, ...)
 	local pet = UnitGUID("pet")
@@ -303,6 +304,12 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 
 		text, color, crit, scrollFrame, rsaFrame = deathChar.." "..destName.." "..deathChar, beige, true, 2, "Notification"
 
+		if meTarget then
+			tooltipMsg = table.concat(report, "\n")
+			for k, v in pairs(report) do
+				report[k] = nil
+			end
+		end
 	end
 
 	prefix = prefix or ""
@@ -397,6 +404,13 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 
 	if text then
 		Output(scrollFrame, rsaFrame, color, text, rsaText, crit, isPet, prefix, suffix, tooltipMsg, throttle, noccl)
+	end
+
+	if meTarget and ((find(subEvent, "DAMAGE") and not(find(subEvent, "MISS")) or find(subEvent, "HEAL"))) then
+		table.insert(report, tooltipMsg)
+		if #report > 5 then
+			table.remove(report, 1)
+		end
 	end
 end
 
