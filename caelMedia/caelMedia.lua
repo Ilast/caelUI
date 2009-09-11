@@ -48,3 +48,8 @@ SharedMedia.revision = (revision > SharedMedia.revision) and revision or SharedM
 	SharedMedia:Register("miscellaneous", "Nandini", [[Interface\Addons\caelMedia\Miscellaneous\nandini.tga]])
 	SharedMedia:Register("miscellaneous", "Party Icon", [[Interface\Addons\caelMedia\Miscellaneous\partyicon.tga]])
 	SharedMedia:Register("miscellaneous", "Raid Icon", [[Interface\Addons\caelMedia\Miscellaneous\raidicon.tga]])
+-- -----
+--   BUTTON
+-- -----
+	SharedMedia:Register("button", "Button Overlay", [[Interface\Addons\caelMedia\Buttons\buttonoverlay.tga]])
+	SharedMedia:Register("button", "Button Border 1", [[Interface\Addons\caelMedia\Buttons\buttonborder.tga]])
