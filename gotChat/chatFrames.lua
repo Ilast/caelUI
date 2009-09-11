@@ -115,8 +115,7 @@ chatFrames.ADDON_LOADED = function(self, event, ...)
 				FCF_SetTabPosition(frame, 0)
 				frame:SetJustifyH"RIGHT"
 				frame:Hide()
---				frame:UnregisterEvent("COMBAT_LOG_EVENT")
-				frame:UnregisterAllEvents()
+				frame:UnregisterEvent("COMBAT_LOG_EVENT")
 			elseif(i == 3) then
 				FCF_SetWindowName(frame, "• w <-> •")
 				FCF_DockFrame(frame, 2)
@@ -326,14 +325,11 @@ end
 --[[	Filter various crap	]]
 
 local SystemMessageFilter = function(self, event, msg, ...)
-	if msg:match("Welcome to World of Warcraft!") then return true end
-	if msg:match("Patch 3.2, Call of the Crusade, is now live.") then return true end
-	if msg:match("You now have the ability to trade Bind on Pickup items between party/raid") then return true end
-	if msg:match("members participating in the boss kill, for up to two hours after the item has been looted. ") then return true end
+	if msg:match("Welcome to the European World of Warcraft Realms!") then return true end
+	if msg:match("You have earned the title 'Patron Caellian'.") then return true end
 	if msg:match("You have earned the title 'Matron Caellian'.") then return true end
 	if msg:match("You have lost the title 'Patron Caellian'.") then return true end
 	if msg:match("You have lost the title 'Matron Caellian'.") then return true end
-	if msg:match("You have earned the title 'Patron Caellian'.") then return true end
 	if msg:match("^(%S+) has come online%.") then return true end
 	if msg:match("^(%S+) has gone offline%.") then return true end
 end
