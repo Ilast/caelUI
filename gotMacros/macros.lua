@@ -115,9 +115,9 @@ gM_Macros = {
 		char = "Caellian, Caellianaia, Dynames",
 		show = "Steady Shot",
 		body = [=[/cast !Auto Shot
+			/click gotMacros_ExpS
 			/click gotMacros_BlkA
 			/click gotMacros_SerS
-			/click gotMacros_ExpS
 			/click gotMacros_AimS
 			/click gotMacros_StdS]=],
 		nosound = true,
