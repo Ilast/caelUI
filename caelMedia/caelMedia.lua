@@ -38,7 +38,8 @@ SharedMedia.revision = (revision > SharedMedia.revision) and revision or SharedM
 -- -----
 --   STATUSBAR
 -- -----
-	SharedMedia:Register("statusbar", "normTex", [[Interface\Addons\caelMedia\StatusBars\normtex.tga]])
+	SharedMedia:Register("statusbar", "normTex A", [[Interface\Addons\caelMedia\StatusBars\normtexa.tga]])
+	SharedMedia:Register("statusbar", "normTex B", [[Interface\Addons\caelMedia\StatusBars\normtexb.tga]])
 -- -----
 --   MISCELLANEOUS
 -- -----
