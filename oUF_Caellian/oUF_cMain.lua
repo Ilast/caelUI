@@ -9,7 +9,7 @@ local backdrop = {
 local floor = math.floor
 local format = string.format
 
-local normTex = mediaPath..[=[textures\normtex]=]
+local normtexa = mediaPath..[=[textures\normtexa]=]
 local glowTex = mediaPath..[=[textures\glowtex]=]
 local bubbleTex = mediaPath..[=[textures\bubbletex]=]
 local buttonTex = mediaPath..[=[textures\buttontex]=]
@@ -538,7 +538,7 @@ local SetStyle = function(self, unit)
 	self.Health:SetHeight((unit == "player" or unit == "target" or self:GetParent():GetName():match("oUF_Raid")) and 22 or self:GetAttribute("unitsuffix") == "pet" and 10 or 16)
 	self.Health:SetPoint("TOPLEFT")
 	self.Health:SetPoint("TOPRIGHT")
-	self.Health:SetStatusBarTexture(normTex)
+	self.Health:SetStatusBarTexture(normtexa)
 
 	self.Health.colorTapping = true
 	self.Health.colorDisconnected = true
@@ -549,7 +549,7 @@ local SetStyle = function(self, unit)
 
 	self.Health.bg = self.Health:CreateTexture(nil, "BORDER")
 	self.Health.bg:SetAllPoints(self.Health)
-	self.Health.bg:SetTexture(normTex)
+	self.Health.bg:SetTexture(normtexa)
 	self.Health.bg.multiplier = 0.33
 
 	self.Health.value = SetFontString(self.Health, font,(unit == "player" or unit == "target") and 11 or 9)
@@ -578,7 +578,7 @@ local SetStyle = function(self, unit)
 		self.Power:SetHeight((unit == "player" or unit == "target") and 7 or 5)
 		self.Power:SetPoint("BOTTOMLEFT")
 		self.Power:SetPoint("BOTTOMRIGHT")
-		self.Power:SetStatusBarTexture(normTex)
+		self.Power:SetStatusBarTexture(normtexa)
 
 		self.Power.colorTapping = true
 		self.Power.colorDisconnected = true
@@ -591,7 +591,7 @@ local SetStyle = function(self, unit)
 
 		self.Power.bg = self.Power:CreateTexture(nil, "BORDER")
 		self.Power.bg:SetAllPoints(self.Power)
-		self.Power.bg:SetTexture(normTex)
+		self.Power.bg:SetTexture(normtexa)
 		self.Power.bg.multiplier = 0.33
 
 		self.Power.value = SetFontString(self.Health, font, (unit == "player" or unit == "target") and 11 or 9)
@@ -640,7 +640,7 @@ local SetStyle = function(self, unit)
 			self.Reputation:SetHeight(5)
 			self.Reputation:SetPoint("TOPLEFT", self.Health, "TOP", 2, 7.5)
 			self.Reputation:SetPoint("TOPRIGHT", self.Health, "TOPRIGHT", 0, 7.5)
-			self.Reputation:SetStatusBarTexture(normTex)
+			self.Reputation:SetStatusBarTexture(normtexa)
 			self.Reputation:SetBackdrop(backdrop)
 			self.Reputation:SetBackdropColor(0, 0, 0)
 			self.Reputation:SetAlpha(0)
@@ -650,7 +650,7 @@ local SetStyle = function(self, unit)
 
 			self.Reputation.bg = self.Reputation:CreateTexture(nil, "BORDER")
 			self.Reputation.bg:SetAllPoints(self.Reputation)
-			self.Reputation.bg:SetTexture(normTex)
+			self.Reputation.bg:SetTexture(normtexa)
 			self.Reputation.bg:SetVertexColor(0.15, 0.15, 0.15)
 
 			self.Reputation.PostUpdate = UpdateReputationColor
@@ -662,14 +662,14 @@ local SetStyle = function(self, unit)
 			self.Swing:SetHeight(5)
 			self.Swing:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 50)
 			self.Swing:SetPoint("TOPRIGHT", self, "TOPRIGHT", 0, 50)
-			self.Swing:SetStatusBarTexture(normTex)
+			self.Swing:SetStatusBarTexture(normtexa)
 			self.Swing:SetStatusBarColor(0.55, 0.57, 0.61)
 			self.Swing:SetBackdrop(backdrop)
 			self.Swing:SetBackdropColor(0, 0, 0)
 
 			self.Swing.bg = self.Swing:CreateTexture(nil, "BORDER")
 			self.Swing.bg:SetAllPoints(self.Swing)
-			self.Swing.bg:SetTexture(normTex)
+			self.Swing.bg:SetTexture(normtexa)
 			self.Swing.bg:SetVertexColor(0.15, 0.15, 0.15)
 		end
 
@@ -687,12 +687,12 @@ local SetStyle = function(self, unit)
 
 			for i = 1, 6 do
 				self.Runes[i] = CreateFrame("StatusBar", self:GetName().."_Runes"..i, self.Runes)
-				self.Runes[i]:SetStatusBarTexture(normTex)
+				self.Runes[i]:SetStatusBarTexture(normtexa)
 				self.Runes[i]:SetStatusBarColor(unpack(runeloadcolors[i]))
 
 				self.Runes[i].bg = self.Runes[i]:CreateTexture(nil, "BORDER")
 				self.Runes[i].bg:SetAllPoints(self.Runes[i])
-				self.Runes[i].bg:SetTexture(normTex)
+				self.Runes[i].bg:SetTexture(normtexa)
 				self.Runes[i].bg:SetVertexColor(0.15, 0.15, 0.15)
 			end
 		end
@@ -708,14 +708,14 @@ local SetStyle = function(self, unit)
 				else
 					self.TotemBar[i]:SetPoint("TOPLEFT", self.TotemBar[i-1], "TOPRIGHT", 1, 0)
 				end
-				self.TotemBar[i]:SetStatusBarTexture(normTex)
+				self.TotemBar[i]:SetStatusBarTexture(normtexa)
 				self.TotemBar[i]:SetBackdrop(backdrop)
 				self.TotemBar[i]:SetBackdropColor(0, 0, 0)
 				self.TotemBar[i]:SetMinMaxValues(0, 1)
 
 				self.TotemBar[i].bg = self.TotemBar[i]:CreateTexture(nil, "BORDER")
 				self.TotemBar[i].bg:SetAllPoints(self.TotemBar[i])
-				self.TotemBar[i].bg:SetTexture(normTex)
+				self.TotemBar[i].bg:SetTexture(normtexa)
 				self.TotemBar[i].bg:SetVertexColor(0.15, 0.15, 0.15)
 			end
 		end
@@ -754,7 +754,7 @@ local SetStyle = function(self, unit)
 			self.Experience = CreateFrame("StatusBar", self:GetName().."_Experience", self)
 			self.Experience:SetHeight(5)
 			self.Experience:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 7.5)
-			self.Experience:SetStatusBarTexture(normTex)
+			self.Experience:SetStatusBarTexture(normtexa)
 			self.Experience:SetStatusBarColor(0.55, 0.57, 0.61)
 			self.Experience:SetBackdrop(backdrop)
 			self.Experience:SetBackdropColor(0, 0, 0)
@@ -770,7 +770,7 @@ local SetStyle = function(self, unit)
 
 			self.Experience.bg = self.Experience:CreateTexture(nil, "BORDER")
 			self.Experience.bg:SetAllPoints(self.Experience)
-			self.Experience.bg:SetTexture(normTex)
+			self.Experience.bg:SetTexture(normtexa)
 			self.Experience.bg:SetVertexColor(0.15, 0.15, 0.15)
 
 			self.Experience.Tooltip = true
@@ -845,7 +845,7 @@ local SetStyle = function(self, unit)
 			self.PortraitOverlay:SetFrameLevel(2)
 			self.PortraitOverlay:SetPoint("TOPLEFT", self, "TOPLEFT", 0, -22)
 			self.PortraitOverlay:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 7)
-			self.PortraitOverlay:SetStatusBarTexture(normTex)
+			self.PortraitOverlay:SetStatusBarTexture(normtexa)
 			self.PortraitOverlay:SetStatusBarColor(0.25, 0.25, 0.25, 0.5)
 
 			self.ThinLine1 = self.PortraitOverlay:CreateTexture(nil, "OVERLAY")
@@ -890,12 +890,12 @@ local SetStyle = function(self, unit)
 
 	if not (self:GetParent():GetName():match("oUF_Raid") or self:GetAttribute("unitsuffix") == "pet") then
 		self.Castbar = CreateFrame("StatusBar", self:GetName().."_Castbar", self)
-		self.Castbar:SetStatusBarTexture(normTex)
+		self.Castbar:SetStatusBarTexture(normtexa)
 		self.Castbar:SetStatusBarColor(0.55, 0.57, 0.61, 0.5)
 
 		self.Castbar.bg = self.Castbar:CreateTexture(nil, "BORDER")
 		self.Castbar.bg:SetAllPoints(self.Castbar)
-		self.Castbar.bg:SetTexture(normTex)
+		self.Castbar.bg:SetTexture(normtexa)
 		self.Castbar.bg:SetVertexColor(0.15, 0.15, 0.15, 0.75)
 
 
@@ -952,7 +952,7 @@ local SetStyle = function(self, unit)
 
 		if unit == "player" then
 			self.Castbar.SafeZone = self.Castbar:CreateTexture(nil, "ARTWORK")
-			self.Castbar.SafeZone:SetTexture(normTex)
+			self.Castbar.SafeZone:SetTexture(normtexa)
 			self.Castbar.SafeZone:SetVertexColor(0.69, 0.31, 0.31, 0.75)
 		end
 	end
@@ -1004,7 +1004,7 @@ local SetStyle = function(self, unit)
 
 	self.Highlight = self:CreateTexture(nil, "HIGHLIGHT")
 	self.Highlight:SetAllPoints(self.Health)
-	self.Highlight:SetTexture(normTex)
+	self.Highlight:SetTexture(normtexa)
 	self.Highlight:SetVertexColor(0.84, 0.75, 0.65, 0.15)
 	self.Highlight:SetBlendMode("ADD")
 
