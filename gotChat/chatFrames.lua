@@ -325,7 +325,13 @@ end
 --[[	Filter various crap	]]
 
 local SystemMessageFilter = function(self, event, msg, ...)
-	if msg:match("Welcome to the European World of Warcraft Realms!") then return true end
+	if msg:match("Welcome to World of Warcraft, patch 3.2 is live!") then return true end
+	if msg:match("To protect your privacy and security, please be wary of any alpha/beta") then return true end
+	if msg:match("invitations, as well as in-game mount and pet offers. These messages") then return true end
+	if msg:match("are not official Blizzard correspondence and are being sent in effort") then return true end
+	if msg:match("to gain unauthorized access to your account. To learn more about") then return true end
+	if msg:match("keeping your computer and account secure or for any updates on") then return true end
+	if msg:match("Cataclysm please visit our website at: www.wow-europe.com! ") then return true end
 	if msg:match("You have earned the title 'Patron Caellian'.") then return true end
 	if msg:match("You have earned the title 'Matron Caellian'.") then return true end
 	if msg:match("You have lost the title 'Patron Caellian'.") then return true end
