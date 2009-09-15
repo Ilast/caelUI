@@ -51,7 +51,7 @@ shiftBarHolder:SetPoint("BOTTOM", -154, 239)
 local vehicleButton = CreateFrame("Frame","VEBHolder",UIParent)
 vehicleButton:SetWidth(70)
 vehicleButton:SetHeight(70)
-vehicleButton:SetPoint("BOTTOM", -150, 279.75)   
+vehicleButton:SetPoint("BOTTOM", -150, 277)   
 
 ---------------------------------------------------
 -- CREATE MY OWN VEHICLE EXIT BUTTON
