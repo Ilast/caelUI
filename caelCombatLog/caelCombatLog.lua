@@ -248,7 +248,7 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 	elseif subEvent == "SPELL_DRAIN" or subEvent == "SPELL_PERIODIC_DRAIN" then
 
 		spellId, spellName, spellSchool, amount, powerType, extraAmount = ...
-		text, rsaText, crit, color = extraAmount, format("%s %s", ShortName(spellName), extraAmount), critical, powerColors[powerType]
+		text, rsaText, crit, color = format("%d %s", amount, extraAmount or ""), format("%s %s", ShortName(spellName), amount), critical, powerColors[powerType]
 		scrollFrame = 2
 
 		tooltipMsg = format(tooltipStrings[1], timeStamp, (meSource and "Your" or sourceName.."'s"), (spellName), "drain", (meTarget and "you" or destName), amount, powerStrings[powerType], extraAmount and "("..extraAmount.." gained)" or "")
@@ -256,7 +256,7 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 	elseif subEvent == "SPELL_LEECH" or subEvent == "SPELL_PERIODIC_LEECH" then
 
 		spellId, spellName, spellSchool, amount, powerType, extraAmount = ...
-		text, rsaText, crit, color = extraAmount, format("%s %s", ShortName(spellName), extraAmount), critical, powerColors[powerType]
+		text, rsaText, crit, color = format("%d %s", amount, extraAmount or ""), format("%s %s", ShortName(spellName), amount), critical, powerColors[powerType]
 		scrollFrame = 2
 
 		tooltipMsg = format(tooltipStrings[3], timeStamp, (meSource and "Your" or sourceName.."'s"), (spellName), (meTarget and "you" or destName), amount, powerStrings[powerType], extraAmount)
