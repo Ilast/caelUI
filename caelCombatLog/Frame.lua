@@ -39,11 +39,11 @@ end
 
 local function OnHyperlinkClick(self, data, link)
 	local linktype, contents = data:sub(1, 4), data:sub(6)
-	local chatType = ChatFrameEditBox:GetAttribute("chatType")
-	local tellTarget = ChatFrameEditBox:GetAttribute("tellTarget")
-	local channelTarget = ChatFrameEditBox:GetAttribute("channelTarget")
 	if linktype == "Clog" and contents ~= "" and IsShiftKeyDown() then
---	ChatFrameEditBox:Show()
+		local chatType = ChatFrameEditBox:GetAttribute("chatType")
+		local tellTarget = ChatFrameEditBox:GetAttribute("tellTarget")
+		local channelTarget = ChatFrameEditBox:GetAttribute("channelTarget")
+--		ChatFrameEditBox:Show()
 		local from, to, pos
 		for i = 1, 5 do
 			from, to = string.find(contents, "\n", pos or 1)
@@ -123,7 +123,7 @@ function OnEvent(self, event, ...)
 	if type(self[event]) == 'function' then
 		return self[event](self, event, ...)
 	else
-		print("Unhandled event: "..event)
+		print(string.format("Unhandled event: %s", event))
 	end
 end
 
