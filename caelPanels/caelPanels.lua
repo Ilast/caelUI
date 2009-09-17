@@ -1,5 +1,5 @@
 local panels, n = {}, 1
-local fadePanels = {}
+--local fadePanels = {}
 local caelPanels = CreateFrame("frame", nil, UIParent)
 
 local backdrop = {
@@ -31,15 +31,15 @@ caelPanels.PLAYER_LOGIN = function(self)
 	CreatePanel("caelPanel7", 153, 20, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- BottomRightBar
 
 	if RecDamageMeter then
-		CreatePanel("caelPanel8", -647, 20, 167, 130.5, "BOTTOM", "BOTTOM", UIParent, RecDamageMeter, "BACKGROUND") -- MeterLeft
+		CreatePanel("caelPanel8", -647, 20, 167, 130, "BOTTOM", "BOTTOM", UIParent, RecDamageMeter, "BACKGROUND") -- MeterLeft
 		RecDamageMeter:ClearAllPoints()
-		RecDamageMeter:SetPoint("TOPLEFT", caelPanel8, "TOPLEFT", 3, -2.5)
+		RecDamageMeter:SetPoint("TOPLEFT", caelPanel8, "TOPLEFT", 3, -3)
 	end
 
 	if RecThreatMeter then
-		CreatePanel("caelPanel9", 647, 20, 167, 130.5, "BOTTOM", "BOTTOM", UIParent, RecThreatMeter, "BACKGROUND") -- MeterRight
+		CreatePanel("caelPanel9", 647, 20, 167, 130, "BOTTOM", "BOTTOM", UIParent, RecThreatMeter, "BACKGROUND") -- MeterRight
 		RecThreatMeter:ClearAllPoints()
-		RecThreatMeter:SetPoint("TOPLEFT", caelPanel9, "TOPLEFT", 3, -2.5)
+		RecThreatMeter:SetPoint("TOPLEFT", caelPanel9, "TOPLEFT", 3, -3)
 	end
 
 	for i = 1, 10 do
@@ -75,7 +75,7 @@ caelPanels.UNIT_THREAT_SITUATION_UPDATE = function(self)
 		r, g, b = 0, 0, 0
 	end
 
-	for i = 1, 7 do
+	for i = 1, 10 do
 		local panel = panels[i]
 		if panel then panel:SetBackdropBorderColor(r, g, b) end
 	end
@@ -88,9 +88,9 @@ local OnUpdate = function(self, elapsed)
 	animElapsed = animElapsed + elapsed
 	perc = reverse and (animTime - animElapsed) / animTime or animElapsed / animTime
 
-	for i, v in ipairs(fadePanels) do
-		v:SetAlpha(perc * 1)
-	end
+--	for i, v in ipairs(fadePanels) do
+--		v:SetAlpha(perc * 1)
+--	end
 
 	if animElapsed >= animTime then
 		self:SetScript("OnUpdate", nil)
