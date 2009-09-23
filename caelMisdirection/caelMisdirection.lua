@@ -18,10 +18,10 @@ function caelMisdirection_OnEvent(_, _, _, subEvent, _, sourceName, _, _, destNa
 					SendChatMessage(("Misdirected"), "WHISPER", GetDefaultLanguage("player"), destName)
 					RaidNotice_AddMessage(RaidWarningFrame, "Misdirection on "..destName, textColor)
 
-					local index = GetChannelName("RaidHunter")
-					if (index ~= nil) then 
-						SendChatMessage(("misdirected ".. destName) , "CHANNEL", nil, index)
-					end
+--					local index = GetChannelName("RaidHunter")
+--					if (index ~= nil) then 
+--						SendChatMessage(("misdirected ".. destName) , "CHANNEL", nil, index)
+--					end
 				end
 			end
 		end
