@@ -72,11 +72,13 @@ local function clearSummary()
 end
 
 local formatStrings = {
-	["SPELL_ENERGIZE"] = "%s + %d%s", -- "%s energize for %d %s"
-	["SPELL_PERIODIC_ENERGIZE"] = "%s + %d%s", -- "%s energize for %d %s"
-	["SPELL_PERIODIC_HEAL"] = "%s + %d%s", -- "%s heal for %d %s"
-	["SPELL_PERIODIC_DAMAGE"] = "%s + %d%s", -- "%s damage for %d %s"
-	["Volley"] = "%s + %d%s", -- "%s damage for %d %s"
+	["SPELL_ENERGIZE"] = "%s + %d%s",
+	["SPELL_PERIODIC_ENERGIZE"] = "%s + %d%s",
+	["SPELL_PERIODIC_HEAL"] = "%s + %d%s",
+	["SPELL_PERIODIC_DAMAGE"] = "%s + %d%s",
+	["SPELL_PERIODIC_DRAIN"] = sourceGUID == player and "« %s + %d%s" or "» %s - %d%s",
+	["SPELL_PERIODIC_LEECH"] = sourceGUID == player and "« %s + %d%s" or "» %s - %d%s",
+	["Volley"] = "%s %d%s",
 }
 
 local excludedSpells = {}
@@ -85,7 +87,9 @@ local throttledEvents = {
 	["SPELL_ENERGIZE"] = {petIn = {}, playerIn = {}},
 	["SPELL_PERIODIC_ENERGIZE"] = {petIn = {}, playerIn = {}},
 	["SPELL_PERIODIC_HEAL"] = {petIn = {}, playerIn = {}},
-	["SPELL_PERIODIC_DAMAGE"] = {petIn = {}, petOut = {}, playerIn = {}, petOut = {}},
+	["SPELL_PERIODIC_DAMAGE"] = {petIn = {}, petOut = {}, playerIn = {}, playerOut = {}},
+	["SPELL_PERIODIC_DRAIN"] = {petIn = {}, petOut = {}, playerIn = {}, playerOut = {}},
+	["SPELL_PERIODIC_LEECH"] = {petIn = {}, petOut = {}, playerIn = {}, playerOut = {}},
 }
 
 local throttledSpells = {
@@ -99,13 +103,13 @@ local throttledSpells = {
 local tooltipStrings = {
 	[1] = "%s %s %s %s %s for %d %s",
 	[2] = "%s %s suffer %d from %s",
-	[3] = "%s %s %s leech %s for %d %s (%s gained)",
+	[3] = "%s %s %s %s %s for %d %s %s",
 	[4] = "%s %s %s miss %s %s",
 }
 
 for event, entry in pairs(throttledEvents) do
 	local mt = {__index = function(t, k)
-		local newTable = {amount = 0, isHit = 0, isCrit = 0, format = formatStrings[event]}
+		local newTable = {amount = 0, isHit = 0, isCrit = 0, extraAmount = 0, format = formatStrings[event]}
 		t[k] = newTable
 		return newTable
 	end}
@@ -156,7 +160,7 @@ end
 
 local ShortName = function(spellName)
 	if find(spellName, "[%s%-]") then
-		spellName = string.gsub(spellName, "(%a)[%l]*[%s%-]*", "%1") -- "(%a)[%l%p]*[%s%-]*"
+		spellName = string.gsub(spellName, "(%a)[%l]*[%s%-]*", "%1")
 	else
 		spellName = string.sub(spellName, 1, 3)
 	end
@@ -189,30 +193,15 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 		modString = CombatLog_String_DamageResultString(resisted, blocked, absorbed, critical, glancing, crushing, overheal, textMode, spellId, overkill) or ""
 		tooltipMsg = format(tooltipStrings[1], timeStamp, (meSource and "Your" or sourceName.."'s"), "melee swing", "hit", (meTarget and "you" or destName), amount, modString)
 
-	elseif subEvent == "RANGE_DAMAGE" then
+	elseif subEvent == "RANGE_DAMAGE"  or subEvent == "SPELL_DAMAGE" or subEvent == "SPELL_PERIODIC_DAMAGE" or subEvent == "DAMAGE_SHIELD" or subEvent == "DAMAGE_SPLIT" then
 
 		spellId, spellName, spellSchool, amount, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing = ...
-		spellSchool = school
-		text, rsaText, crit, color = amount - overkill, format("%s %s", ShortName(spellName), amount), critical, schoolColors[school <= 1 and 0 or school]
+		if subEvent == "RANGE_DAMAGE" then spellSchool = school end
+
+		text, rsaText, crit, color = amount - overkill, format("%s %s", ShortName(spellName), amount), critical, subEvent == "RANGE_DAMAGE" and schoolColors[school <= 1 and 0 or school] or schoolColors[spellSchool]
 
 		modString = CombatLog_String_DamageResultString(resisted, blocked, absorbed, critical, glancing, crushing, overheal, textMode, spellId, overkill) or ""
-		tooltipMsg = format(tooltipStrings[1], timeStamp, (meSource and "Your" or sourceName.."'s"), (spellName), "hit", (meTarget and "you" or destName), amount, modString)
-
-	elseif subEvent == "SPELL_DAMAGE" then
-
-		spellId, spellName, spellSchool, amount, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing = ...
-		text, rsaText, crit, color = amount - overkill, format("%s %s", ShortName(spellName), amount), critical, schoolColors[spellSchool]
-
-		modString = CombatLog_String_DamageResultString(resisted, blocked, absorbed, critical, glancing, crushing, overheal, textMode, spellId, overkill) or ""
-		tooltipMsg = format(tooltipStrings[1], timeStamp, (meSource and "Your" or sourceName and sourceName.."'s" or ""), (spellName), "hit", (meTarget and "you" or destName), amount, modString)
-
-	elseif subEvent == "SPELL_PERIODIC_DAMAGE" or subEvent == "DAMAGE_SHIELD" or subEvent == "DAMAGE_SPLIT" then
-
-		spellId, spellName, spellSchool, amount, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing = ...
-		text, rsaText, crit, color = amount - overkill, format("%s %s", ShortName(spellName), amount), critical, schoolColors[spellSchool]
-
-		modString = CombatLog_String_DamageResultString(resisted, blocked, absorbed, critical, glancing, crushing, overheal, textMode, spellId, overkill) or ""
-		tooltipMsg = format(tooltipStrings[1], timeStamp, (meSource and "Your" or sourceName and sourceName.."'s" or ""), (spellName), "damaged", (meTarget and "you" or destName), amount, modString)
+		tooltipMsg = format(tooltipStrings[1], timeStamp, (meSource and "Your" or sourceName and sourceName.."'s" or ""), (spellName), (subEvent == "RANGE_DAMAGE"  or subEvent == "SPELL_DAMAGE") and "hit" or "damaged", (meTarget and "you" or destName), amount, modString)
 
 	elseif subEvent == "ENVIRONMENTAL_DAMAGE" then
 
@@ -234,32 +223,31 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 		modString = CombatLog_String_DamageResultString(resisted, blocked, absorbed, critical, glancing, crushing, overheal, textMode, spellId, overkill) or ""
 		tooltipMsg = format(tooltipStrings[1], timeStamp, (meSource and "Your" or sourceName.."'s"), (spellName), "heal", (meTarget and "you" or destName), amount, modString)
 
-	elseif subEvent == "SPELL_ENERGIZE" or subEvent == "SPELL_PERIODIC_ENERGIZE" then
-
-		spellId, spellName, spellSchool, amount, powerType = ...
-
-		if amount == 0 then return end
-
-		text, rsaText, crit, color = amount, format("%s %s", ShortName(spellName), amount), critical, powerColors[powerType]
-		scrollFrame = 2
-
-		tooltipMsg = format(tooltipStrings[1], timeStamp, (meSource and "Your" or sourceName.."'s"), (spellName), "energize", (meTarget and "you" or destName), amount, powerStrings[powerType])
-
-	elseif subEvent == "SPELL_DRAIN" or subEvent == "SPELL_PERIODIC_DRAIN" then
+	elseif subEvent:find("ENERGIZE") or subEvent:find("DRAIN") or subEvent:find("LEECH") then
 
 		spellId, spellName, spellSchool, amount, powerType, extraAmount = ...
-		text, rsaText, crit, color = format("%d %s", amount, extraAmount or ""), format("%s %s", ShortName(spellName), amount), critical, powerColors[powerType]
-		scrollFrame = 2
 
-		tooltipMsg = format(tooltipStrings[1], timeStamp, (meSource and "Your" or sourceName.."'s"), (spellName), "drain", (meTarget and "you" or destName), amount, powerStrings[powerType], extraAmount and "("..extraAmount.." gained)" or "")
+		if amount == 0 then
+			return
+		else
+			scrollFrame = 2
+		end
 
-	elseif subEvent == "SPELL_LEECH" or subEvent == "SPELL_PERIODIC_LEECH" then
+		text = extraAmount and format("%s (%s %s)", amount, meSource and "+" or "-", extraAmount - amount) or amount
+		rsaText = format("%s %s %s", ShortName(spellName), extraAmount and (meSource and "+" or "-") or "", extraAmount and extraAmount or amount)
+		crit = critical
+		color = powerColors[powerType]
 
-		spellId, spellName, spellSchool, amount, powerType, extraAmount = ...
-		text, rsaText, crit, color = format("%d %s", amount, extraAmount or ""), format("%s %s", ShortName(spellName), amount), critical, powerColors[powerType]
-		scrollFrame = 2
-
-		tooltipMsg = format(tooltipStrings[3], timeStamp, (meSource and "Your" or sourceName.."'s"), (spellName), (meTarget and "you" or destName), amount, powerStrings[powerType], extraAmount)
+		tooltipMsg = format(subEvent:find("ENERGIZE") and tooltipStrings[1] or tooltipStrings[3],
+			timeStamp,
+			meSource and "Your" or format("%s's", sourceName),
+			spellName,
+			subEvent:find("ENERGIZE") and "energize" or subEvent:find("DRAIN") and "drain" or "leech",
+			meTarget and "you" or destName,
+			amount,
+			powerStrings[powerType],
+			extraAmount and format("(%s %s)", extraAmount, meSource and "gained" or "lost") or ""
+		)
 
 	elseif subEvent == "SWING_MISSED" then
 
@@ -312,63 +300,53 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 		end
 	end
 
-	prefix = prefix or ""
-	suffix = suffix or ""
-
-	if isPet then
-		suffix = (scrollFrame == 1 or scrollFrame == 2) and suffix.."·" or suffix
-	end
-
-	if blocked then
-		prefix = scrollFrame == 3 and prefix.."b " or prefix
-		suffix = scrollFrame == 1 and suffix.." b" or suffix
-	end
-
-	if crushing then
-		prefix = scrollFrame == 3 and prefix.."c " or prefix
-		suffix = scrollFrame == 1 and suffix.." c" or suffix
-	end
-
-	if glancing then
-		prefix = scrollFrame == 3 and prefix.."g " or prefix
-		suffix = scrollFrame == 1 and suffix.." g" or suffix
-	end
-
-	if resisted then
-		prefix = scrollFrame == 3 and prefix.."r " or prefix
-		suffix = scrollFrame == 1 and suffix.." r" or suffix
-	end
-
-	if absorbed and absorbed > 0 then
-		prefix = scrollFrame == 3 and prefix.."a " or prefix
-		suffix = scrollFrame == 1 and suffix.." a" or suffix
-	end
-
-	if overheal and overheal > 0 then
-		prefix = (scrollFrame == 2 or scrollFrame == 3) and prefix.."h " or prefix
-		suffix = scrollFrame == 1 and suffix.." h" or suffix
-	end
-
-	if overkill and overkill > 0 then
-		prefix = scrollFrame == 3 and prefix.."k " or prefix
-		suffix = scrollFrame == 1 and suffix.." k" or suffix
-	end
-
-	if critical then
-		prefix = (scrollFrame == 2 or scrollFrame == 3) and prefix.."• " or prefix
-		suffix = (scrollFrame == 1 or scrollFrame == 2) and suffix.." •" or suffix
-	end
-
-	if subEvent:find("AURA_APPLIED") then
-		prefix = (scrollFrame == 2 or scrollFrame == 3) and not throttledSpells[spellName] and prefix.."++ "
-		suffix = (scrollFrame == 1 or scrollFrame == 2) and not throttledSpells[spellName] and suffix.." ++"
-	elseif subEvent:find("AURA_REMOVED") then
-		prefix = (scrollFrame == 2 or scrollFrame == 3) and not throttledSpells[spellName] and prefix.."-- "
-		suffix = (scrollFrame == 1 or scrollFrame == 2) and not throttledSpells[spellName] and suffix.." --"
-	end
-
-	if isPet then 
-		prefix = (scrollFrame == 2 or scrollFrame == 3) and prefix.."·" or prefix
+	if scrollFrame == 1 then
+		suffix = format("%s%s%s%s%s%s%s%s%s%s%s%s",
+			suffix or "",
+			isPet and "·" or "",
+			blocked and " b" or "",
+			crushing and " c" or "",
+			glancing and " g" or "",
+			resisted and " r" or "",
+			absorbed and absorbed > 0 and " a" or "",
+			overheal and overheal > 0 and " h" or "",
+			overkill and overkill > 0 and " k" or "",
+			critical and " •" or "",
+			subEvent:find("AURA_APPLIED") and not throttledSpells[spellName] and " ++" or "",
+			subEvent:find("AURA_REMOVED") and not throttledSpells[spellName] and " --" or ""
+		)
+	elseif scrollFrame == 2 then
+		suffix = format("%s%s%s%s%s",
+			suffix or "",
+			isPet and "·" or "",
+			critical and " •" or "",
+			subEvent:find("AURA_APPLIED") and not throttledSpells[spellName] and " ++" or "",
+			subEvent:find("AURA_REMOVED") and not throttledSpells[spellName] and " --" or ""
+		)
+		prefix = format("%s%s%s%s%s%s",
+			prefix or "",
+			extraAmount and (meSource and "« " or "» ") or "",
+			overheal and overheal > 0 and "h " or "",
+			critical and "• " or "",
+			subEvent:find("AURA_APPLIED") and not throttledSpells[spellName] and "++ " or "",
+			subEvent:find("AURA_REMOVED") and not throttledSpells[spellName] and "-- " or "",
+			isPet and "·" or ""
+		)
+	elseif scrollFrame == 3 then
+		prefix = format("%s%s%s%s%s%s%s%s%s%s%s%s",
+			prefix or "",
+			blocked and "b " or "",
+			crushing and "c " or "",
+			glancing and "g " or "",
+			resisted and "r " or "",
+			absorbed and absorbed > 0 and "a " or "",
+			overheal and overheal > 0 and "h " or "",
+			overkill and overkill > 0 and "k " or "",
+			critical and "• " or "",
+			subEvent:find("AURA_APPLIED") and not throttledSpells[spellName] and "++ " or "",
+			subEvent:find("AURA_REMOVED") and not throttledSpells[spellName] and "-- " or "",
+			isPet and "·" or ""
+		)
 	end
 
 	local valueType = eventTable[subEvent]
@@ -385,10 +363,13 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 			throttle = throttledEvents[subEvent][unitDirection][spellName]  
 		end
 		throttle.amount = throttle.amount + (amount or 0) - (overheal or overkill or 0)
+		if extraAmount then
+			throttle.extraAmount = throttle.extraAmount + (extraAmount or 0)
+		end
 		if not throttle.elapsed and not throttle.reportOnFade then
 			throttle.elapsed = 0
 		end
-		
+
 		throttle.color = color
 
 		if not throttle.scrollFrame then
@@ -492,7 +473,13 @@ function cCL:PLAYER_REGEN_ENABLED()
 	PlaySoundFile([=[Interface\Addons\caelMedia\Sounds\combat-.mp3]=])
 
 	if #t > 0 then
-		tooltipMsg = format("%s%s%s%s%s", (floor(duration / 60) > 0) and (floor(duration / 60).."m "..(floor(duration) % 60).."s") or (floor(duration).."s").." in combat\n", data.damageOut > 0 and "Damage done: "..(data.damageOut).."\n" or "", data.damageIn > 0 and "Damage recieved: "..(data.damageIn).."\n" or "", data.healingOut > 0 and "Healing done: "..data.healingOut.."\n" or "", data.healingIn > 0 and "Healing recieved: "..data.healingIn.."\n" or "")
+		tooltipMsg = format("%s%s%s%s%s",
+			(floor(duration / 60) > 0) and (floor(duration / 60).."m "..(floor(duration) % 60).."s") or (floor(duration).."s").." in combat\n",
+			data.damageOut > 0 and "Damage done: "..(data.damageOut).."\n" or "",
+			data.damageIn > 0 and "Damage recieved: "..(data.damageIn).."\n" or "",
+			data.healingOut > 0 and "Healing done: "..data.healingOut.."\n" or "",
+			data.healingIn > 0 and "Healing recieved: "..data.healingIn.."\n" or ""
+		)
 		Output(2, "Notification", nil, table.concat(t, beige.." ¦ "), nil, true, nil, nil, nil, tooltipMsg)
 	end
 end

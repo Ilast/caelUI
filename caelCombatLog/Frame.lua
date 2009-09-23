@@ -119,7 +119,7 @@ tex3:SetPoint("TOPRIGHT", frame, "BOTTOMRIGHT", 0, -5)
 
 cCLFrame = frame
 
-function OnEvent(self, event, ...)
+OnEvent = function(self, event, ...)
 	if type(self[event]) == 'function' then
 		return self[event](self, event, ...)
 	else
