@@ -176,14 +176,16 @@ local OnUpdate = function(self, elapsed)
 				if(i == 1) then
 					ChangeChatColor("CHANNEL1", 0.55, 0.57, 0.61)
 					ChangeChatColor("CHANNEL2", 0.55, 0.57, 0.61)
-					if myClass == "HUNTER" and myName == "Caellian" then
-						JoinTemporaryChannel("RaidHunter")
-						ChatFrame_AddChannel(frame, "RaidHunter")
-						ChangeChatColor("CHANNEL5", 0.67, 0.83, 0.45)
-					end
+--					if myClass == "HUNTER" and myName == "Caellian" then
+--						JoinTemporaryChannel("RaidHunter")
+--						ChatFrame_AddChannel(frame, "RaidHunter")
+--						ChangeChatColor("CHANNEL5", 0.67, 0.83, 0.45)
+--					end
 				end
 				ChangeChatColor("WHISPER", 0.3, 0.6, 0.9)
 				ChangeChatColor("WHISPER_INFORM", 0.3, 0.6, 0.9)
+				JoinTemporaryChannel("SBAlt")
+				ChangeChatColor("CHANNEL5", 0.84, 0.75, 0.65)
 			end
 			print("Chatframes setup complete")
 			self:SetScript("OnUpdate", nil) -- Done now, nil the OnUpdate completely.
@@ -222,7 +224,7 @@ OnEvent = function(self, event, ...)
 	if type(self[event]) == 'function' then
 		return self[event](self, event, ...)
 	else
-		print("Unhandled event: "..event)
+		print(string.format("Unhandled event: %s", event))
 	end
 end
 

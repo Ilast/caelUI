@@ -57,7 +57,8 @@ ChatFrame_AddMessageEventFilter("CHAT_MSG_DND", AlwaysFilter)
 -- Format: ["pattern"] = "Replacement"
 local CustomChannelNames = {
 	["Trade"] = "Tr.",
-	["[rR]aid[hH]unter"] = "hunt.",
+--	["[rR]aid[hH]unter"] = "hunt.",
+	["[sS][bB][aA]lt"] = "Alt.",
 	}
 
 local function FormatChannel(t, channelstring)
