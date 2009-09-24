@@ -147,7 +147,7 @@ local OnTooltipSetUnit = function(self)
 
 		for i= offset, lines do
 			if(_G["GameTooltipTextLeft"..i]:GetText():find("^"..LEVEL)) then
-				_G["GameTooltipTextLeft"..i]:SetFormattedText("|cff%02x%02x%02x%d|r %s", r*255, g*255, b*255, level > 0 and level or "??", race)
+				_G["GameTooltipTextLeft"..i]:SetFormattedText("|cff%02x%02x%02x%s|r %s", r*255, g*255, b*255, level > 0 and level or "??", race)
 				break
 			end
 		end
