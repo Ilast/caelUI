@@ -185,6 +185,7 @@ local OnUpdate = function(self, elapsed)
 				ChangeChatColor("WHISPER", 0.3, 0.6, 0.9)
 				ChangeChatColor("WHISPER_INFORM", 0.3, 0.6, 0.9)
 				JoinTemporaryChannel("SBAlt")
+				ChatFrame_AddChannel(frame, "SBAlt")
 				ChangeChatColor("CHANNEL5", 0.84, 0.75, 0.65)
 			end
 			print("Chatframes setup complete")
