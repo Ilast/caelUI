@@ -71,7 +71,9 @@ gM_Macros = {
 	["CDs"] = {
 		char = "Caellian, Caellianaia, Dynames",
 		icon = [=[Interface\Icons\Spell_Shadow_LastingAfflictions]=],
-		body = [=[/cast [target=pettarget, exists] Kill Command]=],
+		body = [=[/cast [target=pettarget, exists] Kill Command
+			/cast [target=pettarget, exists] Bestial Wrath
+			/cast Blood Fury]=],
 		nosound = true,
 	},
 	["Foc"] = {
@@ -117,7 +119,7 @@ gM_Macros = {
 		body = [=[/cast !Auto Shot
 			/click gotMacros_ExpS
 			/click gotMacros_BlkA
-			/click gotMacros_SerS
+			/click gotMacros_SrSa
 			/click gotMacros_AimS
 			/click gotMacros_StdS]=],
 		nosound = true,
@@ -127,7 +129,7 @@ gM_Macros = {
 		char = "Caellian, Caellianaia, Dynames",
 		show = "Steady Shot",
 		body = [=[/cast !Auto Shot
-			/castsequence reset=target Serpent Sting, Null
+			/click gotMacros_SrSb
 			/click gotMacros_Mark
 			/click gotMacros_AimS
 			/cast Silencing Shot
@@ -139,8 +141,8 @@ gM_Macros = {
 		char = "Caellian, Caellianaia, Dynames",
 		show = "Steady Shot",
 		body = [=[/cast !Auto Shot
-			/click gotMacros_SerS
-			/click gotMacros_MulS
+			/click gotMacros_SrSa
+			/click gotMacros_AimS
 			/click gotMacros_ArcS
 			/click gotMacros_StdS]=],
 		nosound = true,
@@ -153,10 +155,17 @@ gM_Macros = {
 		nosound = true,
 		perChar = true,
 	},
-	["SerS"] = {
+	["SrSa"] = {
 		char = "Caellian, Caellianaia, Dynames",
 		show = "Serpent Sting",
 		body = [=[/castsequence reset=20.4/target Serpent Sting, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+		nosound = true,
+		perChar = true,
+	},
+	["SrSb"] = {
+		char = "Caellian, Caellianaia, Dynames",
+		show = "Serpent Sting",
+		body = [=[/castsequence reset=target Serpent Sting, Null]=],
 		nosound = true,
 		perChar = true,
 	},
