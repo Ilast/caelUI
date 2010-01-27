@@ -2,7 +2,7 @@ local Holder = CreateFrame("Frame")
 
 caelStats.bags = caelPanel10:CreateFontString(nil, "OVERLAY")
 caelStats.bags:SetFont(font, fontSize, fontOutline)
-caelStats.bags:SetPoint("CENTER", caelPanel10, "CENTER", -300, 0.5)
+caelStats.bags:SetPoint("CENTER", caelPanel10, "CENTER", -325, 0.5)
 
 local OnEvent = function(self)
 	local freeSlots, totalSlots = 0, 0

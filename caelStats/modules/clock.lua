@@ -33,6 +33,14 @@ local OnEnter = function(self)
 	end
 end
 
+local OnEvent = function(self)
+	if _G.CalendarGetNumPendingInvites() > 0 then
+		caelStats.clock:SetTextColor(0.33, 0.59, 0.33)
+	else
+		caelStats.clock:SetTextColor(1, 1, 1)
+	end
+end
+
 local OnClick = function(self, button)
 	if (button == "LeftButton") then
 		ToggleTimeManager()
@@ -43,7 +51,9 @@ end
 
 Holder:EnableMouse(true)
 Holder:SetAllPoints(caelStats.clock)
+Holder:RegisterEvent("CALENDAR_UPDATE_PENDING_INVITES")
+Holder:SetScript("OnEvent", OnEvent)
+Holder:SetScript("OnUpdate", OnUpdate)
 Holder:SetScript("OnEnter", OnEnter)
 Holder:SetScript("OnLeave", function() GameTooltip:Hide() end)
 Holder:SetScript("OnMouseDown", OnClick)
-Holder:SetScript("OnUpdate", OnUpdate)

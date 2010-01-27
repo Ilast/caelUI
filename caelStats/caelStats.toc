@@ -1,4 +1,4 @@
-## Interface: 30200
+## Interface: 30300
 ## Author: Caellian
 ## Title: |cffD7BEA5cael|rStats
 ## Notes: Infos bar
@@ -15,5 +15,7 @@ modules\coords.lua
 modules\dps.lua
 modules\durability.lua
 modules\gold.lua
+modules\guild.lua
+modules\lfg.lua
 modules\mail.lua
 modules\system.lua

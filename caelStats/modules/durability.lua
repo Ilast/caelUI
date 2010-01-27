@@ -2,7 +2,7 @@ local Holder = CreateFrame("Frame")
 
 caelStats.durability = caelPanel10:CreateFontString(nil, "OVERLAY")
 caelStats.durability:SetFont(font, fontSize, fontOutline)
-caelStats.durability:SetPoint("CENTER", caelPanel10, "CENTER", -150, 0.5) 
+caelStats.durability:SetPoint("CENTER", caelPanel10, "CENTER", -225, 0.5) 
 
 local Total = 0
 local current, max

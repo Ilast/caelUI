@@ -93,7 +93,7 @@ local OnEnter = function(self)
 end
 
 local OnClick = function(self, button)
-	if (button == "LeftButton") then
+	if button == "LeftButton" then
 		local collected = collectgarbage("count")
 		collectgarbage("collect")
 		GameTooltip:AddDoubleLine("---------- ----------", "---------- ----------", 0.55, 0.57, 0.61, 0.55, 0.57, 0.61)
