@@ -1,5 +1,11 @@
 ﻿caelMap = CreateFrame("Frame")
 
+local dummy = function() end
+local Kill = function(object)
+	object.Show = dummy
+	object:Hide()
+end
+
 local Player = WorldMapButton:CreateFontString(nil, "ARTWORK")
 Player:SetPoint("TOPLEFT", WorldMapButton, 0, 40)
 Player:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 11)
@@ -26,18 +32,6 @@ WorldMapButton:HookScript("OnUpdate", function(self, u)
 	end
 end)
 
-UIPanelWindows["WorldMapFrame"] = {area = "center", pushable = 9}
-hooksecurefunc(WorldMapFrame, "Show", function(self)
-	self:SetScale(0.65)
-	self:SetAlpha(0.75)
-	self:EnableKeyboard(false)
-	self:EnableMouse(false)
-	BlackoutWorld:Hide()
-end)
-
-WorldMapZoneMinimapDropDown:Hide()
-WorldMapZoomOutButton:Hide()
-
 local OnUpdate = function(self)
 	color = RAID_CLASS_COLORS[select(2, UnitClass(self.unit))]
 	self.icon:SetVertexColor(color.r, color.g, color.b)
@@ -57,9 +51,73 @@ local OnEvent = function()
 		_G["WorldMapParty"..p].icon:SetTexture([=[Interface\Addons\caelMedia\Miscellaneous\partyicon]=])
 		_G["WorldMapParty"..p]:SetScript("OnUpdate", OnUpdate)
 	end
+
+	if event == "PLAYER_ENTERING_WORLD" then
+		Kill(BlackoutWorld)
+		Kill(WorldMapQuestDetailScrollFrame)
+		Kill(WorldMapQuestRewardScrollFrame)
+		Kill(WorldMapQuestScrollFrame)
+		Kill(WorldMapBlobFrame)
+		Kill(WorldMapQuestShowObjectives)
+		Kill(WorldMapFrameSizeDownButton)
+		Kill(WorldMapZoneMinimapDropDown)
+		Kill(WorldMapZoomOutButton)
+		Kill(WorldMapLevelUpButton)
+		Kill(WorldMapLevelDownButton)
+
+		SetCVar("questPOI", 1)
+
+		UIPanelWindows["WorldMapFrame"] = {area = "center", pushable = 9}
+		WorldMapFrame:SetAttribute("UIPanelLayout-enabled", false)
+
+		WorldMapPositioningGuide:ClearAllPoints()
+		WorldMapPositioningGuide:SetPoint("CENTER")
+		WorldMapPositioningGuide.SetPoint = dummy
+
+		WorldMapDetailFrame:SetScale(1)
+		WorldMapDetailFrame:SetPoint("TOPLEFT", WorldMapPositioningGuide, "TOP", -502, -69)
+
+		WorldMapButton:SetScale(1)
+		WorldMapButton.SetScale = dummy
+		WorldMapButton.GetCenter = function() return 0, 0 end
+
+		WorldMapPOIFrame:SetScale(1)
+		WorldMapPOIFrame.ratio = 1
+		WorldMapPOIFrame.SetScale = dummy
+		WorldMapFrame_SetPOIMaxBounds()
+
+		WorldMapQuestPOI_OnLeave = function()
+			WorldMapTooltip:Hide()
+		end
+
+		WorldMapFrame.scale = 1
+		WorldMapFrame:SetScale(0.65)
+		WorldMapFrame.SetScale = dummy
+		WorldMapFrame:SetAlpha(0.75)
+		WorldMapFrame.SetAlpha = dummy
+		
+		WorldMapFrame:EnableKeyboard(false)
+		WorldMapFrame.EnableKeyboard = dummy
+		WorldMapFrame:EnableMouse(false)
+		WorldMapFrame.EnableMouse = dummy
+		
+		WorldMapFrame.sizedDown = true
+
+		WorldMapFrame:HookScript("OnShow", function()
+			WorldMap_LoadTextures()
+		end)
+
+		WorldMapFrame_AdjustMapAndQuestList = dummy
+		
+	elseif event == "WORLD_MAP_UPDATE" then
+		WatchFrame_GetCurrentMapQuests()
+		WatchFrame_Update()
+		WorldMapFrame_UpdateQuests()
+	end
 end
 
 caelMap:SetScript("OnEvent", OnEvent)
+caelMap:RegisterEvent("PLAYER_ENTERING_WORLD")
 caelMap:RegisterEvent("PARTY_MEMBERS_CHANGED")
 caelMap:RegisterEvent("RAID_ROSTER_UPDATE")
 caelMap:RegisterEvent("WORLD_MAP_UPDATE")
