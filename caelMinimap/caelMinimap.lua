@@ -143,8 +143,8 @@ local onEvent = function(self, event)
 		MinimapBorderTop,
 		MiniMapMailBorder,
 		MinimapToggleButton,
-		MiniMapWorldMapButton,
-		MinimapZoneTextButton,
+--		MiniMapWorldMapButton,
+--		MinimapZoneTextButton,
 		MiniMapBattlefieldBorder,
 		MiniMapTrackingBackground,
 		MiniMapTrackingButtonBorder,
@@ -162,6 +162,17 @@ local onEvent = function(self, event)
 --	TimeManagerClockButton:SetScript("OnLeave", function() GameTooltip:Hide() end)
 end
 
+	MiniMapWorldMapButton:Hide()
+	MinimapZoneTextButton:Hide()
+	
+	MiniMapInstanceDifficulty:ClearAllPoints()
+	MiniMapInstanceDifficulty:SetParent(Minimap)
+	MiniMapInstanceDifficulty:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMLEFT")
+	
+	MiniMapLFGFrame:ClearAllPoints()
+	MiniMapLFGFrame:SetParent(Minimap)
+	MiniMapLFGFrame:SetPoint("TOPRIGHT", Minimap, "TOPRIGHT")
+	
 MinimapCluster:EnableMouse(false)
 
 Minimap:ClearAllPoints()
