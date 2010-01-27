@@ -80,12 +80,12 @@ local function CheckForProgress()
 			else
 				current_quest_reported = false
 			end
-			
+
 			-- Check if the next entry is an objective.  If not, then we need to directly check the quest
 			-- for completion.
-			if new_data[line_index + 1].line_type ~= "objective" then
+			if new_data[line_index + 1] and new_data[line_index + 1].line_type ~= "objective" then
 				-- This quest has no objectives, so we need to just go ahead and check if the quest is done and was not before here.
-			
+
 				local old_zone_matched, old_quest_matched, old_quest_done
 				for old_line_index, old_line_data in ipairs(old_data) do
 					if old_line_data.line_type == "zone" then
@@ -219,7 +219,6 @@ local function UpdateQuestLog()
     if num_entries > 0 then
         for quest_index = 1, num_entries do
             local name, level, tag, group, header, collapsed, complete, daily = GetQuestLogTitle(quest_index)
---			print (GetQuestLogTitle(quest_index))
 
             if header then
                 line_index = line_index + 1
