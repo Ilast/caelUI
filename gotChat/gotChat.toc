@@ -1,4 +1,4 @@
-## Interface: 30200
+## Interface: 30300
 ## Title: gotChat
 ## Author: Gotai
 ## Notes: Yet another chat mod.
