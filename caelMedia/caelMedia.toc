@@ -1,4 +1,4 @@
-## Interface: 30100
+## Interface: 30300
 ## Author: Caellian, Lots of people.
 ## Title: |cffD7BEA5cael|rMedia
 ## Notes: Inserts some media into LibSharedMedia's storage.
