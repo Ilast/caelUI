@@ -9,14 +9,17 @@ end
 
 local caelTracking = CreateFrame("Frame")
 caelTracking:Hide()
-caelTracking:SetScript("OnEvent", function(self, event, ...)
-	return self[event](self, event, ...)
-end)
 
 local cities = {
+--	["Darnassus"] = true,
+--	["Ironforge"] = true,
+--	["Stormwind City"] = true,
+--	["The Exodar"] = true,
+
 	["Dalaran"] = true,
-	["Orgrimmar"] = true,
 	["Shattrath City"] = true,
+
+	["Orgrimmar"] = true,
 	["Silvermoon City"] = true,
 	["Thunder Bluff"] = true,
 	["Undercity"] = true,
@@ -30,27 +33,27 @@ local ZoneChange = function(zone)
 	end
 end
 
-function caelTracking:ZONE_CHANGED_NEW_AREA()
-	local zone = GetRealZoneText()
-	return ZoneChange(zone)
-end
 caelTracking:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+caelTracking.ZONE_CHANGED_NEW_AREA = function(self)
+	return ZoneChange(GetRealZoneText())
+end
 
-function caelTracking:WORLD_MAP_UPDATE()
+caelTracking:RegisterEvent("WORLD_MAP_UPDATE")
+caelTracking.WORLD_MAP_UPDATE = function(self)
 	local zone = GetRealZoneText()
 	if zone and zone ~= "" then
 		self:UnregisterEvent("WORLD_MAP_UPDATE")
 		return ZoneChange(zone)
 	end
 end
-caelTracking:RegisterEvent("WORLD_MAP_UPDATE")
 
 local TrackingTypeToID, TrackingTypeToTexture
-function caelTracking:PLAYER_ENTERING_WORLD(event)
+caelTracking:RegisterEvent("PLAYER_ENTERING_WORLD")
+caelTracking.PLAYER_ENTERING_WORLD = function(self)
 	TrackingTypeToID = {}
 	TrackingTypeToTexture = {}
-	for i=1, GetNumTrackingTypes() do
-		local name, tex, smth, type = GetTrackingInfo(i)
+	for i = 1, GetNumTrackingTypes() do
+		local name, tex, _, type = GetTrackingInfo(i)
 		if type == "spell" then
 			name = name:match("Track (.-)s?$")
 			if name then
@@ -59,19 +62,20 @@ function caelTracking:PLAYER_ENTERING_WORLD(event)
 			end
 		end
 	end
+	return ZoneChange(GetRealZoneText())
 end
-caelTracking:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 local timeleft
-caelTracking:SetScript("OnUpdate", function(self, elapsed)
+local OnUpdate = function(self, elapsed)
 	timeleft = timeleft - elapsed
 	if timeleft <= 0 then
 		self:Hide()
 		return self:UNIT_TARGET(nil, "player")
 	end
-end)
+end
 
-function caelTracking:UNIT_TARGET(event, unit)
+caelTracking:RegisterEvent("UNIT_TARGET")
+caelTracking.UNIT_TARGET = function(self, event, unit)
 	if unit == "player" and UnitCanAttack("player", "target") and not UnitIsDead("target") then
 		local targettype = UnitCreatureType("target")
 		if GetTrackingTexture() ~= TrackingTypeToTexture[targettype] then
@@ -88,4 +92,14 @@ function caelTracking:UNIT_TARGET(event, unit)
 		end
 	end
 end
-caelTracking:RegisterEvent("UNIT_TARGET")
+
+OnEvent = function(self, event, ...)
+	if type(self[event]) == "function" then
+		return self[event](self, event, ...)
+	else
+		print(string.format("Unhandled event: %s", event))
+	end
+end
+
+caelTracking:SetScript("OnUpdate", OnUpdate)
+caelTracking:SetScript("OnEvent", OnEvent)
