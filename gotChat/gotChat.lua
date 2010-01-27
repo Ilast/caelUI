@@ -23,6 +23,7 @@ CHAT_WHISPER_GET = "From %s:\32"
 CHAT_WHISPER_INFORM_GET = "To %s:\32"
 CHAT_PARTY_GET = "|Hchannel:Party|hP|h %s:\32"
 CHAT_MONSTER_PARTY_GET = "|Hchannel:Party|hP|h %s: "
+CHAT_PARTY_LEADER_GET = "|Hchannel:Party|hPL|h %s: "
 CHAT_CHANNEL_LEAVE_GET = "%s left channel."
 CHAT_MONSTER_SAY_GET = "%s: "
 CHAT_CHANNEL_JOIN_GET = "%s joined channel."
@@ -58,12 +59,14 @@ ChatFrame_AddMessageEventFilter("CHAT_MSG_DND", AlwaysFilter)
 local CustomChannelNames = {
 	["Trade"] = "Tr.",
 --	["[rR]aid[hH]unter"] = "hunt.",
-	["[sS][bB][aA]lt"] = "Alt.",
+	["[gG][iI][cC]aster"] = "Ranged.",
 	}
 
 local function FormatChannel(t, channelstring)
 	local channelname = channelstring:match("|h%[(.-)%]|h")
-	channelname = channelname:sub(4)
+	if channelname:find("^%d") then
+		channelname = channelname:sub(4)
+	end
 	local dashpos = channelname:find(" %-")
 	if dashpos then
 		channelname = channelname:sub(1, dashpos-1)

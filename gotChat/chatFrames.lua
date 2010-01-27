@@ -49,27 +49,28 @@ local mergedTable = {
 	[6] = "GUILD_ACHIEVEMENT",
 	[7] = "WHISPER",
 	[8] = "PARTY",
-	[9] = "RAID",
-	[10] = "RAID_LEADER",
-	[11] = "RAID_WARNING",
-	[12] = "BATTLEGROUND",
-	[13] = "BATTLEGROUND_LEADER",
-	[14] = "ACHIEVEMENT",
+	[9] = "PARTY_LEADER",
+	[10] = "RAID",
+	[11] = "RAID_LEADER",
+	[12] = "RAID_WARNING",
+	[13] = "BATTLEGROUND",
+	[14] = "BATTLEGROUND_LEADER",
+	[15] = "ACHIEVEMENT",
 	
 --	messageGroups only.
-	[15] = "MONSTER_SAY",
-	[16] = "MONSTER_EMOTE",
-	[17] = "MONSTER_YELL",
-	[18] = "MONSTER_WHISPER",
-	[19] = "MONSTER_BOSS_EMOTE",
-	[20] = "MONSTER_BOSS_WHISPER",
-	[21] = "BG_HORDE",
-	[22] = "BG_ALLIANCE",
-	[23] = "BG_NEUTRAL",
-	[24] = "SYSTEM",
-	[25] = "ERRORS",
-	[26] = "IGNORED",
-	[27] = "CHANNEL",
+	[16] = "MONSTER_SAY",
+	[17] = "MONSTER_EMOTE",
+	[18] = "MONSTER_YELL",
+	[19] = "MONSTER_WHISPER",
+	[20] = "MONSTER_BOSS_EMOTE",
+	[21] = "MONSTER_BOSS_WHISPER",
+	[22] = "BG_HORDE",
+	[23] = "BG_ALLIANCE",
+	[24] = "BG_NEUTRAL",
+	[25] = "SYSTEM",
+	[26] = "ERRORS",
+	[27] = "IGNORED",
+	[28] = "CHANNEL",
 }
 
 chatFrames:RegisterEvent("ADDON_LOADED")
@@ -79,13 +80,11 @@ chatFrames.ADDON_LOADED = function(self, event, ...)
 			local frame = _G["ChatFrame"..i]
 			local dockHighlight = _G["ChatFrame"..i.."TabDockRegionHighlight"]
 
-			frame:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 9)
+			frame:SetFont(font, 9)
 			dockHighlight:Hide()
 
---			if i ~= 2 then
-				ChatFrame_RemoveAllChannels(frame)
-				ChatFrame_RemoveAllMessageGroups(frame)
---			end
+			ChatFrame_RemoveAllChannels(frame)
+			ChatFrame_RemoveAllMessageGroups(frame)
 
 			if(i == 1) then
 				FCF_SetWindowName(frame, "• Gen •")
@@ -94,10 +93,9 @@ chatFrames.ADDON_LOADED = function(self, event, ...)
 				frame:SetWidth(311.5)
 				frame:SetPoint("BOTTOM", UIParent, "BOTTOM", 401, 29.5)
 				frame:SetMaxLines(1000)
---				frame.RealSetPointA = frame.SetPoint
 				frame.SetPoint = function() end
-				for i = 0, 27 do
-					if i < 15 then -- Everything up to 14
+				for i = 0, 28 do
+					if i < 16 then -- Everything up to 15
 						ToggleChatColorNamesByClassGroup(true, mergedTable[i])
 					end
 					if i > 0 then -- Everything except index 0
@@ -135,7 +133,6 @@ chatFrames.ADDON_LOADED = function(self, event, ...)
 				FCF_SetWindowAlpha(frame, 0)
 				frame:SetFrameStrata("LOW")
 				FCF_SetLocked(frame, 1)
---				frame:Show()
 				if i ~= 2 then frame:Show() end
 			end
 		end
@@ -176,17 +173,15 @@ local OnUpdate = function(self, elapsed)
 				if(i == 1) then
 					ChangeChatColor("CHANNEL1", 0.55, 0.57, 0.61)
 					ChangeChatColor("CHANNEL2", 0.55, 0.57, 0.61)
---					if myClass == "HUNTER" and myName == "Caellian" then
---						JoinTemporaryChannel("RaidHunter")
---						ChatFrame_AddChannel(frame, "RaidHunter")
---						ChangeChatColor("CHANNEL5", 0.67, 0.83, 0.45)
---					end
+					ChangeChatColor("CHANNEL5", 0.84, 0.75, 0.65)
+					if myClass == "HUNTER" and myName == "Caellian" then
+						JoinTemporaryChannel("GICaster")
+						ChatFrame_AddChannel(frame, "GICaster")
+						ChangeChatColor("CHANNEL5", 0.67, 0.83, 0.45)
+					end
 				end
 				ChangeChatColor("WHISPER", 0.3, 0.6, 0.9)
 				ChangeChatColor("WHISPER_INFORM", 0.3, 0.6, 0.9)
-				JoinTemporaryChannel("SBAlt")
-				ChatFrame_AddChannel(frame, "SBAlt")
-				ChangeChatColor("CHANNEL5", 0.84, 0.75, 0.65)
 			end
 			print("Chatframes setup complete")
 			self:SetScript("OnUpdate", nil) -- Done now, nil the OnUpdate completely.
@@ -203,24 +198,7 @@ function chatFrames:PLAYER_ENTERING_WORLD(event)
 		first = nil
 	end
 end
---[[
-EavesDropFrame.RealSetPointB = EavesDropFrame.SetPoint
---EavesDropFrame.SetPoint = function() end
 
-chatFrames:RegisterEvent("PLAYER_REGEN_DISABLED")
-function chatFrames:PLAYER_REGEN_DISABLED(event)
-	ChatFrame1:RealSetPointA("TOPLEFT", UIParent, "CENTER", 245, -312)
-	EavesDropFrame:ClearAllPoints()
-	EavesDropFrame:RealSetPointB("TOPRIGHT", UIParent, "CENTER", -238, -305)
-end
-
-chatFrames:RegisterEvent("PLAYER_REGEN_ENABLED")
-function chatFrames:PLAYER_REGEN_ENABLED(event)
-	ChatFrame1:RealSetPointA("TOPLEFT", UIParent, "CENTER", 71, -312)
-	EavesDropFrame:ClearAllPoints()
-	EavesDropFrame:RealSetPointB("TOPRIGHT", UIParent, "CENTER", -64.25, -305)
-end
-]]
 OnEvent = function(self, event, ...)
 	if type(self[event]) == 'function' then
 		return self[event](self, event, ...)
@@ -244,14 +222,14 @@ end
 local hooks = {}
 hooks["RaidNotice_AddMessage"] = RaidNotice_AddMessage
 
-RaidNotice_AddMessage = function(noticeFrame, textString, colorInfo)
+RaidNotice_AddMessage = function(noticeFrame, textString, colorInfo, ...)
 	if noticeFrame then
 		if MikScrollingBattleText then
 			MikSBT.DisplayMessage(textString, MikSBT.DISPLAYTYPE_NOTIFICATION, true, 140, 145, 155, 16, "neuropol x cd bd", 2)
 		elseif RecScrollAreas then
 			RecScrollAreas:AddText("|cffD7BEA5"..textString.."|r", true, "Notification") 
 		else
-			hooks.RaidNotice_AddMessage(noticeFrame, textString, colorInfo)
+			hooks.RaidNotice_AddMessage(noticeFrame, textString, colorInfo, ...)
 		end
 		PlaySoundFile([=[Interface\Addons\caelMedia\Sounds\alarm.mp3]=])
 	end
@@ -264,14 +242,23 @@ local npcChannels = {
 	"CHAT_MSG_MONSTER_YELL",
 	"CHAT_MSG_MONSTER_EMOTE",
 	}
-
+--[[
 local isNpcChat = function(self, event, ...)
 	local text = ...
 	local isResting = IsResting()
-	if isResting and not text:find(myName) then 
-		return true, ... 
-	end 
+	if isResting and not text:find(myName) then
+		return true, ...
+	end
 	return false, ...
+end
+--]]
+local isNpcChat = function(self, event, msg)
+	local isResting = IsResting()
+	if isResting and not msg:find(myName) then
+		return true
+	else
+		return false
+	end
 end
 
 for i,v in ipairs(npcChannels) do
@@ -285,25 +272,32 @@ local filteredchannels = {
 	"CHAT_MSG_RAID_WARNING",
 	"CHAT_MSG_RAID_LEADER",
 	"CHAT_MSG_WHISPER",
-	"CHAT_MSG_WHISPER_INFORM",
 	}
-
+--[[
 local IsSpam = function(self, event, ...)
 	local text = ...
-	if (find(text, "%*%*%*") or find(text, "<DBM>")) then 
-		return true, ... 
-	end 
+	if find(text, "%*%*%*") or find(text, "%<%D%B%M%>") then
+		return true, ...
+	end
 	return false, ...
 end
+--]]
+local IsSpam = function(self, event, msg)
+	if find(msg, "%*%*%*") or find(msg, "%<%D%B%M%>") then 
+		return true
+	else
+		return false
+	end
+end
 
-for i,v in ipairs(filteredchannels) do
+for i, v in ipairs(filteredchannels) do
 	ChatFrame_AddMessageEventFilter(v, IsSpam)
 end
 
-RaidWarningFrame:SetScript("OnEvent", function(self, event, message)
-	if ( event == "CHAT_MSG_RAID_WARNING" ) then
-		if not (message:find("%*%*%*", 1, false)) then
-			RaidWarningFrame_OnEvent(self, event, message)
+RaidWarningFrame:SetScript("OnEvent", function(self, event, msg)
+	if event == "CHAT_MSG_RAID_WARNING" then
+		if not msg:find("%*%*%*", 1, false) then
+			RaidWarningFrame_OnEvent(self, event, msg)
 		end 
 	end
 end)
@@ -325,16 +319,31 @@ for i,v in ipairs(eventsNotice) do
 	ChatFrame_AddMessageEventFilter(v, SuppressNotices)
 end
 
+--[[  Filter login spam	]]
+
+local GmSpam = {}
+
+GmSpam["nWelcomeLine"]    = "Bienvenue dans World of Warcraft !"
+GmSpam["nGMSpamLine1"]    = "La mise à jour 3.3 est désormais disponible et la citadelle de la Couronne"
+GmSpam["nGMSpamLine2"]    = "de glace vous attend !"
+GmSpam["nGMSpamLine3"]    = "Joignez-vous à nous pour fêter le 5e anniversaire de World of Warcraft sur "
+GmSpam["nGMSpamLine4"]    = "http://www.wow-europe.com/wowanniversary !"
+
+local function LoginSpamFilter(self, event, ...)
+	local message = ...
+	for key, value in pairs(GmSpam) do
+		if message == value then
+			return true, ...
+		end
+	end
+	return false, ...
+end
+
+ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", LoginSpamFilter)
+
 --[[	Filter various crap	]]
 
 local SystemMessageFilter = function(self, event, msg, ...)
-	if msg:match("Welcome to World of Warcraft, patch 3.2 is live!") then return true end
-	if msg:match("To protect your privacy and security, please be wary of any alpha/beta") then return true end
-	if msg:match("invitations, as well as in-game mount and pet offers. These messages") then return true end
-	if msg:match("are not official Blizzard correspondence and are being sent in effort") then return true end
-	if msg:match("to gain unauthorized access to your account. To learn more about") then return true end
-	if msg:match("keeping your computer and account secure or for any updates on") then return true end
-	if msg:match("Cataclysm please visit our website at: www.wow-europe.com! ") then return true end
 	if msg:match("You have earned the title 'Patron Caellian'.") then return true end
 	if msg:match("You have earned the title 'Matron Caellian'.") then return true end
 	if msg:match("You have lost the title 'Patron Caellian'.") then return true end
@@ -346,16 +355,8 @@ end
 ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", SystemMessageFilter)
 
 local craps = {
-	"%[.*%].*rectum",
-	"rectum.*%[.*%]",
 	"%[.*%].*anal",
 	"anal.*%[.*%]",
-	"%[.*%].*in.*bed",
-	"in.*bed.*%[.*%]",
-	"%[willy%].*%[.*%]",
-	"%[.*%].*%[willy%]",
-	"vaginal.*%[.*%]",
-	"%[.*%].*atthegaybar",
 }
 
 local function FilterFunc(_, _, msg, userID, _, _, _, _, chanID, ...)
@@ -374,20 +375,3 @@ local function FilterFunc(_, _, msg, userID, _, _, _, _, chanID, ...)
 end
 
 ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", FilterFunc)
-
---[[	Filter Recount spam	]]
---[[
-local filterstrings = {
-	"^Recount - (.*)$",
-	"%d+%. %S+%s*%d+ %([%d.]+, [%d.]+%%%)", -- Recount
---	"^(%d+). (.*)$", -- Also Recount
---	"%d+%. - [%d.]+%%% %S+%s*%d+", -- ???
-}
-
-local filter = function(self, event, msg)
-	for _,str in pairs(filterstrings) do if msg:match(str) then return true end end
-end
-
-for _,event in pairs{"CHAT_MSG_YELL", "CHAT_MSG_WHISPER", "CHAT_MSG_SAY", "CHAT_MSG_RAID", "CHAT_MSG_GUILD", "CHAT_MSG_OFFICER", "CHAT_MSG_PARTY"} do
-	ChatFrame_AddMessageEventFilter(event, filter)
-end]]
