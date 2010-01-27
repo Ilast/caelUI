@@ -85,12 +85,16 @@ caelTweaks.PLAYER_MONEY = function(self)
 	itemCount = 0
 end
 
---[[	Auto greed on BoE green	]]
+--[[	Auto disenchant/greed on BoE green	]]
 
 caelTweaks:RegisterEvent("START_LOOT_ROLL")
 caelTweaks.START_LOOT_ROLL = function(self, event, id)
 	if(id and select(4, GetLootRollItemInfo(id))==2 and not (select(5, GetLootRollItemInfo(id)))) then
-		RollOnLoot(id, 2)
+		if RollOnLoot(id, 3) then
+			RollOnLoot(id, 3)
+		else
+			RollOnLoot(id, 2)
+		end
 	end
 end
 
@@ -100,13 +104,8 @@ local AcceptFriends = false
 local AcceptGuild = false
 
 local playerList = {
-	["Aksing"] = true,
 	["Caellian"] = true,
-	["Kanirvatha"] = true,
-	["Myrdin"] = true,
 	["Pimiko"] = true,
-	["Pincen"] = true,
-	["Zotan"] = true,
 }
 
 local function IsFriend(name)
@@ -253,11 +252,11 @@ SLASH_RELOAD1 = "/rl"
 SLASH_ENABLE_ADDON1 = "/en"
 SLASH_DISABLE_ADDON1 = "/dis"
 
-function OnEvent(self, event, ...)
-	if type(self[event]) == "function" then
+OnEvent = function(self, event, ...)
+	if type(self[event]) == 'function' then
 		return self[event](self, event, ...)
 	else
-		print("Unhandled event: "..event)
+		print(string.format("Unhandled event: %s", event))
 	end
 end
 

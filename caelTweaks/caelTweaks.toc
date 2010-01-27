@@ -1,4 +1,4 @@
-## Interface: 30200
+## Interface: 30300
 ## Author: Caellian
 ## Title: |cffD7BEA5cael|rTweaks
 ## Notes: UI Tweaks
@@ -10,3 +10,4 @@
 caelTweaks.lua
 CharacterPanel.lua
 CVarTweaks.lua
+NewStuff.lua

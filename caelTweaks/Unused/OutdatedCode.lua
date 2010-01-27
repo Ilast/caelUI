@@ -1,23 +1,3 @@
---[[  Filter login spam	]]
-
-local GmSpam = {}
-
-GmSpam["nWelcomeLine"]    = "Welcome to the World of Warcraft! "
-GmSpam["nGMSpamLine1"]    = "Arena Season 6 has begun! "
-GmSpam["nGMSpamLine2"]    = "Best of luck and if you would like more info on the season, please visit our PvP forums! "
-
-local function LoginSpamFilter(self, event, ...)
-	local message = ...
-	for key, value in pairs(GmSpam) do
-		if message == value then
-			return true, ...
-		end
-	end
-	return false, ...
-end
-
-ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", LoginSpamFilter)
-
 --[[  Channel(s) muting	]]
 
 local function ChannelMessageFilter(self, event, ...)
