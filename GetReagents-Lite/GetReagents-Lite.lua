@@ -9,7 +9,7 @@ $Date: 2009-08-14 04:48:00 -0500 (Fri, 14 Aug 2009) $
 	of each item they will want auto-stocked.
 --]]
 local reagents = {
-	["The Maelstrom"] = {
+	["Temple noir"] = {
 		["Caellian"] = {[31737] = 18000, [33445] = 40, [35953] = 40}, -- [31735] = 18000
 		["Pimiko"] = {[33445] = 40}
 	},
