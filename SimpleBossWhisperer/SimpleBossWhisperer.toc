@@ -1,4 +1,4 @@
-## Interface: 30200
+## Interface: 30300
 ## Title: SimpleBossWhisperer
 ## Notes: Sets you to DND when you fight a boss, and some other crap.
 ## Author: Rabbit
