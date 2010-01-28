@@ -53,9 +53,9 @@ local UpdateFrame = function(self)
 	if g + b == 0 then
 		newr, newg, newb = 0.69, 0.31, 0.31
 		self.healthBar:SetStatusBarColor(0.69, 0.31, 0.31)
---		if self.boss:IsShown() or self.elite:IsShown() then
+		if self.boss:IsShown() or self.elite:IsShown() then
 			self.healthBar.UnitType = "Hostile"
---		end
+		end
 	elseif r + b == 0 then
 		newr, newg, newb = 0.33, 0.59, 0.33
 		self.healthBar:SetStatusBarColor(0.33, 0.59, 0.33)
@@ -106,7 +106,9 @@ local OnHealthChanged = function(self)
 	local cur = self:GetValue()
 	if self.UnitType == "Hostile" and cur > 0 and cur < max/5 and not self.Trigger then
 		self.Trigger = true
-		RecScrollAreas:AddText("|cffAF5050Kill Shot|r", true, "Notification", true)
+		if RecScrollAreas then
+			RecScrollAreas:AddText("|cffAF5050Kill Shot|r", true, "Notification", true)
+		end
 	elseif self.UnitType == "Hostile" and cur >= max/5 and self.Trigger then
 		self.Trigger = false
 	end
