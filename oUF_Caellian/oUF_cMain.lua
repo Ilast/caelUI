@@ -707,6 +707,7 @@ local SetStyle = function(self, unit)
 
 		if IsAddOnLoaded("oUF_TotemBar") and class == "SHAMAN" then
 			self.TotemBar = {}
+			self.TotemBar.Destroy = true
 			for i = 1, 4 do
 				self.TotemBar[i] = CreateFrame("StatusBar", self:GetName().."_TotemBar"..i, self)
 				self.TotemBar[i]:SetHeight(7)
@@ -855,7 +856,7 @@ local SetStyle = function(self, unit)
 			self.PortraitOverlay:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 7)
 			self.PortraitOverlay:SetStatusBarTexture(normtexa)
 			self.PortraitOverlay:SetStatusBarColor(0.25, 0.25, 0.25, 0.5)
-
+--[[
 			self.ThinLine1 = self.PortraitOverlay:CreateTexture(nil, "BORDER")
 			self.ThinLine1:SetHeight(1)
 			self.ThinLine1:SetPoint("TOPLEFT", self, "TOPLEFT", 0, -22)
@@ -867,7 +868,7 @@ local SetStyle = function(self, unit)
 			self.ThinLine2:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 7)
 			self.ThinLine2:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 7)
 			self.ThinLine2:SetTexture(0,0,0)
-
+--]]
 			self.CombatFeedbackText = SetFontString(self.PortraitOverlay, font, 18, "OUTLINE")
 			self.CombatFeedbackText:SetPoint("CENTER", 0, 1)
 			self.CombatFeedbackText.colors = {
@@ -959,7 +960,7 @@ local SetStyle = function(self, unit)
 		end
 
 		if unit == "player" then
-			self.Castbar.SafeZone = self.Castbar:CreateTexture(nil, "OVERLAY")
+			self.Castbar.SafeZone = self.Castbar:CreateTexture(nil, "ARTWORK")
 			self.Castbar.SafeZone:SetTexture(normtexa)
 			self.Castbar.SafeZone:SetVertexColor(0.69, 0.31, 0.31, 0.75)
 		end
@@ -997,6 +998,11 @@ local SetStyle = function(self, unit)
 		self.LFDRole:SetHeight(14)
 		self.LFDRole:SetWidth(14)
 		self.LFDRole:SetPoint("RIGHT", self, "LEFT", -1, 0)
+	end
+
+	if class == "HUNTER" then
+		self:SetAttribute("type3", "spell")
+		self:SetAttribute("spell3", "Misdirection")
 	end
 
 	if unit == "player" or unit == "target" then
