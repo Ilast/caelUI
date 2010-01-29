@@ -273,20 +273,16 @@ local OnUpdate = function(self, elapsed)
 	if lastUpdate > 0.1 then
 		lastUpdate = 0
 
-		if WorldFrame:GetNumChildren() ~= numKids then
-			numKids = WorldFrame:GetNumChildren()
---			local kids = {WorldFrame:GetChildren()}
-			for i = 1, select("#", WorldFrame:GetChildren()) do
---			for i = 1, numKids do
+		local newNumKids = WorldFrame:GetNumChildren()
+		if newNumKids ~= numKids then
+			for i = numKids+1, newNumKids do
 				frame = select(i, WorldFrame:GetChildren())
 
 				if IsValidFrame(frame) then
 					CreateFrame(frame)
 				end
---				if IsValidFrame(kids[i]) then
---					CreateFrame(kids[i])
---				end
 			end
+			numKids = newNumKids
 		end
 	end
 end
