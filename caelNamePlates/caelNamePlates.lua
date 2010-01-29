@@ -73,7 +73,7 @@ local UpdateFrame = function(self)
 
 	self.healthBar:ClearAllPoints()
 	self.healthBar:SetPoint("CENTER", self.healthBar:GetParent())
-	self.healthBar:SetHeight(5)
+	self.healthBar:SetHeight(6.5)
 	self.healthBar:SetWidth(100)
 
 	self.castBar:ClearAllPoints()
@@ -104,7 +104,7 @@ local OnHealthChanged = function(self)
 	local r, g, b = self:GetStatusBarColor()
 	local _, max = self:GetMinMaxValues()
 	local cur = self:GetValue()
-	if self.UnitType == "Hostile" and cur > 0 and cur < max/5 and not self.Trigger then
+	if self.UnitType == "Hostile" and cur > 0 and cur < max/5 and self:GetParent():GetAlpha() == 1 and not self.Trigger then
 		self.Trigger = true
 		if RecScrollAreas then
 			RecScrollAreas:AddText("|cffAF5050Kill Shot|r", true, "Notification", true)
