@@ -104,7 +104,7 @@ local OnHealthChanged = function(self)
 	local r, g, b = self:GetStatusBarColor()
 	local _, max = self:GetMinMaxValues()
 	local cur = self:GetValue()
-	if self.UnitType == "Hostile" and cur > 0 and cur < max/5 and self:GetParent():GetAlpha() == 1 and not self.Trigger then
+	if self.UnitType == "Hostile" and cur > 0 and cur < max/5 and self:GetParent():GetAlpha() == 1 and UnitExists("target") and not self.Trigger then
 		self.Trigger = true
 		if RecScrollAreas then
 			RecScrollAreas:AddText("|cffAF5050Kill Shot|r", true, "Notification", true)
