@@ -199,16 +199,6 @@ function chatFrames:PLAYER_ENTERING_WORLD(event)
 	end
 end
 
-OnEvent = function(self, event, ...)
-	if type(self[event]) == 'function' then
-		return self[event](self, event, ...)
-	else
-		print(string.format("Unhandled event: %s", event))
-	end
-end
-
-chatFrames:SetScript("OnEvent", OnEvent)
-
 --[[	Bosses & monsters emotes to RWF	]]
 --[[
 chatFrames:RegisterEvent("CHAT_MSG_RAID_BOSS_EMOTE")
@@ -375,3 +365,13 @@ local function FilterFunc(_, _, msg, userID, _, _, _, _, chanID, ...)
 end
 
 ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", FilterFunc)
+
+OnEvent = function(self, event, ...)
+	if type(self[event]) == 'function' then
+		return self[event](self, event, ...)
+	else
+		print(string.format("Unhandled event: %s", event))
+	end
+end
+
+chatFrames:SetScript("OnEvent", OnEvent)
