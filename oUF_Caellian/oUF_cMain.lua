@@ -1019,7 +1019,7 @@ local SetStyle = function(self, unit)
 		self:SetAttribute("initial-width", 113)
 	end
 
-	self.RaidIcon = self.Health:CreateTexture(nil, "ARTWORK")
+	self.RaidIcon = self.Health:CreateTexture(nil, "OVERLAY")
 	self.RaidIcon:SetHeight((self:GetParent():GetName():match("oUF_Raid")) and 10 or 14)
 	self.RaidIcon:SetWidth((self:GetParent():GetName():match("oUF_Raid")) and 10 or 14)
 	if self:GetParent():GetName():match("oUF_Raid") then
