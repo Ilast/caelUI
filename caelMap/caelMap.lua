@@ -60,8 +60,13 @@ local OnEvent = function()
 		Kill(WorldMapBlobFrame)
 		Kill(WorldMapQuestShowObjectives)
 		Kill(WorldMapFrameSizeDownButton)
+--		Kill(WorldMapFrameCloseButton)
 		Kill(WorldMapZoneMinimapDropDown)
 		Kill(WorldMapZoomOutButton)
+		Kill(WorldMapLevelDropDown)
+		Kill(WorldMapFrameTitle)
+		Kill(WorldMapContinentDropDown)
+		Kill(WorldMapZoneDropDown)
 		Kill(WorldMapLevelUpButton)
 		Kill(WorldMapLevelDownButton)
 
@@ -72,14 +77,12 @@ local OnEvent = function()
 
 		WorldMapPositioningGuide:ClearAllPoints()
 		WorldMapPositioningGuide:SetPoint("CENTER")
-		WorldMapPositioningGuide.SetPoint = dummy
 
 		WorldMapDetailFrame:SetScale(1)
 		WorldMapDetailFrame:SetPoint("TOPLEFT", WorldMapPositioningGuide, "TOP", -502, -69)
 
 		WorldMapButton:SetScale(1)
 		WorldMapButton.SetScale = dummy
-		WorldMapButton.GetCenter = function() return 0, 0 end
 
 		WorldMapPOIFrame:SetScale(1)
 		WorldMapPOIFrame.ratio = 1
