@@ -856,7 +856,7 @@ local SetStyle = function(self, unit)
 			self.PortraitOverlay:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 7)
 			self.PortraitOverlay:SetStatusBarTexture(normtexa)
 			self.PortraitOverlay:SetStatusBarColor(0.25, 0.25, 0.25, 0.5)
---[[
+
 			self.ThinLine1 = self.PortraitOverlay:CreateTexture(nil, "BORDER")
 			self.ThinLine1:SetHeight(1)
 			self.ThinLine1:SetPoint("TOPLEFT", self, "TOPLEFT", 0, -22)
@@ -868,7 +868,7 @@ local SetStyle = function(self, unit)
 			self.ThinLine2:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 7)
 			self.ThinLine2:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 7)
 			self.ThinLine2:SetTexture(0,0,0)
---]]
+
 			self.CombatFeedbackText = SetFontString(self.PortraitOverlay, font, 18, "OUTLINE")
 			self.CombatFeedbackText:SetPoint("CENTER", 0, 1)
 			self.CombatFeedbackText.colors = {

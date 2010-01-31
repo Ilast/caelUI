@@ -1,0 +1,10 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<Include file="oUF_cParty.xml"/>
+
+	<Script file="oUF_cConfig.lua"/>
+	<Script file="oUF_AspectCheck.lua"/>
+	<Script file="oUF_cTags.lua"/>
+	<Script file="dropdown.lua"/>
+	<Script file="modules\oUF_Smooth.lua"/>
+	<Script file="oUF_cMain.lua"/>
+</Ui>
