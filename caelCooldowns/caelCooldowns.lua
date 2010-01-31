@@ -6,9 +6,9 @@ local format = string.format
 local floor = math.floor
 local min = math.min
 
-local function GetFormattedTime(s)
-	local day, hour, minute = 86400, 3600, 60
+local day, hour, minute = 86400, 3600, 60
 
+local function GetFormattedTime(s)
 	if s >= day then
 		return format("%dd", floor(s/day + 0.5)), s % day
 	elseif s >= hour then
