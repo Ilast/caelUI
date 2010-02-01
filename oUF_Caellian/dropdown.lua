@@ -36,6 +36,7 @@ end
 
 local function initialize(self, level)
 	local info = self.info
+	local mode, _ = GetLFGMode()
 
 	if(level == 1) then
 		if(GetNumPartyMembers() > 0 or GetNumRaidMembers() > 0) then
@@ -43,7 +44,7 @@ local function initialize(self, level)
 			info.text = string.format(globalloot[GetLootMethod()], select(4, GetItemQualityColor(GetOptOutOfLoot() and 0 or GetLootThreshold())))
 			info.notCheckable = 1
 			info.func = function() if(IsShiftKeyDown()) then SetOptOutOfLoot(not GetOptOutOfLoot()) end end
-			info.value = CanGroupInvite() and 'loot'
+			info.value = (not mode) and CanGroupInvite() and "loot"
 			info.hasArrow = CanGroupInvite() and 1
 			UIDropDownMenu_AddButton(info, level)
 		end
@@ -71,18 +72,20 @@ local function initialize(self, level)
 			UIDropDownMenu_AddButton(info, level)
 		end
 
-		if ( IsInLFGDungeon() ) then
-			wipe(info)
-			info.text = TELEPORT_OUT_OF_DUNGEON
-			info.notCheckable = 1
-			info.func = MiniMapLFGFrame_TeleportOut
-			UIDropDownMenu_AddButton(info, level)
-		elseif ((GetNumPartyMembers() > 0) or (GetNumRaidMembers() > 0)) then
-			wipe(info)
-			info.text = TELEPORT_TO_DUNGEON
-			info.notCheckable = 1
-			info.func = MiniMapLFGFrame_TeleportIn
-			UIDropDownMenu_AddButton(info, level)
+		if mode then
+			if ( IsInLFGDungeon() ) then
+				wipe(info)
+				info.text = TELEPORT_OUT_OF_DUNGEON
+				info.notCheckable = 1
+				info.func = MiniMapLFGFrame_TeleportOut
+				UIDropDownMenu_AddButton(info, level)
+			elseif ((GetNumPartyMembers() > 0) or (GetNumRaidMembers() > 0)) then
+				wipe(info)
+				info.text = TELEPORT_TO_DUNGEON
+				info.notCheckable = 1
+				info.func = MiniMapLFGFrame_TeleportIn
+				UIDropDownMenu_AddButton(info, level)
+			end
 		end
 
 	elseif(level == 2) then

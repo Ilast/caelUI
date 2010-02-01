@@ -1151,13 +1151,13 @@ for i = 1, MAX_BOSS_FRAMES do
 	boss[i] = oUF:Spawn("boss"..i, "oUF_Boss"..i)
 
 	if i == 1 then
-		boss[i]:SetPoint("CENTER", 500, 200)
+		boss[i]:SetPoint("TOPRIGHT", UIParent, "RIGHT", -15, 0)
 	else
-		boss[i]:SetPoint("TOPLEFT", boss[i-1], "BOTTOMLEFT", 0, -7.5)
+		boss[i]:SetPoint("TOP", boss[i-1], "BOTTOM", 0, -7.5)
 	end
 end
 
-for i, v in ipairs(boss) do v:Show() end
+for i, v in ipairs(boss) do v:Show() end -- (unit:match("boss%d")
 
 local partyToggle = CreateFrame("Frame")
 partyToggle:RegisterEvent("PLAYER_LOGIN")
