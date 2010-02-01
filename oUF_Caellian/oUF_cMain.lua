@@ -624,7 +624,7 @@ local SetStyle = function(self, unit)
 		self.FlashInfo.ManaLevel:SetPoint("CENTER", 0, 1)
 
 		if UnitLevel("player") ~= MAX_PLAYER_LEVEL then
-			self.Resting = self.Power:CreateTexture(nil, "ARTWORK")
+			self.Resting = self.Power:CreateTexture(nil, "OVERLAY")
 			self.Resting:SetHeight(18)
 			self.Resting:SetWidth(18)
 			self.Resting:SetPoint("BOTTOMLEFT", -8.5, -8.5)
@@ -1146,6 +1146,19 @@ for i = 1, NUM_RAID_GROUPS do
 	end
 end
 
+local boss = {}
+for i = 1, MAX_BOSS_FRAMES do
+	boss[i] = oUF:Spawn("boss"..i, "oUF_Boss"..i)
+
+	if i == 1 then
+		boss[i]:SetPoint("CENTER", 500, 200)
+	else
+		boss[i]:SetPoint("TOPLEFT", boss[i-1], "BOTTOMLEFT", 0, -7.5)
+	end
+end
+
+for i, v in ipairs(boss) do v:Show() end
+
 local partyToggle = CreateFrame("Frame")
 partyToggle:RegisterEvent("PLAYER_LOGIN")
 partyToggle:RegisterEvent("RAID_ROSTER_UPDATE")
@@ -1160,12 +1173,12 @@ partyToggle:SetScript("OnEvent", function(self)
 		if numraid > 0 and (numraid > 5 or numraid ~= GetNumPartyMembers() + 1) then
 			party:Hide()
 			if not settings.noRaid then
-				for i,v in ipairs(raid) do v:Show() end
+				for i, v in ipairs(raid) do v:Show() end
 			end
 		else
 			party:Show()
 			if not settings.noRaid then
-				for i,v in ipairs(raid) do v:Hide() end
+				for i, v in ipairs(raid) do v:Hide() end
 			end
 		end
 	end
