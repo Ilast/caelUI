@@ -90,21 +90,7 @@ local StopFlash = function(self)
 		self.anim:Finish()
 	end
 end
---[[
-local Menu = function(self)
-	local unit = self.unit:gsub("(.)", string.upper, 1) 
-	if _G[unit.."FrameDropDown"] then
-		ToggleDropDownMenu(1, nil, _G[unit.."FrameDropDown"], "cursor")
-	elseif (self.unit:match("party")) then
-		ToggleDropDownMenu(1, nil, _G["PartyMemberFrame"..self.id.."DropDown"], "cursor")
-	else
-		FriendsDropDown.unit = self.unit
-		FriendsDropDown.id = self.id
-		FriendsDropDown.initialize = RaidFrameDropDown_Initialize
-		ToggleDropDownMenu(1, nil, FriendsDropDown, "cursor")
-	end
-end
---]]
+
 local function Menu(self)
 	if(self.unit == "player") then
 		ToggleDropDownMenu(1, nil, oUF_Caellian_DropDown, "cursor")
@@ -224,49 +210,10 @@ local PostUpdatePower = function(self, event, unit, bar, min, max)
 	end
 end
 
-do
-	local f = CreateFrame("Frame")
-	local entering
-
-	f:RegisterEvent("UNIT_ENTERED_VEHICLE")
-	f:RegisterEvent("UNIT_EXITED_VEHICLE")
-	
-	local delay = 0.5
-	local OnUpdate = function(self, elapsed)
-		self.elapsed = (self.elapsed or delay) - elapsed
-		if self.elapsed <= 0 then
-			local petframe = oUF_Caellian_pet
-			petframe:PLAYER_ENTERING_WORLD()
-			self:SetScript("OnUpdate", nil)
-			if entering and petframe.PostEnterVehicle then
-				petframe:PostEnterVehicle("enter")
-			elseif not entering and petframe.PostExitVehicle then
-				petframe:PostExitVehicle("exit")
-			end
-		end
-	end
-
-	f:SetScript("OnEvent", function(self, event, unit)
-		if unit == "player" then
-			if event == "UNIT_ENTERED_VEHICLE" then
-				entering = true
-			else
-				entering = false
-			end
-			f.elapsed = delay
-			f:SetScript("OnUpdate", OnUpdate)
-		end
-	end)
-end
-
-local EnterVehicle = function(self, event)
-	if event == "enter" then
+local onVehicleSwitch = function(self, event)
+	if event == "UNIT_ENTERED_VEHICLE" then
 		self.Info:Hide()
-	end
-end
-
-local ExitVehicle = function(self, event)
-	if event == "exit" then
+	elseif event == "UNIT_EXITED_VEHICLE" then
 		self.Info:Show()
 	end
 end
@@ -523,6 +470,12 @@ local PostUpdateThreat = function(self, event, unit, status)
 	end
 end
 
+local updateAllElements = function(frame)
+	for _, v in ipairs(frame.__elements) do
+		v(frame, "UpdateElement", frame.unit)
+	end
+end
+
 local SetStyle = function(self, unit)
 	self.menu = Menu
 	self.colors = colors
@@ -531,6 +484,10 @@ local SetStyle = function(self, unit)
 
 	self:SetScript("OnEnter", UnitFrame_OnEnter)
 	self:SetScript("OnLeave", UnitFrame_OnLeave)
+
+	-- hook the onshow-script, if events are fired before the frame is shown
+	-- the petframe sometimes needs it.
+	self:HookScript("OnShow", updateAllElements)
 
 	self:SetBackdrop(backdrop)
 	self:SetBackdropColor(0, 0, 0)
@@ -750,8 +707,8 @@ local SetStyle = function(self, unit)
 			self.Auras.initialAnchor = "TOPRIGHT"
 			self.Auras["growth-x"] = "LEFT"
 
-			self.PostEnterVehicle = EnterVehicle
-			self.PostExitVehicle = ExitVehicle
+			self:RegisterEvent("UNIT_ENTERED_VEHICLE", onVehicleSwitch)
+			self:RegisterEvent("UNIT_EXITED_VEHICLE", onVehicleSwitch)
 		else
 			self.Auras:SetPoint("TOPLEFT", self, "TOPRIGHT", 9, 1)
 			self.Auras.initialAnchor = "TOPLEFT"
@@ -785,6 +742,23 @@ local SetStyle = function(self, unit)
 			self.Experience.Tooltip = true
 		end
 	end
+
+--	self.cDebuffBackdropFilter = false
+--	self.cDebuffIconFilter = true
+
+	self.cDebuffBackdrop = self.Health:CreateTexture(nil, "OVERLAY")
+	self.cDebuffBackdrop:SetAllPoints(self.Health)
+	self.cDebuffBackdrop:SetTexture([=[Interface\Addons\oUF_Caellian\media\textures\highlighttex]=])
+	self.cDebuffBackdrop:SetBlendMode("ADD")
+
+	self.cDebuffIcon = self.Health:CreateTexture(nil, "OVERLAY") 
+	self.cDebuffIcon:SetWidth(16) 
+	self.cDebuffIcon:SetHeight(16) 
+	self.cDebuffIcon:SetPoint("CENTER", self, "CENTER", 0, 0) 
+
+	self.DebuffOverlay = self.Health:CreateTexture(nil, "OVERLAY")
+	self.DebuffOverlay:SetPoint("TOPLEFT", self.cDebuffIcon, "TOPLEFT", -1, 1) 
+	self.DebuffOverlay:SetPoint("BOTTOMRIGHT", self.cDebuffIcon, "BOTTOMRIGHT", 1, -1) 
 
 	if unit == "player" or unit == "target" then
 		self.Buffs = CreateFrame("Frame", nil, self)
@@ -1034,14 +1008,6 @@ local SetStyle = function(self, unit)
 	self.Highlight:SetVertexColor(0.84, 0.75, 0.65, 0.15)
 	self.Highlight:SetBlendMode("ADD")
 
-	self.DebuffHighlight = self.Health:CreateTexture(nil, "OVERLAY")
-	self.DebuffHighlight:SetAllPoints(self.Health)
-	self.DebuffHighlight:SetTexture(highlightTex)
-	self.DebuffHighlight:SetVertexColor(0, 0, 0, 0)
-	self.DebuffHighlight:SetBlendMode("ADD")
-	self.DebuffHighlightAlpha = 1
-	self.DebuffHighlightFilter = true
-
 	self.FrameBackdrop = CreateFrame("Frame", nil, self)
 	self.FrameBackdrop:SetPoint("TOPLEFT", self, "TOPLEFT", -4.5, 4)
 	self.FrameBackdrop:SetFrameStrata("BACKGROUND")
@@ -1170,7 +1136,7 @@ partyToggle:SetScript("OnEvent", function(self)
 	else
 		self:UnregisterEvent("PLAYER_REGEN_ENABLED")
 		local numraid = GetNumRaidMembers()
-		if numraid > 0 and (numraid > 5 or numraid ~= GetNumPartyMembers() + 1) then
+		if numraid > 0 then
 			party:Hide()
 			if not settings.noRaid then
 				for i, v in ipairs(raid) do v:Show() end
