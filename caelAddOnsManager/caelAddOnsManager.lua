@@ -7,7 +7,7 @@
 		"caelAddOnsManager", "caelCCBreak", "caelCombatLog", "caelEmote", "caelFactions", "caelFonts", "caelInterrupt",
 		"caelMinimap", "caelNamePlates", "caelCooldowns", "caelMap", "caelMedia", "caelPanels", "caelQuests", "caelStats", "caelTooltips", "caelTweaks",
 		"GetReagents-Lite", "gotChat", "gotMacros",
-		"oUF", "oUF_Caellian", "oUF_CombatFeedback", "oUF_DebuffHighlight", "oUF_Experience", "oUF_ReadyCheck", "oUF_Reputation", "oUF_SpellRange", "oUF_ThreatFeedback",
+		"oUF", "oUF_Caellian", "oUF_CombatFeedback", "oUF_Experience", "oUF_ReadyCheck", "oUF_Reputation", "oUF_SpellRange", "oUF_ThreatFeedback",
 		"rActionBarStyler", "rActionButtonStyler", "RecBags", "RecScrollAreas", "Snoopy", "tekKompare"
 	},
 	--[[---------------------------------------------------------------------------
@@ -25,7 +25,7 @@
 		These addons will load if you use their set name after the slash command.
 		'/addonset raid' to load raid addons, for example.							--]]
 
-	["raid"]	= {"DBM-Coliseum", "DBM-Core", "DBM-GUI", "DBM-Ulduar", "RecDamageMeter", "RecThreatMeter", "SimpleBossWhisperer"},
+	["raid"]	= {"DBM-Coliseum", "DBM-Core", "DBM-GUI", "DBM-Icecrown", "DBM-Ulduar", "RecDamageMeter", "RecThreatMeter", "SimpleBossWhisperer"},
 	["party"] = {"RecDamageMeter", "RecThreatMeter"},
 	["pvp"] = {},
 	["dev"] = {},
