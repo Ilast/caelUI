@@ -492,14 +492,7 @@ local SetStyle = function(self, unit)
 	self:SetBackdrop(backdrop)
 	self:SetBackdropColor(0, 0, 0)
 
-	self.Health = CreateFrame("StatusBar", self:GetName().."_Health", self)
-	if unit then
-		self.Health:SetFrameLevel(1)
-	elseif self:GetAttribute("unitsuffix") then
-		self.Health:SetFrameLevel(3)
-	elseif not unit then
-		self.Health:SetFrameLevel(2)
-	end
+	self.Health = CreateFrame("StatusBar", nil, self)
 	self.Health:SetHeight((unit == "player" or unit == "target" or self:GetParent():GetName():match("oUF_Raid")) and 22 or self:GetAttribute("unitsuffix") == "pet" and 10 or 16)
 	self.Health:SetPoint("TOPLEFT")
 	self.Health:SetPoint("TOPRIGHT")
@@ -743,23 +736,6 @@ local SetStyle = function(self, unit)
 		end
 	end
 
---	self.cDebuffBackdropFilter = false
---	self.cDebuffIconFilter = true
-
-	self.cDebuffBackdrop = self.Health:CreateTexture(nil, "OVERLAY")
-	self.cDebuffBackdrop:SetAllPoints(self.Health)
-	self.cDebuffBackdrop:SetTexture([=[Interface\Addons\oUF_Caellian\media\textures\highlighttex]=])
-	self.cDebuffBackdrop:SetBlendMode("ADD")
-
-	self.cDebuffIcon = self.Health:CreateTexture(nil, "OVERLAY") 
-	self.cDebuffIcon:SetWidth(16) 
-	self.cDebuffIcon:SetHeight(16) 
-	self.cDebuffIcon:SetPoint("CENTER", self, "CENTER", 0, 0) 
-
-	self.DebuffOverlay = self.Health:CreateTexture(nil, "OVERLAY")
-	self.DebuffOverlay:SetPoint("TOPLEFT", self.cDebuffIcon, "TOPLEFT", -1, 1) 
-	self.DebuffOverlay:SetPoint("BOTTOMRIGHT", self.cDebuffIcon, "BOTTOMRIGHT", 1, -1) 
-
 	if unit == "player" or unit == "target" then
 		self.Buffs = CreateFrame("Frame", nil, self)
 		self.Buffs:SetHeight(24)
@@ -797,11 +773,10 @@ local SetStyle = function(self, unit)
 			self.Debuffs["growth-y"] = "DOWN"
 			self.Debuffs.onlyShowPlayer = false
 
-			self.CPoints = CreateFrame("Frame", nil, self.Power)
-			self.CPoints:SetAllPoints()
+			self.CPoints = {}
 			self.CPoints.unit = PlayerFrame.unit
 			for i = 1, 5 do
-				self.CPoints[i] = self.CPoints:CreateTexture(nil, "ARTWORK")
+				self.CPoints[i] = self.Power:CreateTexture(nil, "ARTWORK")
 				self.CPoints[i]:SetHeight(12)
 				self.CPoints[i]:SetWidth(12)
 				self.CPoints[i]:SetTexture(bubbleTex)
@@ -820,13 +795,12 @@ local SetStyle = function(self, unit)
 		end
 	
 			self.Portrait = CreateFrame("PlayerModel", nil, self)
-			self.Portrait:SetFrameLevel(1)
 			self.Portrait:SetPoint("TOPLEFT", self, "TOPLEFT", 0, -23)
 			self.Portrait:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 8)
 			table.insert(self.__elements, HidePortrait)
 	
-			self.PortraitOverlay = CreateFrame("StatusBar", self:GetName().."_PortraitOverlay", self.Portrait)
-			self.PortraitOverlay:SetFrameLevel(2)
+			self.PortraitOverlay = CreateFrame("StatusBar", nil, self.Portrait)
+			self.PortraitOverlay:SetFrameLevel(self.PortraitOverlay:GetFrameLevel() + 1)
 			self.PortraitOverlay:SetPoint("TOPLEFT", self, "TOPLEFT", 0, -22)
 			self.PortraitOverlay:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 7)
 			self.PortraitOverlay:SetStatusBarTexture(normtexa)
@@ -868,14 +842,35 @@ local SetStyle = function(self, unit)
 			self.Status:SetTextColor(0.69, 0.31, 0.31, 0)
 			self:Tag(self.Status, "[pvp]")
 	
-			self:SetScript("OnEnter", function(self) self.Status:SetAlpha(.25); UnitFrame_OnEnter(self) end)
+			self:SetScript("OnEnter", function(self) self.Status:SetAlpha(0.5); UnitFrame_OnEnter(self) end)
 			self:SetScript("OnLeave", function(self) self.Status:SetAlpha(0); UnitFrame_OnLeave(self) end)
 		end
 
+	self.cDebuffBackdropFilter = false
+	self.cDebuffIconFilter = true
+
+	self.cDebuffBackdrop = self.Health:CreateTexture(nil, "OVERLAY")
+	self.cDebuffBackdrop:SetAllPoints(self.Health)
+	self.cDebuffBackdrop:SetTexture([=[Interface\Addons\oUF_Caellian\media\textures\highlighttex]=])
+	self.cDebuffBackdrop:SetBlendMode("ADD")
+	self.cDebuffBackdrop:SetVertexColor(0, 0, 0, 0)
+
+	self.cDebuff = CreateFrame("StatusBar", nil, (unit == "player" or unit == "target") and self.PortraitOverlay or self.Health)
+	self.cDebuff:SetWidth(16)
+	self.cDebuff:SetHeight(16)
+	self.cDebuff:SetPoint("CENTER")
+
+	self.cDebuff.Icon = self.cDebuff:CreateTexture(nil, "OVERLAY")
+	self.cDebuff.Icon:SetAllPoints()
+
+	self.cDebuff.IconOverlay = self.cDebuff:CreateTexture(nil, "OVERLAY")
+	self.cDebuff.IconOverlay:SetPoint("TOPLEFT", -1, 1)
+	self.cDebuff.IconOverlay:SetPoint("BOTTOMRIGHT", 1, -1)
+
 	if not (self:GetParent():GetName():match("oUF_Raid") or self:GetAttribute("unitsuffix") == "pet") then
-		self.Castbar = CreateFrame("StatusBar", self:GetName().."_Castbar", self)
+		self.Castbar = CreateFrame("StatusBar", nil, (unit == "player" or unit == "target") and self.Portrait or self)
 		self.Castbar:SetStatusBarTexture(normtexa)
-		self.Castbar:SetStatusBarColor(0.55, 0.57, 0.61, 0.5)
+		self.Castbar:SetStatusBarColor(0.55, 0.57, 0.61, 0.75)
 
 		self.Castbar.bg = self.Castbar:CreateTexture(nil, "BORDER")
 		self.Castbar.bg:SetAllPoints(self.Castbar)
@@ -895,16 +890,19 @@ local SetStyle = function(self, unit)
 		end
 
 		if unit == "player" or unit == "target" then
-			self.Castbar.Time = SetFontString(self.Castbar, font, 11)
+			self.Castbar.Time = SetFontString(self.PortraitOverlay, font, 11)
 			self.Castbar.Time:SetPoint("RIGHT", -1, 1)
 			self.Castbar.Time:SetTextColor(0.84, 0.75, 0.65)
 			self.Castbar.Time:SetJustifyH("RIGHT")
 			self.Castbar.CustomTimeText = FormatCastbarTime
 
-			self.Castbar.Text = SetFontString(self.Castbar, font, 11)
+			self.Castbar.Text = SetFontString(self.PortraitOverlay, font, 11)
 			self.Castbar.Text:SetPoint("LEFT", 1, 1)
 			self.Castbar.Text:SetPoint("RIGHT", self.Castbar.Time, "LEFT", -1, 0)
 			self.Castbar.Text:SetTextColor(0.84, 0.75, 0.65)
+
+			self.Castbar:HookScript("OnShow", function() self.Castbar.Text:Show(); self.Castbar.Time:Show() end)
+			self.Castbar:HookScript("OnHide", function() self.Castbar.Text:Hide(); self.Castbar.Time:Hide() end)
 
 			self.Castbar.Icon = self.Castbar:CreateTexture(nil, "ARTWORK")
 			self.Castbar.Icon:SetHeight(23 * 1.04)
@@ -922,10 +920,9 @@ local SetStyle = function(self, unit)
 			self.IconOverlay:SetTexture(buttonTex)
 			self.IconOverlay:SetVertexColor(0.25, 0.25, 0.25)
 
-			self.IconBackdrop = CreateFrame("Frame", nil, self)
+			self.IconBackdrop = CreateFrame("Frame", nil, self.Castbar)
 			self.IconBackdrop:SetPoint("TOPLEFT", self.Castbar.Icon, "TOPLEFT", -4, 3)
 			self.IconBackdrop:SetPoint("BOTTOMRIGHT", self.Castbar.Icon, "BOTTOMRIGHT", 4, -3.5)
-			self.IconBackdrop:SetParent(self.Castbar)
 			self.IconBackdrop:SetBackdrop({
 			  edgeFile = glowTex, edgeSize = 4,
 			  insets = {left = 3, right = 3, top = 3, bottom = 3}

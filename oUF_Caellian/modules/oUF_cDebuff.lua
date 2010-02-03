@@ -46,10 +46,10 @@ local function Update(self, event, unit)
 	if self.cDebuffBackdrop then
 		local color
 
-		if self.cDebuffBackgroundFilter and filteredDebuffType then
+		if self.cDebuffBackdropFilter and filteredDebuffType then
 			color = DebuffTypeColor[filteredDebuffType]
 			self.cDebuffBackdrop:SetVertexColor(color.r, color.g, color.b, 1)
-		elseif not self.cDebuffBackgroundFilter and unfilteredDebuffType then
+		elseif not self.cDebuffBackdropFilter and unfilteredDebuffType then
 			color = DebuffTypeColor[unfilteredDebuffType]
 			self.cDebuffBackdrop:SetVertexColor(color.r, color.g, color.b, 1)
 		else
@@ -57,25 +57,25 @@ local function Update(self, event, unit)
 		end
 	end
 
-	if self.cDebuffIcon then
+	if self.cDebuff.Icon then
 		if self.cDebuffIconFilter and filteredDebuffTexture then
-			self.cDebuffIcon:SetTexture(filteredDebuffTexture)
-			self.DebuffOverlay:SetVertexColor(0.25, 0.25, 0.25, 1)
-			self.DebuffOverlay:SetTexture([=[Interface\Addons\oUF_Caellian\media\textures\buttontex]=])
+			self.cDebuff.Icon:SetTexture(filteredDebuffTexture)
+			self.cDebuff.IconOverlay:SetVertexColor(0.25, 0.25, 0.25, 1)
+			self.cDebuff.IconOverlay:SetTexture([=[Interface\Addons\oUF_Caellian\media\textures\buttontex]=])
 		elseif not self.cDebuffIconFilter and unfilteredDebuffTexture then
-			self.cDebuffIcon:SetTexture(unfilteredDebuffTexture)
-			self.DebuffOverlay:SetVertexColor(0.25, 0.25, 0.25, 1)
-			self.DebuffOverlay:SetTexture([=[Interface\Addons\oUF_Caellian\media\textures\buttontex]=])
+			self.cDebuff.Icon:SetTexture(unfilteredDebuffTexture)
+			self.cDebuff.IconOverlay:SetVertexColor(0.25, 0.25, 0.25, 1)
+			self.cDebuff.IconOverlay:SetTexture([=[Interface\Addons\oUF_Caellian\media\textures\buttontex]=])
 		else
-			self.cDebuffIcon:SetTexture(nil)
-			self.DebuffOverlay:SetVertexColor(0.25, 0.25, 0.25, 0)
-			self.DebuffOverlay:SetTexture(nil)
+			self.cDebuff.Icon:SetTexture(nil)
+			self.cDebuff.IconOverlay:SetVertexColor(0.25, 0.25, 0.25, 0)
+			self.cDebuff.IconOverlay:SetTexture(nil)
 		end
 	end
 end
 
 local function Enable(self)
-	if not self.cDebuffBackdrop and not self.cDebuffIcon then return end
+	if not self.cDebuffBackdrop and not self.cDebuff.Icon then return end
 
 	if (self.cDebuffBackdropFilter and self.cDebuffIconFilter) and not CanDispel[playerClass] then
 		return
@@ -87,7 +87,7 @@ local function Enable(self)
 end
 
 local function Disable(self)
-	if self.cDebuffBackdrop or self.cDebuffIcon then
+	if self.cDebuffBackdrop or self.cDebuff.Icon then
 		self:UnregisterEvent("UNIT_AURA", Update)
 	end
 end
