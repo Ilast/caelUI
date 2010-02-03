@@ -797,10 +797,11 @@ local SetStyle = function(self, unit)
 			self.Debuffs["growth-y"] = "DOWN"
 			self.Debuffs.onlyShowPlayer = false
 
-			self.CPoints = {}
+			self.CPoints = CreateFrame("Frame", nil, self.Power)
+			self.CPoints:SetAllPoints()
 			self.CPoints.unit = PlayerFrame.unit
 			for i = 1, 5 do
-				self.CPoints[i] = self.Power:CreateTexture(nil, "ARTWORK")
+				self.CPoints[i] = self.CPoints:CreateTexture(nil, "ARTWORK")
 				self.CPoints[i]:SetHeight(12)
 				self.CPoints[i]:SetWidth(12)
 				self.CPoints[i]:SetTexture(bubbleTex)
