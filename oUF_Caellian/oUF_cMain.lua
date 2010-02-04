@@ -857,8 +857,8 @@ local SetStyle = function(self, unit)
 			self:SetScript("OnLeave", function(self) self.Status:SetAlpha(0); UnitFrame_OnLeave(self) end)
 		end
 
-	self.cDebuffBackdropFilter = false
-	self.cDebuffIconFilter = false
+	self.cDebuffBackdropFilter = true
+	self.cDebuffIconFilter = true
 
 	self.cDebuffBackdrop = self.Health:CreateTexture(nil, "OVERLAY")
 	self.cDebuffBackdrop:SetAllPoints(self.Health)

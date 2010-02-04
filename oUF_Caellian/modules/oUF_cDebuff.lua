@@ -9,27 +9,37 @@ local CanDispel = {
 	MAGE = { Curse = true },
 	DRUID = { Curse = true, Poison = true }
 }
+
+local isWhiteList
 local dispellist = CanDispel[playerClass] or {}
 
+local whiteList = {
+	[71531] = true, -- Essence of the Blood Queen
+	[53338] = true, -- Hunter's Mark
+	[3600] = true, -- Earthbind
+}
+
 local function GetDebuffType(unit)
-	if not UnitCanAssist("player", unit) then return end
+--	if not UnitCanAssist("player", unit) then return end
 
 	local firstDebuffType, firstDebuffIcon
 
 	local i = 1
 	while true do
-		local _, _, texture, _, debufftype, _, _, _, _ = UnitAura(unit, i, "HARMFUL")
+		local _, _, icon, _, debuffType, _, _, _, _, _, spellId = UnitAura(unit, i, "HARMFUL")
 
-		if not texture then break end
+		if not icon then break end
 
-		if debufftype then
+		isWhiteList = whiteList[spellId]
+
+		if debuffType or (spellId and whiteList[spellId]) then
 			if not firstDebuffType then
-				firstDebuffType = debufftype
-				firstDebuffIcon = texture
+				firstDebuffType = debuffType
+				firstDebuffIcon = icon
 			end
 
-			if dispellist[debufftype] then
-				return firstDebuffType, firstDebuffIcon, debufftype, texture
+			if dispellist[debuffType] or whiteList[spellId] then
+				return firstDebuffType, firstDebuffIcon, debuffType, icon
 			end
 		end
 
@@ -76,10 +86,6 @@ end
 
 local function Enable(self)
 	if not self.cDebuffBackdrop and not self.cDebuff.Icon then return end
-
-	if (self.cDebuffBackdropFilter and self.cDebuffIconFilter) and not CanDispel[playerClass] then
-		return
-	end
 
 	self:RegisterEvent("UNIT_AURA", Update)
 
