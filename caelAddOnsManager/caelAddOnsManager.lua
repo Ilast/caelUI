@@ -8,7 +8,7 @@
 		"caelMinimap", "caelNamePlates", "caelCooldowns", "caelMap", "caelMedia", "caelPanels", "caelQuests", "caelStats", "caelTooltips", "caelTweaks",
 		"GetReagents-Lite", "gotChat", "gotMacros",
 		"oUF", "oUF_Caellian", "oUF_CombatFeedback", "oUF_Experience", "oUF_ReadyCheck", "oUF_Reputation", "oUF_SpellRange", "oUF_ThreatFeedback",
-		"rActionBarStyler", "rActionButtonStyler", "RecBags", "RecScrollAreas", "Snoopy", "tekKompare"
+		"rActionBarStyler", "rActionButtonStyler", "RecBags", "recClassTimers", "RecScrollAreas", "Snoopy", "tekKompare"
 	},
 	--[[---------------------------------------------------------------------------
 							  -=( Class-Specific Addons )=-
