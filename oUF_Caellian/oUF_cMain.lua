@@ -47,9 +47,9 @@ local colors = setmetatable({
 		["POWER_TYPE_PYRITE"] = {0.60, 0.09, 0.17},
 	}, {__index = oUF.colors.power}),
 	happiness = setmetatable({
-		[1] = {.69,.31,.31},
-		[2] = {.65,.63,.35},
-		[3] = {.33,.59,.33},
+		[1] = {0.69, 0.31, 0.31},
+		[2] = {0.65, 0.63, 0.35},
+		[3] = {0.33, 0.59, 0.33},
 	}, {__index = oUF.colors.happiness}),
 	runes = setmetatable({
 		[1] = {0.69, 0.31, 0.31},
@@ -287,7 +287,6 @@ end
 
 local UpdateCPoints = function(self, event, unit)
 	if unit == PlayerFrame.unit and unit ~= self.CPoints.unit then
---	if oUF_Caellian_player.unit == unit or PlayerFrame.unit == unit then
 		self.CPoints.unit = unit
 	end
 end
@@ -485,12 +484,24 @@ local SetStyle = function(self, unit)
 	self:SetScript("OnEnter", UnitFrame_OnEnter)
 	self:SetScript("OnLeave", UnitFrame_OnLeave)
 
-	-- hook the onshow-script, if events are fired before the frame is shown
-	-- the petframe sometimes needs it.
 	self:HookScript("OnShow", updateAllElements)
 
-	self:SetBackdrop(backdrop)
-	self:SetBackdropColor(0, 0, 0)
+	self.FrameBackdrop = CreateFrame("Frame", nil, self)
+	self.FrameBackdrop:SetPoint("TOPLEFT", self, "TOPLEFT", -4.5, 4)
+	self.FrameBackdrop:SetFrameStrata("BACKGROUND")
+	self.FrameBackdrop:SetBackdrop {
+	  edgeFile = glowTex, edgeSize = 5,
+	  insets = {left = 3, right = 3, top = 3, bottom = 3}
+	}
+	self.FrameBackdrop:SetBackdropColor(0, 0, 0, 0)
+	self.FrameBackdrop:SetBackdropBorderColor(0, 0, 0)
+
+	if unit == "player" and class == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and unit == "player" and class == "SHAMAN" then
+		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 4.5, -12)
+	else
+		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 4.5, -4.5)
+	end
+	self.ThreatFeedbackFrame = self.FrameBackdrop
 
 	self.Health = CreateFrame("StatusBar", self:GetName().."_Health", self)
 	self.Health:SetHeight((unit == "player" or unit == "target" or self:GetParent():GetName():match("oUF_Raid")) and 22 or self:GetAttribute("unitsuffix") == "pet" and 10 or 16)
@@ -1006,31 +1017,19 @@ local SetStyle = function(self, unit)
 	self.Highlight:SetVertexColor(0.84, 0.75, 0.65, 0.15)
 	self.Highlight:SetBlendMode("ADD")
 
-	self.FrameBackdrop = CreateFrame("Frame", nil, self)
-	self.FrameBackdrop:SetPoint("TOPLEFT", self, "TOPLEFT", -4.5, 4)
-	self.FrameBackdrop:SetFrameStrata("BACKGROUND")
-	self.FrameBackdrop:SetBackdrop {
-	  edgeFile = glowTex, edgeSize = 5,
-	  insets = {left = 3, right = 3, top = 3, bottom = 3}
-	}
-	self.FrameBackdrop:SetBackdropColor(0, 0, 0, 0)
-	self.FrameBackdrop:SetBackdropBorderColor(0, 0, 0)
-
-	if unit == "player" and class == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and unit == "player" and class == "SHAMAN" then
-		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 4.5, -12)
-	else
-		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 4.5, -4.5)
-	end
-	self.ThreatFeedbackFrame = self.FrameBackdrop
-
 	self.MoveableFrames = true
+
 	self.outsideRangeAlpha = 0.4
 	self.inRangeAlpha = 1
 	self.SpellRange = true
 
 	self.BarFade = false
 
-	local AggroSelect = function() if (UnitExists("target")) then PlaySound("igCreatureAggroSelect") end end
+	local AggroSelect = function()
+		if (UnitExists("target")) then
+			PlaySound("igCreatureAggroSelect")
+		end
+	end
 	self:RegisterEvent("PLAYER_TARGET_CHANGED", AggroSelect)
 
 	self.PostUpdateHealth = PostUpdateHealth
@@ -1058,7 +1057,7 @@ showRaid = [BOOLEAN] -- true if the header should be shown while in a raid
 showParty = [BOOLEAN] -- true if the header should be shown while in a party and not in a raid
 showPlayer = [BOOLEAN] -- true if the header should show the player when not in a raid
 showSolo = [BOOLEAN] -- true if the header should be shown while not in a group (implies showPlayer)
-nameList = [STRING] -- a comma separated list of player names (not used if 'groupFilter' is set)
+nameList = [STRING] -- a comma separated list of player names (not used if "groupFilter" is set)
 groupFilter = [1-8, STRING] -- a comma seperated list of raid group numbers and/or uppercase class names and/or uppercase roles
 strictFiltering = [BOOLEAN] - if true, then characters must match both a group and a class from the groupFilter list
 point = [STRING] -- a valid XML anchoring point (Default: "TOP")
