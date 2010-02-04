@@ -1,5 +1,4 @@
-﻿
-local SetFont = function(obj, font, size, style, r, g, b, sr, sg, sb, sox, soy)
+﻿local SetFont = function(obj, font, size, style, r, g, b, sr, sg, sb, sox, soy)
 	obj:SetFont(font, size, style)
 	if sr and sg and sb then obj:SetShadowColor(sr, sg, sb) end
 	if sox and soy then obj:SetShadowOffset(sox, soy) end
@@ -7,10 +6,19 @@ local SetFont = function(obj, font, size, style, r, g, b, sr, sg, sb, sox, soy)
 	elseif r then obj:SetAlpha(r) end
 end
 
+local FixTitleFont = function()
+	for _,butt in pairs(PlayerTitlePickerScrollFrame.buttons) do
+		butt.text:SetFontObject(GameFontHighlightSmallLeft)
+	end
+end
 
 local caelFonts = CreateFrame("Frame")
 caelFonts:RegisterEvent("ADDON_LOADED")
-caelFonts:SetScript("OnEvent", function()
+
+caelFonts:SetScript("OnEvent", function(self, event, addon)
+
+	if addon ~= "caelFonts" then return end
+
 	local NORMAL     = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=]
 	local BOLD       = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd bd.ttf]=]
 	local BOLDITALIC = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd bd it.ttf]=]
@@ -75,7 +83,11 @@ caelFonts:SetScript("OnEvent", function()
 		frame:SetFont(NORMAL, size)
 	end
 
-	local function FixTitleFont() for _,butt in pairs(PlayerTitlePickerScrollFrame.buttons) do butt.text:SetFontObject(GameFontHighlightSmallLeft) end end
 	hooksecurefunc("PlayerTitleFrame_UpdateTitles", FixTitleFont)
 	FixTitleFont()
+	
+	SetFont = nil
+	self:SetScript("OnEvent", nil)
+	self:UnregisterAllEvents()
+	self = nil
 end)
