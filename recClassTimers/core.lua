@@ -1,4 +1,4 @@
--- $Id: core.lua 194 2010-02-03 16:24:23Z john.d.mann@gmail.com $
+-- $Id$
 local _, recClassTimers = ...
 local event_frame = CreateFrame("Frame")
 local floor = math.floor
@@ -51,6 +51,7 @@ recClassTimers.make_bar = function(self, spell_name, unit, buff_type, only_self,
 	bars[new_id].only_self = only_self
 	bars[new_id].count = 0
 	bars[new_id].active = false
+	bars[new_id].timeless = timeless
 	bars[new_id].expires = 0
 	bars[new_id].duration = 0
 	bars[new_id].timer = 0
@@ -98,7 +99,6 @@ recClassTimers.make_bar = function(self, spell_name, unit, buff_type, only_self,
 	bars[new_id]:SetPoint(attach_point, parent_frame, relative_point, x_offset, y_offset)
 	
 	bars[new_id]:Hide()
-	bars[new_id]:SetScript("OnUpdate", on_update)
 end
 
 local function check_buffs()
@@ -117,6 +117,14 @@ local function check_buffs()
 			bar.active = true
 			bar.expires = expiration
 			bar.duration = duration
+			
+			if duration and duration > 0 then
+				bar:SetScript("OnUpdate", on_update)
+			else
+				bar:SetScript("OnUpdate", nil)
+				bar.lbl:SetText(format("%s%s", bar.spell_name, bar.count > 1 and format("(%d)", bar.count) or ""))
+			end
+			
 			bar:Show()
 		end
 	end
