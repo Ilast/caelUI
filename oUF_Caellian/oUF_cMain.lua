@@ -847,7 +847,7 @@ local SetStyle = function(self, unit)
 		end
 
 	self.cDebuffBackdropFilter = false
-	self.cDebuffIconFilter = true
+	self.cDebuffIconFilter = false
 
 	self.cDebuffBackdrop = self.Health:CreateTexture(nil, "OVERLAY")
 	self.cDebuffBackdrop:SetAllPoints(self.Health)
