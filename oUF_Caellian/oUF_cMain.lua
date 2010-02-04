@@ -492,7 +492,7 @@ local SetStyle = function(self, unit)
 	self:SetBackdrop(backdrop)
 	self:SetBackdropColor(0, 0, 0)
 
-	self.Health = CreateFrame("StatusBar", nil, self)
+	self.Health = CreateFrame("StatusBar", self:GetName().."_Health", self)
 	self.Health:SetHeight((unit == "player" or unit == "target" or self:GetParent():GetName():match("oUF_Raid")) and 22 or self:GetAttribute("unitsuffix") == "pet" and 10 or 16)
 	self.Health:SetPoint("TOPLEFT")
 	self.Health:SetPoint("TOPRIGHT")
@@ -799,7 +799,7 @@ local SetStyle = function(self, unit)
 			self.Portrait:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 8)
 			table.insert(self.__elements, HidePortrait)
 	
-			self.PortraitOverlay = CreateFrame("StatusBar", nil, self.Portrait)
+			self.PortraitOverlay = CreateFrame("StatusBar", self:GetName().."_PortraitOverlay", self.Portrait)
 			self.PortraitOverlay:SetFrameLevel(self.PortraitOverlay:GetFrameLevel() + 1)
 			self.PortraitOverlay:SetPoint("TOPLEFT", self, "TOPLEFT", 0, -22)
 			self.PortraitOverlay:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 7)
@@ -868,7 +868,7 @@ local SetStyle = function(self, unit)
 	self.cDebuff.IconOverlay:SetPoint("BOTTOMRIGHT", 1, -1)
 
 	if not (self:GetParent():GetName():match("oUF_Raid") or self:GetAttribute("unitsuffix") == "pet") then
-		self.Castbar = CreateFrame("StatusBar", nil, (unit == "player" or unit == "target") and self.Portrait or self)
+		self.Castbar = CreateFrame("StatusBar", self:GetName().."_Castbar", (unit == "player" or unit == "target") and self.Portrait or self)
 		self.Castbar:SetStatusBarTexture(normtexa)
 		self.Castbar:SetStatusBarColor(0.55, 0.57, 0.61, 0.75)
 
@@ -1134,7 +1134,7 @@ partyToggle:SetScript("OnEvent", function(self)
 	else
 		self:UnregisterEvent("PLAYER_REGEN_ENABLED")
 		local numraid = GetNumRaidMembers()
-		if numraid > 0 then
+		if numraid > 0 and (numraid > 5 or numraid ~= GetNumPartyMembers() + 1) then
 			party:Hide()
 			if not settings.noRaid then
 				for i, v in ipairs(raid) do v:Show() end
