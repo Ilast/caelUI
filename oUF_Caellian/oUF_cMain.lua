@@ -487,19 +487,20 @@ local SetStyle = function(self, unit)
 	self:HookScript("OnShow", updateAllElements)
 
 	self.FrameBackdrop = CreateFrame("Frame", nil, self)
-	self.FrameBackdrop:SetPoint("TOPLEFT", self, "TOPLEFT", -4.5, 4)
+	self.FrameBackdrop:SetPoint("TOPLEFT", self, "TOPLEFT", -4, 4)
 	self.FrameBackdrop:SetFrameStrata("BACKGROUND")
 	self.FrameBackdrop:SetBackdrop {
-	  edgeFile = glowTex, edgeSize = 5,
-	  insets = {left = 3, right = 3, top = 3, bottom = 3}
+		bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
+		edgeFile = glowTex, edgeSize = 3,
+		insets = {left = 3, right = 3, top = 3, bottom = 3}
 	}
-	self.FrameBackdrop:SetBackdropColor(0, 0, 0, 0)
+	self.FrameBackdrop:SetBackdropColor(0.55, 0.57, 0.61)
 	self.FrameBackdrop:SetBackdropBorderColor(0, 0, 0)
 
 	if unit == "player" and class == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and unit == "player" and class == "SHAMAN" then
-		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 4.5, -12)
+		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 4, -12)
 	else
-		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 4.5, -4.5)
+		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 4, -4)
 	end
 	self.ThreatFeedbackFrame = self.FrameBackdrop
 
@@ -807,13 +808,13 @@ local SetStyle = function(self, unit)
 	
 			self.Portrait = CreateFrame("PlayerModel", nil, self)
 			self.Portrait:SetPoint("TOPLEFT", self, "TOPLEFT", 0, -23)
-			self.Portrait:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 8)
+			self.Portrait:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0.5, 8)
 			table.insert(self.__elements, HidePortrait)
 	
 			self.PortraitOverlay = CreateFrame("StatusBar", self:GetName().."_PortraitOverlay", self.Portrait)
 			self.PortraitOverlay:SetFrameLevel(self.PortraitOverlay:GetFrameLevel() + 1)
-			self.PortraitOverlay:SetPoint("TOPLEFT", self, "TOPLEFT", 0, -22)
-			self.PortraitOverlay:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 7)
+			self.PortraitOverlay:SetPoint("TOPLEFT", self, "TOPLEFT", 0, -23)
+			self.PortraitOverlay:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 8)
 			self.PortraitOverlay:SetStatusBarTexture(normtexa)
 			self.PortraitOverlay:SetStatusBarColor(0.25, 0.25, 0.25, 0.5)
 
@@ -821,13 +822,13 @@ local SetStyle = function(self, unit)
 			self.ThinLine1:SetHeight(1)
 			self.ThinLine1:SetPoint("TOPLEFT", self, "TOPLEFT", 0, -22)
 			self.ThinLine1:SetPoint("TOPRIGHT", self, "TOPRIGHT", 0, -22)
-			self.ThinLine1:SetTexture(0,0,0)
+			self.ThinLine1:SetTexture(0.55, 0.57, 0.61)
 
 			self.ThinLine2 = self.PortraitOverlay:CreateTexture(nil, "BORDER")
 			self.ThinLine2:SetHeight(1)
 			self.ThinLine2:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 7)
 			self.ThinLine2:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 7)
-			self.ThinLine2:SetTexture(0,0,0)
+			self.ThinLine2:SetTexture(0.55, 0.57, 0.61)
 
 			self.CombatFeedbackText = SetFontString(self.PortraitOverlay, font, 18, "OUTLINE")
 			self.CombatFeedbackText:SetPoint("CENTER", 0, 1)
@@ -1019,7 +1020,7 @@ local SetStyle = function(self, unit)
 
 	self.MoveableFrames = true
 
-	self.outsideRangeAlpha = 0.4
+	self.outsideRangeAlpha = 0.6
 	self.inRangeAlpha = 1
 	self.SpellRange = true
 
