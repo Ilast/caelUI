@@ -1,4 +1,4 @@
-local caelMisdirection = CreateFrame("Frame")
+﻿local caelMisdirection = CreateFrame("Frame")
 
 local print = function(text)
 	DEFAULT_CHAT_FRAME:AddMessage("|cffD7BEA5cael|rMisdirection: "..tostring(text))
@@ -15,7 +15,8 @@ function caelMisdirection_OnEvent(_, _, _, subEvent, _, sourceName, _, _, destNa
 		if  spellName == "Misdirection" then
 			if sourceName and UnitIsPlayer(destName) then
 				if UnitIsUnit(sourceName, "Caellian") and not UnitIsUnit(destName, "pet") then
-					SendChatMessage(("Misdirected"), "WHISPER", GetDefaultLanguage("player"), destName)
+--					SendChatMessage(("Misdirected"), "WHISPER", GetDefaultLanguage("player"), destName)
+					SendChatMessage(("Détourné"), "WHISPER", GetDefaultLanguage("player"), destName)
 					RaidNotice_AddMessage(RaidWarningFrame, "Misdirection on "..destName, textColor)
 
 --					local index = GetChannelName("RaidHunter")
