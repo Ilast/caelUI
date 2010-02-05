@@ -1,7 +1,8 @@
-local caelInterrupt = CreateFrame("Frame")
+﻿local caelInterrupt = CreateFrame("Frame")
 local playerGuid = nil
 local msg = "%s: %s (%s)"
-local emo = "interrupted %s. (%s)"
+--local emo = "interrupted %s. (%s)"
+local emo = "a interrompu %s. (%s)"
 local grouped = nil
 local lastTimestamp = nil
 local lastInterrupted = nil
