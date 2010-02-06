@@ -14,7 +14,7 @@ local dispelList = canDispel[playerClass] or {}
 
 local whiteList = {
 	["Essence of the Blood Queen"] = true, -- 71531
-	["Hunter's Mark"] = true, -- 53338
+--	["Hunter's Mark"] = true, -- 53338
 }
 
 local function GetDebuffType(unit)
