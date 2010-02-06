@@ -648,8 +648,8 @@ local SetStyle = function(self, unit)
 			self.Runes:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -1)
 			self.Runes:SetHeight(7)
 			self.Runes:SetWidth(230)
-			self.Runes:SetBackdrop(backdrop)
-			self.Runes:SetBackdropColor(0, 0, 0)
+--			self.Runes:SetBackdrop(backdrop)
+--			self.Runes:SetBackdropColor(0.55, 0.57, 0.61)
 			self.Runes.anchor = "TOPLEFT"
 			self.Runes.growth = "RIGHT"
 			self.Runes.height = 7
@@ -681,7 +681,7 @@ local SetStyle = function(self, unit)
 				end
 				self.TotemBar[i]:SetStatusBarTexture(normtexa)
 				self.TotemBar[i]:SetBackdrop(backdrop)
-				self.TotemBar[i]:SetBackdropColor(0, 0, 0)
+				self.TotemBar[i]:SetBackdropColor(0.55, 0.57, 0.61)
 				self.TotemBar[i]:SetMinMaxValues(0, 1)
 
 				self.TotemBar[i].bg = self.TotemBar[i]:CreateTexture(nil, "BORDER")
@@ -872,7 +872,7 @@ local SetStyle = function(self, unit)
 	self.cDebuff:SetHeight(16)
 	self.cDebuff:SetPoint("CENTER")
 
-	self.cDebuff.Icon = self.cDebuff:CreateTexture(nil, "OVERLAY")
+	self.cDebuff.Icon = self.cDebuff:CreateTexture(nil, "ARTWORK")
 	self.cDebuff.Icon:SetAllPoints()
 
 	self.cDebuff.IconOverlay = self.cDebuff:CreateTexture(nil, "OVERLAY")
