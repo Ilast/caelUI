@@ -648,22 +648,20 @@ local SetStyle = function(self, unit)
 			self.Runes:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -1)
 			self.Runes:SetHeight(7)
 			self.Runes:SetWidth(230)
---			self.Runes:SetBackdrop(backdrop)
---			self.Runes:SetBackdropColor(0.55, 0.57, 0.61)
 			self.Runes.anchor = "TOPLEFT"
 			self.Runes.growth = "RIGHT"
 			self.Runes.height = 7
 			self.Runes.width = 230 / 6 -- ( -0.85)
 
 			for i = 1, 6 do
-				self.Runes[i] = CreateFrame("StatusBar", self:GetName().."_Runes"..i, self.Runes)
+				self.Runes[i] = CreateFrame("StatusBar", self:GetName().."_Runes"..i, self)
 				self.Runes[i]:SetStatusBarTexture(normtexa)
 				self.Runes[i]:SetStatusBarColor(unpack(runeloadcolors[i]))
 
-				self.Runes[i].bg = self.Runes[i]:CreateTexture(nil, "BORDER")
-				self.Runes[i].bg:SetAllPoints(self.Runes[i])
-				self.Runes[i].bg:SetTexture(normtexa)
-				self.Runes[i].bg:SetAlpha(0.33)
+				self.Runes[i].bd = self.Runes[i]:CreateTexture(nil, "BORDER")
+				self.Runes[i].bd:SetAllPoints(self.Runes[i])
+				self.Runes[i].bd:SetTexture(normtexa)
+				self.Runes[i].bd:SetVertexColor(0.15, 0.15, 0.15)
 			end
 		end
 
@@ -680,8 +678,6 @@ local SetStyle = function(self, unit)
 					self.TotemBar[i]:SetPoint("TOPLEFT", self.TotemBar[i-1], "TOPRIGHT", 1, 0)
 				end
 				self.TotemBar[i]:SetStatusBarTexture(normtexa)
-				self.TotemBar[i]:SetBackdrop(backdrop)
-				self.TotemBar[i]:SetBackdropColor(0.55, 0.57, 0.61)
 				self.TotemBar[i]:SetMinMaxValues(0, 1)
 
 				self.TotemBar[i].bg = self.TotemBar[i]:CreateTexture(nil, "BORDER")
