@@ -20,7 +20,7 @@ local whiteList = {
 local function GetDebuffType(unit)
 	if not UnitCanAssist("player", unit) then return end
 
-	local firstDebuffType, firstDebuffIcon
+	local dispelType, debuffIcon
 
 	local i = 1
 	while true do
@@ -29,23 +29,24 @@ local function GetDebuffType(unit)
 		if not icon then break end
 
 		if (debuffType and dispelList[debuffType]) or whiteList[name] then
-			if not firstDebuffType then
-				firstDebuffType = debuffType
-				firstDebuffIcon = icon
-			end
+			dispelType = debuffType
+			debuffIcon = icon
 			
-			return firstDebuffType, firstDebuffIcon, debuffType, icon
+			if whiteList[name] then
+				break
+			end
 		end
 
 		i = i + 1
 	end
 
-	return firstDebuffType, firstDebuffIcon
+	return dispelType, debuffIcon
 end
 
 local function Update(self, event, unit)
 	if self.unit ~= unit  then return end
 	local unfilteredDebuffType, unfilteredDebuffTexture, filteredDebuffType, filteredDebuffTexture = GetDebuffType(unit)
+
 
 	if self.cDebuffBackdrop then
 		local color
@@ -80,7 +81,6 @@ end
 
 local function Enable(self)
 	if not self.cDebuff then return end
---	if not self.cDebuffBackdrop and not self.cDebuff.Icon then return end
 
 	self:RegisterEvent("UNIT_AURA", Update)
 
