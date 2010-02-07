@@ -11,6 +11,16 @@ local backdrop = {
 	}
 local select = select
 
+-- Execute/Kill Shot/Hammer of Wrath/Drain Soul check
+local pewpewRangeFactor
+local _, playerClass = UnitClass("player")
+
+if playerClass == "WARLOCK" then
+	pewpewRangeFactor = 4
+elseif playerClass == "HUNTER" or playerClass == "WARRIOR" or playerClass == "PALADIN" then
+	pewpewRangeFactor = 5
+end
+
 local IsValidFrame = function(frame)
 	if frame:GetName() then
 		return
@@ -51,21 +61,26 @@ local UpdateFrame = function(self)
 	local r, g, b = self.healthBar:GetStatusBarColor()
 	local newr, newg, newb
 	if g + b == 0 then
+		-- Hostile unit
 		newr, newg, newb = 0.69, 0.31, 0.31
 		self.healthBar:SetStatusBarColor(0.69, 0.31, 0.31)
 		if self.boss:IsShown() or self.elite:IsShown() then
 			self.healthBar.UnitType = "Hostile"
 		end
 	elseif r + b == 0 then
+		-- Friendly unit
 		newr, newg, newb = 0.33, 0.59, 0.33
 		self.healthBar:SetStatusBarColor(0.33, 0.59, 0.33)
 	elseif r + g == 0 then
+		-- Friendly player
 		newr, newg, newb = 0.31, 0.45, 0.63
 		self.healthBar:SetStatusBarColor(0.31, 0.45, 0.63)
 	elseif 2 - (r + g) < 0.05 and b == 0 then
+		-- Neutral unit
 		newr, newg, newb = 0.65, 0.63, 0.35
 		self.healthBar:SetStatusBarColor(0.65, 0.63, 0.35)
 	else
+		-- Hostile player - class colored.
 		newr, newg, newb = r, g, b
 	end
 
@@ -104,12 +119,12 @@ local OnHealthChanged = function(self)
 	local r, g, b = self:GetStatusBarColor()
 	local _, max = self:GetMinMaxValues()
 	local cur = self:GetValue()
-	if self.UnitType == "Hostile" and cur > 0 and cur < max/5 and self:GetParent():GetAlpha() == 1 and UnitExists("target") and not self.Trigger then
+	if self.UnitType == "Hostile" and cur > 0 and cur < max/pewpewRangeFactor and self:GetParent():GetAlpha() == 1 and not self.Trigger then
 		self.Trigger = true
 		if RecScrollAreas then
 			RecScrollAreas:AddText("|cffAF5050Kill Shot|r", true, "Notification", true)
 		end
-	elseif self.UnitType == "Hostile" and cur >= max/5 and self.Trigger then
+	elseif self.UnitType == "Hostile" and cur >= max/pewpewRangeFactor and self.Trigger then
 		self.Trigger = false
 	end
 end
@@ -188,7 +203,9 @@ local CreateFrame = function(frame)
 	levelTextRegion:SetShadowOffset(1.25, -1.25)
 
 	healthBar:SetStatusBarTexture(barTexture)
-	healthBar:HookScript("OnValueChanged", OnHealthChanged)
+	if pewpewRangeFactor then
+		healthBar:HookScript("OnValueChanged", OnHealthChanged)
+	end
 
 	healthBar.hpBackground = healthBar:CreateTexture(nil, "BORDER")
 	healthBar.hpBackground:SetAllPoints(healthBar)
