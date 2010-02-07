@@ -1,4 +1,4 @@
-local settings = Caellian.oUF
+﻿local settings = Caellian.oUF
 local mediaPath = [=[Interface\Addons\oUF_Caellian\media\]=]
 
 local backdrop = {
@@ -569,7 +569,7 @@ local SetStyle = function(self, unit)
 	end
 
 	if unit == "player" then
-		self.Combat = self.Health:CreateTexture(nil, "ARTWORK")
+		self.Combat = self.Health:CreateTexture(nil, "OVERLAY")
 		self.Combat:SetHeight(12)
 		self.Combat:SetWidth(12)
 		self.Combat:SetPoint("CENTER")
@@ -784,7 +784,7 @@ local SetStyle = function(self, unit)
 			self.CPoints = {}
 			self.CPoints.unit = PlayerFrame.unit
 			for i = 1, 5 do
-				self.CPoints[i] = self.Power:CreateTexture(nil, "ARTWORK")
+				self.CPoints[i] = self.Power:CreateTexture(nil, "OVERLAY")
 				self.CPoints[i]:SetHeight(12)
 				self.CPoints[i]:SetWidth(12)
 				self.CPoints[i]:SetTexture(bubbleTex)
@@ -801,10 +801,15 @@ local SetStyle = function(self, unit)
 			self.CPoints[5]:SetVertexColor(0.33, 0.59, 0.33)
 			self:RegisterEvent("UNIT_COMBO_POINTS", UpdateCPoints)
 		end
-	
+
 			self.Portrait = CreateFrame("PlayerModel", nil, self)
 			self.Portrait:SetPoint("TOPLEFT", self, "TOPLEFT", 0, -23)
 			self.Portrait:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0.5, 8)
+			self.Portrait:SetBackdrop {
+				bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
+			}
+			self.Portrait:SetBackdropColor(0.15, 0.15, 0.15)
+
 			table.insert(self.__elements, HidePortrait)
 	
 			self.PortraitOverlay = CreateFrame("StatusBar", self:GetName().."_PortraitOverlay", self.Portrait)
@@ -854,8 +859,7 @@ local SetStyle = function(self, unit)
 			self:SetScript("OnLeave", function(self) self.Status:SetAlpha(0); UnitFrame_OnLeave(self) end)
 		end
 
-	self.cDebuffBackdropFilter = true
-	self.cDebuffIconFilter = true
+	self.cDebuffFilter = false
 
 	self.cDebuffBackdrop = self.Health:CreateTexture(nil, "OVERLAY")
 	self.cDebuffBackdrop:SetAllPoints(self.Health)

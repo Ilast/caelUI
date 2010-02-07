@@ -14,14 +14,17 @@ local dispelList = canDispel[playerClass] or {}
 
 local whiteList = {
 	["Essence of the Blood Queen"] = true, -- 71531
+	["Hunter's Mark"] = true, -- 71531
 }
 
 local function GetDebuffType(unit)
-	if not UnitCanAssist("player", unit) then return end
+--	if not UnitCanAssist("player", unit) then return end
 
 	local dispelType, debuffIcon
 
 	local i = 1
+	local isWhiteList
+
 	while true do
 		local name, _, icon, _, debuffType = UnitAura(unit, i, "HARMFUL")
 
@@ -32,6 +35,7 @@ local function GetDebuffType(unit)
 			debuffIcon = icon
 			
 			if whiteList[name] then
+				isWhiteList = true
 				break
 			end
 		end
@@ -39,22 +43,19 @@ local function GetDebuffType(unit)
 		i = i + 1
 	end
 
-	return dispelType, debuffIcon
+	return dispelType, debuffIcon, isWhiteList
 end
 
 local function Update(self, event, unit)
 	if self.unit ~= unit  then return end
-	local unfilteredDebuffType, unfilteredDebuffTexture, filteredDebuffType, filteredDebuffTexture = GetDebuffType(unit)
 
+	local dispelType, debuffIcon, isWhiteList = GetDebuffType(unit)
 
 	if self.cDebuffBackdrop then
 		local color
 
-		if self.cDebuffBackdropFilter and filteredDebuffType then
-			color = DebuffTypeColor[filteredDebuffType]
-			self.cDebuffBackdrop:SetVertexColor(color.r, color.g, color.b, 1)
-		elseif not self.cDebuffBackdropFilter and unfilteredDebuffType then
-			color = DebuffTypeColor[unfilteredDebuffType]
+		if isWhiteList or not self.cDebuffFilter then
+			color = DebuffTypeColor[dispelType]
 			self.cDebuffBackdrop:SetVertexColor(color.r, color.g, color.b, 1)
 		else
 			self.cDebuffBackdrop:SetVertexColor(0, 0, 0, 0)
@@ -62,12 +63,8 @@ local function Update(self, event, unit)
 	end
 
 	if self.cDebuff.Icon then
-		if self.cDebuffIconFilter and filteredDebuffTexture then
-			self.cDebuff.Icon:SetTexture(filteredDebuffTexture)
-			self.cDebuff.IconOverlay:SetVertexColor(0.25, 0.25, 0.25, 1)
-			self.cDebuff.IconOverlay:SetTexture([=[Interface\Addons\oUF_Caellian\media\textures\buttontex]=])
-		elseif not self.cDebuffIconFilter and unfilteredDebuffTexture then
-			self.cDebuff.Icon:SetTexture(unfilteredDebuffTexture)
+		if isWhiteList or not self.cDebuffFilter then
+			self.cDebuff.Icon:SetTexture(debuffIcon)
 			self.cDebuff.IconOverlay:SetVertexColor(0.25, 0.25, 0.25, 1)
 			self.cDebuff.IconOverlay:SetTexture([=[Interface\Addons\oUF_Caellian\media\textures\buttontex]=])
 		else
@@ -92,4 +89,4 @@ local function Disable(self)
 	end
 end
 
-oUF:AddElement('cDebuff', Update, Enable, Disable)
+oUF:AddElement("cDebuff", Update, Enable, Disable)
