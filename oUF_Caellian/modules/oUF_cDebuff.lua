@@ -54,7 +54,7 @@ local function Update(self, event, unit)
 	if self.cDebuffBackdrop then
 		local color
 
-		if isWhiteList or not self.cDebuffFilter then
+		if debuffIcon and (isWhiteList or not self.cDebuffFilter) then
 			color = DebuffTypeColor[dispelType]
 			self.cDebuffBackdrop:SetVertexColor(color.r, color.g, color.b, 1)
 		else
@@ -63,7 +63,7 @@ local function Update(self, event, unit)
 	end
 
 	if self.cDebuff.Icon then
-		if isWhiteList or not self.cDebuffFilter then
+		if debuffIcon and (isWhiteList or not self.cDebuffFilter) then
 			self.cDebuff.Icon:SetTexture(debuffIcon)
 			self.cDebuff.IconOverlay:SetVertexColor(0.25, 0.25, 0.25, 1)
 			self.cDebuff.IconOverlay:SetTexture([=[Interface\Addons\oUF_Caellian\media\textures\buttontex]=])
