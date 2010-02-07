@@ -863,7 +863,7 @@ local SetStyle = function(self, unit)
 
 	self.cDebuffBackdrop = self.Health:CreateTexture(nil, "OVERLAY")
 	self.cDebuffBackdrop:SetAllPoints(self.Health)
-	self.cDebuffBackdrop:SetTexture([=[Interface\Addons\oUF_Caellian\media\textures\highlighttex]=])
+	self.cDebuffBackdrop:SetTexture(highlightTex)
 	self.cDebuffBackdrop:SetBlendMode("ADD")
 	self.cDebuffBackdrop:SetVertexColor(0, 0, 0, 0)
 
@@ -878,6 +878,8 @@ local SetStyle = function(self, unit)
 	self.cDebuff.IconOverlay = self.cDebuff:CreateTexture(nil, "OVERLAY")
 	self.cDebuff.IconOverlay:SetPoint("TOPLEFT", -1, 1)
 	self.cDebuff.IconOverlay:SetPoint("BOTTOMRIGHT", 1, -1)
+	self.cDebuff.IconOverlay:SetTexture(buttonTex)
+	self.cDebuff.IconOverlay:SetVertexColor(0.25, 0.25, 0.25, 0)
 
 	if not (self:GetParent():GetName():match("oUF_Raid") or self:GetAttribute("unitsuffix") == "pet") then
 		self.Castbar = CreateFrame("StatusBar", self:GetName().."_Castbar", (unit == "player" or unit == "target") and self.Portrait or self)
