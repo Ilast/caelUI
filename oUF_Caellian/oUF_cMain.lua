@@ -91,11 +91,17 @@ local StopFlash = function(self)
 	end
 end
 
-local function Menu(self)
-	if(self.unit == "player") then
-		ToggleDropDownMenu(1, nil, oUF_Caellian_DropDown, "cursor")
-	elseif(_G[string.gsub(self.unit, "(.)", string.upper, 1) .. "FrameDropDown"]) then
-		ToggleDropDownMenu(1, nil, _G[string.gsub(self.unit, "(.)", string.upper, 1) .. "FrameDropDown"], "cursor")
+local Menu = function(self)
+	local unit = self.unit:gsub("(.)", string.upper, 1) 
+	if _G[unit.."FrameDropDown"] then
+		ToggleDropDownMenu(1, nil, _G[unit.."FrameDropDown"], "cursor")
+	elseif (self.unit:match("party")) then
+		ToggleDropDownMenu(1, nil, _G["PartyMemberFrame"..self.id.."DropDown"], "cursor")
+	else
+		FriendsDropDown.unit = self.unit
+		FriendsDropDown.id = self.id
+		FriendsDropDown.initialize = RaidFrameDropDown_Initialize
+		ToggleDropDownMenu(1, nil, FriendsDropDown, "cursor")
 	end
 end
 
@@ -860,7 +866,7 @@ local SetStyle = function(self, unit)
 			self:SetScript("OnLeave", function(self) self.Status:SetAlpha(0); UnitFrame_OnLeave(self) end)
 		end
 
-	self.cDebuffFilter = false
+	self.cDebuffFilter = true
 
 	self.cDebuffBackdrop = self.Health:CreateTexture(nil, "OVERLAY")
 	self.cDebuffBackdrop:SetAllPoints(self.Health)
