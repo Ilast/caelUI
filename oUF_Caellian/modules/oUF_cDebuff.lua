@@ -9,8 +9,21 @@ local canDispel = {
 	MAGE = { Curse = true },
 	DRUID = { Curse = true, Poison = true }
 }
-
 local dispelList = canDispel[playerClass] or {}
+
+-- Make a local copy of the DebuffTypeColor table so we don't taint the real one.
+local DebuffTypeColor = {}
+for k,v in pairs(_G["DebuffTypeColor"]) do
+	DebuffTypeColor[k] = v
+end
+
+-- Backup color that will be passed for schools not in the DebuffTypeColor table.
+-- We create it here rather than inside the function to avoid making a new table each call.
+local backupColor = {r=1, g=1, b=1}
+
+-- Set the metatable with __index metamethod so that backupColor is returned
+-- for schools not in the DebuffTypeColor table.
+setmetatable(DebuffTypeColor, {__index = function() return backupColor end})
 
 local whiteList = {
 	["Essence of the Blood Queen"] = true, -- 71531
