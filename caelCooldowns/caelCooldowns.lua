@@ -54,7 +54,7 @@ local function Timer_Create(self)
 	if scale < minScale then
 		self.noOCC = true
 	else
-		local text = self:GetParent():CreateFontString(nil, "OVERLAY")
+		local text = self:CreateFontString(nil, "OVERLAY")
 		text:SetPoint("CENTER", 0, 1)
 		text:SetFont(font, fontSize * scale, fontOutline)
 		text:SetTextColor(0.84, 0.75, 0.65)
