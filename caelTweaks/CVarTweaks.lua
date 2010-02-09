@@ -18,7 +18,7 @@ local ZoneChange = function(zone)
 		SetCVar("groundEffectDensity", 256)
 		SetCVar("groundEffectDist", 45)
 		SetCVar("particleDensity", 1)
-		SetCVar("projectedTextures", 1)
+		SetCVar("projectedTextures", 0)
 	else
 		SetCVar("useWeatherShaders", "1")
 		SetCVar("weatherDensity", 3)
@@ -92,6 +92,10 @@ CVarTweaks.PLAYER_LOGIN = function(self)
 		print("Your resolution is not supported, UI Scale has been disabled.")
 	end
 
+--	SetCVar("gxcolorbits","16")
+--	SetCVar("gxdepthbits","16")
+	SetCVar("gxTextureCacheSize", "512") -- 512kb
+
 	SetCVar("gxMultisample","1")
 	SetCVar("gxMultisampleQuality","0.000000")
 	SetCVar("gxVSync", "0")
@@ -99,11 +103,11 @@ CVarTweaks.PLAYER_LOGIN = function(self)
 	SetCVar("gxFixLag", "0")
 	SetCVar("gxCursor", "1")
 	SetCVar("gxRefresh", "50")
-	SetCVar("Maxfps", "45")
-	SetCVar("maxfpsbk", "10")
+--	SetCVar("Maxfps", "45")
+--	SetCVar("maxfpsbk", "10")
 	SetCVar("ffx", "0")
 	SetCVar("textureFilteringMode", "0")
-	SetCVar("baseMip", "0")
+	SetCVar("baseMip", "1") -- 0 for max
 	SetCVar("mapShadows", "0")
 	SetCVar("shadowLOD", "0")
 	SetCVar("farclip", 1277)
@@ -113,7 +117,7 @@ CVarTweaks.PLAYER_LOGIN = function(self)
 	SetCVar("specular", "1")
 
 	SetCVar("shadowLevel", "0")
-	SetCVar("componentTextureLevel", "9")
+	SetCVar("componentTextureLevel", "8") -- max 9
 
 	SetCVar("Sound_AmbienceVolume", "0.10000000149012")
 	SetCVar("Sound_EnableErrorSpeech", "0")
