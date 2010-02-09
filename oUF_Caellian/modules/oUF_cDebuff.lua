@@ -10,7 +10,7 @@ local canDispel = {
 	DRUID = { Curse = true, Poison = true }
 }
 local dispelList = canDispel[playerClass] or {}
---[[
+
 local DebuffTypeColor = {}
 for k, v in pairs(_G["DebuffTypeColor"]) do
 	DebuffTypeColor[k] = v
@@ -19,13 +19,13 @@ end
 local backupColor = {r = 0.55, g = 0.57, b = 0.61}
 
 setmetatable(DebuffTypeColor, {__index = function() return backupColor end})
---]]
+
 local whiteList = {
 	["Essence of the Blood Queen"] = true, -- 71531
 }
 
-local function GetDebuffType(unit)
---	if not UnitCanAssist("player", unit) then return end
+local function GetDebuffType(unit, filter)
+	if not UnitCanAssist("player", unit) then return end
 
 	local dispelType, debuffIcon
 
@@ -37,7 +37,7 @@ local function GetDebuffType(unit)
 
 		if not icon then break end
 
-		if (debuffType and dispelList[debuffType]) or whiteList[name] then
+		if filter and dispelList[debuffType] or whiteList[name] then
 			dispelType = debuffType
 			debuffIcon = icon
 			
@@ -56,12 +56,12 @@ end
 local function Update(self, event, unit)
 	if self.unit ~= unit  then return end
 
-	local dispelType, debuffIcon, isWhiteList = GetDebuffType(unit)
+	local dispelType, debuffIcon, isWhiteList = GetDebuffType(unit, self.cDebuffFilter)
 
 	if self.cDebuffBackdrop then
 		local color
 
-		if debuffIcon and (isWhiteList or not self.cDebuffFilter) then
+		if debuffIcon then
 			color = DebuffTypeColor[dispelType]
 			self.cDebuffBackdrop:SetVertexColor(color.r, color.g, color.b, 1)
 		else
@@ -70,7 +70,7 @@ local function Update(self, event, unit)
 	end
 
 	if self.cDebuff.Icon then
-		if debuffIcon and (isWhiteList or not self.cDebuffFilter) then
+		if debuffIcon then
 			self.cDebuff.Icon:SetTexture(debuffIcon)
 			self.cDebuff.IconOverlay:SetVertexColor(0.25, 0.25, 0.25, 1)
 		else
