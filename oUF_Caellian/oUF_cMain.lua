@@ -305,11 +305,6 @@ local FormatCastbarTime = function(self, duration)
 	end
 end
 
-local UpdateReputationColor = function(self, event, unit, bar)
-	local name, id = GetWatchedFactionInfo()
-	bar:SetStatusBarColor(FACTION_BAR_COLORS[id].r, FACTION_BAR_COLORS[id].g, FACTION_BAR_COLORS[id].b)
-end
-
 local FormatTime = function(s)
 	local day, hour, minute = 86400, 3600, 60
 	if s >= day then
@@ -500,7 +495,7 @@ local SetStyle = function(self, unit)
 		edgeFile = glowTex, edgeSize = 3,
 		insets = {left = 3, right = 3, top = 3, bottom = 3}
 	}
-	self.FrameBackdrop:SetBackdropColor(0.55, 0.57, 0.61)
+	self.FrameBackdrop:SetBackdropColor(0.25, 0.25, 0.25)
 	self.FrameBackdrop:SetBackdropBorderColor(0, 0, 0)
 
 	if unit == "player" and class == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and unit == "player" and class == "SHAMAN" then
@@ -611,44 +606,6 @@ local SetStyle = function(self, unit)
 			self.Enchant["growth-x"] = "RIGHT"
 		end
 
-		if IsAddOnLoaded("oUF_Reputation") then
-			self.Reputation = CreateFrame("StatusBar", self:GetName().."_Reputation", self)
-			self.Reputation:SetHeight(5)
-			self.Reputation:SetPoint("TOPLEFT", self.Health, "TOP", 2, 7.5)
-			self.Reputation:SetPoint("TOPRIGHT", self.Health, "TOPRIGHT", 0, 7.5)
-			self.Reputation:SetStatusBarTexture(normtexa)
-			self.Reputation:SetBackdrop(backdrop)
-			self.Reputation:SetBackdropColor(0, 0, 0)
-			self.Reputation:SetAlpha(0)
-
-			self.Reputation:HookScript("OnEnter", function(self) self:SetAlpha(1) end)
-			self.Reputation:HookScript("OnLeave", function(self) self:SetAlpha(0) end)
-
-			self.Reputation.bg = self.Reputation:CreateTexture(nil, "BORDER")
-			self.Reputation.bg:SetAllPoints(self.Reputation)
-			self.Reputation.bg:SetTexture(normtexa)
-			self.Reputation.bg:SetVertexColor(0.15, 0.15, 0.15)
-
-			self.Reputation.PostUpdate = UpdateReputationColor
-			self.Reputation.Tooltip = true
-		end
-
-		if IsAddOnLoaded("oUF_Swing") then
-			self.Swing = CreateFrame("StatusBar", self:GetName().."_Swing", self)
-			self.Swing:SetHeight(5)
-			self.Swing:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 50)
-			self.Swing:SetPoint("TOPRIGHT", self, "TOPRIGHT", 0, 50)
-			self.Swing:SetStatusBarTexture(normtexa)
-			self.Swing:SetStatusBarColor(0.55, 0.57, 0.61)
-			self.Swing:SetBackdrop(backdrop)
-			self.Swing:SetBackdropColor(0, 0, 0)
-
-			self.Swing.bg = self.Swing:CreateTexture(nil, "BORDER")
-			self.Swing.bg:SetAllPoints(self.Swing)
-			self.Swing.bg:SetTexture(normtexa)
-			self.Swing.bg:SetVertexColor(0.15, 0.15, 0.15)
-		end
-
 		if class == "DEATHKNIGHT" then
 			self.Runes = CreateFrame("Frame", nil, self)
 			self.Runes:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -1)
@@ -719,34 +676,6 @@ local SetStyle = function(self, unit)
 		else
 			self.Auras:SetPoint("TOPLEFT", self, "TOPRIGHT", 9, 1)
 			self.Auras.initialAnchor = "TOPLEFT"
-		end
-	end
-
-	if unit == "player" or unit =="pet" then
-		if IsAddOnLoaded("oUF_Experience") then
-			self.Experience = CreateFrame("StatusBar", self:GetName().."_Experience", self)
-			self.Experience:SetHeight(5)
-			self.Experience:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 7.5)
-			self.Experience:SetStatusBarTexture(normtexa)
-			self.Experience:SetStatusBarColor(0.55, 0.57, 0.61)
-			self.Experience:SetBackdrop(backdrop)
-			self.Experience:SetBackdropColor(0, 0, 0)
-			if unit == "player" then
-				self.Experience:SetPoint("TOPRIGHT", self, "TOP", -2, 7.5)
-			elseif unit == "pet" then
-				self.Experience:SetPoint("TOPRIGHT", self, "TOPRIGHT", 0, 4)
-			end
-			self.Experience:SetAlpha(0)
-
-			self.Experience:HookScript("OnEnter", function(self) self:SetAlpha(1) end)
-			self.Experience:HookScript("OnLeave", function(self) self:SetAlpha(0) end)
-
-			self.Experience.bg = self.Experience:CreateTexture(nil, "BORDER")
-			self.Experience.bg:SetAllPoints(self.Experience)
-			self.Experience.bg:SetTexture(normtexa)
-			self.Experience.bg:SetVertexColor(0.15, 0.15, 0.15)
-
-			self.Experience.Tooltip = true
 		end
 	end
 
@@ -830,13 +759,13 @@ local SetStyle = function(self, unit)
 			self.ThinLine1:SetHeight(1)
 			self.ThinLine1:SetPoint("TOPLEFT", self, "TOPLEFT", 0, -22)
 			self.ThinLine1:SetPoint("TOPRIGHT", self, "TOPRIGHT", 0, -22)
-			self.ThinLine1:SetTexture(0.55, 0.57, 0.61)
+			self.ThinLine1:SetTexture(0.25, 0.25, 0.25)
 
 			self.ThinLine2 = self.PortraitOverlay:CreateTexture(nil, "BORDER")
 			self.ThinLine2:SetHeight(1)
 			self.ThinLine2:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 7)
 			self.ThinLine2:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 7)
-			self.ThinLine2:SetTexture(0.55, 0.57, 0.61)
+			self.ThinLine2:SetTexture(0.25, 0.25, 0.25)
 
 			self.CombatFeedbackText = SetFontString(self.PortraitOverlay, font, 18, "OUTLINE")
 			self.CombatFeedbackText:SetPoint("CENTER", 0, 1)
@@ -889,7 +818,7 @@ local SetStyle = function(self, unit)
 	self.cDebuff.IconOverlay:SetVertexColor(0.25, 0.25, 0.25, 0)
 
 	if not (self:GetParent():GetName():match("oUF_Raid") or self:GetAttribute("unitsuffix") == "pet") then
-		self.Castbar = CreateFrame("StatusBar", self:GetName().."_Castbar", (unit == "player" or unit == "target") and self.Portrait or self)
+		self.Castbar = CreateFrame("StatusBar", self:GetName().."_Castbar", (unit == "player" or unit == "target") and self.Portrait or self.Power)
 		self.Castbar:SetStatusBarTexture(normtexa)
 		self.Castbar:SetStatusBarColor(0.55, 0.57, 0.61, 0.75)
 
@@ -898,16 +827,12 @@ local SetStyle = function(self, unit)
 		self.Castbar.bg:SetTexture(normtexa)
 		self.Castbar.bg:SetVertexColor(0.15, 0.15, 0.15, 0.75)
 
-
 		if unit == "player" or unit == "target" then
 			self.Castbar:SetPoint("TOPLEFT", self, "TOPLEFT", 0, -23)
 			self.Castbar:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 8)
 		else
 			self.Castbar:SetHeight(5)
-			self.Castbar:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 7.5)
-			self.Castbar:SetPoint("TOPRIGHT", self, "TOPRIGHT", 0, 7.5)
-			self.Castbar:SetBackdrop(backdrop)
-			self.Castbar:SetBackdropColor(0, 0, 0)
+			self.Castbar:SetAllPoints()
 		end
 
 		if unit == "player" or unit == "target" then
@@ -1027,13 +952,11 @@ local SetStyle = function(self, unit)
 	self.Highlight:SetVertexColor(0.84, 0.75, 0.65, 0.15)
 	self.Highlight:SetBlendMode("ADD")
 
-	self.MoveableFrames = true
-
-	self.outsideRangeAlpha = 0.6
-	self.inRangeAlpha = 1
-	self.SpellRange = true
-
-	self.BarFade = false
+	if unit and unit:match("boss%d") then
+		self.outsideRangeAlpha = 0.6
+		self.inRangeAlpha = 1
+		self.SpellRange = true
+	end
 
 	local AggroSelect = function()
 		if (UnitExists("target")) then
@@ -1130,7 +1053,7 @@ for i = 1, MAX_BOSS_FRAMES do
 	end
 end
 
-for i, v in ipairs(boss) do v:Show() end -- (unit:match("boss%d")
+for i, v in ipairs(boss) do v:Show() end
 
 local partyToggle = CreateFrame("Frame")
 partyToggle:RegisterEvent("PLAYER_LOGIN")
