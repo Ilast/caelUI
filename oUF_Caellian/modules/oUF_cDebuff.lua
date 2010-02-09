@@ -37,7 +37,7 @@ local function GetDebuffType(unit, filter)
 
 		if not icon then break end
 
-		if dispelList[debuffType] or not filter or whiteList[name] then
+		if dispelList[debuffType] or (not filter and debuffType) or whiteList[name] then
 			dispelType = debuffType
 			debuffIcon = icon
 			
