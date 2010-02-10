@@ -70,13 +70,17 @@ local OnEvent = function()
 		Kill(WorldMapLevelUpButton)
 		Kill(WorldMapLevelDownButton)
 
+		WorldMapPositioningGuide:ClearAllPoints()
+		WorldMapPositioningGuide:SetPoint("CENTER")
+
 		SetCVar("questPOI", 1)
 
 		UIPanelWindows["WorldMapFrame"] = {area = "center", pushable = 9}
 		WorldMapFrame:SetAttribute("UIPanelLayout-enabled", false)
 
-		WorldMapPositioningGuide:ClearAllPoints()
-		WorldMapPositioningGuide:SetPoint("CENTER")
+		WorldMapFrame.scale = 1
+		WorldMapFrame:SetScale(0.65)
+		WorldMapFrame.SetScale = dummy
 
 		WorldMapDetailFrame:SetScale(1)
 		WorldMapDetailFrame:SetPoint("TOPLEFT", WorldMapPositioningGuide, "TOP", -502, -69)
@@ -93,12 +97,9 @@ local OnEvent = function()
 			WorldMapTooltip:Hide()
 		end
 
-		WorldMapFrame.scale = 1
-		WorldMapFrame:SetScale(0.65)
-		WorldMapFrame.SetScale = dummy
 		WorldMapFrame:SetAlpha(0.75)
 		WorldMapFrame.SetAlpha = dummy
-		
+
 		WorldMapFrame:EnableKeyboard(false)
 		WorldMapFrame.EnableKeyboard = dummy
 		WorldMapFrame:EnableMouse(false)
