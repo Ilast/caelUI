@@ -1,13 +1,7 @@
 local settings = Caellian.oUF
 local mediaPath = [=[Interface\Addons\oUF_Caellian\media\]=]
 
-local backdrop = {
-	bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
-	insets = {top = -1, left = -1, bottom = -1, right = -1},
-}
-
-local floor = math.floor
-local format = string.format
+local floor, format = math.floor, string.format
 
 local normtexa = mediaPath..[=[textures\normtexa]=]
 local glowTex = mediaPath..[=[textures\glowtex]=]
@@ -18,6 +12,7 @@ local highlightTex = mediaPath..[=[textures\highlighttex]=]
 local font = settings.font
 local fontn = mediaPath..[=[fonts\russel square lt.ttf]=]
 
+local name = UnitName("player")
 local _, class = UnitClass("player")
 
 local lowThreshold = settings.lowThreshold
@@ -453,6 +448,34 @@ local UpdateAura = function(self, icons, unit, icon, index)
 	icon:SetScript("OnUpdate", CreateAuraTimer)
 end
 
+local debuffFilter = {
+	["Aimed Shot"] = true,
+	["Hunter's Mark"] = true,
+	["Piercing Shot"] = true,
+	["Serpent Sting"] = true,
+	["Silencing Shot"] = true,
+}
+
+local auraFilter = function(icons, unit, icon, name, rank, texture, count, dtype, duration, expiration, caster)
+	if UnitIsEnemy("player", unit) then
+		if debuffFilter[name] then
+			return true
+		end
+	else
+		local isPlayer
+
+		if(caster == "player" or caster == "vehicle") then
+			isPlayer = true
+		end
+
+		if((icons.onlyShowPlayer and isPlayer) or (not icons.onlyShowPlayer and name)) then
+			icon.isPlayer = isPlayer
+			icon.owner = caster
+			return true
+		end
+	end
+end
+
 local HidePortrait = function(self, unit)
 	if self.unit == "target" then
 		if not UnitExists(self.unit) or not UnitIsConnected(self.unit) or not UnitIsVisible(self.unit) then
@@ -519,7 +542,7 @@ local SetStyle = function(self, unit)
 	self.Health.Smooth = true
 
 	self.Health.bg = self.Health:CreateTexture(nil, "BORDER")
-	self.Health.bg:SetAllPoints(self.Health)
+	self.Health.bg:SetAllPoints()
 	self.Health.bg:SetTexture(normtexa)
 	self.Health.bg.multiplier = 0.33
 
@@ -561,7 +584,7 @@ local SetStyle = function(self, unit)
 		self.Power.Smooth = true
 
 		self.Power.bg = self.Power:CreateTexture(nil, "BORDER")
-		self.Power.bg:SetAllPoints(self.Power)
+		self.Power.bg:SetAllPoints()
 		self.Power.bg:SetTexture(normtexa)
 		self.Power.bg.multiplier = 0.33
 
@@ -622,7 +645,7 @@ local SetStyle = function(self, unit)
 				self.Runes[i]:SetStatusBarColor(unpack(runeloadcolors[i]))
 
 				self.Runes[i].bd = self.Runes[i]:CreateTexture(nil, "BORDER")
-				self.Runes[i].bd:SetAllPoints(self.Runes[i])
+				self.Runes[i].bd:SetAllPoints()
 				self.Runes[i].bd:SetTexture(normtexa)
 				self.Runes[i].bd:SetVertexColor(0.15, 0.15, 0.15)
 			end
@@ -644,7 +667,7 @@ local SetStyle = function(self, unit)
 				self.TotemBar[i]:SetMinMaxValues(0, 1)
 
 				self.TotemBar[i].bg = self.TotemBar[i]:CreateTexture(nil, "BORDER")
-				self.TotemBar[i].bg:SetAllPoints(self.TotemBar[i])
+				self.TotemBar[i].bg:SetAllPoints()
 				self.TotemBar[i].bg:SetTexture(normtexa)
 				self.TotemBar[i].bg:SetVertexColor(0.15, 0.15, 0.15)
 			end
@@ -715,6 +738,9 @@ local SetStyle = function(self, unit)
 			self.Debuffs.initialAnchor = "TOPLEFT"
 			self.Debuffs["growth-y"] = "DOWN"
 			self.Debuffs.onlyShowPlayer = false
+			if class == "HUNTER" and (name == "Caellian" or name == "Callysto") then
+				self.CustomAuraFilter = auraFilter
+			end
 
 			self.CPoints = CreateFrame("Frame", nil, self.Power)
 			self.CPoints:SetAllPoints()
@@ -740,7 +766,7 @@ local SetStyle = function(self, unit)
 
 			self.Portrait = CreateFrame("PlayerModel", nil, self)
 			self.Portrait:SetPoint("TOPLEFT", self, "TOPLEFT", 0, -23)
-			self.Portrait:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0.5, 8)
+			self.Portrait:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 8)
 			self.Portrait:SetBackdrop {
 				bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
 			}
@@ -797,8 +823,8 @@ local SetStyle = function(self, unit)
 
 	self.cDebuffFilter = true
 
-	self.cDebuffBackdrop = self.Health:CreateTexture(nil, "OVERLAY")
-	self.cDebuffBackdrop:SetAllPoints(self.Health)
+	self.cDebuffBackdrop = self.Health:CreateTexture(nil, "ARTWORK")
+	self.cDebuffBackdrop:SetAllPoints()
 	self.cDebuffBackdrop:SetTexture(highlightTex)
 	self.cDebuffBackdrop:SetBlendMode("ADD")
 	self.cDebuffBackdrop:SetVertexColor(0, 0, 0, 0)
@@ -823,7 +849,7 @@ local SetStyle = function(self, unit)
 		self.Castbar:SetStatusBarColor(0.55, 0.57, 0.61, 0.75)
 
 		self.Castbar.bg = self.Castbar:CreateTexture(nil, "BORDER")
-		self.Castbar.bg:SetAllPoints(self.Castbar)
+		self.Castbar.bg:SetAllPoints()
 		self.Castbar.bg:SetTexture(normtexa)
 		self.Castbar.bg:SetVertexColor(0.15, 0.15, 0.15, 0.75)
 
@@ -946,13 +972,7 @@ local SetStyle = function(self, unit)
 		self.RaidIcon:SetPoint("TOP", 0, 8)
 	end
 
-	self.Highlight = self:CreateTexture(nil, "HIGHLIGHT")
-	self.Highlight:SetAllPoints(self.Health)
-	self.Highlight:SetTexture(normtexa)
-	self.Highlight:SetVertexColor(0.84, 0.75, 0.65, 0.15)
-	self.Highlight:SetBlendMode("ADD")
-
-	if unit and unit:match("boss%d") then
+	if not unit or (unit and not unit:match("boss%d")) then
 		self.outsideRangeAlpha = 0.6
 		self.inRangeAlpha = 1
 		self.SpellRange = true

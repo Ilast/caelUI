@@ -16,7 +16,7 @@ for k, v in pairs(_G["DebuffTypeColor"]) do
 	DebuffTypeColor[k] = v
 end
 
-local backupColor = {r = 0.55, g = 0.57, b = 0.61}
+local backupColor = {r = 0.69, g = 0.31, b = 0.31}
 
 setmetatable(DebuffTypeColor, {__index = function() return backupColor end})
 
