@@ -1,3 +1,6 @@
+local level = UnitLevel("player")
+if level ~= 80 then return end
+
 local Holder = CreateFrame("Frame")
 
 caelStats.dps = caelPanel10:CreateFontString(nil, "OVERLAY")
