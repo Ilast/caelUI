@@ -60,10 +60,12 @@ local OnEnter = function(self)
 end
 
 local OnClick = function(self, button)
-	if (button == "LeftButton") then
-		ToggleFrame(WorldMapFrame)
-	else
-		ToggleBattlefieldMinimap()
+	if not InCombatLockdown() then
+		if (button == "LeftButton") then
+			ToggleFrame(WorldMapFrame)
+		elseif(button == "RightButton") then
+			ToggleBattlefieldMinimap()
+		end
 	end
 end
 
