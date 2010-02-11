@@ -1,4 +1,4 @@
-﻿--[==[ 1.07
+﻿--[==[ 0.89 with 2.30 base speed
 	gM_Macros = {
 		name = {		Macroname, these need to be unique
 			body,		Macrobody, 1023 chars max. Use either linebreaks in long comments [=[ ]=] or \n.
@@ -38,7 +38,7 @@ gM_Macros = {
 --[[	GENERAL	]]--
 -------------------
 	["T2"] = {
-		char = "ßone, Bonewraith, Cowdiak, Grimløck, Pimiko, Pimikow",
+		char = "Bonewraith, Cowdiak, Pimiko",
 		icon = [=[Interface\Icons\Ability_Hunter_MasterMarksman]=],
 		body = [=[/cleartarget [exists]
 			/targetenemy]=],
@@ -47,7 +47,7 @@ gM_Macros = {
 --[[	HUNTER	]]--
 -------------------
 	["TGT"] = {
-		char = "Caellian, Caellianaia, Dynames",
+		char = "Caellian, Callysto, Dynames",
 		show = "Hunter's Mark",
 		body = [=[/targetenemy [noexists][noharm][dead]
 			/cast [nopet]Call Pet
@@ -61,7 +61,7 @@ gM_Macros = {
 		perChar = true,
 	},
 	["T1"] = {
-		char = "Caellian, Caellianaia, Dynames",
+		char = "Caellian, Callysto, Dynames",
 		icon = [=[Interface\Icons\Ability_Hunter_MasterMarksman]=],
 		body = [=[/cleartarget [exists]
 			/assist [target=pet, exists]Pet
@@ -69,7 +69,7 @@ gM_Macros = {
 			/targetenemy [target=pet, dead][target=pet, noexists]]=],
 	},
 	["CDs"] = {
-		char = "Caellian, Caellianaia, Dynames",
+		char = "Caellian, Callysto, Dynames",
 		icon = [=[Interface\Icons\Spell_Shadow_LastingAfflictions]=],
 		body = [=[/cast [target=pettarget, exists] Kill Command
 			/cast [target=pettarget, exists] Bestial Wrath
@@ -77,14 +77,14 @@ gM_Macros = {
 		nosound = true,
 	},
 	["Foc"] = {
-		char = "Caellian, Caellianaia, Dynames",
+		char = "Caellian, Callysto, Dynames",
 		icon = [=[Interface\Icons\Ability_Hunter_MasterMarksman]=],
 		body = [=[/castsequence [harm] reset=0 Hunter's Mark, null
 			/focus [help, nodead]]=],
 		blizzmacro = true,
 	},
 	["SvR"] = {
-		char = "Caellian, Caellianaia, Dynames",
+		char = "Caellian, Callysto, Dynames",
 		show = "Auto Shot",
 		body = [=[/click [noexists][noharm][dead] gotMacros_T1
 			/click [combat, harm, nodead] gotMacros_CDs
@@ -94,7 +94,7 @@ gM_Macros = {
 		perChar = true,
 	},
 	["MmR"] = {
-		char = "Caellian, Caellianaia, Dynames",
+		char = "Caellian, Callysto, Dynames",
 		show = "Auto Shot",
 		body = [=[/click [noexists][noharm][dead] gotMacros_T1
 			/click [combat, harm, nodead] gotMacros_CDs
@@ -104,7 +104,7 @@ gM_Macros = {
 		perChar = true,
 	},
 	["BmR"] = {
-		char = "Caellian, Caellianaia, Dynames",
+		char = "Caellian, Callysto, Dynames",
 		show = "Auto Shot",
 		body = [=[/click [noexists][noharm][dead] gotMacros_T1
 			/click [combat, harm, nodead] gotMacros_CDs
@@ -114,7 +114,7 @@ gM_Macros = {
 		perChar = true,
 	},
 	["RotA"] = {
-		char = "Caellian, Caellianaia, Dynames",
+		char = "Caellian, Callysto, Dynames",
 		show = "Steady Shot",
 		body = [=[/cast !Auto Shot
 			/click gotMacros_ExpS
@@ -126,7 +126,7 @@ gM_Macros = {
 		perChar = true,
 	},
 	["RotB"] = {
-		char = "Caellian, Caellianaia, Dynames",
+		char = "Caellian, Callysto, Dynames",
 		show = "Steady Shot",
 		body = [=[/cast !Auto Shot
 			/click gotMacros_SrSb
@@ -138,7 +138,7 @@ gM_Macros = {
 		perChar = true,
 	},
 	["RotC"] = {
-		char = "Caellian, Caellianaia, Dynames",
+		char = "Caellian, Callysto, Dynames",
 		show = "Steady Shot",
 		body = [=[/cast !Auto Shot
 			/click gotMacros_SrSa
@@ -149,70 +149,70 @@ gM_Macros = {
 		perChar = true,
 	},
 	["BlkA"] = {
-		char = "Caellian, Caellianaia, Dynames",
+		char = "Caellian, Callysto, Dynames",
 		show = "Black Arrow",
-		body = [=[/castsequence reset=23.3 Black Arrow, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+		body = [=[/castsequence reset=23.3 Black Arrow, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 		nosound = true,
 		perChar = true,
 	},
 	["SrSa"] = {
-		char = "Caellian, Caellianaia, Dynames",
+		char = "Caellian, Callysto, Dynames",
 		show = "Serpent Sting",
-		body = [=[/castsequence reset=20.4/target Serpent Sting, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+		body = [=[/castsequence reset=20.4/target Serpent Sting, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 		nosound = true,
 		perChar = true,
 	},
 	["SrSb"] = {
-		char = "Caellian, Caellianaia, Dynames",
+		char = "Caellian, Callysto, Dynames",
 		show = "Serpent Sting",
 		body = [=[/castsequence reset=target Serpent Sting, Null]=],
 		nosound = true,
 		perChar = true,
 	},
 	["ExpS"] = {
-		char = "Caellian, Caellianaia, Dynames",
+		char = "Caellian, Callysto, Dynames",
 		show = "Explosive Shot",
 		body = [=[/castsequence reset=5.6 Explosive Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 		nosound = true,
 		perChar = true,
 	},
 	["Mark"] = {
-		char = "Caellian, Caellianaia, Dynames",
+		char = "Caellian, Callysto, Dynames",
 		show = "Chimera Shot",
-		body = [=[/castsequence reset=9.3 Chimera Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+		body = [=[/castsequence reset=9.3 Chimera Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 		nosound = true,
 		perChar = true,
 	},
 	["AimS"] = {
-		char = "Caellian, Caellianaia, Dynames",
+		char = "Caellian, Callysto, Dynames",
 		show = "Aimed Shot",
-		body = [=[/castsequence reset=9.7 Aimed Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+		body = [=[/castsequence reset=9.7 Aimed Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 		nosound = true,
 		perChar = true,
 	},
 	["MulS"] = {
-		char = "Caellian, Caellianaia, Dynames",
+		char = "Caellian, Callysto, Dynames",
 		show = "Multi-Shot",
-		body = [=[/castsequence reset=9.7 Multi-Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+		body = [=[/castsequence reset=9.7 Multi-Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 		nosound = true,
 		perChar = true,
 	},
 	["ArcS"] = {
-		char = "Caellian, Caellianaia, Dynames",
+		char = "Caellian, Callysto, Dynames",
 		show = "Arcane Shot",
-		body = [=[/castsequence reset=5.8 Arcane Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+		body = [=[/castsequence reset=5.8 Arcane Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 		nosound = true,
 		perChar = true,
 	},
 	["StdS"] = {
-		char = "Caellian, Caellianaia, Dynames",
+		char = "Caellian, Callysto, Dynames",
 		show = "Steady Shot",
 		body = [=[/cast Steady Shot]=],
 		nosound = true,
 		perChar = true,
 	},
 	["LnL"] = {
-		char = "Caellian, Caellianaia, Dynames",
+		char = "Caellian, Callysto, Dynames",
 		show = "Explosive Shot",
 		body = [=[/click [noexists][noharm][dead] gotMacros_T1
 			/click [combat, harm, nodead] gotMacros_CDs
@@ -222,7 +222,7 @@ gM_Macros = {
 		perChar = true,
 	},
 	["MisD"] = {
-		char = "Caellian, Caellianaia, Dynames",
+		char = "Caellian, Callysto, Dynames",
 		show = "Misdirection",
 		body = [=[/cast [help][target=focus, help][target=pet, exists, nodead] Misdirection]=],
 		nosound = true,
@@ -230,7 +230,7 @@ gM_Macros = {
 		perChar = true,
 	},
 	["RfRd"] = {
-		char = "Caellian, Caellianaia, Dynames",
+		char = "Caellian, Callysto, Dynames",
 		show = "Rapid Fire",
 		body = [=[/castsequence reset=3 Rapid Fire, Readiness, null]=],
 		nosound = true,
@@ -287,6 +287,30 @@ gM_Macros = {
 		show = "Sap",
 		body = [=[/click [noexists][noharm][dead] gotMacros_T2
 			/cast [harm, nodead]Sap]=],
+		nosound = true,
+		blizzmacro = true,
+		perChar = true,
+	},
+-------------------
+--[[	DRUID	]]--
+-------------------
+	["MCP"] = {
+		char = "Cowdiak",
+		show = "Mangle (Cat)(Rank 3)",
+		body = [=[/click [noexists][noharm][dead] gotMacros_T2
+			/startattack
+			/cast [harm, nodead] Mangle (Cat)(Rank 3)]=],
+		nosound = true,
+		blizzmacro = true,
+		perChar = true,
+	},
+	["Tank"] = {
+		char = "Cowdiak",
+		show = "Mangle (Bear)(Rank 3)",
+		body = [=[/click [noexists][noharm][dead] gotMacros_T2
+			/startattack
+			/castsequence [harm, nodead] Mangle (Bear)(Rank 3), Lacerate, !Maul
+			/castsequence [harm, nodead] Lacerate, !Maul, Mangle (Bear)(Rank 3)]=],
 		nosound = true,
 		blizzmacro = true,
 		perChar = true,
