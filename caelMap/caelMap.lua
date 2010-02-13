@@ -60,7 +60,7 @@ local OnEvent = function()
 		Kill(WorldMapBlobFrame)
 		Kill(WorldMapQuestShowObjectives)
 		Kill(WorldMapFrameSizeDownButton)
---		Kill(WorldMapFrameCloseButton)
+		Kill(WorldMapFrameCloseButton)
 		Kill(WorldMapZoneMinimapDropDown)
 		Kill(WorldMapZoomOutButton)
 		Kill(WorldMapLevelDropDown)
@@ -106,10 +106,22 @@ local OnEvent = function()
 		WorldMapFrame.EnableMouse = dummy
 		
 		WorldMapFrame.sizedDown = true
-
+--[[
 		WorldMapFrame:HookScript("OnShow", function()
 			WorldMap_LoadTextures()
 		end)
+--]]
+		WorldMapDetailFrame.bg = CreateFrame("Frame", nil, WorldMapDetailFrame)
+		WorldMapDetailFrame.bg:SetPoint("TOPLEFT", -10, 50)
+		WorldMapDetailFrame.bg:SetPoint("BOTTOMRIGHT", 10, -10)
+		WorldMapDetailFrame.bg:SetBackdrop({
+			bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
+			edgeFile = [=[Interface\Addons\caelMedia\Miscellaneous\glowtex]=], edgeSize = 4,
+			insets = {left = 3, right = 3, top = 3, bottom = 3}
+		})
+		WorldMapDetailFrame.bg:SetFrameStrata("BACKGROUND")
+		WorldMapDetailFrame.bg:SetBackdropColor(0.15, 0.15, 0.15, 1)
+		WorldMapDetailFrame.bg:SetBackdropBorderColor(0, 0, 0)
 
 		WorldMapFrame_AdjustMapAndQuestList = dummy
 		
