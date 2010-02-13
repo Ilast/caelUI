@@ -95,6 +95,7 @@ CVarTweaks.PLAYER_LOGIN = function(self)
 --	SetCVar("gxcolorbits","16")
 --	SetCVar("gxdepthbits","16")
 	SetCVar("gxTextureCacheSize", "512") -- 512kb
+	SetCVar("M2Faster", 1) -- Adds additional threads used in rendering models on screen (0 = no additional threads, 1 - 3 = adds additional threads to the WoW Client)
 
 	SetCVar("gxMultisample","1")
 	SetCVar("gxMultisampleQuality","0.000000")
@@ -117,6 +118,8 @@ CVarTweaks.PLAYER_LOGIN = function(self)
 	SetCVar("specular", "1")
 
 	SetCVar("shadowLevel", "0")
+	SetCVar("componentCompress", "0")
+	SetCVar("componentThread", "1")
 	SetCVar("componentTextureLevel", "9") -- min 8
 
 	SetCVar("Sound_AmbienceVolume", "0.10000000149012")
