@@ -1,0 +1,7 @@
+## Interface: 30300
+## Title: recBug
+## Notes: Cooldowns
+## Author: Recluse
+## OptionalDeps: recMedia
+
+core.lua
