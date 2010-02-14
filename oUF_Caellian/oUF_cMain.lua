@@ -469,9 +469,9 @@ local debuffFilter = {
 	["Wing Clip"] = true,
 }
 --]]
-local casterClass
 local auraFilter = function(icons, unit, icon, name, rank, texture, count, dtype, duration, expiration, caster)
-	if UnitCanAttack("player", unit) then -- if UnitIsEnemy("player", unit) then -- if not UnitIsFriend("player", unit) then
+	if UnitCanAttack("player", unit) then
+		local casterClass
 --		if debuffFilter[name] then
 		if caster then
 			casterClass = select(2, UnitClass(caster))
@@ -963,7 +963,7 @@ local SetStyle = function(self, unit)
 		self.LFDRole:SetPoint("RIGHT", self, "LEFT", -1, 0)
 	end
 
-	if class == "HUNTER" then
+	if myClass == "HUNTER" then
 		self:SetAttribute("type3", "spell")
 		self:SetAttribute("spell3", "Misdirection")
 	end
