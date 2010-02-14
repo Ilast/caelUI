@@ -23,6 +23,7 @@ CHAT_WHISPER_GET = "From %s:\32"
 CHAT_WHISPER_INFORM_GET = "To %s:\32"
 CHAT_PARTY_GET = "|Hchannel:Party|hP|h %s:\32"
 CHAT_MONSTER_PARTY_GET = "|Hchannel:Party|hP|h %s: "
+CHAT_PARTY_GUIDE_GET = "|Hchannel:Party|hPL|h %s: "
 CHAT_PARTY_LEADER_GET = "|Hchannel:Party|hPL|h %s: "
 CHAT_CHANNEL_LEAVE_GET = "%s left channel."
 CHAT_MONSTER_SAY_GET = "%s: "
@@ -100,9 +101,10 @@ ChannelNameCache = setmetatable({}, {__index = FormatChannel})
 
 local function AddMessage(frame, text, red, green, blue, id)
 	if text then
-		text = text:gsub('|Hplayer(.-)|h%[(.-)%]|h', "|Hplayer%1|h%2|h")
-		text = text:gsub('^(|Hchannel:[^|]-|h%[.-%]|h)', ChannelNameCache)
-		text = string.format("|HChatCopy|h%s%s|r|h %s", '|cff999999', date('%H:%M'), text)
+		text = text:gsub("|Hplayer(.-)|h%[(.-)%]|h", "|Hplayer%1|h%2|h")
+		text = text:gsub("^(|Hchannel:[^|]-|h%[.-%]|h)", ChannelNameCache)
+		text = text:gsub("(|Hplayer.-|h) has earned the achievement (.-)!", "%1 has earned %2")
+		text = string.format("|HChatCopy|h%s%s|r|h %s", "|cff999999", date("%H:%M"), text)
 	end
 	return hooks[frame](frame, text, red, green, blue, id)
 end

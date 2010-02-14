@@ -76,6 +76,7 @@ local mergedTable = {
 chatFrames:RegisterEvent("ADDON_LOADED")
 chatFrames.ADDON_LOADED = function(self, event, ...)
 	if ... == "Blizzard_CombatLog" then
+		chatFrames:UnregisterEvent("ADDON_LOADED")
 		for i = 1, NUM_CHAT_WINDOWS do 
 			local frame = _G["ChatFrame"..i]
 			local dockHighlight = _G["ChatFrame"..i.."TabDockRegionHighlight"]
@@ -165,6 +166,7 @@ local OnUpdate = function(self, elapsed)
 			delay1 = nil -- This stops the OnUpdate for this timer.
 		end
 	end
+--[[
 	if delay2 then
 		delay2 = delay2 - elapsed
 		if delay2 <= 0 then
@@ -182,6 +184,24 @@ local OnUpdate = function(self, elapsed)
 				end
 				ChangeChatColor("WHISPER", 0.3, 0.6, 0.9)
 				ChangeChatColor("WHISPER_INFORM", 0.3, 0.6, 0.9)
+			end
+			print("Chatframes setup complete")
+			self:SetScript("OnUpdate", nil) -- Done now, nil the OnUpdate completely.
+		end
+	end
+--]]
+	if delay2 then
+		delay2 = delay2 - elapsed
+		if delay2 <= 0 then
+			ChangeChatColor("CHANNEL1", 0.55, 0.57, 0.61)
+			ChangeChatColor("CHANNEL2", 0.55, 0.57, 0.61)
+			ChangeChatColor("CHANNEL5", 0.84, 0.75, 0.65)
+			ChangeChatColor("WHISPER", 0.3, 0.6, 0.9)
+			ChangeChatColor("WHISPER_INFORM", 0.3, 0.6, 0.9)
+			if myClass == "HUNTER" and myName == "Caellian" then
+				JoinTemporaryChannel("GICaster")
+				ChatFrame_AddChannel(_G.ChatFrame1, "GICaster")
+				ChangeChatColor("CHANNEL5", 0.67, 0.83, 0.45)
 			end
 			print("Chatframes setup complete")
 			self:SetScript("OnUpdate", nil) -- Done now, nil the OnUpdate completely.
