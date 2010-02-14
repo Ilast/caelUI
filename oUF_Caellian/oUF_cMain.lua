@@ -12,8 +12,8 @@ local highlightTex = mediaPath..[=[textures\highlighttex]=]
 local font = settings.font
 local fontn = mediaPath..[=[fonts\russel square lt.ttf]=]
 
-local name = UnitName("player")
-local _, class = UnitClass("player")
+local myName = UnitName("player")
+local _, myClass = UnitClass("player")
 
 local lowThreshold = settings.lowThreshold
 local highThreshold = settings.highThreshold
@@ -447,18 +447,37 @@ local UpdateAura = function(self, icons, unit, icon, index)
 	icon.first = true
 	icon:SetScript("OnUpdate", CreateAuraTimer)
 end
-
+--[[
 local debuffFilter = {
 	["Aimed Shot"] = true,
+	["Black Arrow"] = true,
+	["Concussive Shot"] = true,
+	["Distracting Shot"] = true,
+	["Explosive Shot"] = true,
+	["Explosive Trap Effect"] = true,
+	["Freezing Arrow Effect"] = true,
+	["Freezing Trap Effect"] = true,
+	["Frost Trap Aura"] = true,
 	["Hunter's Mark"] = true,
-	["Piercing Shot"] = true,
+	["Immolation Trap"] = true,
+	["Piercing Shots"] = true,
+	["Scatter Shot"] = true,
+	["Scorpid Sting"] = true,
 	["Serpent Sting"] = true,
 	["Silencing Shot"] = true,
+	["Viper Sting"] = true,
+	["Wing Clip"] = true,
 }
-
+--]]
+local casterClass
 local auraFilter = function(icons, unit, icon, name, rank, texture, count, dtype, duration, expiration, caster)
-	if UnitIsEnemy("player", unit) then
-		if debuffFilter[name] then
+	if UnitCanAttack("player", unit) then -- if UnitIsEnemy("player", unit) then -- if not UnitIsFriend("player", unit) then
+--		if debuffFilter[name] then
+		if caster then
+			casterClass = select(2, UnitClass(caster))
+		end
+
+		if casterClass and casterClass == myClass then
 			return true
 		end
 	else
@@ -738,7 +757,7 @@ local SetStyle = function(self, unit)
 			self.Debuffs.initialAnchor = "TOPLEFT"
 			self.Debuffs["growth-y"] = "DOWN"
 			self.Debuffs.onlyShowPlayer = false
-			if class == "HUNTER" and (name == "Caellian" or name == "Callysto") then
+			if myClass == "HUNTER" and (myName == "Caellian" or myName == "Callysto") then
 				self.CustomAuraFilter = auraFilter
 			end
 
@@ -1067,7 +1086,7 @@ for i = 1, MAX_BOSS_FRAMES do
 	boss[i] = oUF:Spawn("boss"..i, "oUF_Boss"..i)
 
 	if i == 1 then
-		boss[i]:SetPoint("TOPRIGHT", UIParent, "RIGHT", -15, 0)
+		boss[i]:SetPoint("TOP", UIParent, "TOP", 0, -15)
 	else
 		boss[i]:SetPoint("TOP", boss[i-1], "BOTTOM", 0, -7.5)
 	end
