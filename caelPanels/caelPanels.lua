@@ -16,7 +16,6 @@ CreatePanel = function(name, x, y, width, height, point, rpoint, anchor, parent,
 	panels[n]:SetPoint(point, anchor, rpoint, x, y)
 	panels[n]:SetBackdrop(backdrop)
 	panels[n]:SetBackdropColor(0, 0, 0, 0.5)
-	panels[n]:SetBackdropBorderColor(0, 0, 0)
 	panels[n]:Show()
 	n = n + 1
 end
@@ -52,7 +51,7 @@ caelPanels.PLAYER_LOGIN = function(self)
 			gradient:SetPoint("RIGHT", panel, -2, 0)
 			gradient:SetPoint("BOTTOM", panel, 0, 2)
 			gradient:SetBlendMode("ADD")
-			gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.55, 0.57, 0.61, 0.25)
+			gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.25)
 		end
 	end
 
@@ -80,7 +79,7 @@ caelPanels.UNIT_THREAT_SITUATION_UPDATE = function(self)
 		if panel then panel:SetBackdropBorderColor(r, g, b) end
 	end
 end
-
+--[[
 local reverse
 local animElapsed = 0
 local animTime = 1
@@ -100,7 +99,7 @@ local OnUpdate = function(self, elapsed)
 		animElapsed = 0
 	end
 end
---[[
+
 function caelPanels:PLAYER_REGEN_DISABLED(event)
 	reverse = false
 
@@ -134,7 +133,7 @@ function caelPanels:PLAYER_REGEN_ENABLED(event)
 
 	caelPanels:SetScript("OnUpdate", OnUpdate)
 end
-]]
+--]]
 function OnEvent(self, event, ...)
 	if type(self[event]) == 'function' then
 		return self[event](self, event, ...)
