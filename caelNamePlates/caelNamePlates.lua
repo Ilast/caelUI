@@ -1,17 +1,18 @@
 local caelNamePlates = CreateFrame("Frame", nil, UIParent)
 caelNamePlates:SetScript("OnEvent", function(self, event, ...) self[event](self, ...) end)
 
-local barTexture = [=[Interface\Addons\caelNamePlates\media\normtex]=]
+local barTexture = [=[Interface\Addons\caelNamePlates\media\normtexa]=]
 local overlayTexture = [=[Interface\Tooltips\Nameplate-Border]=]
 local glowTexture = [=[Interface\Addons\caelNamePlates\media\glowtex]=]
 local font, fontSize, fontOutline = [=[Interface\Addons\caelNamePlates\media\neuropol x cd rg.ttf]=], 9, "OUTLINE"
 local backdrop = {
-		edgeFile = glowTexture, edgeSize = 5,
-		insets = {left = 3, right = 3, top = 3, bottom = 3}
-	}
+	edgeFile = glowTexture, edgeSize = 3,
+	insets = {left = 3, right = 3, top = 3, bottom = 3}
+}
+
 local select = select
 
--- Execute/Kill Shot/Hammer of Wrath/Drain Soul check
+-- Execute/Kill Shot/Hammer of Wrath/Drain Soul
 local pewpewRangeFactor
 local _, playerClass = UnitClass("player")
 
@@ -213,10 +214,11 @@ local CreateFrame = function(frame)
 	healthBar.hpBackground:SetVertexColor(0.15, 0.15, 0.15)
 
 	healthBar.hpGlow = CreateFrame("Frame", nil, healthBar)
-	healthBar.hpGlow:SetPoint("TOPLEFT", healthBar, "TOPLEFT", -4.5, 4)
-	healthBar.hpGlow:SetPoint("BOTTOMRIGHT", healthBar, "BOTTOMRIGHT", 4.5, -4.5)
+	healthBar.hpGlow:SetFrameLevel(healthBar:GetFrameLevel() -1)
+	healthBar.hpGlow:SetPoint("TOPLEFT", healthBar, "TOPLEFT", -3, 3)
+	healthBar.hpGlow:SetPoint("BOTTOMRIGHT", healthBar, "BOTTOMRIGHT", 3, -3)
 	healthBar.hpGlow:SetBackdrop(backdrop)
-	healthBar.hpGlow:SetBackdropColor(0, 0, 0)
+	healthBar.hpGlow:SetBackdropColor(0.25, 0.25, 0.25)
 	healthBar.hpGlow:SetBackdropBorderColor(0, 0, 0)
 
 	castBar.castbarOverlay = castbarOverlay
@@ -243,10 +245,11 @@ local CreateFrame = function(frame)
 	castBar.cbBackground:SetVertexColor(0.15, 0.15, 0.15)
 
 	castBar.cbGlow = CreateFrame("Frame", nil, castBar)
-	castBar.cbGlow:SetPoint("TOPLEFT", castBar, "TOPLEFT", -4.5, 4)
-	castBar.cbGlow:SetPoint("BOTTOMRIGHT", castBar, "BOTTOMRIGHT", 4.5, -4.5)
+	castBar.cbGlow:SetFrameLevel(castBar:GetFrameLevel() -1)
+	castBar.cbGlow:SetPoint("TOPLEFT", castBar, "TOPLEFT", -3, 3)
+	castBar.cbGlow:SetPoint("BOTTOMRIGHT", castBar, "BOTTOMRIGHT", 3, -3)
 	castBar.cbGlow:SetBackdrop(backdrop)
-	castBar.cbGlow:SetBackdropColor(0, 0, 0)
+	castBar.cbGlow:SetBackdropColor(0.25, 0.25, 0.25)
 	castBar.cbGlow:SetBackdropBorderColor(0, 0, 0)
 
 	spellIconRegion:SetHeight(0.01)
