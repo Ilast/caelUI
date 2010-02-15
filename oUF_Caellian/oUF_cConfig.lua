@@ -13,6 +13,8 @@ scale = 1, -- scale of the unitframes (1 being 100%)
 lowThreshold = 20, -- low mana threshold for all mana classes
 highThreshold = 80, -- high mana treshold for hunters
 
+noClassDebuffs = false, -- true to show all debuffs
+
 coords = {
 	playerX = -278.5, -- horizontal offset for the player block frames
 	playerY = 269.5, -- vertical offset for the player block frames

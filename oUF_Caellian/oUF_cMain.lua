@@ -757,7 +757,7 @@ local SetStyle = function(self, unit)
 			self.Debuffs.initialAnchor = "TOPLEFT"
 			self.Debuffs["growth-y"] = "DOWN"
 			self.Debuffs.onlyShowPlayer = false
-			if myClass == "HUNTER" and (myName == "Caellian" or myName == "Callysto") then
+			if not settings.noClassDebuffs then
 				self.CustomAuraFilter = auraFilter
 			end
 
