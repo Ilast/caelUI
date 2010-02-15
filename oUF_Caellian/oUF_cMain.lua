@@ -842,7 +842,7 @@ local SetStyle = function(self, unit)
 
 	self.cDebuffFilter = true
 
-	self.cDebuffBackdrop = self.Health:CreateTexture(nil, "ARTWORK")
+	self.cDebuffBackdrop = self.Health:CreateTexture(nil, "OVERLAY")
 	self.cDebuffBackdrop:SetAllPoints()
 	self.cDebuffBackdrop:SetTexture(highlightTex)
 	self.cDebuffBackdrop:SetBlendMode("ADD")
