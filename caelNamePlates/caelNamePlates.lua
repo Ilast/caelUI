@@ -13,13 +13,13 @@ local backdrop = {
 local select = select
 
 -- Execute/Kill Shot/Hammer of Wrath/Drain Soul
-local pewpewRangeFactor
+local nukeRangeFactor
 local _, playerClass = UnitClass("player")
 
 if playerClass == "WARLOCK" then
-	pewpewRangeFactor = 4
+	nukeRangeFactor = 4
 elseif playerClass == "HUNTER" or playerClass == "WARRIOR" or playerClass == "PALADIN" then
-	pewpewRangeFactor = 5
+	nukeRangeFactor = 5
 end
 
 local IsValidFrame = function(frame)
@@ -47,7 +47,13 @@ local ThreatUpdate = function(self, elapsed)
 		if not self.oldglow:IsShown() then
 			self.healthBar.hpGlow:SetBackdropBorderColor(0, 0, 0)
 		else
-			self.healthBar.hpGlow:SetBackdropBorderColor(self.oldglow:GetVertexColor())
+			local r, g, b = self.oldglow:GetVertexColor()
+			if g + b == 0 then
+				self.healthBar.hpGlow:SetBackdropBorderColor(1, 0, 0)
+			else
+				self.healthBar.hpGlow:SetBackdropBorderColor(1, 1, 0)
+			end
+--			self.healthBar.hpGlow:SetBackdropBorderColor(self.oldglow:GetVertexColor())
 		end
 
 		self.healthBar:SetStatusBarColor(self.r, self.g, self.b)
@@ -120,12 +126,12 @@ local OnHealthChanged = function(self)
 	local r, g, b = self:GetStatusBarColor()
 	local _, max = self:GetMinMaxValues()
 	local cur = self:GetValue()
-	if self.UnitType == "Hostile" and cur > 0 and cur < max/pewpewRangeFactor and self:GetParent():GetAlpha() == 1 and not self.Trigger then
+	if self.UnitType == "Hostile" and cur > 0 and cur < max/nukeRangeFactor and self:GetParent():GetAlpha() == 1 and not self.Trigger then
 		self.Trigger = true
 		if RecScrollAreas then
 			RecScrollAreas:AddText("|cffAF5050Kill Shot|r", true, "Notification", true)
 		end
-	elseif self.UnitType == "Hostile" and cur >= max/pewpewRangeFactor and self.Trigger then
+	elseif self.UnitType == "Hostile" and cur >= max/nukeRangeFactor and self.Trigger then
 		self.Trigger = false
 	end
 end
@@ -204,12 +210,14 @@ local CreateFrame = function(frame)
 	levelTextRegion:SetShadowOffset(1.25, -1.25)
 
 	healthBar:SetStatusBarTexture(barTexture)
-	if pewpewRangeFactor then
+	if nukeRangeFactor then
 		healthBar:HookScript("OnValueChanged", OnHealthChanged)
 	end
 
-	healthBar.hpBackground = healthBar:CreateTexture(nil, "BORDER")
-	healthBar.hpBackground:SetAllPoints(healthBar)
+	local hpOffset = UIParent:GetScale() / healthBar:GetEffectiveScale()
+	healthBar.hpBackground = healthBar:CreateTexture(nil, "BACKGROUND")
+	healthBar.hpBackground:SetPoint("TOPLEFT", -hpOffset, hpOffset)
+	healthBar.hpBackground:SetPoint("BOTTOMRIGHT", hpOffset, -hpOffset)
 	healthBar.hpBackground:SetTexture(barTexture)
 	healthBar.hpBackground:SetVertexColor(0.15, 0.15, 0.15)
 
@@ -239,8 +247,10 @@ local CreateFrame = function(frame)
 	castBar.time:SetTextColor(0.84, 0.75, 0.65)
 	castBar.time:SetShadowOffset(1.25, -1.25)
 
-	castBar.cbBackground = castBar:CreateTexture(nil, "BORDER")
-	castBar.cbBackground:SetAllPoints(castBar)
+	local cbOffset = UIParent:GetScale() / castBar:GetEffectiveScale()
+	castBar.cbBackground = castBar:CreateTexture(nil, "BACKGROUND")
+	castBar.cbBackground:SetPoint("TOPLEFT", -cbOffset, cbOffset)
+	castBar.cbBackground:SetPoint("BOTTOMRIGHT", cbOffset, -cbOffset)
 	castBar.cbBackground:SetTexture(barTexture)
 	castBar.cbBackground:SetVertexColor(0.15, 0.15, 0.15)
 
