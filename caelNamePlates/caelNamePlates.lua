@@ -205,6 +205,7 @@ end
 local OnHide = function(self)
 	self.highlight:Hide()
 	self.healthBar.hpGlow:SetBackdropBorderColor(0, 0, 0)
+	StopFlash(self)
 end
 
 local OnEvent = function(self, event, unit)
