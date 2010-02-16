@@ -261,7 +261,7 @@ function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID,
 		spellId, spellName, spellSchool, missType, missAmount = ...
 		text, rsaText = missTypes[missType] or missType, format("%s %s", ShortName(spellName), missTypes[missType] or missType), schoolColors[spellSchool]
 
-		tooltipMsg = format(tooltipStrings[4], timeStamp, (meSource and "Your" or sourceName and sourceName.."'s" or ""), (spellName), (meTarget and "you" or destName), FormatMissType(subEvent, missType, missAmount))
+		tooltipMsg = format(tooltipStrings[4], timeStamp, (meSource and "Your" or sourceName and sourceName.."'s" or ""), (spellName), (meTarget and "you" or destName), FormatMissType(subEvent, missType, missAmount) or "")
 
 	elseif subEvent:find("AURA_APPLIED") or subEvent:find("AURA_REMOVED") then
 
