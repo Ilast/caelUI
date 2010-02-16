@@ -13,7 +13,7 @@ local font = settings.font
 local fontn = mediaPath..[=[fonts\russel square lt.ttf]=]
 
 local myName = UnitName("player")
-local _, myClass = UnitClass("player")
+local _, playerClass = UnitClass("player")
 
 local lowThreshold = settings.lowThreshold
 local highThreshold = settings.highThreshold
@@ -477,7 +477,7 @@ local auraFilter = function(icons, unit, icon, name, rank, texture, count, dtype
 			casterClass = select(2, UnitClass(caster))
 		end
 
-		if casterClass and casterClass == myClass then
+		if casterClass and casterClass == playerClass then
 			return true
 		end
 	else
@@ -540,7 +540,7 @@ local SetStyle = function(self, unit)
 	self.FrameBackdrop:SetBackdropColor(0.25, 0.25, 0.25)
 	self.FrameBackdrop:SetBackdropBorderColor(0, 0, 0)
 
-	if unit == "player" and class == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and unit == "player" and class == "SHAMAN" then
+	if unit == "player" and playerClass == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and unit == "player" and playerClass == "SHAMAN" then
 		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 4, -12)
 	else
 		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 4, -4)
@@ -648,7 +648,7 @@ local SetStyle = function(self, unit)
 			self.Enchant["growth-x"] = "RIGHT"
 		end
 
-		if class == "DEATHKNIGHT" then
+		if playerClass == "DEATHKNIGHT" then
 			self.Runes = CreateFrame("Frame", nil, self)
 			self.Runes:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -1)
 			self.Runes:SetHeight(7)
@@ -670,7 +670,7 @@ local SetStyle = function(self, unit)
 			end
 		end
 
-		if IsAddOnLoaded("oUF_TotemBar") and class == "SHAMAN" then
+		if IsAddOnLoaded("oUF_TotemBar") and playerClass == "SHAMAN" then
 			self.TotemBar = {}
 			self.TotemBar.Destroy = true
 			for i = 1, 4 do
@@ -692,7 +692,7 @@ local SetStyle = function(self, unit)
 			end
 		end
 
-		if class == "DRUID" then
+		if playerClass == "DRUID" then
 			CreateFrame("Frame"):SetScript("OnUpdate", function() UpdateDruidMana(self) end)
 			self.DruidMana = SetFontString(self.Health, font, 11)
 			self.DruidMana:SetTextColor(1, 0.49, 0.04)
@@ -742,7 +742,7 @@ local SetStyle = function(self, unit)
 
 			self.Debuffs.initialAnchor = "TOPLEFT"
 			self.Debuffs["growth-y"] = "DOWN"
-			if class == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and class == "SHAMAN" then
+			if playerClass == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and playerClass == "SHAMAN" then
 				self.Debuffs:SetPoint("TOPLEFT", self, "BOTTOMLEFT", -1, -15)
 			else
 				self.Debuffs:SetPoint("TOPLEFT", self, "BOTTOMLEFT", -1, -7.5)
@@ -963,7 +963,7 @@ local SetStyle = function(self, unit)
 		self.LFDRole:SetPoint("RIGHT", self, "LEFT", -1, 0)
 	end
 
-	if myClass == "HUNTER" then
+	if playerClass == "HUNTER" then
 		self:SetAttribute("type3", "spell")
 		self:SetAttribute("spell3", "Misdirection")
 	end
