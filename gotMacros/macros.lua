@@ -73,7 +73,8 @@ gM_Macros = {
 		icon = [=[Interface\Icons\Spell_Shadow_LastingAfflictions]=],
 		body = [=[/cast [target=pettarget, exists] Kill Command
 			/cast [target=pettarget, exists] Bestial Wrath
-			/cast Blood Fury]=],
+			/cast Blood Fury
+			/cast Berserking]=],
 		nosound = true,
 	},
 	["Foc"] = {
@@ -294,25 +295,37 @@ gM_Macros = {
 -------------------
 --[[	DRUID	]]--
 -------------------
-	["MCP"] = {
-		char = "Cowdiak",
-		show = "Mangle (Cat)(Rank 3)",
-		body = [=[/click [noexists][noharm][dead] gotMacros_T2
-			/startattack
-			/cast [harm, nodead] Mangle (Cat)(Rank 3)]=],
-		nosound = true,
-		blizzmacro = true,
-		perChar = true,
-	},
 	["Tank"] = {
 		char = "Cowdiak",
 		show = "Mangle (Bear)(Rank 3)",
 		body = [=[/click [noexists][noharm][dead] gotMacros_T2
-			/startattack
-			/castsequence [harm, nodead] Mangle (Bear)(Rank 3), Lacerate, !Maul
-			/castsequence [harm, nodead] Lacerate, !Maul, Mangle (Bear)(Rank 3)]=],
+			/click [combat, harm, nodead] gotMacros_CDs
+			/click [harm, nodead] gotMacros_RotD]=],
+		blizzmacro = true,
+		perChar = true,
+	},
+	["RotD"] = {
+		char = "Cowdiak",
+		show = "Mangle (Bear)(Rank 3)",
+		body = [=[/startattack
+			/click [harm, nodead] gotMacros_MangleB
+			/click [harm, nodead] gotMacros_Maul]=],
 		nosound = true,
 		blizzmacro = true,
+		perChar = true,
+	},
+	["MangleB"] = {
+		char = "Cowdiak",
+		show = "Mangle (Bear)(Rank 3)",
+		body = [=[/castsequence reset=target/combat Mangle (Bear)(Rank 3), Mangle (Bear)(Rank 3), Lacerate]=],
+		nosound = true,
+		perChar = true,
+	},
+	["Maul"] = {
+		char = "Cowdiak",
+		show = "Maul",
+		body = [=[/cast !Maul]=],
+		nosound = true,
 		perChar = true,
 	},
 }
