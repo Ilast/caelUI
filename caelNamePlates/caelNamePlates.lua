@@ -12,6 +12,34 @@ local backdrop = {
 
 local select = select
 
+local SetUpAnimGroup = function(self)
+	self.anim = self:CreateAnimationGroup("Flash")
+	self.anim:SetLooping("REPEAT")
+	self.anim.fadein = self.anim:CreateAnimation("ALPHA", "FadeIn")
+	self.anim.fadein:SetChange(0.75)
+	self.anim.fadein:SetOrder(2)
+
+	self.anim.fadeout = self.anim:CreateAnimation("ALPHA", "FadeOut")
+	self.anim.fadeout:SetChange(-0.75)
+	self.anim.fadeout:SetOrder(1)
+end
+
+local Flash = function(self, duration)
+	if not self.anim then
+		SetUpAnimGroup(self)
+	end
+
+	self.anim.fadein:SetDuration(duration)
+	self.anim.fadeout:SetDuration(duration)
+	self.anim:Play()
+end
+
+local StopFlash = function(self)
+	if self.anim then
+		self.anim:Finish()
+	end
+end
+
 -- Execute/Kill Shot/Hammer of Wrath/Drain Soul
 local nukeRangeFactor
 local _, playerClass = UnitClass("player")
@@ -71,9 +99,9 @@ local UpdateFrame = function(self)
 		-- Hostile unit
 		newr, newg, newb = 0.69, 0.31, 0.31
 		self.healthBar:SetStatusBarColor(0.69, 0.31, 0.31)
-		if self.boss:IsShown() or self.elite:IsShown() then
+--		if self.boss:IsShown() or self.elite:IsShown() then
 			self.healthBar.UnitType = "Hostile"
-		end
+--		end
 	elseif r + b == 0 then
 		-- Friendly unit
 		newr, newg, newb = 0.33, 0.59, 0.33
@@ -128,6 +156,8 @@ local OnHealthChanged = function(self)
 	local cur = self:GetValue()
 	if self.UnitType == "Hostile" and cur > 0 and cur < max/nukeRangeFactor and self:GetParent():GetAlpha() == 1 and not self.Trigger then
 		self.Trigger = true
+		Flash(self, 0.3)
+
 		if RecScrollAreas then
 			RecScrollAreas:AddText("|cffAF5050Kill Shot|r", true, "Notification", true)
 		end
