@@ -163,6 +163,7 @@ local OnHealthChanged = function(self)
 		end
 	elseif self.UnitType == "Hostile" and cur >= max/nukeRangeFactor and self.Trigger then
 		self.Trigger = false
+		StopFlash(self)
 	end
 end
 
