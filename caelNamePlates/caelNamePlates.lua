@@ -1,3 +1,4 @@
+local _, addon = ...
 local caelNamePlates = CreateFrame("Frame", nil, UIParent)
 caelNamePlates:SetScript("OnEvent", function(self, event, ...) self[event](self, ...) end)
 
@@ -11,34 +12,6 @@ local backdrop = {
 }
 
 local select = select
-
-local SetUpAnimGroup = function(self)
-	self.anim = self:CreateAnimationGroup("Flash")
-	self.anim:SetLooping("REPEAT")
-	self.anim.fadein = self.anim:CreateAnimation("ALPHA", "FadeIn")
-	self.anim.fadein:SetChange(0.75)
-	self.anim.fadein:SetOrder(2)
-
-	self.anim.fadeout = self.anim:CreateAnimation("ALPHA", "FadeOut")
-	self.anim.fadeout:SetChange(-0.75)
-	self.anim.fadeout:SetOrder(1)
-end
-
-local Flash = function(self, duration)
-	if not self.anim then
-		SetUpAnimGroup(self)
-	end
-
-	self.anim.fadein:SetDuration(duration)
-	self.anim.fadeout:SetDuration(duration)
-	self.anim:Play()
-end
-
-local StopFlash = function(self)
-	if self.anim then
-		self.anim:Finish()
-	end
-end
 
 -- Execute/Kill Shot/Hammer of Wrath/Drain Soul
 local nukeRangeFactor
@@ -156,14 +129,18 @@ local OnHealthChanged = function(self)
 	local cur = self:GetValue()
 	if self.UnitType == "Hostile" and cur > 0 and cur < max/nukeRangeFactor and self:GetParent():GetAlpha() == 1 and not self.Trigger then
 		self.Trigger = true
-		Flash(self, 0.25)
+		if addon.flash then
+			addon.flash.Start(self, 0.25, 0.25, 1)
+		end
 
 		if RecScrollAreas then
 			RecScrollAreas:AddText("|cffAF5050Kill Shot|r", true, "Notification", true)
 		end
 	elseif self.UnitType == "Hostile" and cur >= max/nukeRangeFactor and self.Trigger then
 		self.Trigger = false
-		StopFlash(self)
+		if addon.flash then
+			addon.flash.Stop(self)
+		end
 	end
 end
 
@@ -205,7 +182,9 @@ end
 local OnHide = function(self)
 	self.highlight:Hide()
 	self.healthBar.hpGlow:SetBackdropBorderColor(0, 0, 0)
-	StopFlash(self)
+	if addon.flash then
+		addon.flash.Stop(self.healthBar)
+	end
 end
 
 local OnEvent = function(self, event, unit)
