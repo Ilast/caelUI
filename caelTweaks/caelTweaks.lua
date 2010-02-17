@@ -98,14 +98,41 @@ caelTweaks.START_LOOT_ROLL = function(self, event, id)
 	end
 end
 
+--[[	Oculus no more...	]]
+
+caelTweaks:RegisterEvent("ADDON_LOADED")
+caelTweaks.ADDON_LOADED = function(self, event, addon)
+	if(addon == "caelTweaks") then
+		RequestRaidInfo()
+
+		self:UnregisterEvent(event, ADDON_LOADED)
+	end
+end
+
+caelTweaks:RegisterEvent("UPDATE_INSTANCE_INFO")
+caelTweaks.UPDATE_INSTANCE_INFO = function(self, event)
+	self:UnregisterEvent("UPDATE_INSTANCE_INFO", UPDATE_INSTANCE_INFO)
+	for i = 1, GetNumSavedInstances() do
+		local name, _, _, _, lock, extend = GetSavedInstanceInfo(i)
+
+		if(name == "The Oculus" and not(lock or extend)) then
+			return SetSavedInstanceExtend(i, true)
+		end
+	end
+end
+
 --[[	Auto accept some invites	]]
 
 local AcceptFriends = false
 local AcceptGuild = false
 
 local playerList = {
+	["Bonewraith"] = true,
 	["Caellian"] = true,
+	["Callysto"] = true,
+	["Cowdiak"] = true,
 	["Pimiko"] = true,
+
 }
 
 local function IsFriend(name)
@@ -233,7 +260,23 @@ CharacterModelFrameRotateRightButton:SetPoint("RIGHT", PaperDollFrame, "RIGHT", 
 
 WorldStateAlwaysUpFrame:SetScale(0.9)
 
---[[	Hide UIErrorsFrame	]]
+--[[	Blacklist some UIErrorsFrame messages	]]
+
+local eventBlacklist = {
+	[ERR_NO_ATTACK_TARGET] = true,
+	[OUT_OF_ENERGY] = true,
+	[ERR_ABILITY_COOLDOWN] = true,
+	[SPELL_FAILED_NO_COMBO_POINTS] = true,
+	[SPELL_FAILED_SPELL_IN_PROGRESS] = true,
+	[ERR_SPELL_COOLDOWN] = true,
+}
+
+caelTweaks:RegisterEvent("UI_ERROR_MESSAGE")
+caelTweaks.UI_ERROR_MESSAGE = function(self, event, error)
+	if(not eventBlacklist[error]) then
+		UIErrorsFrame:AddMessage(error, 0.69, 0.31, 0.31)
+	end
+end
 
 UIErrorsFrame:UnregisterEvent("UI_ERROR_MESSAGE")
 
