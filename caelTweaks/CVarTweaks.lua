@@ -1,4 +1,4 @@
-local CVarTweaks = CreateFrame("Frame", nil, UIParent)
+﻿local CVarTweaks = CreateFrame("Frame", nil, UIParent)
 
 local ZoneChange = function(zone)
 	local _, instanceType = IsInInstance()
@@ -75,8 +75,8 @@ Scales = {
 	["1920"] = { ["1200"] = 0.84, ["1080"] = 0.93},
 }
 
-CVarTweaks:RegisterEvent("PLAYER_LOGIN")
-CVarTweaks.PLAYER_LOGIN = function(self)
+CVarTweaks:RegisterEvent("PLAYER_ENTERING_WORLD")
+CVarTweaks.PLAYER_ENTERING_WORLD = function(self)
 	local width, height = string.match((({GetScreenResolutions()})[GetCurrentResolution()] or ""), "(%d+).-(%d+)")
 	if Scales[width] and Scales[width][height] then
 		SetCVar("useUiScale", 1)
@@ -92,72 +92,86 @@ CVarTweaks.PLAYER_LOGIN = function(self)
 		print("Your resolution is not supported, UI Scale has been disabled.")
 	end
 
---	SetCVar("gxcolorbits","16")
---	SetCVar("gxdepthbits","16")
-	SetCVar("gxTextureCacheSize", "512") -- 512kb
-	SetCVar("M2Faster", 1) -- Adds additional threads used in rendering models on screen (0 = no additional threads, 1 - 3 = adds additional threads to the WoW Client)
+	for _, cvarData in pairs {
 
-	SetCVar("gxMultisample","1")
-	SetCVar("gxMultisampleQuality","0.000000")
-	SetCVar("gxVSync", "0")
-	SetCVar("gxTripleBuffer", "0")
-	SetCVar("gxFixLag", "0")
-	SetCVar("gxCursor", "1")
---	SetCVar("gxRefresh", "50")
---	SetCVar("Maxfps", "45")
---	SetCVar("maxfpsbk", "10")
-	SetCVar("ffx", "0")
-	SetCVar("textureFilteringMode", "0")
-	SetCVar("baseMip", "0") -- 0 for max
-	SetCVar("mapShadows", "0")
-	SetCVar("shadowLOD", "0")
-	SetCVar("farclip", 1277)
-	SetCVar("showfootprints", "0")
-	SetCVar("ffxDeath", "0")
-	SetCVar("ffxGlow", "0")
-	SetCVar("specular", "1")
+--[[
+	http://forums.worldofwarcraft.com/thread.html?topicId=1778017311&sid=1&pageNo=5#96
+		╔════════╤════════╤════════╤════════╤════════╤════════╤════════╤════════╗
+		║ Core 8 │ Core 7 │ Core 6 │ Core 5 │ Core 4 │ Core 3 │ Core 2 │ Core 1 ║
+		╠════════╪════════╪════════╪════════╪════════╪════════╪════════╪════════╣
+		║  +128  │  +64   │  +32   │  +16   │   +8   │   +4   │   +2   │   +1   ║
+		╚════════╧════════╧════════╧════════╧════════╧════════╧════════╧════════╝
+--]]
 
-	SetCVar("shadowLevel", "0")
-	SetCVar("componentCompress", "0")
-	SetCVar("componentThread", "1")
-	SetCVar("componentTextureLevel", "9") -- min 8
+		"processAffinityMask 255",
+		"scriptProfile 0", -- Disables CPU profiling
+		"showToolsUI 0", -- Disables the Launcher
+		"synchronizeSettings 0", -- Don't synchronize settings with the server
 
-	SetCVar("Sound_AmbienceVolume", "0.10000000149012")
-	SetCVar("Sound_EnableErrorSpeech", "0")
-	SetCVar("Sound_EnableMusic", "0")
-	SetCVar("Sound_EnableSoundWhenGameIsInBG", "1")
-	SetCVar("Sound_MasterVolume", "0.20000000298023")
-	SetCVar("Sound_MusicVolume", "0")
-	SetCVar("Sound_OutputQuality", "0")
-	SetCVar("Sound_SFXVolume", "0.20000000298023")
-	SetCVar("Sound_EnableSoftwareHRTF", "1")
+--		"gxcolorbits","16"
+--		"gxdepthbits","16"
+		"gxTextureCacheSize 512",
+		"M2Faster 1", -- Adds additional threads used in rendering models on screen (0 = no additional threads, 1 - 3 = adds additional threads to the WoW Client)
 
-	SetCVar("extShadowQuality", 0)
-	SetCVar("cameraDistanceMax", 50)
-	SetCVar("cameraDistanceMaxFactor", 3.4)
-	SetCVar("cameraDistanceMoveSpeed", 50)
-	SetCVar("cameraViewBlendStyle", 2)
+		"gxMultisample 1",
+		"gxMultisampleQuality 0.000000",
+		"gxVSync 0",
+		"gxTripleBuffer 0",
+		"gxFixLag 0",
+		"gxCursor 1",
+--		"gxRefresh 50"
+--		"Maxfps 45"
+--		"maxfpsbk 10"
+		"ffx 0",
+		"textureFilteringMode 0",
+		"baseMip 0", -- 0 for max
+		"mapShadows 0",
+		"shadowLOD 0",
+		"farclip 1277",
+		"showfootprints 0",
+		"ffxDeath 0",
+		"ffxGlow 0",
+		"specular 1",
 
-	SetCVar("nameplateAllowOverlap", 0)
+		"shadowLevel 0",
+		"componentCompress 0",
+		"componentThread 1",
+		"componentTextureLevel 9", -- min 8
 
-	SetCVar("nameplateShowFriends", 0)
-	SetCVar("nameplateShowFriendlyPets", 0)
-	SetCVar("nameplateShowFriendlyGuardians", 0)
-	SetCVar("nameplateShowFriendlyTotems", 0)
+		"Sound_AmbienceVolume 0.10000000149012",
+		"Sound_EnableErrorSpeech 0",
+		"Sound_EnableMusic 0",
+		"Sound_EnableSoundWhenGameIsInBG 1",
+		"Sound_MasterVolume 0.20000000298023",
+		"Sound_MusicVolume 0",
+		"Sound_OutputQuality 0",
+		"Sound_SFXVolume 0.20000000298023",
+		"Sound_EnableSoftwareHRTF 1",
 
-	SetCVar("nameplateShowEnemies", 0)
-	SetCVar("nameplateShowEnemyPets", 0)
-	SetCVar("nameplateShowEnemyGuardians", 0)
-	SetCVar("nameplateShowEnemyTotems", 0)
+		"extShadowQuality 0",
+		"cameraDistanceMax 50",
+		"cameraDistanceMaxFactor 3.4",
+		"cameraDistanceMoveSpeed 50",
+		"cameraViewBlendStyle 2",
+
+		"nameplateAllowOverlap 0",
+
+		"nameplateShowFriends 0",
+		"nameplateShowFriendlyPets 0",
+		"nameplateShowFriendlyGuardians 0",
+		"nameplateShowFriendlyTotems 0",
+
+		"nameplateShowEnemies 0",
+		"nameplateShowEnemyPets 0",
+		"nameplateShowEnemyGuardians 0",
+		"nameplateShowEnemyTotems 0",
+	} do
+		SetCVar(string.split(" ", cvarData))
+	end
 end
 
 if (tonumber(GetCVar("ScreenshotQuality")) < 10) then SetCVar("ScreenshotQuality", 10) end
---[[
-local cores = tonumber(GetCVar("coresDetected"))
-if (cores > 1) then
-	SetCVar("processAffinityMask", math.pow(cores, 2) - 1)
-end
---]]
+
 OnEvent = function(self, event, ...)
 	if type(self[event]) == "function" then
 		return self[event](self, event, ...)
