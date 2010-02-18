@@ -81,6 +81,10 @@ chatFrames.ADDON_LOADED = function(self, event, ...)
 			local frame = _G["ChatFrame"..i]
 			local dockHighlight = _G["ChatFrame"..i.."TabDockRegionHighlight"]
 
+			frame:SetFading(true)
+			frame:SetFadeDuration(5)
+			frame:SetTimeVisible(10)
+
 			frame:SetFont(font, 9)
 			dockHighlight:Hide()
 
