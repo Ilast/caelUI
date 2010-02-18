@@ -33,7 +33,7 @@
     
   --COLORS
   --color you want to appy to the standard texture (red, green, blue in RGB)
-  local color = { r = 0.25, g = 0.25, b = 0.25, }
+  local color = { r = 0.84, g = 0.75, b = 0.65, }
   --want class color? just comment in this:
   --local color = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
 
