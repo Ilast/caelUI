@@ -15,7 +15,7 @@ CreatePanel = function(name, x, y, width, height, point, rpoint, anchor, parent,
 	panels[n]:SetHeight(height)
 	panels[n]:SetPoint(point, anchor, rpoint, x, y)
 	panels[n]:SetBackdrop(backdrop)
-	panels[n]:SetBackdropColor(0, 0, 0, 0.5)
+	panels[n]:SetBackdropColor(0, 0, 0, 0.66)
 	panels[n]:Show()
 	n = n + 1
 end
@@ -51,7 +51,7 @@ caelPanels.PLAYER_LOGIN = function(self)
 			gradient:SetPoint("RIGHT", panel, -2, 0)
 			gradient:SetPoint("BOTTOM", panel, 0, 2)
 			gradient:SetBlendMode("ADD")
-			gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.25)
+			gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.5)
 		end
 	end
 
