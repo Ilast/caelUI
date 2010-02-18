@@ -477,7 +477,7 @@ local auraFilter = function(icons, unit, icon, name, rank, texture, count, dtype
 			casterClass = select(2, UnitClass(caster))
 		end
 
-		if casterClass and casterClass == playerClass then
+		if not icon.debuff or (casterClass and casterClass == playerClass) then
 			return true
 		end
 	else
@@ -758,7 +758,7 @@ local SetStyle = function(self, unit)
 			self.Debuffs["growth-y"] = "DOWN"
 			self.Debuffs.onlyShowPlayer = false
 			if not settings.noClassDebuffs then
-				self.Debuffs.CustomAuraFilter = auraFilter
+				self.CustomAuraFilter = auraFilter
 			end
 
 			self.CPoints = CreateFrame("Frame", nil, self.Power)
