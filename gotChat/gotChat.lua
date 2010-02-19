@@ -114,14 +114,7 @@ local function HideForever(self)
 	self.Show = dummy
 	self:Hide()
 end
---[[
---- Editbox fixes
-local ChatFrameEditBox = ChatFrameEditBox
-ChatFrameEditBox:SetAltArrowKeyMode(nil) -- Alt == fail
-ChatFrameEditBox:ClearAllPoints()
-ChatFrameEditBox:SetPoint("BOTTOMLEFT", ChatFrame1, "TOPLEFT", -5, 0)
-ChatFrameEditBox:SetPoint("BOTTOMRIGHT", ChatFrame1, "TOPRIGHT",  5, 0)
---]]
+
 -- Hide EditBox artwork.
 local a,b,c=select(6, ChatFrameEditBox:GetRegions())
 HideForever(a)
