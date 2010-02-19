@@ -53,7 +53,7 @@ local BorderColor = function(self)
 			self:SetBackdropBorderColor(0, 0, 0)
 		end
 	end
-	self:SetBackdropColor(0, 0, 0, GetMouseFocus() == WorldFrame and 0.5 or 0.85)
+	self:SetBackdropColor(0, 0, 0, GetMouseFocus() == WorldFrame and 0.66 or 0.66)
 end
 
 local FormatMoney = function(money)
@@ -222,7 +222,7 @@ function caelTooltips:ApplyLayout()
 		gradient:SetPoint("RIGHT", v, -2, 0)
 		gradient:SetPoint("BOTTOM", v, 0, 2)
 		gradient:SetBlendMode("ADD")
-		gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.55, 0.57, 0.61, 0.25)
+		gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.5)
 
 		GameTooltipStatusBar:SetAlpha(0)
 	end
