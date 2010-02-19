@@ -1,4 +1,7 @@
-﻿local SetFont = function(obj, font, size, style, r, g, b, sr, sg, sb, sox, soy)
+﻿local neuropolxcdrg = CreateFont("neuropolxcdrg")
+neuropolxcdrg:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 10, "")
+
+local SetFont = function(obj, font, size, style, r, g, b, sr, sg, sb, sox, soy)
 	obj:SetFont(font, size, style)
 	if sr and sg and sb then obj:SetShadowColor(sr, sg, sb) end
 	if sox and soy then obj:SetShadowOffset(sox, soy) end
