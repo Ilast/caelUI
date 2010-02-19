@@ -8,14 +8,4 @@
 ## X-Email: sdkyron@gmail.com
 ## X-Category: Miscellaneous, Infos bar
 
-caelStats.lua
-
-modules\clock.lua
-modules\coords.lua
-modules\durability.lua
-modules\experience.lua
-modules\gold.lua
-modules\guild.lua
-modules\lfg.lua
-modules\mail.lua
-modules\system.lua
+caelStats.xml
