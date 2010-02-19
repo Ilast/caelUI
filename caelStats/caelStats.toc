@@ -2,6 +2,7 @@
 ## Author: Caellian
 ## Title: |cffD7BEA5cael|rStats
 ## Notes: Infos bar
+## Dependencies: caelFonts
 ## X-Revision: $Revision: 1 $
 ## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
 ## X-Email: sdkyron@gmail.com
@@ -9,10 +10,8 @@
 
 caelStats.lua
 
-modules\bags.lua
 modules\clock.lua
 modules\coords.lua
-modules\dps.lua
 modules\durability.lua
 modules\experience.lua
 modules\gold.lua

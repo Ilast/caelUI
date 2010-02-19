@@ -1,8 +1,10 @@
+local _, caelStats = ...
+
 local Holder = CreateFrame("Frame")
 
 caelStats.durability = caelPanel10:CreateFontString(nil, "OVERLAY")
-caelStats.durability:SetFont(font, fontSize, fontOutline)
-caelStats.durability:SetPoint("CENTER", caelPanel10, "CENTER", -225, 0.5) 
+caelStats.durability:SetFontObject(neuropolxcdrg)
+caelStats.durability:SetPoint("CENTER", caelPanel10, "CENTER", -300, 0.5) 
 
 local Total = 0
 local current, max
@@ -41,20 +43,16 @@ local OnEvent = function(self)
 end
 
 local OnEnter = function(self)
-	if not InCombatLockdown() then
-		GameTooltip:SetOwner(UIParent, "ANCHOR_NONE")
-		GameTooltip:ClearAllPoints()
-		GameTooltip:SetPoint("BOTTOM", self, "TOP", 0, 5)
-	
-		for i = 1, 11 do
-			if Slots[i][3] ~= 1000 then
-				green = Slots[i][3]*2
-				red = 1 - green
-				GameTooltip:AddDoubleLine(Slots[i][2], floor(Slots[i][3]*100).."%",1 ,1 , 1, red + 1, green, 0)
-			end
+	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
+
+	for i = 1, 11 do
+		if Slots[i][3] ~= 1000 then
+			green = Slots[i][3]*2
+			red = 1 - green
+			GameTooltip:AddDoubleLine(Slots[i][2], floor(Slots[i][3]*100).."%",1 ,1 , 1, red + 1, green, 0)
 		end
-		GameTooltip:Show()
 	end
+	GameTooltip:Show()
 	Total = 0
 end
 

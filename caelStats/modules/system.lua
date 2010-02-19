@@ -1,7 +1,9 @@
+local _, caelStats = ...
+
 local Holder = CreateFrame("Frame")
 
 caelStats.system = caelPanel10:CreateFontString(nil, "OVERLAY")
-caelStats.system:SetFont(font, fontSize, fontOutline)
+caelStats.system:SetFontObject(neuropolxcdrg)
 caelStats.system:SetPoint("LEFT", caelPanel10, "LEFT", 10, 0.5) 
 
 local Addons = {}

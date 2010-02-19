@@ -1,7 +1,9 @@
+local _, caelStats = ...
+
 local Holder = CreateFrame("Frame")
 
 caelStats.clock = caelPanel10:CreateFontString(nil, "OVERLAY")
-caelStats.clock:SetFont(font, fontSize, fontOutline)
+caelStats.clock:SetFontObject(neuropolxcdrg)
 caelStats.clock:SetPoint("RIGHT", caelPanel10, "RIGHT", -10, 0.5) 
 
 local delay = 0
@@ -24,13 +26,9 @@ local OnUpdate = function(self, elapsed)
 end
 
 local OnEnter = function(self)
-	if not InCombatLockdown() then
-		GameTooltip:SetOwner(UIParent, "ANCHOR_NONE")
-		GameTooltip:ClearAllPoints()
-		GameTooltip:SetPoint("BOTTOM", self, "TOP", 0, 5)
-		GameTooltip:AddLine(date("%B, %A %d %Y"))
-		GameTooltip:Show()
-	end
+	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
+	GameTooltip:AddLine(date("%B, %A %d %Y"))
+	GameTooltip:Show()
 end
 
 local OnEvent = function(self)

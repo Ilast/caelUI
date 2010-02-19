@@ -1,7 +1,9 @@
+local _, caelStats = ...
+
 local Holder = CreateFrame("Frame")
 
 caelStats.gold = caelPanel10:CreateFontString(nil, "OVERLAY")
-caelStats.gold:SetFont(font, fontSize, fontOutline)
+caelStats.gold:SetFontObject(neuropolxcdrg)
 caelStats.gold:SetPoint("CENTER", caelPanel10, "CENTER", 125, 0.5) 
 
 local Profit	= 0
@@ -41,20 +43,16 @@ local OnEvent = function(self, event)
 end
 
 local OnEnter = function(self)
-	if not InCombatLockdown() then
-		GameTooltip:SetOwner(UIParent, "ANCHOR_NONE")
-		GameTooltip:ClearAllPoints()
-		GameTooltip:SetPoint("BOTTOM", self, "TOP", 0, 5)
-	
-		GameTooltip:AddDoubleLine("Earned:", formatMoney(Profit), 1, 1, 1, 1, 1, 1)
-		GameTooltip:AddDoubleLine("Spent:", formatMoney(Spent), 1, 1, 1, 1, 1, 1)
-		if Profit < Spent then
-			GameTooltip:AddDoubleLine("Deficit:", formatMoney(Profit-Spent), 1, 0, 0, 1, 1, 1)
-		elseif (Profit-Spent)>0 then
-			GameTooltip:AddDoubleLine("Profit:", formatMoney(Profit-Spent), 0, 1, 0, 1, 1, 1)
-		end
-		GameTooltip:Show()
+	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
+
+	GameTooltip:AddDoubleLine("Earned:", formatMoney(Profit), 1, 1, 1, 1, 1, 1)
+	GameTooltip:AddDoubleLine("Spent:", formatMoney(Spent), 1, 1, 1, 1, 1, 1)
+	if Profit < Spent then
+		GameTooltip:AddDoubleLine("Deficit:", formatMoney(Profit-Spent), 1, 0, 0, 1, 1, 1)
+	elseif (Profit-Spent)>0 then
+		GameTooltip:AddDoubleLine("Profit:", formatMoney(Profit-Spent), 0, 1, 0, 1, 1, 1)
 	end
+	GameTooltip:Show()
 end
 
 Holder:EnableMouse(true)

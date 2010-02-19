@@ -1,8 +1,10 @@
-﻿local Holder = CreateFrame("Frame")
+﻿local _, caelStats = ...
+
+local Holder = CreateFrame("Frame")
 
 caelStats.lfg = caelPanel10:CreateFontString(nil, "OVERLAY")
-caelStats.lfg:SetFont(font, fontSize, fontOutline)
-caelStats.lfg:SetPoint("CENTER", caelPanel10, "CENTER", -125, 0.5) 
+caelStats.lfg:SetFontObject(neuropolxcdrg)
+caelStats.lfg:SetPoint("CENTER", caelPanel10, "CENTER", -150, 0.5) 
 
 local red, green = "AF5050", "559655"
 

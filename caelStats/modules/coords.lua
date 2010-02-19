@@ -1,7 +1,9 @@
+local _, caelStats = ...
+
 local Holder = CreateFrame("Frame")
 
 caelStats.coords = caelPanel10:CreateFontString(nil, "OVERLAY")
-caelStats.coords:SetFont(font, fontSize, fontOutline)
+caelStats.coords:SetFontObject(neuropolxcdrg)
 caelStats.coords:SetPoint("CENTER", caelPanel10, "CENTER", 425, 0.5) 
 
 local ColorizePVPType = function(pvpType)
@@ -40,23 +42,19 @@ end
 
 local zoneName, zoneColor, subzoneName
 local OnEnter = function(self)
-	if not InCombatLockdown() then
-		GameTooltip:SetOwner(UIParent, "ANCHOR_NONE")
-		GameTooltip:ClearAllPoints()
-		GameTooltip:SetPoint("BOTTOM", self, "TOP", 0, 5)
-			
-		zoneName = GetZoneText()
-		subzoneName = GetSubZoneText()
-		zoneColor = ColorizePVPType(GetZonePVPInfo())
+	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
-		if subzoneName == zoneName then
-			subzoneName = ""
-		end
+	zoneName = GetZoneText()
+	subzoneName = GetSubZoneText()
+	zoneColor = ColorizePVPType(GetZonePVPInfo())
 
-		GameTooltip:AddLine(zoneName, zoneColor.r, zoneColor.g, zoneColor.b)
-		GameTooltip:AddLine(subzoneName, 0.84, 0.75, 0.65)
-		GameTooltip:Show()
+	if subzoneName == zoneName then
+		subzoneName = ""
 	end
+
+	GameTooltip:AddLine(zoneName, zoneColor.r, zoneColor.g, zoneColor.b)
+	GameTooltip:AddLine(subzoneName, 0.84, 0.75, 0.65)
+	GameTooltip:Show()
 end
 
 local OnClick = function(self, button)

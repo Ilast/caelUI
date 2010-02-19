@@ -1,7 +1,9 @@
-﻿local Holder = CreateFrame("Frame")
+﻿local _, caelStats = ...
+
+local Holder = CreateFrame("Frame")
 
 caelStats.guild = caelPanel10:CreateFontString(nil, "OVERLAY")
-caelStats.guild:SetFont(font, fontSize, fontOutline)
+caelStats.guild:SetFontObject(neuropolxcdrg)
 caelStats.guild:SetPoint("CENTER", caelPanel10, "CENTER", 325, 0.5) 
 
 local numGuildMembers = 0
@@ -24,44 +26,40 @@ local OnUpdate = function(self, elapsed)
 end
 
 local OnEnter = function(self)
-	if not InCombatLockdown() then
-		numGuildMembers = GetNumGuildMembers()
-		numFriends = GetNumFriends() 
+	numGuildMembers = GetNumGuildMembers()
+	numFriends = GetNumFriends() 
 
-		GameTooltip:SetOwner(UIParent, "ANCHOR_NONE")
-		GameTooltip:ClearAllPoints()
-		GameTooltip:SetPoint("BOTTOM", self, "TOP", 0, 5)
-		
-		if numGuildMembers > 0 then
-			GameTooltip:AddLine("Online Guild Members", 0.84, 0.75, 0.65)
-			GameTooltip:AddLine("------------------------------", 0.55, 0.57, 0.61)
-			
-			for i = 1, numGuildMembers do
-				local memberName, _, _, _, _, _, _, _, memberIsOnline, _, classFileName = GetGuildRosterInfo(i)
-				local color = RAID_CLASS_COLORS[classFileName]
-				if memberIsOnline then
-					GameTooltip:AddLine(memberName, color.r, color.g, color.b)
-				end
-			end
+	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
-			if numOnlineFriends > 0 then
-				GameTooltip:AddLine("------------------------------", 0.55, 0.57, 0.61)
+	if numGuildMembers > 0 then
+		GameTooltip:AddLine("Online Guild Members", 0.84, 0.75, 0.65)
+		GameTooltip:AddLine("------------------------------", 0.55, 0.57, 0.61)
+
+		for i = 1, numGuildMembers do
+			local memberName, _, _, _, _, _, _, _, memberIsOnline, _, classFileName = GetGuildRosterInfo(i)
+			local color = RAID_CLASS_COLORS[classFileName]
+			if memberIsOnline then
+				GameTooltip:AddLine(memberName, color.r, color.g, color.b)
 			end
 		end
 
 		if numOnlineFriends > 0 then
-			GameTooltip:AddLine("Online Friends", 0.84, 0.75, 0.65)
 			GameTooltip:AddLine("------------------------------", 0.55, 0.57, 0.61)
-			for i = 1, numFriends do
-				local friendName, _, friendClass, _, friendIsOnline = GetFriendInfo(i)
-				if friendIsOnline then
-					GameTooltip:AddLine(friendName)
-				end
+		end
+	end
+
+	if numOnlineFriends > 0 then
+		GameTooltip:AddLine("Online Friends", 0.84, 0.75, 0.65)
+		GameTooltip:AddLine("------------------------------", 0.55, 0.57, 0.61)
+		for i = 1, numFriends do
+			local friendName, _, friendClass, _, friendIsOnline = GetFriendInfo(i)
+			if friendIsOnline then
+				GameTooltip:AddLine(friendName)
 			end
 		end
-
-		GameTooltip:Show()
 	end
+
+	GameTooltip:Show()
 end
 
 local OnClick = function(self, button)

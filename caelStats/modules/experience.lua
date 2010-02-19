@@ -1,10 +1,12 @@
 local level = UnitLevel("player")
 if level == 80 then return end
 
+local _, caelStats = ...
+
 local Holder = CreateFrame("Frame")
 
 caelStats.experience = caelPanel10:CreateFontString(nil, "OVERLAY")
-caelStats.experience:SetFont(font, fontSize, fontOutline)
+caelStats.experience:SetFontObject(neuropolxcdrg)
 caelStats.experience:SetPoint("CENTER", caelPanel10, "CENTER", 225, 0.5)
 
 local find, tonumber = string.find, tonumber
@@ -27,20 +29,20 @@ local OnEvent = function(retval, self, event, ...)
 
 	local xpString
 	if not petMaxXp or petMaxXp == 0 then
-		xpString = string.format("P:%.1f%%", ((xp/maxXp)*100))
+		xpString = string.format("|cffD7BEA5XP|r %.1f%%", ((xp/maxXp)*100))
 	else
-		xpString = string.format("P:%.1f%% p:%.0f%%", ((xp/maxXp)*100), ((petXp/petMaxXp)*100))
+		xpString = string.format("|cffD7BEA5XP|r %.1f%% |cffD7BEA5Pet|r %.0f%%", ((xp/maxXp)*100), ((petXp/petMaxXp)*100))
 	end
 
 	caelStats.experience:SetText(xpString)
 
 	if retval then
-		return string.format("Player: %s/%s (%.1f%%)", xp, maxXp, ((xp/maxXp)*100)), (petMaxXp and petMaxXp > 0) and string.format("Pet: %s/%s (%.0f%%)", petXp, petMaxXp, ((petXp/petMaxXp)*100)) or nil
+		return string.format("|cffD7BEA5Player|r %s / %s", xp, maxXp), (petMaxXp and petMaxXp > 0) and string.format("|cffD7BEA5Pet|r %s / %s", petXp, petMaxXp) or nil
 	end
 end
 
 local OnEnter = function(self, ...)
-	GameTooltip:SetOwner(self, "ANCHOR_TOP")
+	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 	local playerXp, petXp = OnEvent(true)
 	GameTooltip:AddLine(playerXp)
 	if petXp then
