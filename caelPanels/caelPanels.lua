@@ -51,7 +51,7 @@ caelPanels.PLAYER_LOGIN = function(self)
 			gradient:SetPoint("RIGHT", panel, -2, 0)
 			gradient:SetPoint("BOTTOM", panel, 0, 2)
 			gradient:SetBlendMode("ADD")
-			gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.5)
+			gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.33)
 		end
 	end
 
