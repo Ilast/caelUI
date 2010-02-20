@@ -10,9 +10,9 @@ local gsub = string.gsub
 local find = string.find
 local format = string.format
 
-_G["GameTooltipHeaderText"]:SetFont(font, fontsize + 2)
-_G["GameTooltipText"]:SetFont(font, fontsize)
-_G["GameTooltipTextSmall"]:SetFont(font, fontsize - 2)
+_G["GameTooltipHeaderText"]:SetFontObject(neuropolrg12)
+_G["GameTooltipText"]:SetFontObject(neuropolrg10)
+_G["GameTooltipTextSmall"]:SetFontObject(neuropolrg9)
 
 local Tooltips = {
 	GameTooltip,
@@ -222,7 +222,7 @@ function caelTooltips:ApplyLayout()
 		gradient:SetPoint("RIGHT", v, -2, 0)
 		gradient:SetPoint("BOTTOM", v, 0, 2)
 		gradient:SetBlendMode("ADD")
-		gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.5)
+		gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.33)
 
 		GameTooltipStatusBar:SetAlpha(0)
 	end
