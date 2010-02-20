@@ -93,7 +93,7 @@ recClassTimers.make_bar = function(self, spell_name, unit, buff_type, only_self,
 	bars[new_id].icon:SetTexture(nil)
 	
 	bars[new_id].lbl = bars[new_id]:CreateFontString(format("recClassTimers_BarLabel_%d", new_id), "OVERLAY")
-	bars[new_id].lbl:SetFont([=[Interface\AddOns\caelMedia\Fonts\neuropol x cd bd.ttf]=], 9)
+	bars[new_id].lbl:SetFontObject(neuropolrg9)
 	bars[new_id].lbl:SetPoint("CENTER", bars[new_id], "CENTER", 0, 1)
 	
 	bars[new_id]:SetPoint(attach_point, parent_frame, relative_point, x_offset, y_offset)

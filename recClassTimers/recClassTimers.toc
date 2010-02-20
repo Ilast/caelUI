@@ -2,15 +2,6 @@
 ## Title: recClassTimers
 ## Author: Recluse
 ## Version: $Id: recClassTimers.toc 190 2010-02-03 08:22:02Z john.d.mann@gmail.com $
+## Dependencies: caelMedia
 
-core.lua
-modules\deathknight.lua
-modules\druid.lua
-modules\hunter.lua
-modules\mage.lua
-modules\paladin.lua
-modules\priest.lua
-modules\rogue.lua
-modules\shaman.lua
-modules\warlock.lua
-modules\warrior.lua
+recClassTimers.xml
