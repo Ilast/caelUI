@@ -3,7 +3,7 @@ local _, caelStats = ...
 local Holder = CreateFrame("Frame")
 
 caelStats.durability = caelPanel10:CreateFontString(nil, "OVERLAY")
-caelStats.durability:SetFontObject(neuropolxcdrg)
+caelStats.durability:SetFontObject(neuropolrg10)
 caelStats.durability:SetPoint("CENTER", caelPanel10, "CENTER", -300, 0.5) 
 
 local Total = 0

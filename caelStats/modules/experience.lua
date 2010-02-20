@@ -6,7 +6,7 @@ local _, caelStats = ...
 local Holder = CreateFrame("Frame")
 
 caelStats.experience = caelPanel10:CreateFontString(nil, "OVERLAY")
-caelStats.experience:SetFontObject(neuropolxcdrg)
+caelStats.experience:SetFontObject(neuropolrg10)
 caelStats.experience:SetPoint("CENTER", caelPanel10, "CENTER", 225, 0.5)
 
 local find, tonumber = string.find, tonumber

@@ -3,7 +3,7 @@ local _, caelStats = ...
 local Holder = CreateFrame("Frame")
 
 caelStats.clock = caelPanel10:CreateFontString(nil, "OVERLAY")
-caelStats.clock:SetFontObject(neuropolxcdrg)
+caelStats.clock:SetFontObject(neuropolrg10)
 caelStats.clock:SetPoint("RIGHT", caelPanel10, "RIGHT", -10, 0.5) 
 
 local delay = 0
