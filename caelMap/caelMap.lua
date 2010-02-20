@@ -8,12 +8,12 @@ end
 
 local Player = WorldMapButton:CreateFontString(nil, "ARTWORK")
 Player:SetPoint("TOPLEFT", WorldMapButton, 0, 40)
-Player:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 11)
+Player:SetFontObject(neuropolrg12)
 Player:SetTextColor(0.84, 0.75, 0.65)
 
 local Cursor = WorldMapButton:CreateFontString(nil, "ARTWORK")
 Cursor:SetPoint("TOPLEFT", WorldMapButton, 0, 20)
-Cursor:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 11)
+Cursor:SetFontObject(neuropolrg12)
 Cursor:SetTextColor(0.84, 0.75, 0.65)
 
 WorldMapButton:HookScript("OnUpdate", function(self, u)
