@@ -4,7 +4,7 @@
 		---------------------------------------------------------------------------
 		These addons will load for every user, always.								--]]
 	["base"] = {"!recBug", "BadBoy", "BadBoy_Levels", "Buffet-Lite", "Butsu",
-		"caelAddOnsManager", "caelCCBreak", "caelCombatLog", "caelEmote", "caelFactions", "caelFonts", "caelInterrupt",
+		"caelAddOnsManager", "caelCCBreak", "caelCombatLog", "caelEmote", "caelFactions", "caelInterrupt",
 		"caelMinimap", "caelNamePlates", "caelCooldowns", "caelMap", "caelMedia", "caelPanels", "caelQuests", "caelStats", "caelTooltips", "caelTweaks",
 		"GetReagents-Lite", "gotChat", "gotMacros",
 		"oUF", "oUF_Caellian", "oUF_CombatFeedback", "oUF_ReadyCheck", "oUF_SpellRange", "oUF_ThreatFeedback",
@@ -25,7 +25,7 @@
 		These addons will load if you use their set name after the slash command.
 		'/addonset raid' to load raid addons, for example.							--]]
 
-	["raid"]	= {"DBM-Coliseum", "DBM-Core", "DBM-GUI", "DBM-Icecrown", "DBM-Ulduar", "RecDamageMeter", "RecThreatMeter", "SimpleBossWhisperer"},
+	["raid"]	= {"BigWigs", "BigWigs_Citadel", "BigWigs_Coliseum", "BigWigs_Core", "BigWigs_Options", "BigWigs_Plugins", "BigWigs_Ulduar", "RecDamageMeter", "RecThreatMeter", "SimpleBossWhisperer"},
 	["party"] = {"RecDamageMeter", "RecThreatMeter"},
 	["pvp"] = {},
 	["dev"] = {},
