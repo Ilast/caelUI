@@ -24,7 +24,7 @@ caelFonts:RegisterEvent("ADDON_LOADED")
 
 caelFonts:SetScript("OnEvent", function(self, event, addon)
 
-	if addon ~= "caelFonts" then return end
+	if addon ~= "caelMedia" then return end
 
 	local NORMAL     = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=]
 	local BOLD       = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd bd.ttf]=]

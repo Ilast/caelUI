@@ -10,6 +10,6 @@
 
 Libs\LibStub.lua
 
-Core.lua
 caelFonts.lua
+Core.lua
 caelMedia.lua
