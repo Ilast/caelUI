@@ -387,11 +387,11 @@ local FramesToHide = {
 	MainMenuBar,
 	VehicleMenuBar,
 
-	MainMenuBarBackpackButton,
-	CharacterBag0Slot,
-	CharacterBag1Slot,
-	CharacterBag2Slot,
-	CharacterBag3Slot,
+--	MainMenuBarBackpackButton,
+--	CharacterBag0Slot,
+--	CharacterBag1Slot,
+--	CharacterBag2Slot,
+--	CharacterBag3Slot,
 	KeyRingButton,
 
 	CharacterMicroButton,
