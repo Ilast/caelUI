@@ -3,6 +3,7 @@
 ## Author: Gotai
 ## Notes: Yet another chat mod.
 ## Version: r1
+## Dependencies: caelFonts
 
 chatFrames.lua
 gotChat.lua

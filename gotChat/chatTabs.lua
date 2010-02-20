@@ -8,9 +8,7 @@ end
 local updateText = function(self, ...)
 	self = self.GetFontString and self:GetFontString() or self:GetParent():GetFontString()
 
-	local font, fontSize = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 9
-
-	self:SetFont(font, fontSize, alpha)
+	self:SetFontObject(neuropolrg10)
 
 	self:SetTextColor(...)
 end

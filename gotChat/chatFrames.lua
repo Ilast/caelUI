@@ -10,7 +10,6 @@ end
 local myName = UnitName("player")
 local _, myClass = UnitClass("player")
 local gsub, find, match, lower = string.gsub, string.find, string.match, string.lower
-local font, fontSize, fontOutline = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 12, ""
 
 local ChatFrameEditBox = ChatFrameEditBox
 ChatFrameEditBox:SetAltArrowKeyMode(nil)
@@ -18,14 +17,14 @@ ChatFrameEditBox:ClearAllPoints()
 ChatFrameEditBox:SetHeight(30)
 ChatFrameEditBox:SetPoint("BOTTOMLEFT",  ChatFrame1, "TOPLEFT", -4.5, 7)
 ChatFrameEditBox:SetPoint("BOTTOMRIGHT", ChatFrame1, "TOPRIGHT", 5, 7)
-ChatFrameEditBox:SetFont(font, fontSize, fontOutline)
+ChatFrameEditBox:SetFontObject(neuropolrg12)
 ChatFrameEditBox:SetBackdrop {bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
 	edgeFile = [=[Interface\Addons\caelMedia\Miscellaneous\glowtex]=], edgeSize = 2,
 	insets = {left = 3, right = 3, top = 3, bottom = 3}
 }
 ChatFrameEditBox:SetBackdropColor(0, 0, 0, 0.5)
 ChatFrameEditBox:SetBackdropBorderColor(0, 0, 0)
-ChatFrameEditBoxHeader:SetFont(font, fontSize, fontOutline)
+ChatFrameEditBoxHeader:SetFontObject(neuropolrg12)
 
 local gradient = ChatFrameEditBox:CreateTexture(nil, "BORDER")
 gradient:SetTexture([=[Interface\ChatFrame\ChatFrameBackground]=])
@@ -85,7 +84,6 @@ chatFrames.ADDON_LOADED = function(self, event, ...)
 			frame:SetFadeDuration(5)
 			frame:SetTimeVisible(10)
 
-			frame:SetFont(font, 9)
 			dockHighlight:Hide()
 
 			ChatFrame_RemoveAllChannels(frame)
@@ -133,7 +131,7 @@ chatFrames.ADDON_LOADED = function(self, event, ...)
 			end
 
 			if i < 5 then
---				FCF_SetChatWindowFontSize(nil, frame, 9)
+				FCF_SetChatWindowFontSize(nil, frame, 9)
 				FCF_SetWindowColor(frame, 0, 0, 0)
 				FCF_SetWindowAlpha(frame, 0)
 				frame:SetFrameStrata("LOW")

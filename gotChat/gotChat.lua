@@ -116,7 +116,7 @@ local function HideForever(self)
 end
 
 -- Hide EditBox artwork.
-local a,b,c=select(6, ChatFrameEditBox:GetRegions())
+local a, b, c = select(6, ChatFrameEditBox:GetRegions())
 HideForever(a)
 HideForever(b)
 HideForever(c)
