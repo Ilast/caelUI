@@ -5,14 +5,12 @@ caelNamePlates:SetScript("OnEvent", function(self, event, ...) self[event](self,
 local barTexture = [=[Interface\Addons\caelNamePlates\media\normtexa]=]
 local overlayTexture = [=[Interface\Tooltips\Nameplate-Border]=]
 local glowTexture = [=[Interface\Addons\caelNamePlates\media\glowtex]=]
+local iconTexture = [=[Interface\Addons\caelNamePlates\media\icontex]=]
 local font, fontSize, fontOutline = [=[Interface\Addons\caelNamePlates\media\neuropol x cd rg.ttf]=], 9, "OUTLINE"
 local backdrop = {
 	edgeFile = glowTexture, edgeSize = 3,
 	insets = {left = 3, right = 3, top = 3, bottom = 3}
 }
-
-local mediaPath = [=[Interface\Addons\oUF_Caellian\media\]=]
-local buttonTex = mediaPath..[=[textures\buttontex]=]
 
 local select = select
 
@@ -286,7 +284,7 @@ local CreateFrame = function(frame)
 	spellIconRegion.IconOverlay = castBar.Holder:CreateTexture(nil, "OVERLAY")
 	spellIconRegion.IconOverlay:SetPoint("TOPLEFT", spellIconRegion, "TOPLEFT", -1.5, 1.5)
 	spellIconRegion.IconOverlay:SetPoint("BOTTOMRIGHT", spellIconRegion, "BOTTOMRIGHT", 1.5, -1.5)
-	spellIconRegion.IconOverlay:SetTexture(buttonTex)
+	spellIconRegion.IconOverlay:SetTexture(iconTexture)
 	spellIconRegion.IconOverlay:SetVertexColor(0.25, 0.25, 0.25)
 
 	spellIconRegion.IconBackdrop = CreateFrame("Frame", nil, castBar.Holder)
