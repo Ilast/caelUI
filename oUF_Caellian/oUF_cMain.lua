@@ -915,8 +915,8 @@ local SetStyle = function(self, unit)
 			self.IconBackdrop:SetPoint("TOPLEFT", self.Castbar.Icon, "TOPLEFT", -4, 3)
 			self.IconBackdrop:SetPoint("BOTTOMRIGHT", self.Castbar.Icon, "BOTTOMRIGHT", 4, -3.5)
 			self.IconBackdrop:SetBackdrop({
-			  edgeFile = glowTex, edgeSize = 4,
-			  insets = {left = 3, right = 3, top = 3, bottom = 3}
+				edgeFile = glowTex, edgeSize = 4,
+				insets = {left = 3, right = 3, top = 3, bottom = 3}
 			})
 			self.IconBackdrop:SetBackdropColor(0, 0, 0, 0)
 			self.IconBackdrop:SetBackdropBorderColor(0, 0, 0, 0.7)
