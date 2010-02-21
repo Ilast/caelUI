@@ -11,6 +11,9 @@ local backdrop = {
 	insets = {left = 3, right = 3, top = 3, bottom = 3}
 }
 
+local mediaPath = [=[Interface\Addons\oUF_Caellian\media\]=]
+local buttonTex = mediaPath..[=[textures\buttontex]=]
+
 local select = select
 
 -- Execute/Kill Shot/Hammer of Wrath/Drain Soul
@@ -273,9 +276,29 @@ local CreateFrame = function(frame)
 	castBar.cbGlow:SetBackdropColor(0.25, 0.25, 0.25)
 	castBar.cbGlow:SetBackdropBorderColor(0, 0, 0)
 
-	spellIconRegion:SetHeight(0.01)
-	spellIconRegion:SetWidth(0.01)
-	
+	spellIconRegion:ClearAllPoints()
+	spellIconRegion:SetPoint("BOTTOMLEFT", castBar, "BOTTOMRIGHT", 5, 1)
+	spellIconRegion:SetSize(14, 14)
+
+	castBar.Holder = CreateFrame("Frame", nil, castBar)
+	castBar.Holder:SetAllPoints()
+
+	spellIconRegion.IconOverlay = castBar.Holder:CreateTexture(nil, "OVERLAY")
+	spellIconRegion.IconOverlay:SetPoint("TOPLEFT", spellIconRegion, "TOPLEFT", -1.5, 1.5)
+	spellIconRegion.IconOverlay:SetPoint("BOTTOMRIGHT", spellIconRegion, "BOTTOMRIGHT", 1.5, -1.5)
+	spellIconRegion.IconOverlay:SetTexture(buttonTex)
+	spellIconRegion.IconOverlay:SetVertexColor(0.25, 0.25, 0.25)
+
+	spellIconRegion.IconBackdrop = CreateFrame("Frame", nil, castBar.Holder)
+	spellIconRegion.IconBackdrop:SetPoint("TOPLEFT", spellIconRegion, "TOPLEFT", -3, 3)
+	spellIconRegion.IconBackdrop:SetPoint("BOTTOMRIGHT", spellIconRegion, "BOTTOMRIGHT", 3, -3)
+	spellIconRegion.IconBackdrop:SetBackdrop({
+		edgeFile = glowTexture, edgeSize = 2,
+		insets = {left = 3, right = 3, top = 3, bottom = 3}
+	})
+	spellIconRegion.IconBackdrop:SetBackdropColor(0, 0, 0, 0)
+	spellIconRegion.IconBackdrop:SetBackdropBorderColor(0, 0, 0, 1)
+
 	highlightRegion:SetTexture(barTexture)
 	highlightRegion:SetVertexColor(0.25, 0.25, 0.25)
 	frame.highlight = highlightRegion
