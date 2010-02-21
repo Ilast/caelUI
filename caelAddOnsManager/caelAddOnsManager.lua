@@ -4,11 +4,11 @@
 		---------------------------------------------------------------------------
 		These addons will load for every user, always.								--]]
 	["base"] = {"!recBug", "BadBoy", "BadBoy_Levels", "Buffet-Lite", "Butsu",
-		"caelAddOnsManager", "caelCCBreak", "caelCombatLog", "caelEmote", "caelFactions", "caelInterrupt",
+		"caelActionBars", "caelAddOnsManager", "caelCCBreak", "caelCombatLog", "caelEmote", "caelFactions", "caelInterrupt",
 		"caelMinimap", "caelNamePlates", "caelCooldowns", "caelMap", "caelMedia", "caelPanels", "caelQuests", "caelStats", "caelTooltips", "caelTweaks",
 		"GetReagents-Lite", "gotChat", "gotMacros",
 		"oUF", "oUF_Caellian", "oUF_CombatFeedback", "oUF_ReadyCheck", "oUF_SpellRange", "oUF_ThreatFeedback",
-		"rActionBarStyler", "rActionButtonStyler", "recBags", "recClassTimers", "RecScrollAreas", "Snoopy", "tekKompare"
+		"recBags", "recClassTimers", "RecScrollAreas", "Snoopy", "tekKompare"
 	},
 	--[[---------------------------------------------------------------------------
 							  -=( Class-Specific Addons )=-
