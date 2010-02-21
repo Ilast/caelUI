@@ -2,7 +2,7 @@
 ## Author: Caellian, Gotai, Recluse
 ## Title: |cffD7BEA5oUF|r Caellian
 ## Notes: Caellian's oUF layout
-## X-Revision: $Revision: 87 $
+## X-Revision: $Revision: 89 $
 ## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
 ## X-Email: sdkyron@gmail.com
 ## X-Category: UnitFrame
