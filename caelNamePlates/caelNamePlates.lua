@@ -157,8 +157,10 @@ local ColorCastBar = function(self, shielded)
 	if shielded then
 		self:SetStatusBarColor(0.8, 0.05, 0)
 		self.cbGlow:SetBackdropBorderColor(0.75, 0.75, 0.75)
+		self.icGlow:SetBackdropBorderColor(0.75, 0.75, 0.75, 0.7)
 	else
 		self.cbGlow:SetBackdropBorderColor(0, 0, 0)
+		self.icGlow:SetBackdropBorderColor(0, 0, 0, 0.85)
 	end
 end
 
@@ -275,10 +277,11 @@ local CreateFrame = function(frame)
 	castBar.cbGlow:SetBackdropBorderColor(0, 0, 0)
 
 	spellIconRegion:ClearAllPoints()
-	spellIconRegion:SetPoint("BOTTOMLEFT", castBar, "BOTTOMRIGHT", 5, 1)
-	spellIconRegion:SetSize(14, 14)
+	spellIconRegion:SetPoint("BOTTOMLEFT", castBar, "BOTTOMRIGHT", 5, 0.25)
+	spellIconRegion:SetSize(15, 15)
 
 	castBar.Holder = CreateFrame("Frame", nil, castBar)
+	castBar.Holder:SetFrameLevel(castBar.Holder:GetFrameLevel() + 1)
 	castBar.Holder:SetAllPoints()
 
 	spellIconRegion.IconOverlay = castBar.Holder:CreateTexture(nil, "OVERLAY")
@@ -295,7 +298,7 @@ local CreateFrame = function(frame)
 		insets = {left = 3, right = 3, top = 3, bottom = 3}
 	})
 	spellIconRegion.IconBackdrop:SetBackdropColor(0, 0, 0, 0)
-	spellIconRegion.IconBackdrop:SetBackdropBorderColor(0, 0, 0, 1)
+	spellIconRegion.IconBackdrop:SetBackdropBorderColor(0, 0, 0)
 
 	highlightRegion:SetTexture(barTexture)
 	highlightRegion:SetVertexColor(0.25, 0.25, 0.25)
@@ -309,6 +312,7 @@ local CreateFrame = function(frame)
 	frame.oldglow = glowRegion
 	frame.elite = stateIconRegion
 	frame.boss = bossIconRegion
+	castBar.icGlow = spellIconRegion.IconBackdrop
 
 	frame.done = true
 
