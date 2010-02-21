@@ -1,1 +1,0 @@
-CreatePanel("caelPanel10", 0, 2, 1124, 18, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND")

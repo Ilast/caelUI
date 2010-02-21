@@ -2,9 +2,9 @@ local _, caelStats = ...
 
 local Holder = CreateFrame("Frame")
 
-caelStats.gold = caelPanel10:CreateFontString(nil, "OVERLAY")
+caelStats.gold = caelPanel8:CreateFontString(nil, "OVERLAY")
 caelStats.gold:SetFontObject(neuropolrg10)
-caelStats.gold:SetPoint("CENTER", caelPanel10, "CENTER", 150, 0.5) 
+caelStats.gold:SetPoint("CENTER", caelPanel8, "CENTER", 150, 0.5) 
 
 local Profit	= 0
 local Spent		= 0

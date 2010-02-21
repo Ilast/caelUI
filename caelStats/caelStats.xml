@@ -1,12 +1,11 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
-	<Script file="caelStats.lua"/>
-	<Script file="modules\clock.lua"/>
-	<Script file="modules\coords.lua"/>
-	<Script file="modules\durability.lua"/>
-	<Script file="modules\experience.lua"/>
-	<Script file="modules\gold.lua"/>
-	<Script file="modules\guild.lua"/>
-	<Script file="modules\lfg.lua"/>
-	<Script file="modules\mail.lua"/>
-	<Script file="modules\system.lua"/>
+	<Script file="clock.lua"/>
+	<Script file="coords.lua"/>
+	<Script file="durability.lua"/>
+	<Script file="experience.lua"/>
+	<Script file="gold.lua"/>
+	<Script file="guild.lua"/>
+	<Script file="lfg.lua"/>
+	<Script file="mail.lua"/>
+	<Script file="system.lua"/>
 </Ui>
