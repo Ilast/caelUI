@@ -1,0 +1,7 @@
+## Interface: 30300
+## Title: caelActionBars
+## Author: Caellian, roth
+## Notes: Styles the standard ActionBars and ActionButtons
+## Dependencies: caelMedia, caelPanels
+
+caelActionBars.lua
