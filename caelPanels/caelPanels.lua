@@ -1,5 +1,5 @@
 local panels, n = {}, 1
---local fadePanels = {}
+--	local fadePanels = {}
 local caelPanels = CreateFrame("frame", nil, UIParent)
 
 local backdrop = {
@@ -20,7 +20,6 @@ CreatePanel = function(name, x, y, width, height, point, rpoint, anchor, parent,
 	n = n + 1
 end
 
-caelPanels.PLAYER_LOGIN = function(self)
 	CreatePanel("caelPanel1", 401, 20, 321, 130, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- Chatframes
 	CreatePanel("caelPanel2", -401, 20, 321, 130, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- CombatLog
 	CreatePanel("caelPanel3", 0, 20, 130, 130, "BOTTOM", "BOTTOM", UIParent, UIParent, "LOW") -- Minimap
@@ -28,17 +27,19 @@ caelPanels.PLAYER_LOGIN = function(self)
 	CreatePanel("caelPanel5", 153, 90, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- TopRightBar
 	CreatePanel("caelPanel6", -153, 20, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- BottomLeftBar
 	CreatePanel("caelPanel7", 153, 20, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- BottomRightBar
+	CreatePanel("caelPanel8", 0, 2, 1124, 18, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- DataFeeds bar
 
+caelPanels.PLAYER_LOGIN = function(self)
 	if RecDamageMeter then
-		CreatePanel("caelPanel8", -647, 20, 167, 130, "BOTTOM", "BOTTOM", UIParent, RecDamageMeter, "BACKGROUND") -- MeterLeft
+		CreatePanel("caelPanel9", -647, 20, 167, 130, "BOTTOM", "BOTTOM", UIParent, RecDamageMeter, "BACKGROUND") -- MeterLeft
 		RecDamageMeter:ClearAllPoints()
-		RecDamageMeter:SetPoint("TOPLEFT", caelPanel8, "TOPLEFT", 3, -3)
+		RecDamageMeter:SetPoint("TOPLEFT", caelPanel9, "TOPLEFT", 3, -3)
 	end
 
-	if RecThreatMeter then
-		CreatePanel("caelPanel9", 647, 20, 167, 130, "BOTTOM", "BOTTOM", UIParent, RecThreatMeter, "BACKGROUND") -- MeterRight
-		RecThreatMeter:ClearAllPoints()
-		RecThreatMeter:SetPoint("TOPLEFT", caelPanel9, "TOPLEFT", 3, -3)
+	if recThreatMeter then
+		CreatePanel("caelPanel10", 647, 20, 167, 130, "BOTTOM", "BOTTOM", UIParent, recThreatMeter, "BACKGROUND") -- MeterRight
+		recThreatMeter:ClearAllPoints()
+		recThreatMeter:SetPoint("TOPLEFT", caelPanel10, "TOPLEFT", 3, -3)
 	end
 
 	for i = 1, 10 do
@@ -145,6 +146,6 @@ end
 caelPanels:SetScript("OnEvent", OnEvent)
 
 caelPanels:RegisterEvent("PLAYER_LOGIN")
--- caelPanels:RegisterEvent("PLAYER_REGEN_DISABLED")
--- caelPanels:RegisterEvent("PLAYER_REGEN_ENABLED")
+--	caelPanels:RegisterEvent("PLAYER_REGEN_DISABLED")
+--	caelPanels:RegisterEvent("PLAYER_REGEN_ENABLED")
 caelPanels:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE")
