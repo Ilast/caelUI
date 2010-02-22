@@ -123,29 +123,33 @@ local testTable = {
 	["WARLOCK"] = { skill = "Drain Soul", range = 4 },
 }
 
-local OnHealthChanged = function(self)
-	local _, duration = GetSpellCooldown(testTable[playerClass].skill)
 
-	if not duration then
+local nukeSpell = testTable[playerClass].skill
+
+local OnHealthChanged = function(self,cur)
+	local _, nukeCooldown = GetSpellCooldown(nukeSpell)
+	if not nukeCooldown then
 		return
-	elseif duration > 1.5 then
+	elseif nukeCooldown > 1.5 then
 		return addon.flash.Stop(self)
 	end
 
 	local r, g, b = self:GetStatusBarColor()
 	local _, max = self:GetMinMaxValues()
-	local cur = self:GetValue()
-	if self.UnitType == "Hostile" and cur > 0 and cur < max/testTable[playerClass].range and self:GetParent():GetAlpha() == 1 and not self.Trigger then
-		self.Trigger = true
+
+	if self.UnitType == "Hostile" and cur > 0 and cur < max/testTable[playerClass].range then
 		if addon.flash then
 			addon.flash.Start(self, 0.25, 0.25, 1)
 		end
 
-		if RecScrollAreas then
+		if not self.Trigger and RecScrollAreas then
+			self.Trigger = true
 			RecScrollAreas:AddText("|cffAF5050Kill Shot|r", true, "Notification", true)
 		end
-	elseif self.UnitType == "Hostile" and cur >= max/testTable[playerClass].range and self.Trigger then
-		self.Trigger = false
+	elseif self.UnitType == "Hostile" and cur >= max/testTable[playerClass].range then
+		if self.Trigger then
+			self.Trigger = false
+		end
 		if addon.flash then
 			addon.flash.Stop(self)
 		end
@@ -233,7 +237,6 @@ local CreateFrame = function(frame)
 	healthBar:SetStatusBarTexture(barTexture)
 	if testTable[playerClass] then
 		healthBar:HookScript("OnValueChanged", OnHealthChanged)
-		healthBar:RegisterEvent("SPELL_UPDATE_COOLDOWN")
 		healthBar:HookScript("OnEvent", OnHealthChanged)
 	end
 
