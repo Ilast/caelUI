@@ -69,7 +69,7 @@ for i = 1, 3 do
 	smf:SetSpacing(2)
    smf:SetFading(true)
 	smf:SetFadeDuration(5)
-	smf:SetTimeVisible(10)
+	smf:SetTimeVisible(20)
 	smf:SetScript("OnMouseWheel", ScrollFrame)
 	smf:EnableMouse(true)
 	smf:EnableMouseWheel(true)
