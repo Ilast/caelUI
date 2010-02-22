@@ -1,3 +1,11 @@
+﻿--[[	Relocating the character rotation buttons	]]
+
+CharacterModelFrameRotateLeftButton:ClearAllPoints()
+CharacterModelFrameRotateLeftButton:SetPoint("LEFT", PaperDollFrame, "LEFT", 70, 5)
+    
+CharacterModelFrameRotateRightButton:ClearAllPoints()
+CharacterModelFrameRotateRightButton:SetPoint("RIGHT", PaperDollFrame, "RIGHT", -90, 5)
+
 local blacklist, items = {}, {}
 local slots = {1, 3, 5, 6, 7, 8, 9 ,10, 16, 17, 18}
 

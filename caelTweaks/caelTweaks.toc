@@ -7,7 +7,4 @@
 ## X-Email: sdkyron@gmail.com
 ## X-Category: Interface Enhancements
 
-caelTweaks.lua
-CharacterPanel.lua
-CVarTweaks.lua
-NewStuff.lua
+caelTweaks.xml
