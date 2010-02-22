@@ -1,6 +1,6 @@
-caelTweaks = CreateFrame("Frame")
+﻿caelTweaks = CreateFrame("Frame")
 
-local print = function(text)
+print = function(text)
 	DEFAULT_CHAT_FRAME:AddMessage("|cffD7BEA5cael|rTweaks: "..tostring(text))
 end
 
