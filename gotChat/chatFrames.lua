@@ -82,7 +82,7 @@ chatFrames.ADDON_LOADED = function(self, event, ...)
 
 			frame:SetFading(true)
 			frame:SetFadeDuration(5)
-			frame:SetTimeVisible(10)
+			frame:SetTimeVisible(20)
 
 			dockHighlight:Hide()
 
