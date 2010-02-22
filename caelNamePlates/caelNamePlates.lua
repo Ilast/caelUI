@@ -114,23 +114,28 @@ local UpdateFrame = function(self)
 	end
 end
 
-local nukeRangeFactor
 local _, playerClass = UnitClass("player")
 
-if playerClass == "WARLOCK" then
-	nukeRangeFactor = 4
-elseif playerClass == "HUNTER" or playerClass == "WARRIOR" or playerClass == "PALADIN" then
-	nukeRangeFactor = 5
-end
+local testTable = {
+	["HUNTER"] = { skill = "Kill Shot", range = 5 },
+	["PALADIN"] = { skill = "Hammer of Wrath", range = 5 },
+	["WARRIOR"] = { skill = "Execute", range = 5 },
+	["WARLOCK"] = { skill = "Drain Soul", range = 4 },
+}
 
 local OnHealthChanged = function(self)
-	local _, duration = GetSpellCooldown(playerClass == "WARLOCK" and "Drain Soul" or playerClass == "HUNTER" and "Kill Shot" or playerClass == "WARRIOR" and "Execute" or playerClass == "PALADIN" and "Hammer of Wrath")
-	if not duration then return end
+	local _, duration = GetSpellCooldown(testTable[playerClass].skill)
+
+	if not duration then
+		return
+	elseif duration > 1.5 then
+		return addon.flash.Stop(self)
+	end
 
 	local r, g, b = self:GetStatusBarColor()
 	local _, max = self:GetMinMaxValues()
 	local cur = self:GetValue()
-	if self.UnitType == "Hostile" and cur > 0 and cur < max/nukeRangeFactor and self:GetParent():GetAlpha() == 1 and duration <= 1.5 and not self.Trigger then
+	if self.UnitType == "Hostile" and cur > 0 and cur < max/testTable[playerClass].range and self:GetParent():GetAlpha() == 1 and not self.Trigger then
 		self.Trigger = true
 		if addon.flash then
 			addon.flash.Start(self, 0.25, 0.25, 1)
@@ -139,7 +144,7 @@ local OnHealthChanged = function(self)
 		if RecScrollAreas then
 			RecScrollAreas:AddText("|cffAF5050Kill Shot|r", true, "Notification", true)
 		end
-	elseif (self.UnitType == "Hostile" and cur >= max/nukeRangeFactor and self.Trigger) or duration > 1.5 then
+	elseif self.UnitType == "Hostile" and cur >= max/testTable[playerClass].range and self.Trigger then
 		self.Trigger = false
 		if addon.flash then
 			addon.flash.Stop(self)
@@ -226,7 +231,7 @@ local CreateFrame = function(frame)
 	levelTextRegion:SetShadowOffset(1.25, -1.25)
 
 	healthBar:SetStatusBarTexture(barTexture)
-	if nukeRangeFactor then
+	if testTable[playerClass] then
 		healthBar:HookScript("OnValueChanged", OnHealthChanged)
 		healthBar:RegisterEvent("SPELL_UPDATE_COOLDOWN")
 		healthBar:HookScript("OnEvent", OnHealthChanged)
