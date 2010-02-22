@@ -1,7 +1,11 @@
-﻿--[[	Force readycheck warning	]]
+﻿local _, caelTweaks = ...
+
+--[[	Force readycheck warning	]]
 
 ReadyCheckListenerFrame:SetScript("OnShow", nil) -- Stop the default
-caelTweaks:RegisterEvent("READY_CHECK")
-caelTweaks.READY_CHECK = function(self)
-	PlaySoundFile([=[Sound\Interface\ReadyCheck.wav]=])
-end
+caelTweaks.events:RegisterEvent("READY_CHECK")
+caelTweaks.events:HookScript("OnEvent", function(self, event)
+	if event == "READY_CHECK" then
+		PlaySoundFile([=[Sound\Interface\ReadyCheck.wav]=])
+	end
+end)

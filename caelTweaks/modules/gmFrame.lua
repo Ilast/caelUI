@@ -1,8 +1,10 @@
-﻿--[[	GM chat frame enhancement	]]
+﻿local _, caelTweaks = ...
 
-caelTweaks:RegisterEvent("ADDON_LOADED")
-caelTweaks.ADDON_LOADED = function(self, event, name)
-	if(name ~= "Blizzard_GMChatUI") then return end
+--[[	GM chat frame enhancement	]]
+
+caelTweaks.events:RegisterEvent("ADDON_LOADED")
+local enhanceGMFrame = function(self, event, name)
+	if (event ~= "ADDON_LOADED") or (name ~= "Blizzard_GMChatUI") then return end
 
 	GMChatFrame:EnableMouseWheel()
 	GMChatFrame:SetScript("OnMouseWheel", ChatFrame1:GetScript("OnMouseWheel"))
@@ -17,5 +19,6 @@ caelTweaks.ADDON_LOADED = function(self, event, name)
 	GMChatFrameBottomButton:Hide()
 	GMChatTab:Hide()
 
-	self:UnregisterEvent(event)
+	enhanceGMFrame = caelTweaks.dummy
 end
+caelTweaks.events:HookScript("OnEvent", enhanceGMFrame)

@@ -1,4 +1,4 @@
-﻿local CVarTweaks = CreateFrame("Frame", nil, UIParent)
+﻿local _, caelTweaks = ...
 
 local ZoneChange = function(zone)
 	local _, instanceType = IsInInstance()
@@ -30,24 +30,31 @@ local ZoneChange = function(zone)
 	end
 end
 
-CVarTweaks:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-CVarTweaks.ZONE_CHANGED_NEW_AREA = function(self)
-	return ZoneChange(GetRealZoneText())
-end
+caelTweaks.events:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+caelTweaks.events:HookScript("OnEvent", function(self, event)
+	if event == "ZONE_CHANGED_NEW_AREA" then
+		return ZoneChange(GetRealZoneText())
+	end
+end)
 
-CVarTweaks:RegisterEvent("WORLD_MAP_UPDATE")
-CVarTweaks.WORLD_MAP_UPDATE = function(self)
-	local zone = GetRealZoneText()
-	if zone and zone ~= "" then
-		self:UnregisterEvent("WORLD_MAP_UPDATE")
-		return ZoneChange(zone)
+caelTweaks.events:RegisterEvent("WORLD_MAP_UPDATE")
+local mapUpdate = function(self, event)
+	if event == "WORLD_MAP_UPDATE" then
+		local zone = GetRealZoneText()
+		if zone and zone ~= "" then
+			mapUpdate = function() end
+			return ZoneChange(zone)
+		end
 	end
 end
+caelTweaks.events:HookScript("OnEvent", mapUpdate)
 
-CVarTweaks:RegisterEvent("PLAYER_ENTERING_WORLD")
-CVarTweaks.PLAYER_ENTERING_WORLD = function(self)
-	return ZoneChange(GetRealZoneText())
-end
+caelTweaks.events:RegisterEvent("PLAYER_ENTERING_WORLD")
+caelTweaks.events:HookScript("OnEvent", function(self, event)
+	if event == "PLAYER_ENTERING_WORLD" then
+		return ZoneChange(GetRealZoneText())
+	end
+end)
 
 --[[
 Scales = {
@@ -75,109 +82,101 @@ local Scales = {
 	["1920"] = { ["1200"] = 0.84, ["1080"] = 0.93},
 }
 
-CVarTweaks:RegisterEvent("PLAYER_ENTERING_WORLD")
-CVarTweaks.PLAYER_ENTERING_WORLD = function(self)
-	local width, height = string.match((({GetScreenResolutions()})[GetCurrentResolution()] or ""), "(%d+).-(%d+)")
-	if Scales[width] and Scales[width][height] then
-		SetCVar("useUiScale", 1)
-		SetCVar("uiScale", Scales[width][height])
+caelTweaks.events:RegisterEvent("PLAYER_ENTERING_WORLD")
+caelTweaks.events:HookScript("OnEvent", function(self, event)
+	if event == "PLAYER_ENTERING_WORLD" then
+		local width, height = string.match((({GetScreenResolutions()})[GetCurrentResolution()] or ""), "(%d+).-(%d+)")
+		if Scales[width] and Scales[width][height] then
+			SetCVar("useUiScale", 1)
+			SetCVar("uiScale", Scales[width][height])
 
-		WorldFrame:SetUserPlaced(false)
-		WorldFrame:ClearAllPoints()
-		WorldFrame:SetHeight(GetScreenHeight() * Scales[width][height])
-		WorldFrame:SetWidth(GetScreenWidth() * Scales[width][height])
-		WorldFrame:SetPoint("BOTTOM", UIParent, "BOTTOM")
-	else
-		SetCVar("useUiScale", 0)
-		print("Your resolution is not supported, UI Scale has been disabled.")
+			WorldFrame:SetUserPlaced(false)
+			WorldFrame:ClearAllPoints()
+			WorldFrame:SetHeight(GetScreenHeight() * Scales[width][height])
+			WorldFrame:SetWidth(GetScreenWidth() * Scales[width][height])
+			WorldFrame:SetPoint("BOTTOM", UIParent, "BOTTOM")
+		else
+			SetCVar("useUiScale", 0)
+			print("Your resolution is not supported, UI Scale has been disabled.")
+		end
+
+		for _, cvarData in pairs {
+
+	--[[
+		http://forums.worldofwarcraft.com/thread.html?topicId=1778017311&sid=1&pageNo=5#96
+			╔════════╤════════╤════════╤════════╤════════╤════════╤════════╤════════╗
+			║ Core 8 │ Core 7 │ Core 6 │ Core 5 │ Core 4 │ Core 3 │ Core 2 │ Core 1 ║
+			╠════════╪════════╪════════╪════════╪════════╪════════╪════════╪════════╣
+			║  +128  │  +64   │  +32   │  +16   │   +8   │   +4   │   +2   │   +1   ║
+			╚════════╧════════╧════════╧════════╧════════╧════════╧════════╧════════╝
+	--]]
+
+			"processAffinityMask 255",
+			"scriptProfile 0", -- Disables CPU profiling
+			"showToolsUI 0", -- Disables the Launcher
+			"synchronizeSettings 0", -- Don't synchronize settings with the server
+
+	--		"gxcolorbits","16"
+	--		"gxdepthbits","16"
+			"gxTextureCacheSize 512",
+			"M2Faster 1", -- Adds additional threads used in rendering models on screen (0 = no additional threads, 1 - 3 = adds additional threads to the WoW Client)
+
+			"gxMultisample 1",
+			"gxMultisampleQuality 0.000000",
+			"gxVSync 0",
+			"gxTripleBuffer 0",
+			"gxFixLag 0",
+			"gxCursor 1",
+	--		"gxRefresh 50"
+	--		"Maxfps 45"
+	--		"maxfpsbk 10"
+			"ffx 0",
+			"textureFilteringMode 0",
+			"baseMip 0", -- 0 for max
+			"mapShadows 0",
+			"shadowLOD 0",
+			"farclip 1277",
+			"showfootprints 0",
+			"ffxDeath 0",
+			"ffxGlow 0",
+			"specular 1",
+
+			"shadowLevel 0",
+			"componentCompress 0",
+			"componentThread 1",
+			"componentTextureLevel 9", -- min 8
+
+			"Sound_AmbienceVolume 0.10000000149012",
+			"Sound_EnableErrorSpeech 0",
+			"Sound_EnableMusic 0",
+			"Sound_EnableSoundWhenGameIsInBG 1",
+			"Sound_MasterVolume 0.20000000298023",
+			"Sound_MusicVolume 0",
+			"Sound_OutputQuality 0",
+			"Sound_SFXVolume 0.20000000298023",
+			"Sound_EnableSoftwareHRTF 1",
+
+			"extShadowQuality 0",
+			"cameraDistanceMax 50",
+			"cameraDistanceMaxFactor 3.4",
+			"cameraDistanceMoveSpeed 50",
+			"cameraViewBlendStyle 2",
+
+			"nameplateAllowOverlap 0",
+
+			"nameplateShowFriends 0",
+			"nameplateShowFriendlyPets 0",
+			"nameplateShowFriendlyGuardians 0",
+			"nameplateShowFriendlyTotems 0",
+
+			"nameplateShowEnemies 0",
+			"nameplateShowEnemyPets 0",
+			"nameplateShowEnemyGuardians 0",
+			"nameplateShowEnemyTotems 0",
+		} do
+			SetCVar(string.split(" ", cvarData))
+		end
 	end
-
-	for _, cvarData in pairs {
-
---[[
-	http://forums.worldofwarcraft.com/thread.html?topicId=1778017311&sid=1&pageNo=5#96
-		╔════════╤════════╤════════╤════════╤════════╤════════╤════════╤════════╗
-		║ Core 8 │ Core 7 │ Core 6 │ Core 5 │ Core 4 │ Core 3 │ Core 2 │ Core 1 ║
-		╠════════╪════════╪════════╪════════╪════════╪════════╪════════╪════════╣
-		║  +128  │  +64   │  +32   │  +16   │   +8   │   +4   │   +2   │   +1   ║
-		╚════════╧════════╧════════╧════════╧════════╧════════╧════════╧════════╝
---]]
-
-		"processAffinityMask 255",
-		"scriptProfile 0", -- Disables CPU profiling
-		"showToolsUI 0", -- Disables the Launcher
-		"synchronizeSettings 0", -- Don't synchronize settings with the server
-
---		"gxcolorbits","16"
---		"gxdepthbits","16"
-		"gxTextureCacheSize 512",
-		"M2Faster 1", -- Adds additional threads used in rendering models on screen (0 = no additional threads, 1 - 3 = adds additional threads to the WoW Client)
-
-		"gxMultisample 1",
-		"gxMultisampleQuality 0.000000",
-		"gxVSync 0",
-		"gxTripleBuffer 0",
-		"gxFixLag 0",
-		"gxCursor 1",
---		"gxRefresh 50"
---		"Maxfps 45"
---		"maxfpsbk 10"
-		"ffx 0",
-		"textureFilteringMode 0",
-		"baseMip 0", -- 0 for max
-		"mapShadows 0",
-		"shadowLOD 0",
-		"farclip 1277",
-		"showfootprints 0",
-		"ffxDeath 0",
-		"ffxGlow 0",
-		"specular 1",
-
-		"shadowLevel 0",
-		"componentCompress 0",
-		"componentThread 1",
-		"componentTextureLevel 9", -- min 8
-
-		"Sound_AmbienceVolume 0.10000000149012",
-		"Sound_EnableErrorSpeech 0",
-		"Sound_EnableMusic 0",
-		"Sound_EnableSoundWhenGameIsInBG 1",
-		"Sound_MasterVolume 0.20000000298023",
-		"Sound_MusicVolume 0",
-		"Sound_OutputQuality 0",
-		"Sound_SFXVolume 0.20000000298023",
-		"Sound_EnableSoftwareHRTF 1",
-
-		"extShadowQuality 0",
-		"cameraDistanceMax 50",
-		"cameraDistanceMaxFactor 3.4",
-		"cameraDistanceMoveSpeed 50",
-		"cameraViewBlendStyle 2",
-
-		"nameplateAllowOverlap 0",
-
-		"nameplateShowFriends 0",
-		"nameplateShowFriendlyPets 0",
-		"nameplateShowFriendlyGuardians 0",
-		"nameplateShowFriendlyTotems 0",
-
-		"nameplateShowEnemies 0",
-		"nameplateShowEnemyPets 0",
-		"nameplateShowEnemyGuardians 0",
-		"nameplateShowEnemyTotems 0",
-	} do
-		SetCVar(string.split(" ", cvarData))
-	end
-end
+end)
 
 if (tonumber(GetCVar("ScreenshotQuality")) < 10) then SetCVar("ScreenshotQuality", 10) end
-
-OnEvent = function(self, event, ...)
-	if type(self[event]) == "function" then
-		return self[event](self, event, ...)
-	else
-		print(string.format("Unhandled event: %s", event))
-	end
-end
-
-CVarTweaks:SetScript("OnEvent", OnEvent)
