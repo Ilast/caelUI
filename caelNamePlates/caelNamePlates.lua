@@ -14,16 +14,6 @@ local backdrop = {
 
 local select = select
 
--- Execute/Kill Shot/Hammer of Wrath/Drain Soul
-local nukeRangeFactor
-local _, playerClass = UnitClass("player")
-
-if playerClass == "WARLOCK" then
-	nukeRangeFactor = 4
-elseif playerClass == "HUNTER" or playerClass == "WARRIOR" or playerClass == "PALADIN" then
-	nukeRangeFactor = 5
-end
-
 local IsValidFrame = function(frame)
 	if frame:GetName() then
 		return
@@ -124,11 +114,23 @@ local UpdateFrame = function(self)
 	end
 end
 
+local nukeRangeFactor
+local _, playerClass = UnitClass("player")
+
+if playerClass == "WARLOCK" then
+	nukeRangeFactor = 4
+elseif playerClass == "HUNTER" or playerClass == "WARRIOR" or playerClass == "PALADIN" then
+	nukeRangeFactor = 5
+end
+
 local OnHealthChanged = function(self)
+	local _, duration = GetSpellCooldown(playerClass == "WARLOCK" and "Drain Soul" or playerClass == "HUNTER" and "Kill Shot" or playerClass == "WARRIOR" and "Execute" or playerClass == "PALADIN" and "Hammer of Wrath")
+	if not duration then return end
+
 	local r, g, b = self:GetStatusBarColor()
 	local _, max = self:GetMinMaxValues()
 	local cur = self:GetValue()
-	if self.UnitType == "Hostile" and cur > 0 and cur < max/nukeRangeFactor and self:GetParent():GetAlpha() == 1 and not self.Trigger then
+	if self.UnitType == "Hostile" and cur > 0 and cur < max/nukeRangeFactor and self:GetParent():GetAlpha() == 1 and duration <= 1.5 and not self.Trigger then
 		self.Trigger = true
 		if addon.flash then
 			addon.flash.Start(self, 0.25, 0.25, 1)
@@ -137,7 +139,7 @@ local OnHealthChanged = function(self)
 		if RecScrollAreas then
 			RecScrollAreas:AddText("|cffAF5050Kill Shot|r", true, "Notification", true)
 		end
-	elseif self.UnitType == "Hostile" and cur >= max/nukeRangeFactor and self.Trigger then
+	elseif (self.UnitType == "Hostile" and cur >= max/nukeRangeFactor and self.Trigger) or duration > 1.5 then
 		self.Trigger = false
 		if addon.flash then
 			addon.flash.Stop(self)
@@ -226,6 +228,8 @@ local CreateFrame = function(frame)
 	healthBar:SetStatusBarTexture(barTexture)
 	if nukeRangeFactor then
 		healthBar:HookScript("OnValueChanged", OnHealthChanged)
+		healthBar:RegisterEvent("SPELL_UPDATE_COOLDOWN")
+		healthBar:HookScript("OnEvent", OnHealthChanged)
 	end
 
 	local hpOffset = UIParent:GetScale() / healthBar:GetEffectiveScale()
