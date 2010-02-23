@@ -1,3 +1,5 @@
+local myName = UnitName("player")
+
 local gsub, find, match, lower = string.gsub, string.find, string.match, string.lower
 
 --[[	Filter npc spam	]]
