@@ -3,8 +3,9 @@
 ## Author: Gotai
 ## Notes: Yet another chat mod.
 ## Version: r1
-## Dependencies: caelMedia
+## Dependencies: caelMedia, caelPanels
 
 chatFrames.lua
+chatFilters.lua
 gotChat.lua
 chatTabs.lua
