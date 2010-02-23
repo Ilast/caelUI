@@ -1,4 +1,4 @@
-local myName = UnitName("player")
+local playerName = UnitName("player")
 
 local gsub, find, match, lower = string.gsub, string.find, string.match, string.lower
 
@@ -12,7 +12,7 @@ local npcChannels = {
 
 local isNpcChat = function(self, event, msg)
 	local isResting = IsResting()
-	if isResting and not msg:find(myName) then
+	if isResting and not msg:find(playerName) then
 		return true
 	else
 		return false

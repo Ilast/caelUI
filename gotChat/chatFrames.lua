@@ -7,8 +7,7 @@ local print = function(text)
 	DEFAULT_CHAT_FRAME:AddMessage("|cffD7BEA5cael|rChat: "..tostring(text))
 end
 
-local myName = UnitName("player")
-local _, myClass = UnitClass("player")
+local _, playerClass = UnitClass("player")
 
 local ChatFrameEditBox = ChatFrameEditBox
 ChatFrameEditBox:SetAltArrowKeyMode(nil)
@@ -175,7 +174,7 @@ local chatFrames_OnUpdate = function(self, elapsed)
 			ChangeChatColor("CHANNEL5", 0.84, 0.75, 0.65)
 			ChangeChatColor("WHISPER", 0.3, 0.6, 0.9)
 			ChangeChatColor("WHISPER_INFORM", 0.3, 0.6, 0.9)
-			if myClass == "HUNTER" and myName == "Caellian" then
+			if playerClass == "HUNTER" then
 				JoinTemporaryChannel("GICaster")
 				ChatFrame_AddChannel(_G.ChatFrame1, "GICaster")
 				ChangeChatColor("CHANNEL5", 0.67, 0.83, 0.45)
