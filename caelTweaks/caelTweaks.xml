@@ -7,6 +7,7 @@
 	<Script file="modules\autoGreed.lua"/>
 	<Script file="modules\autoInvite.lua"/>
 	<Script file="modules\battleground.lua"/>
+	<Script file="modules\keyBinding.lua"/>
 	<Script file="modules\colorPicker.lua"/>
 	<Script file="modules\gmFrame.lua"/>
 	<Script file="modules\groupLoot.lua"/>
