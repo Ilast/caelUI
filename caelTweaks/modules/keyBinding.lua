@@ -37,6 +37,7 @@ local bindings = {
 	["I"] = "OPENALLBAGS",
 	["M"] = "TOGGLEWORLDMAP",
 	["X"] = "SITORSTAND",
+	["Y"] = "TOGGLEACHIEVEMENT",
 	["²"] = "INSPECT",
 	["*"] = "TOGGLERUN",
 	[":"] = "TOGGLELFGPARENT",
@@ -66,6 +67,7 @@ event_frame:SetScript("OnEvent", function(self)
 	
 	SaveBindings(1)
 
+	event_frame:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	-- All done, clean up a bit.
 	bindings = nil	-- Remove table
 	event_frame = nil -- Remove frame

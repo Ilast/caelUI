@@ -115,7 +115,7 @@ caelTweaks.events:HookScript("OnEvent", function(self, event)
 			"scriptProfile 0", -- Disables CPU profiling
 			"showToolsUI 0", -- Disables the Launcher
 			"synchronizeSettings 0", -- Don't synchronize settings with the server
-			"autoDismountFlying 0",
+			"autoDismountFlying 1",
 			"autoClearAFK 0",
 			"lootUnderMouse 0",
 			"autoLootDefault 1",
@@ -158,6 +158,7 @@ caelTweaks.events:HookScript("OnEvent", function(self, event)
 			"enableCombatText 0",
 			"hidePartyInRaid 1",
 			"showArenaEnemyFrames 0",
+			"autointeract 1",
 			"previewTalents 1",
 			"showTutorials 0",
 			"UberTooltips 1",
