@@ -124,14 +124,14 @@ local testTable = {
 }
 
 
-local nukeSpell = testTable[playerClass].skill
+local nukeSpell = testTable[playerClass] and testTable[playerClass].skill
 
 local OnHealthChanged = function(self,cur)
 	local _, nukeCooldown = GetSpellCooldown(nukeSpell)
 	if not nukeCooldown then
 		return
 	elseif nukeCooldown > 1.5 then
-		return addon.flash.Stop(self)
+		return addon.flash.StopNow(self)
 	end
 
 	local r, g, b = self:GetStatusBarColor()
@@ -151,7 +151,7 @@ local OnHealthChanged = function(self,cur)
 			self.Trigger = false
 		end
 		if addon.flash then
-			addon.flash.Stop(self)
+			addon.flash.StopNow(self)
 		end
 	end
 end
@@ -197,7 +197,7 @@ local OnHide = function(self)
 	self.highlight:Hide()
 	self.healthBar.hpGlow:SetBackdropBorderColor(0, 0, 0)
 	if addon.flash then
-		addon.flash.Stop(self.healthBar)
+		addon.flash.StopNow(self.healthBar)
 	end
 end
 
@@ -216,6 +216,7 @@ local CreateFrame = function(frame)
 
 	frame.nameplate = true
 
+	
 	frame.healthBar, frame.castBar = frame:GetChildren()
 	local healthBar, castBar = frame.healthBar, frame.castBar
 	local glowRegion, overlayRegion, castbarOverlay, shieldedRegion, spellIconRegion, highlightRegion, nameTextRegion, levelTextRegion, bossIconRegion, raidIconRegion, stateIconRegion = frame:GetRegions()
@@ -321,6 +322,17 @@ local CreateFrame = function(frame)
 	raidIconRegion:SetHeight(15)
 	raidIconRegion:SetWidth(15)
 
+	frame:RegisterEvent("UNIT_TARGET")
+	frame:SetScript("OnEvent", function(self, event, unit)
+		if unit == "player" then
+			local alpha = self:GetAlpha()
+			self.isTarget = alpha == 1
+			if self.healthBar.FlashData then
+				self.healthBar.FlashData.high = alpha
+			end
+		end
+	end)
+	
 	frame.oldglow = glowRegion
 	frame.elite = stateIconRegion
 	frame.boss = bossIconRegion

@@ -18,11 +18,11 @@ fader:SetScript("OnUpdate", function(self, elapsed)
 			if info.elapsed < info.duration then
 				-- Transition phase
 				local fract = info.dir > 0 and 1-(info.elapsed/info.duration) or (info.elapsed/info.duration)
-				local new = info.high - fract * info.delta
+				local new = info.high - fract * (info.high - info.low)
 				frame:SetAlpha(new)
 			else
 				-- Finalize transition phase and switch direction.
-				frame:SetAlpha(info.high + info.dir * info.delta)
+				frame:SetAlpha(info.high + info.dir * (info.high - info.low))
 				
 				if info.stop and info.dir == 1 then
 					info.elapsed = 0
@@ -46,7 +46,6 @@ function addon.flash.Start(frame, duration, low, high)
 		t.duration = duration
 		t.low = low
 		t.high = high or self:GetAlpha()
-		t.delta = high - low
 		t.dir = -1
 		t.stop = false
 		
@@ -58,5 +57,17 @@ end
 function addon.flash.Stop(frame)
 	if frame.FlashData then
 		frame.FlashData.stop = true
+	end
+end
+
+function addon.flash.StopNow(frame)
+	if frame.FlashData then
+		for i=1, #fader.frames do
+			if fader.frames[i] == frame then
+				table.remove(fader.frames, i)
+				frame:SetAlpha(frame.FlashData.high)
+				return
+			end
+		end
 	end
 end
