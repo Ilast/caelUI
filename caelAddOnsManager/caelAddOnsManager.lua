@@ -3,7 +3,7 @@
 								   -=( Base Addons )=-
 		---------------------------------------------------------------------------
 		These addons will load for every user, always.								--]]
-	["base"] = {"!recBug", "BadBoy", "BadBoy_Levels", "Buffet-Lite", "Butsu",
+	["base"] = {"!recBug", "BadBoy", "BadBoy_Levels", "Buffet-Lite",
 		"caelActionBars", "caelAddOnsManager", "caelCCBreak", "caelCombatLog", "caelConfig", "caelEmote", "caelFactions", "caelInterrupt",
 		"caelMinimap", "caelNamePlates", "caelCooldowns", "caelMap", "caelMedia", "caelPanels", "caelQuests", "caelStats", "caelTooltips",
 		"GetReagents-Lite", "gotChat", "gotMacros",
