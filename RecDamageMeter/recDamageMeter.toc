@@ -1,7 +1,0 @@
-## Interface: 30300
-## Title: recDamageMeter
-## Notes: Minimalistic Damage Meter
-## Author: Recluse
-
-default_settings.lua
-recDamageMeter.lua
