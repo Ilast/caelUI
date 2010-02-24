@@ -1,9 +1,0 @@
-## Interface: 30200
-## Title: RecScrollAreas
-## Author: Recluse
-
-core\init.lua
-core\utils.lua
-settings.lua
-
-core\core.lua
