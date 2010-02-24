@@ -1,7 +1,0 @@
-## Interface: 30300
-## Title: recThreatMeter
-## Notes: Threat Meter
-## Author: Recluse
-## Dependencies: caelMedia
-
-recThreatMeter.lua
