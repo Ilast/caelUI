@@ -101,7 +101,7 @@ caelConfig.events:HookScript("OnEvent", function(self, event)
 		end
 
 		ConsoleExec("pitchlimit 449") -- 89, 449. 449 allows doing flips, 89 will not
-		ConsoleExec("characterAmbient 1") -- -0.1-1 use ambient lighting for character. <0 == off
+		ConsoleExec("characterAmbient -0.1") -- -0.1-1 use ambient lighting for character. <0 == off
 
 		for _, cvarData in pairs {
 
