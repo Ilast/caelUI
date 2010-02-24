@@ -1,16 +1,16 @@
 ﻿local caelTooltips = CreateFrame("Frame")
 
---local TheOneScale = (768/tonumber(GetCVar("gxResolution"):match("%d+x(%d+)")))/GetCVar("uiScale")
-local font, fontsize = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 9
-local GameTooltip, GameTooltipStatusBar = _G["GameTooltip"], _G["GameTooltipStatusBar"]
+local _G = getfenv(0)
+local orig1, orig2 = {}, {}
 
-local _G = _G
+--local TheOneScale = (768/tonumber(GetCVar("gxResolution"):match("%d+x(%d+)")))/GetCVar("uiScale")
+local GameTooltip, GameTooltipStatusBar = _G["GameTooltip"], _G["GameTooltipStatusBar"]
 
 local gsub = string.gsub
 local find = string.find
 local format = string.format
 
-_G["GameTooltipHeaderText"]:SetFontObject(neuropolrg12)
+_G["GameTooltipHeaderText"]:SetFontObject(neuropolrg10)
 _G["GameTooltipText"]:SetFontObject(neuropolrg10)
 _G["GameTooltipTextSmall"]:SetFontObject(neuropolrg9)
 
@@ -21,6 +21,17 @@ local Tooltips = {
 	ShoppingTooltip2,
 	ShoppingTooltip3,
 	WorldMapTooltip,
+}
+
+local linkTypes = {
+	item = true,
+	enchant = true,
+	spell = true,
+	quest = true,
+	unit = true,
+	talent = true,
+	achievement = true,
+	glyph = true
 }
 
 local classification = {
@@ -35,6 +46,31 @@ local backdrop = {
 	edgeFile = [=[Interface\Addons\caelMedia\Miscellaneous\glowtex]=], edgeSize = 2,
 	insets = {left = 3, right = 3, top = 3, bottom = 3}
 }
+
+local function OnHyperlinkEnter(frame, link, ...)
+	local linkType = link:match("^([^:]+)")
+	if linkType and linkTypes[linkType] then
+		GameTooltip:SetOwner(frame, "ANCHOR_TOPLEFT")
+		GameTooltip:SetHyperlink(link)
+		GameTooltip:Show()
+	end
+
+	if orig1[frame] then return orig1[frame](frame, link, ...) end
+end
+
+local function OnHyperlinkLeave(frame, ...)
+	GameTooltip:Hide()
+	if orig2[frame] then return orig2[frame](frame, ...) end
+end
+
+for i = 1, NUM_CHAT_WINDOWS do
+	local frame = _G["ChatFrame"..i]
+	orig1[frame] = frame:GetScript("OnHyperlinkEnter")
+	frame:SetScript("OnHyperlinkEnter", OnHyperlinkEnter)
+
+	orig2[frame] = frame:GetScript("OnHyperlinkLeave")
+	frame:SetScript("OnHyperlinkLeave", OnHyperlinkLeave)
+end
 
 local BorderColor = function(self)
 	local unit = select(2, self:GetUnit())
@@ -235,7 +271,7 @@ caelTooltips.PLAYER_ENTERING_WORLD = function(self)
 end
 
 function OnEvent(self, event, ...)
-	if type(self[event]) == 'function' then
+	if type(self[event]) == "function" then
 		return self[event](self, event, ...)
 	else
 		print("Unhandled event: "..event)
