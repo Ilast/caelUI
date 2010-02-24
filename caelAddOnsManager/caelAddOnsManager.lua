@@ -8,7 +8,7 @@
 		"caelMinimap", "caelNamePlates", "caelCooldowns", "caelMap", "caelMedia", "caelPanels", "caelQuests", "caelStats", "caelTooltips",
 		"GetReagents-Lite", "gotChat", "gotMacros",
 		"oUF", "oUF_Caellian", "oUF_CombatFeedback", "oUF_ReadyCheck", "oUF_SpellRange", "oUF_ThreatFeedback",
-		"recBags", "recClassTimers", "RecScrollAreas", "Snoopy"
+		"recBags", "recClassTimers", "recScrollAreas", "Snoopy"
 	},
 	--[[---------------------------------------------------------------------------
 							  -=( Class-Specific Addons )=-
@@ -26,7 +26,7 @@
 		'/addonset raid' to load raid addons, for example.							--]]
 
 	["raid"]	= {"BigWigs", "BigWigs_Citadel", "BigWigs_Coliseum", "BigWigs_Core", "BigWigs_Options", "BigWigs_Plugins", "BigWigs_Ulduar", "RecDamageMeter", "RecThreatMeter", "SimpleBossWhisperer"},
-	["party"] = {"RecDamageMeter", "recThreatMeter"},
+	["party"] = {"recDamageMeter", "recThreatMeter"},
 	["pvp"] = {},
 	["dev"] = {},
 }
