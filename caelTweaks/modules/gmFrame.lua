@@ -1,8 +1,8 @@
-﻿local _, caelTweaks = ...
+﻿local _, caelConfig = ...
 
 --[[	GM chat frame enhancement	]]
 
-caelTweaks.events:RegisterEvent("ADDON_LOADED")
+caelConfig.events:RegisterEvent("ADDON_LOADED")
 local enhanceGMFrame = function(self, event, name)
 	if (event ~= "ADDON_LOADED") or (name ~= "Blizzard_GMChatUI") then return end
 
@@ -19,6 +19,6 @@ local enhanceGMFrame = function(self, event, name)
 	GMChatFrameBottomButton:Hide()
 	GMChatTab:Hide()
 
-	enhanceGMFrame = caelTweaks.dummy
+	enhanceGMFrame = caelConfig.dummy
 end
-caelTweaks.events:HookScript("OnEvent", enhanceGMFrame)
+caelConfig.events:HookScript("OnEvent", enhanceGMFrame)

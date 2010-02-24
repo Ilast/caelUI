@@ -1,11 +1,11 @@
-﻿local _, caelTweaks = ...
+﻿local _, caelConfig = ...
 
 --[[	Turn my name on when i'm AFK	]]
 
-caelTweaks.events:RegisterEvent("CHAT_MSG_SYSTEM")
-caelTweaks.events:RegisterEvent("PLAYER_LOGOUT")
-caelTweaks.events:RegisterEvent("PLAYER_ENTERING_WORLD")
-caelTweaks.events:HookScript("OnEvent", function(self, event, ...)
+caelConfig.events:RegisterEvent("CHAT_MSG_SYSTEM")
+caelConfig.events:RegisterEvent("PLAYER_LOGOUT")
+caelConfig.events:RegisterEvent("PLAYER_ENTERING_WORLD")
+caelConfig.events:HookScript("OnEvent", function(self, event, ...)
 	if event == "CHAT_MSG_SYSTEM" or event == "PLAYER_LOGOUT" or event == "PLAYER_ENTERING_WORLD" then
 		if event == "PLAYER_LOGOUT" then
 			SetCVar("UnitNameOwn", 0)

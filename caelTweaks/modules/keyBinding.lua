@@ -53,6 +53,7 @@ local bindings = {
 local event_frame = CreateFrame("Frame")
 event_frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 event_frame:SetScript("OnEvent", function(self)
+	-- Remove all keybinds
 	for i = 1, GetNumBindings() do
 		local command = GetBinding(i)
 		while GetBindingKey(command) do
@@ -61,14 +62,16 @@ event_frame:SetScript("OnEvent", function(self)
 		end
 	end
 
+	-- Apply personal keybinds
 	for key, bind in pairs(bindings) do
 		SetBinding(key, bind)
 	end
-	
+
+	-- Save keybinds
 	SaveBindings(1)
 
-	event_frame:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	-- All done, clean up a bit.
+	event_frame:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	bindings = nil	-- Remove table
 	event_frame = nil -- Remove frame
 end)

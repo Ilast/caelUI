@@ -1,4 +1,4 @@
-﻿local _, caelTweaks = ...
+﻿local _, caelConfig = ...
 
 local ZoneChange = function(zone)
 	local _, instanceType = IsInInstance()
@@ -30,14 +30,14 @@ local ZoneChange = function(zone)
 	end
 end
 
-caelTweaks.events:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-caelTweaks.events:HookScript("OnEvent", function(self, event)
+caelConfig.events:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+caelConfig.events:HookScript("OnEvent", function(self, event)
 	if event == "ZONE_CHANGED_NEW_AREA" then
 		return ZoneChange(GetRealZoneText())
 	end
 end)
 
-caelTweaks.events:RegisterEvent("WORLD_MAP_UPDATE")
+caelConfig.events:RegisterEvent("WORLD_MAP_UPDATE")
 local mapUpdate = function(self, event)
 	if event == "WORLD_MAP_UPDATE" then
 		local zone = GetRealZoneText()
@@ -47,10 +47,10 @@ local mapUpdate = function(self, event)
 		end
 	end
 end
-caelTweaks.events:HookScript("OnEvent", mapUpdate)
+caelConfig.events:HookScript("OnEvent", mapUpdate)
 
-caelTweaks.events:RegisterEvent("PLAYER_ENTERING_WORLD")
-caelTweaks.events:HookScript("OnEvent", function(self, event)
+caelConfig.events:RegisterEvent("PLAYER_ENTERING_WORLD")
+caelConfig.events:HookScript("OnEvent", function(self, event)
 	if event == "PLAYER_ENTERING_WORLD" then
 		return ZoneChange(GetRealZoneText())
 	end
@@ -82,8 +82,8 @@ local Scales = {
 	["1920"] = { ["1200"] = 0.84, ["1080"] = 0.93},
 }
 
-caelTweaks.events:RegisterEvent("PLAYER_ENTERING_WORLD")
-caelTweaks.events:HookScript("OnEvent", function(self, event)
+caelConfig.events:RegisterEvent("PLAYER_ENTERING_WORLD")
+caelConfig.events:HookScript("OnEvent", function(self, event)
 	if event == "PLAYER_ENTERING_WORLD" then
 		local width, height = string.match((({GetScreenResolutions()})[GetCurrentResolution()] or ""), "(%d+).-(%d+)")
 		if Scales[width] and Scales[width][height] then
@@ -100,6 +100,9 @@ caelTweaks.events:HookScript("OnEvent", function(self, event)
 			print("Your resolution is not supported, UI Scale has been disabled.")
 		end
 
+		ConsoleExec("pitchlimit 449") -- 89, 449. 449 allows doing flips, 89 will not
+		ConsoleExec("characterAmbient 1") -- -0.1-1 use ambient lighting for character. <0 == off
+
 		for _, cvarData in pairs {
 
 	--[[
@@ -115,6 +118,10 @@ caelTweaks.events:HookScript("OnEvent", function(self, event)
 			"scriptProfile 0", -- Disables CPU profiling
 			"showToolsUI 0", -- Disables the Launcher
 			"synchronizeSettings 0", -- Don't synchronize settings with the server
+			"synchronizeConfig 0",
+			"synchronizeBindings 0",
+			"synchronizeMacros 0",
+			"alwaysCompareItems 0",
 			"autoDismountFlying 1",
 			"autoClearAFK 0",
 			"lootUnderMouse 0",
@@ -194,6 +201,7 @@ caelTweaks.events:HookScript("OnEvent", function(self, event)
 			"componentCompress 0",
 			"componentThread 1",
 			"componentTextureLevel 9", -- min 8
+			"violencelevel 5", -- 0-5 Level of violence, 0 == none, 1 == green blood 2-5 == red blood
 
 			"Sound_AmbienceVolume 0.10000000149012",
 			"Sound_EnableErrorSpeech 0",

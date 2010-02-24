@@ -1,4 +1,4 @@
-﻿local _, caelTweaks = ...
+﻿local _, caelConfig = ...
 
 --[[	Blacklist some UIErrorsFrame messages	]]
 
@@ -11,8 +11,8 @@ local eventBlacklist = {
 	[ERR_SPELL_COOLDOWN] = true,
 }
 
-caelTweaks.events:RegisterEvent("UI_ERROR_MESSAGE")
-caelTweaks.events:HookScript("OnEvent", function(self, event, error)
+caelConfig.events:RegisterEvent("UI_ERROR_MESSAGE")
+caelConfig.events:HookScript("OnEvent", function(self, event, error)
 	if event == "UI_ERROR_MESSAGE" then
 		if(not eventBlacklist[error]) then
 			UIErrorsFrame:AddMessage(error, 0.69, 0.31, 0.31)

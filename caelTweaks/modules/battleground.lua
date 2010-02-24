@@ -1,9 +1,9 @@
-local _, caelTweaks = ...
+local _, caelConfig = ...
 
 --[[	Auto release in battleground	]]
 
-caelTweaks.events:RegisterEvent("PLAYER_DEAD")
-caelTweaks.events:HookScript("OnEvent", function(self, event)
+caelConfig.events:RegisterEvent("PLAYER_DEAD")
+caelConfig.events:HookScript("OnEvent", function(self, event)
 	if event == "PLAYER_DEAD" then
 		if MiniMapBattlefieldFrame.status == "active" then
 			RepopMe()

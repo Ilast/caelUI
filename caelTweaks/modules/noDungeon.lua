@@ -1,22 +1,22 @@
-﻿local _, caelTweaks = ...
+﻿local _, caelConfig = ...
 
 --[[	Dungeons no more...	]]
 
-caelTweaks.events:RegisterEvent("ADDON_LOADED")
+caelConfig.events:RegisterEvent("ADDON_LOADED")
 local requestUpdate = function(self, event, addon)
 	if event == "ADDON_LOADED" then
-		if addon == "caelTweaks" then
+		if addon == "caelConfig" then
 			RequestRaidInfo()
-			requestUpdate = caelTweaks.dummy
+			requestUpdate = caelConfig.dummy
 		end
 	end
 end
-caelTweaks.events:HookScript("OnEvent", requestUpdate)
+caelConfig.events:HookScript("OnEvent", requestUpdate)
 
-caelTweaks.events:RegisterEvent("UPDATE_INSTANCE_INFO")
+caelConfig.events:RegisterEvent("UPDATE_INSTANCE_INFO")
 local lockInstance = function(self, event)
 	if event == "UPDATE_INSTANCE_INFO" then
-		lockInstance = caelTweaks.dummy
+		lockInstance = caelConfig.dummy
 		for i = 1, GetNumSavedInstances() do
 			local name, _, _, _, isLocked, isExtended = GetSavedInstanceInfo(i)
 
@@ -26,4 +26,4 @@ local lockInstance = function(self, event)
 		end
 	end
 end
-caelTweaks.events:HookScript("OnEvent", lockInstance)
+caelConfig.events:HookScript("OnEvent", lockInstance)

@@ -1,9 +1,9 @@
-﻿local _, caelTweaks = ...
+﻿local _, caelConfig = ...
 
 --[[	Improved color picker frame	]]
 
-caelTweaks.events:RegisterEvent("PLAYER_LOGIN")
-caelTweaks.events:HookScript("OnEvent", function(self, event)
+caelConfig.events:RegisterEvent("PLAYER_LOGIN")
+caelConfig.events:HookScript("OnEvent", function(self, event)
 	if event == "PLAYER_LOGIN" then
 		local r, g, b
 		local copy = CreateFrame("Button", nil, ColorPickerFrame, "UIPanelButtonTemplate")

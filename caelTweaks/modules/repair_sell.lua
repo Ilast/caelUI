@@ -1,4 +1,4 @@
-﻿local _, caelTweaks = ...
+﻿local _, caelConfig = ...
 
 --[[	Auto sell junk & auto repair	]]
 
@@ -16,8 +16,8 @@ end
 
 local oldMoney
 local itemCount = 0
-caelTweaks.events:RegisterEvent("MERCHANT_SHOW")
-caelTweaks.events:HookScript("OnEvent", function(self, event)
+caelConfig.events:RegisterEvent("MERCHANT_SHOW")
+caelConfig.events:HookScript("OnEvent", function(self, event)
 	if event == "MERCHANT_SHOW" then
 		oldMoney = GetMoney()
 		for bag = 0, 4 do

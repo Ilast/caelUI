@@ -1,4 +1,4 @@
-﻿local _, caelTweaks = ...
+﻿local _, caelConfig = ...
 
 --[[	Auto accept some invites	]]
 
@@ -38,8 +38,8 @@ local function IsFriend(name)
 	return false
 end
 
-caelTweaks.events:RegisterEvent("PARTY_INVITE_REQUEST")
-caelTweaks.events:HookScript("OnEvent", function(self, event, name)
+caelConfig.events:RegisterEvent("PARTY_INVITE_REQUEST")
+caelConfig.events:HookScript("OnEvent", function(self, event, name)
 	if event == "PARTY_INVITE_REQUEST" then
 		if IsFriend(name) then
 			AcceptGroup()
