@@ -30,10 +30,10 @@ end
 	CreatePanel("caelPanel8", 0, 2, 1124, 18, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- DataFeeds bar
 
 caelPanels.PLAYER_LOGIN = function(self)
-	if RecDamageMeter then
-		CreatePanel("caelPanel9", -647, 20, 167, 130, "BOTTOM", "BOTTOM", UIParent, RecDamageMeter, "BACKGROUND") -- MeterLeft
-		RecDamageMeter:ClearAllPoints()
-		RecDamageMeter:SetPoint("TOPLEFT", caelPanel9, "TOPLEFT", 3, -3)
+	if recDamageMeter then
+		CreatePanel("caelPanel9", -647, 20, 167, 130, "BOTTOM", "BOTTOM", UIParent, recDamageMeter, "BACKGROUND") -- MeterLeft
+		recDamageMeter:ClearAllPoints()
+		recDamageMeter:SetPoint("TOPLEFT", caelPanel9, "TOPLEFT", 3, -3)
 	end
 
 	if recThreatMeter then
