@@ -128,9 +128,9 @@ local Output = function(frame, rsaFrame, color, text, rsaText, critical, pet, pr
 		end
 	end
 
-	if RecScrollAreas and (not(throttle) or (throttle and noccl)) then
+	if recScrollAreas and (not(throttle) or (throttle and noccl)) then
 		local rsamsg = format("%s%s%s%s|h", ((frame == 2 or frame == 3) and prefix and prefix ~= "" and "|cffD7BEA5"..prefix.."|r" or ""), (color or ""), rsaText or text, ((frame == 1 or frame == 2) and suffix and suffix ~= "" and "|cffD7BEA5"..suffix.."|r" or ""))
-		RecScrollAreas:AddText(rsamsg, critical, rsaFrame and rsaFrame or frame == 1 and "Incoming" or frame == 3 and "Outgoing" or "Information")
+		recScrollAreas:AddText(rsamsg, critical, rsaFrame and rsaFrame or frame == 1 and "Incoming" or frame == 3 and "Outgoing" or "Information")
 	end
 end
 
