@@ -1,4 +1,4 @@
-local playerName = UnitName("player")
+ï»¿local playerName = UnitName("player")
 
 local gsub, find, match, lower = string.gsub, string.find, string.match, string.lower
 
@@ -10,13 +10,13 @@ local npcChannels = {
 	"CHAT_MSG_MONSTER_EMOTE",
 	}
 
-local isNpcChat = function(self, event, msg)
+local isNpcChat = function(self, event, ...)
+	local msg = ...
 	local isResting = IsResting()
 	if isResting and not msg:find(playerName) then
-		return true
-	else
-		return false
+		return true, ...
 	end
+	return false, ...
 end
 
 for i,v in ipairs(npcChannels) do
@@ -32,12 +32,12 @@ local filteredchannels = {
 	"CHAT_MSG_WHISPER",
 	}
 
-local IsSpam = function(self, event, msg)
-	if find(msg, "%*%*%*") or find(msg, "%<%D%B%M%>") then 
-		return true
-	else
-		return false
+local IsSpam = function(self, event, ...)
+	local msg = ...
+	if msg:find("%*%*%*") or msg:find("%<%D%B%M%>") then 
+		return true, ...
 	end
+	return false, ...
 end
 
 for i, v in ipairs(filteredchannels) do
@@ -71,38 +71,32 @@ end
 
 --[[  Filter login spam	]]
 
-local GmSpam = {}
+local Spam = {
+	[1] = "Bienvenue dans World of Warcraft !",
+	[2] = "La mise Ã  jour 3.3 est dÃ©sormais disponible et la citadelle de la Couronne",
+	[3] = "de glace vous attend !",
+	[4] = "Joignez%-vous Ã  nous pour fÃªter le 5e anniversaire de World of Warcraft sur ",
+	[5] = "http://www.wow%-europe.com/wowanniversary !",
+	[6] = "You have .+ the title '.atron Caellian'%.",
+	[7] = "^(%S+) has come online%.",
+	[8] = "^(%S+) has gone offline%.",
+}
 
-GmSpam["nWelcomeLine"]    = "Bienvenue dans World of Warcraft !"
-GmSpam["nGMSpamLine1"]    = "La mise à jour 3.3 est désormais disponible et la citadelle de la Couronne"
-GmSpam["nGMSpamLine2"]    = "de glace vous attend !"
-GmSpam["nGMSpamLine3"]    = "Joignez-vous à nous pour fêter le 5e anniversaire de World of Warcraft sur "
-GmSpam["nGMSpamLine4"]    = "http://www.wow-europe.com/wowanniversary !"
-
-local LoginSpamFilter = function(self, event, msg)
-	for key, value in pairs(GmSpam) do
-		if msg == value then
-			return true
+local SystemMessageFilter = function(self, event, ...)
+	local msg = ...
+	for _, pattern in pairs(Spam) do
+		if msg:find(pattern) then
+			return true, ...
 		end
 	end
-	return false
-end
 
-ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", LoginSpamFilter)
-
---[[	Filter various crap	]]
-
-local SystemMessageFilter = function(self, event, msg, ...)
-	if msg:match("You have earned the title 'Patron Caellian'.") then return true end
-	if msg:match("You have earned the title 'Matron Caellian'.") then return true end
-	if msg:match("You have lost the title 'Patron Caellian'.") then return true end
-	if msg:match("You have lost the title 'Matron Caellian'.") then return true end
-	if msg:match("^(%S+) has come online%.") then return true end
-	if msg:match("^(%S+) has gone offline%.") then return true end
+	return false, ...
 end
 
 ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", SystemMessageFilter)
 
+--[[	Filter various crap	]]
+--[[
 local craps = {
 	"%[.*%].*anal",
 	"anal.*%[.*%]",
@@ -124,7 +118,7 @@ local FilterFunc = function(_, _, msg, userID, _, _, _, _, chanID)
 end
 
 ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", FilterFunc)
-
+--]]
 --[[	RaidNotice to Scrolling frame	]]
 
 local hooks = {}

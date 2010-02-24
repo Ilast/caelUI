@@ -5,7 +5,7 @@
 ## Version: r1
 ## Dependencies: caelMedia, caelPanels
 
-chatFrames.lua
 chatFilters.lua
-gotChat.lua
+chatFrames.lua
 chatTabs.lua
+gotChat.lua
