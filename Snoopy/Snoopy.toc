@@ -1,0 +1,11 @@
+## Interface: 30300
+## Title: Snoopy
+## Notes: Easy inspecting
+## Author: TotalPackage
+## X-Category: Interface Enhancements
+## Version: 3.3.001
+
+## LoadManagers: AddonLoader
+## X-LoadOn-Always: delayed
+
+core.lua
