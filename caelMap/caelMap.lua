@@ -37,22 +37,7 @@ local OnUpdate = function(self)
 	self.icon:SetVertexColor(color.r, color.g, color.b)
 end
 
-local OnEvent = function()
-	for r = 1, 40 do
-		if UnitInParty(_G["WorldMapRaid"..r].unit) then
-			_G["WorldMapRaid"..r].icon:SetTexture([=[Interface\Addons\caelMedia\Miscellaneous\partyicon]=])
-		else
-			_G["WorldMapRaid"..r].icon:SetTexture([=[Interface\Addons\caelMedia\Miscellaneous\raidicon]=])
-		end
-		_G["WorldMapRaid"..r]:SetScript("OnUpdate", OnUpdate)
-	end
-
-	for p = 1, 4 do
-		_G["WorldMapParty"..p].icon:SetTexture([=[Interface\Addons\caelMedia\Miscellaneous\partyicon]=])
-		_G["WorldMapParty"..p]:SetScript("OnUpdate", OnUpdate)
-	end
-
-	if event == "PLAYER_ENTERING_WORLD" then
+local SetupMap = function()
 		Kill(BlackoutWorld)
 		Kill(WorldMapQuestDetailScrollFrame)
 		Kill(WorldMapQuestRewardScrollFrame)
@@ -124,6 +109,27 @@ local OnEvent = function()
 		WorldMapDetailFrame.bg:SetBackdropBorderColor(0, 0, 0)
 
 		WorldMapFrame_AdjustMapAndQuestList = dummy
+end
+
+local OnEvent = function()
+	for r = 1, 40 do
+		if UnitInParty(_G["WorldMapRaid"..r].unit) then
+			_G["WorldMapRaid"..r].icon:SetTexture([=[Interface\Addons\caelMedia\Miscellaneous\partyicon]=])
+		else
+			_G["WorldMapRaid"..r].icon:SetTexture([=[Interface\Addons\caelMedia\Miscellaneous\raidicon]=])
+		end
+		_G["WorldMapRaid"..r]:SetScript("OnUpdate", OnUpdate)
+	end
+
+	for p = 1, 4 do
+		_G["WorldMapParty"..p].icon:SetTexture([=[Interface\Addons\caelMedia\Miscellaneous\partyicon]=])
+		_G["WorldMapParty"..p]:SetScript("OnUpdate", OnUpdate)
+	end
+
+	if event == "PLAYER_ENTERING_WORLD" then
+		SetupMap()
+		caelMap:UnregisterEvent("PLAYER_ENTERING_WORLD")
+		SeupMap = nil
 		
 	elseif event == "WORLD_MAP_UPDATE" then
 		WatchFrame_GetCurrentMapQuests()
