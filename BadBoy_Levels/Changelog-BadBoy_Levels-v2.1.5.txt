@@ -1,0 +1,27 @@
+------------------------------------------------------------------------
+r60 | funkydude | 2009-12-08 18:32:10 +0000 (Tue, 08 Dec 2009) | 1 line
+Changed paths:
+   A /tags/v2.1.5 (from /trunk:59)
+
+Tagging as v2.1.5
+------------------------------------------------------------------------
+r59 | funkydude | 2009-12-08 17:43:50 +0000 (Tue, 08 Dec 2009) | 1 line
+Changed paths:
+   M /trunk/BadBoy_Levels.toc
+
+toc update
+------------------------------------------------------------------------
+r57 | funkydude | 2009-11-27 18:24:46 +0000 (Fri, 27 Nov 2009) | 1 line
+Changed paths:
+   M /trunk/BadBoy_Levels.lua
+   M /trunk/BadBoy_Levels.toc
+
+Hopefully fix a bug with extremely fast whispers causing chat errors (like damage meter links)
+------------------------------------------------------------------------
+r55 | funkydude | 2009-11-26 05:14:17 +0000 (Thu, 26 Nov 2009) | 1 line
+Changed paths:
+   M /trunk/BadBoy_Levels.lua
+   M /trunk/BadBoy_Levels.toc
+
++bugfix: Allow all battleground whispers without scanning.
+------------------------------------------------------------------------
