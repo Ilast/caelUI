@@ -1,0 +1,61 @@
+------------------------------------------------------------------------
+r452 | funkydude | 2010-02-03 02:14:47 +0000 (Wed, 03 Feb 2010) | 1 line
+Changed paths:
+   A /tags/v4.1.0.7 (from /trunk:451)
+
+Tagging as v4.1.0.7
+------------------------------------------------------------------------
+r451 | funkydude | 2010-02-03 02:13:58 +0000 (Wed, 03 Feb 2010) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+   M /trunk/BadBoy.toc
+
+blacklist update
+------------------------------------------------------------------------
+r449 | funkydude | 2010-01-27 18:33:47 +0000 (Wed, 27 Jan 2010) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+   M /trunk/BadBoy.toc
+
+blacklist update
+------------------------------------------------------------------------
+r447 | funkydude | 2010-01-20 16:34:25 +0000 (Wed, 20 Jan 2010) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+
+More DB cleanup
+------------------------------------------------------------------------
+r446 | funkydude | 2010-01-20 16:32:40 +0000 (Wed, 20 Jan 2010) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+
+blacklist update
+------------------------------------------------------------------------
+r445 | funkydude | 2010-01-20 00:31:46 +0000 (Wed, 20 Jan 2010) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+   M /trunk/BadBoy.toc
+
+v4.1: Improve the line consolidation feature - now filters identical lines by checking the last 5 lines instead of the last 1 line, old rules apply = no filtering of you/friends. Database cleanup. Alpha for a while.
+------------------------------------------------------------------------
+r444 | funkydude | 2010-01-19 15:12:42 +0000 (Tue, 19 Jan 2010) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+   M /trunk/BadBoy.toc
+
+blacklist update
+------------------------------------------------------------------------
+r442 | funkydude | 2010-01-08 16:34:28 +0000 (Fri, 08 Jan 2010) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+   M /trunk/BadBoy.toc
+
+blacklist update
+------------------------------------------------------------------------
+r440 | funkydude | 2010-01-04 01:46:32 +0000 (Mon, 04 Jan 2010) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+   M /trunk/BadBoy.toc
+
+anti-phishing update
+------------------------------------------------------------------------
