@@ -1,0 +1,14 @@
+------------------------------------------------------------------------
+r41 | ammo | 2009-12-15 09:26:24 +0000 (Tue, 15 Dec 2009) | 1 line
+Changed paths:
+   A /tags/r40-release (from /trunk:40)
+
+Tagging as r40-release
+------------------------------------------------------------------------
+r40 | ammo | 2009-12-14 14:36:36 +0000 (Mon, 14 Dec 2009) | 1 line
+Changed paths:
+   M /trunk/oUF_CombatFeedback.lua
+   M /trunk/oUF_CombatFeedback.toc
+
+update for 3.3
+------------------------------------------------------------------------
