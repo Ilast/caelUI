@@ -65,7 +65,7 @@ frame.frames = {}
 for i = 1, 3 do
    local smf = CreateFrame("ScrollingMessageFrame", nil, frame)
    smf:SetMaxLines(1000)
-   smf:SetFontObject(neuropolrg9)
+   smf:SetFont([=[Interface\Addons\caelMedia\Fonts\xenara rg.ttf]=], 9)
 	smf:SetSpacing(2)
    smf:SetFading(true)
 	smf:SetFadeDuration(5)
