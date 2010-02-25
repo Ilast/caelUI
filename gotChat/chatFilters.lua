@@ -128,12 +128,12 @@ RaidNotice_AddMessage = function(noticeFrame, textString, colorInfo, ...)
 	if noticeFrame then
 		if MikScrollingBattleText then
 			MikSBT.DisplayMessage(textString, MikSBT.DISPLAYTYPE_NOTIFICATION, true, 140, 145, 155, 16, "neuropol x cd bd", 2)
-		elseif RecScrollAreas then
-			RecScrollAreas:AddText("|cffD7BEA5"..textString.."|r", true, "Notification") 
+		elseif recScrollAreas then
+			recScrollAreas:AddText("|cffD7BEA5"..textString.."|r", true, "Notification") 
 		else
 			hooks.RaidNotice_AddMessage(noticeFrame, textString, colorInfo, ...)
 		end
-		PlaySoundFile([=[Interface\Addons\caelMedia\Sounds\alarm.mp3]=])
+--		PlaySoundFile([=[Interface\Addons\caelMedia\Sounds\alarm.mp3]=])
 	end
 end
 
