@@ -1,4 +1,4 @@
-local bindings = {
+﻿local bindings = {
 	["W"] = "MOVEFORWARD",
 	["S"] = "MOVEBACKWARD",
 	["A"] = "TURNLEFT",
@@ -38,7 +38,7 @@ local bindings = {
 	["M"] = "TOGGLEWORLDMAP",
 	["X"] = "SITORSTAND",
 	["Y"] = "TOGGLEACHIEVEMENT",
-	["�"] = "INSPECT",
+	["²"] = "INSPECT",
 	["*"] = "TOGGLERUN",
 	[":"] = "TOGGLELFGPARENT",
 	["SPACE"] = "JUMP",
