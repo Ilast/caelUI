@@ -1,0 +1,8 @@
+## Interface: 30300
+## Title: BadPet
+## Author: Gotai
+## Notes: Notifies you when your pet changes auto-cast status. That's a bad kitty!
+## Version: r13 $Revision: 34 $
+## SavedVariablesPerCharacter: BadPet
+
+BadPet.lua
