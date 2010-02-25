@@ -17,7 +17,7 @@ local aura_colors  = {
 	["Disease"] = {r = 0.40, g = 0.30, b = 0.10}, 
 	["Poison"]  = {r = 0.00, g = 0.40, b = 0.10}, 
 	["Curse"]   = {r = 0.40, g = 0.00, b = 0.40},
-	["None"]    = {r = 0.69, g = 0.310, b = 0.31}
+	["None"]    = {r = 0.69, g = 0.31, b = 0.31}
 }
 
 if recMedia then
