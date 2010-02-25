@@ -1,10 +1,10 @@
 -- Font Settings
-recScrollAreas.font_face					= [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=]
-recScrollAreas.font_face_sticky				= [=[Interface\Addons\caelMedia\Fonts\neuropol x cd bd.ttf]=]
+recScrollAreas.font_face					= [=[Interface\Addons\caelMedia\Fonts\neuropol nova cd rg.ttf]=]
+recScrollAreas.font_face_sticky				= [=[Interface\Addons\caelMedia\Fonts\neuropol nova cd bd.ttf]=]
 recScrollAreas.font_flags					= "OUTLINE"	-- Some text can be hard to read without it.
 recScrollAreas.font_flags_sticky			= "OUTLINE"
-recScrollAreas.font_size					= 12
-recScrollAreas.font_size_sticky				= 15
+recScrollAreas.font_size					= 10
+recScrollAreas.font_size_sticky				= 12
 
 -- Animation Settings
 recScrollAreas.blink_speed			= 0.5
