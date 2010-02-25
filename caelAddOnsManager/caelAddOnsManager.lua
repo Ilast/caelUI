@@ -8,7 +8,7 @@
 		"caelMinimap", "caelNamePlates", "caelCooldowns", "caelMap", "caelMedia", "caelPanels", "caelQuests", "caelStats", "caelTooltips",
 		"GetReagents-Lite", "gotChat", "gotMacros",
 		"oUF", "oUF_Caellian", "oUF_CombatFeedback", "oUF_ReadyCheck", "oUF_SpellRange", "oUF_ThreatFeedback",
-		"recBags", "recClassTimers", "recScrollAreas", "Snoopy"
+		"recBags", "recScrollAreas", "recTimers", "Snoopy"
 	},
 	--[[---------------------------------------------------------------------------
 							  -=( Class-Specific Addons )=-
