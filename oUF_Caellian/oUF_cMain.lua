@@ -19,12 +19,12 @@ local lowThreshold = settings.lowThreshold
 local highThreshold = settings.highThreshold
 
 local runeloadcolors = {
-	[1] = {.69,.31,.31},
-	[2] = {.69,.31,.31},
-	[3] = {.33,.59,.33},
-	[4] = {.33,.59,.33},
-	[5] = {.31,.45,.63},
-	[6] = {.31,.45,.63},
+	[1] = {0.69, 0.31, 0.31},
+	[2] = {0.69, 0.31, 0.31},
+	[3] = {0.33, 0.59, 0.33},
+	[4] = {0.33, 0.59, 0.33},
+	[5] = {0.31, 0.45, 0.63},
+	[6] = {0.31, 0.45, 0.63},
 }
 
 local colors = setmetatable({
