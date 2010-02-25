@@ -20,7 +20,7 @@ SharedMedia.revision = (revision > SharedMedia.revision) and revision or SharedM
 	SharedMedia:Register("font", "neuropol x cd rg it", [[Interface\Addons\caelMedia\Fonts\neuropol x cd rg it.ttf]])
 	SharedMedia:Register("font", "neuropol x cd bd", [[Interface\Addons\caelMedia\Fonts\neuropol x cd bd.ttf]])
 	SharedMedia:Register("font", "neuropol x cd bd it", [[Interface\Addons\caelMedia\Fonts\neuropol x cd bd it.ttf]])
-	SharedMedia:Register("font", "russel square lt", [[Interface\Addons\caelMedia\Fonts\russel square lt.ttf]])
+	SharedMedia:Register("font", "xenara rg", [[Interface\Addons\caelMedia\Fonts\xenara rg.ttf]])
 -- -----
 --   SOUND
 -- -----

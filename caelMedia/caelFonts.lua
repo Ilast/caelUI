@@ -87,7 +87,7 @@ caelFonts:SetScript("OnEvent", function(self, event, addon)
 	for i = 1, 7 do
 		local frame = _G["ChatFrame"..i]
 		local font, size = frame:GetFont()
-		frame:SetFont(NORMAL, size)
+		frame:SetFont([=[Interface\Addons\caelMedia\Fonts\xenara rg.ttf]=], size)
 	end
 
 	hooksecurefunc("PlayerTitleFrame_UpdateTitles", FixTitleFont)
