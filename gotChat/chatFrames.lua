@@ -128,7 +128,7 @@ chatFrames:HookScript("OnEvent", function(self, event, addon)
 				end
 
 				if i < 5 then
-					FCF_SetChatWindowFontSize(nil, frame, 9)
+--					FCF_SetChatWindowFontSize(nil, frame, 9)
 					FCF_SetWindowColor(frame, 0, 0, 0)
 					FCF_SetWindowAlpha(frame, 0)
 					frame:SetFrameStrata("LOW")
