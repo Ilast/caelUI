@@ -222,8 +222,8 @@ end
 
 GameTooltip:SetScript("OnTooltipAddMoney", OnTooltipAddMoney)
 
-local ApplyLayout = function(self)
-	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+caelTooltips:RegisterEvent("PLAYER_ENTERING_WORLD")
+caelTooltips:SetScript("OnEvent", function(self)
 	for i, v in ipairs(Tooltips) do
 		v:HookScript("OnShow", function(self)
 			self:SetHeight(floor(self:GetHeight()))
@@ -245,7 +245,7 @@ local ApplyLayout = function(self)
 
 		GameTooltipStatusBar:SetAlpha(0)
 	end
-end
 
-caelTooltips:RegisterEvent("PLAYER_ENTERING_WORLD")
-caelTooltips:SetScript("OnEvent", ApplyLayout)
+	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+	self:SetScript("OnEvent", nil)
+end)
