@@ -3,36 +3,18 @@
 local _G = getfenv(0)
 local orig1, orig2 = {}, {}
 
---local TheOneScale = (768/tonumber(GetCVar("gxResolution"):match("%d+x(%d+)")))/GetCVar("uiScale")
+--local theOneScale = (768/tonumber(GetCVar("gxResolution"):match("%d+x(%d+)")))/GetCVar("uiScale")
 local GameTooltip, GameTooltipStatusBar = _G["GameTooltip"], _G["GameTooltipStatusBar"]
 
-local gsub = string.gsub
-local find = string.find
-local format = string.format
+local gsub, find, format = string.gsub, string.find, string.format
 
 _G["GameTooltipHeaderText"]:SetFontObject(neuropolrg10)
 _G["GameTooltipText"]:SetFontObject(neuropolrg10)
 _G["GameTooltipTextSmall"]:SetFontObject(neuropolrg9)
 
-local Tooltips = {
-	GameTooltip,
-	ItemRefTooltip,
-	ShoppingTooltip1,
-	ShoppingTooltip2,
-	ShoppingTooltip3,
-	WorldMapTooltip,
-}
+local Tooltips = {GameTooltip, ItemRefTooltip, ShoppingTooltip1, ShoppingTooltip2, ShoppingTooltip3, WorldMapTooltip}
 
-local linkTypes = {
-	item = true,
-	enchant = true,
-	spell = true,
-	quest = true,
-	unit = true,
-	talent = true,
-	achievement = true,
-	glyph = true
-}
+local linkTypes = {item = true, enchant = true, spell = true, quest = true, unit = true, talent = true, achievement = true, glyph = true}
 
 local classification = {
 	worldboss = "|cffAF5050Boss|r",
@@ -89,7 +71,7 @@ local BorderColor = function(self)
 			self:SetBackdropBorderColor(0, 0, 0)
 		end
 	end
-	self:SetBackdropColor(0, 0, 0, GetMouseFocus() == WorldFrame and 0.66 or 0.66)
+	self:SetBackdropColor(0, 0, 0, GetMouseFocus() == WorldFrame and 0.75 or 0.75)
 end
 
 local FormatMoney = function(money)
@@ -249,7 +231,7 @@ function caelTooltips:ApplyLayout()
 		end)
 
 		v:SetBackdrop(backdrop)
---		v:SetScale(TheOneScale)
+--		v:SetScale(theOneScale)
 
 		local gradient = v:CreateTexture(nil, "BORDER")
 		gradient:SetTexture([=[Interface\ChatFrame\ChatFrameBackground]=])
