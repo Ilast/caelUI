@@ -35,17 +35,15 @@ end
 
 caelTracking:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 caelTracking.ZONE_CHANGED_NEW_AREA = function(self)
-	return ZoneChange(GetRealZoneText())
-end
-
-caelTracking:RegisterEvent("WORLD_MAP_UPDATE")
-caelTracking.WORLD_MAP_UPDATE = function(self)
 	local zone = GetRealZoneText()
 	if zone and zone ~= "" then
 		self:UnregisterEvent("WORLD_MAP_UPDATE")
 		return ZoneChange(zone)
 	end
 end
+
+caelTracking:RegisterEvent("WORLD_MAP_UPDATE")
+caelTracking.WORLD_MAP_UPDATE = caelTracking.ZONE_CHANGED_NEW_AREA
 
 local TrackingTypeToID, TrackingTypeToTexture
 caelTracking:RegisterEvent("PLAYER_ENTERING_WORLD")
