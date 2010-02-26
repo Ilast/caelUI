@@ -236,13 +236,13 @@ caelTooltips:SetScript("OnEvent", function(self)
 
 		v.gradient = v:CreateTexture(nil, "BORDER")
 		v.gradient:SetTexture([=[Interface\ChatFrame\ChatFrameBackground]=])
-		v.gradient:SetPoint("TOPLEFT", v, 2, -2)
-		v.gradient:SetPoint("BOTTOMRIGHT", v, -2, 2)
+		v.gradient:SetPoint("TOPLEFT", 2, -2)
+		v.gradient:SetPoint("BOTTOMRIGHT", -2, 2)
 		v.gradient:SetBlendMode("ADD")
 		v.gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.33)
-
-		GameTooltipStatusBar:SetAlpha(0)
 	end
+
+	GameTooltipStatusBar:SetAlpha(0)
 
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	self:SetScript("OnEvent", nil)
