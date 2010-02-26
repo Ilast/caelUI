@@ -26,10 +26,8 @@ ChatFrameEditBoxHeader:SetFontObject(neuropolrg12)
 
 local gradient = ChatFrameEditBox:CreateTexture(nil, "BORDER")
 gradient:SetTexture([=[Interface\ChatFrame\ChatFrameBackground]=])
-gradient:SetPoint("TOP", ChatFrameEditBox, 0, -2)
-gradient:SetPoint("LEFT", ChatFrameEditBox, 2, 0)
-gradient:SetPoint("RIGHT", ChatFrameEditBox, -2, 0)
-gradient:SetPoint("BOTTOM", ChatFrameEditBox, 0, 2)
+gradient:SetPoint("TOPLEFT", 2, -2)
+gradient:SetPoint("BOTTOMRIGHT", -2, 2)
 gradient:SetBlendMode("ADD")
 gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.33)
 
