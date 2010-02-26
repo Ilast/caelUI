@@ -29,7 +29,7 @@ local backdrop = {
 	insets = {left = 3, right = 3, top = 3, bottom = 3}
 }
 
-local function OnHyperlinkEnter(frame, link, ...)
+local OnHyperlinkEnter = function(frame, link, ...)
 	local linkType = link:match("^([^:]+)")
 	if linkType and linkTypes[linkType] then
 		GameTooltip:SetOwner(frame, "ANCHOR_TOPLEFT")
@@ -40,7 +40,7 @@ local function OnHyperlinkEnter(frame, link, ...)
 	if orig1[frame] then return orig1[frame](frame, link, ...) end
 end
 
-local function OnHyperlinkLeave(frame, ...)
+local OnHyperlinkLeave = function(frame, ...)
 	GameTooltip:Hide()
 	if orig2[frame] then return orig2[frame](frame, ...) end
 end
@@ -222,7 +222,8 @@ end
 
 GameTooltip:SetScript("OnTooltipAddMoney", OnTooltipAddMoney)
 
-function caelTooltips:ApplyLayout()
+local ApplyLayout = function(self)
+	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	for i, v in ipairs(Tooltips) do
 		v:HookScript("OnShow", function(self)
 			self:SetHeight(floor(self:GetHeight()))
@@ -247,17 +248,4 @@ function caelTooltips:ApplyLayout()
 end
 
 caelTooltips:RegisterEvent("PLAYER_ENTERING_WORLD")
-caelTooltips.PLAYER_ENTERING_WORLD = function(self)
-	self:ApplyLayout()
-	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-end
-
-function OnEvent(self, event, ...)
-	if type(self[event]) == "function" then
-		return self[event](self, event, ...)
-	else
-		print("Unhandled event: "..event)
-	end
-end
-
-caelTooltips:SetScript("OnEvent", OnEvent)
+caelTooltips:SetScript("OnEvent", ApplyLayout)
