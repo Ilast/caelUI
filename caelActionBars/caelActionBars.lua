@@ -638,17 +638,17 @@ HideDefaultFrames()
   --rewrite of the onupdate func
   --much less cpu usage needed
   local function caelActionBars_AB_onupdate(self,elapsed)
-    local t = self.rABS_range
+    local t = self.cAB_range
     if (not t) then
-      self.rABS_range = 0
+      self.cAB_range = 0
       return
     end
     t = t + elapsed
     if (t<update_timer) then
-      self.rABS_range = t
+      self.cAB_range = t
       return
     else
-      self.rABS_range = 0
+      self.cAB_range = 0
       caelActionBars_AB_usable(self)
     end
   end
