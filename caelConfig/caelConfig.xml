@@ -8,7 +8,6 @@
 	<Script file="modules\characterPanel.lua"/>
 	<Script file="modules\cvarData.lua"/>
 	<Script file="modules\keyBinding.lua"/>
-	<Script file="modules\colorPicker.lua"/>
 	<Script file="modules\gmFrame.lua"/>
 	<Script file="modules\groupLoot.lua"/>
 	<Script file="modules\readyCheck.lua"/>

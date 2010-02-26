@@ -3,7 +3,7 @@
 --[[	Auto accept some invites	]]
 
 local AcceptFriends = false
-local AcceptGuild = false
+local AcceptGuild = true
 
 local playerList = {
 	["Bonewraith"] = true,

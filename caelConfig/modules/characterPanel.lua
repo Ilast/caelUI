@@ -1,6 +1,4 @@
-﻿--[[	Relocating the character rotation buttons	]]
-
-CharacterModelFrameRotateLeftButton:ClearAllPoints()
+﻿CharacterModelFrameRotateLeftButton:ClearAllPoints()
 CharacterModelFrameRotateLeftButton:SetPoint("LEFT", PaperDollFrame, "LEFT", 70, 5)
     
 CharacterModelFrameRotateRightButton:ClearAllPoints()
