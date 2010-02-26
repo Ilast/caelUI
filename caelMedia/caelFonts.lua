@@ -86,7 +86,7 @@ caelFonts:SetScript("OnEvent", function(self, event, addon)
 
 	for i = 1, 7 do
 		local frame = _G["ChatFrame"..i]
-		local font, size = frame:GetFont()
+		local _, size = frame:GetFont()
 		frame:SetFont([=[Interface\Addons\caelMedia\Fonts\xenara rg.ttf]=], size)
 	end
 
