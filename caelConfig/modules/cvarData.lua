@@ -121,7 +121,7 @@ caelConfig.events:HookScript("OnEvent", function(self, event)
 			"synchronizeConfig 0",
 			"synchronizeBindings 0",
 			"synchronizeMacros 0",
-			"alwaysCompareItems 0",
+			"alwaysCompareItems 1",
 			"autoDismountFlying 1",
 			"autoClearAFK 0",
 			"lootUnderMouse 0",
