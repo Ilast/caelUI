@@ -224,7 +224,7 @@ GameTooltip:SetScript("OnTooltipAddMoney", OnTooltipAddMoney)
 
 caelTooltips:RegisterEvent("PLAYER_ENTERING_WORLD")
 caelTooltips:SetScript("OnEvent", function(self)
-	for i, v in ipairs(Tooltips) do
+	for _, v in ipairs(Tooltips) do
 		v:HookScript("OnShow", function(self)
 			self:SetHeight(floor(self:GetHeight()))
 			self:SetWidth(floor(self:GetWidth()))
@@ -234,14 +234,12 @@ caelTooltips:SetScript("OnEvent", function(self)
 		v:SetBackdrop(backdrop)
 --		v:SetScale(theOneScale)
 
-		local gradient = v:CreateTexture(nil, "BORDER")
-		gradient:SetTexture([=[Interface\ChatFrame\ChatFrameBackground]=])
-		gradient:SetPoint("TOP", v, 0, -2)
-		gradient:SetPoint("LEFT", v, 2, 0)
-		gradient:SetPoint("RIGHT", v, -2, 0)
-		gradient:SetPoint("BOTTOM", v, 0, 2)
-		gradient:SetBlendMode("ADD")
-		gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.33)
+		v.gradient = v:CreateTexture(nil, "BORDER")
+		v.gradient:SetTexture([=[Interface\ChatFrame\ChatFrameBackground]=])
+		v.gradient:SetPoint("TOPLEFT", v, 2, -2)
+		v.gradient:SetPoint("BOTTOMRIGHT", v, -2, 2)
+		v.gradient:SetBlendMode("ADD")
+		v.gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.33)
 
 		GameTooltipStatusBar:SetAlpha(0)
 	end
