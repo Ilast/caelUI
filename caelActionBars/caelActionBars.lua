@@ -5,6 +5,8 @@ local mouseOverBar45 = 0
 local mouseOverShiftBar = 0
 local mouseOverPetBar = 1
 
+local _G = getfenv(0)
+
 ---------------------------------------------------
 -- CREATE ALL THE HOLDER FRAMES
 ---------------------------------------------------
@@ -243,7 +245,7 @@ end
 ---------------------------------------------------
 -- ON MOUSEOVER STUFF
 ---------------------------------------------------
-
+--[[
 local function showhidebar1(alpha)
    if BonusActionBarFrame:IsShown() then
       for i=1, 12 do
@@ -384,7 +386,7 @@ if mouseOverBar45 == 1 then
       pb:HookScript("OnLeave", function(self) showhiderightbar(0) end)
    end
 end
-
+--]]
 ---------------------------------------------------
 -- MAKE THE DEFAULT BARS UNVISIBLE
 ---------------------------------------------------
@@ -424,8 +426,6 @@ HideDefaultFrames()
   
   --caelActionBars - roth 2009
 
-  local _G = _G
-  
   ---------------------------------------
   -- CONFIG 
   ---------------------------------------
@@ -447,9 +447,6 @@ HideDefaultFrames()
   --hide the hotkey? 0/1
   local hide_hotkey = 1
   
-  --use dominos? 0/1
-  local use_dominos = 0
-    
   --COLORS
   --color you want to appy to the standard texture (red, green, blue in RGB)
   local color = { r = 0.84, g = 0.75, b = 0.65, }
@@ -654,7 +651,6 @@ HideDefaultFrames()
   end
   
   --hotkey func
-  --is only needed when you want to hide the hotkeys and use the default barmod (Dominos does not need this)
   local function caelActionBars_AB_hotkey(self, actionButtonType)
     if (not actionButtonType) then
       actionButtonType = "ACTIONBUTTON";
@@ -681,7 +677,7 @@ HideDefaultFrames()
   hooksecurefunc("ActionButton_ShowGrid", caelActionBars_AB_fixgrid)
   
   --call the special func to hide hotkeys after entering combat with the default actionbar
-  if hide_hotkey == 1 and use_dominos == 0 then
+  if hide_hotkey == 1 then
     hooksecurefunc("ActionButton_UpdateHotkeys", caelActionBars_AB_hotkey)
   end
   
