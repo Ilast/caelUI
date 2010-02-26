@@ -1,8 +1,12 @@
 ﻿local bindings = {
 	["W"] = "MOVEFORWARD",
+	["UP"] = "MOVEFORWARD",
 	["S"] = "MOVEBACKWARD",
+	["DOWN"] = "MOVEBACKWARD",
 	["A"] = "TURNLEFT",
+	["LEFT"] = "TURNLEFT",
 	["D"] = "TURNRIGHT",
+	["RIGHT"] = "TURNRIGHT",
 	["Q"] = "STRAFELEFT",
 	["E"] = "STRAFERIGHT",
 	["1"] = "ACTIONBUTTON1",
