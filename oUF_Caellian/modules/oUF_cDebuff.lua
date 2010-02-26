@@ -21,7 +21,8 @@ local backupColor = {r = 0.69, g = 0.31, b = 0.31}
 setmetatable(DebuffTypeColor, {__index = function() return backupColor end})
 
 local whiteList = {
-	["Essence of the Blood Queen"] = true, -- 71531
+	["Essence of the Blood Queen"] = true,
+	["Necrotic Plague"] = true,
 }
 
 local function GetDebuffType(unit, filter)
