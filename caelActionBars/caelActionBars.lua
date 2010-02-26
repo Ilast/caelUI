@@ -1,8 +1,10 @@
+--[[
 local mouseOverBar1 = 0
 local mouseOverBar2 = 0
 local mouseOverBar3 = 0
 local mouseOverBar45 = 0
 local mouseOverShiftBar = 0
+--]]
 local mouseOverPetBar = 1
 
 local _G = getfenv(0)
@@ -260,53 +262,6 @@ local function showhidebar1(alpha)
 	end
 end
 
-local function showhidebar2(alpha)
-	if MultiBarBottomLeft:IsShown() then
-		for i=1, 12 do
-			local pb = _G["MultiBarBottomLeftButton"..i]
-			pb:SetAlpha(alpha)
-		end
-	end
-end
-  
-local function showhidebar3(alpha)
-   if MultiBarBottomRight:IsShown() then
-      for i=1, 12 do
-			local pb = _G["MultiBarBottomRightButton"..i]
-			pb:SetAlpha(alpha)
-		end
-	end
-end
-  
-local function showhideshapeshift(alpha)
-   for i=1, NUM_SHAPESHIFT_SLOTS do
-		local pb = _G["ShapeshiftButton"..i]
-		pb:SetAlpha(alpha)
-	end
-end
-  
-local function showhidepet(alpha)
-   for i=1, NUM_PET_ACTION_SLOTS do
-      local pb = _G["PetActionButton"..i]
-      pb:SetAlpha(alpha)
-   end
-end
-  
-local function showhiderightbar(alpha)
-   if MultiBarLeft:IsShown() then
-      for i=1, 12 do
-			local pb = _G["MultiBarLeftButton"..i]
-			pb:SetAlpha(alpha)
-      end
-   end
-   if MultiBarRight:IsShown() then
-      for i=1, 12 do
-			local pb = _G["MultiBarRightButton"..i]
-			pb:SetAlpha(alpha)
-      end
-   end
-end
-
 if mouseOverBar1 == 1 then
 	bar1Holder:EnableMouse(true)
 	bar1Holder:SetScript("OnEnter", function(self) showhidebar1(1) end)
@@ -322,7 +277,16 @@ if mouseOverBar1 == 1 then
 		pb:HookScript("OnLeave", function(self) showhidebar1(0) end)
 	end
 end
-  
+
+local function showhidebar2(alpha)
+	if MultiBarBottomLeft:IsShown() then
+		for i=1, 12 do
+			local pb = _G["MultiBarBottomLeftButton"..i]
+			pb:SetAlpha(alpha)
+		end
+	end
+end
+
 if mouseOverBar2 == 1 then
    bar2Holder:EnableMouse(true)
    bar2Holder:SetScript("OnEnter", function(self) showhidebar2(1) end)
@@ -334,7 +298,16 @@ if mouseOverBar2 == 1 then
       pb:HookScript("OnLeave", function(self) showhidebar2(0) end)
    end
 end
-  
+
+local function showhidebar3(alpha)
+   if MultiBarBottomRight:IsShown() then
+      for i=1, 12 do
+			local pb = _G["MultiBarBottomRightButton"..i]
+			pb:SetAlpha(alpha)
+		end
+	end
+end
+
 if mouseOverBar3 == 1 then
    bar3Holder:EnableMouse(true)
    bar3Holder:SetScript("OnEnter", function(self) showhidebar3(1) end)
@@ -346,7 +319,14 @@ if mouseOverBar3 == 1 then
       pb:HookScript("OnLeave", function(self) showhidebar3(0) end)
    end
 end
-  
+
+local function showhideshapeshift(alpha)
+   for i=1, NUM_SHAPESHIFT_SLOTS do
+		local pb = _G["ShapeshiftButton"..i]
+		pb:SetAlpha(alpha)
+	end
+end
+
 if mouseOverShiftBar == 1 then
    shiftBarHolder:EnableMouse(true)
    shiftBarHolder:SetScript("OnEnter", function(self) showhideshapeshift(1) end)
@@ -358,19 +338,22 @@ if mouseOverShiftBar == 1 then
       pb:HookScript("OnLeave", function(self) showhideshapeshift(0) end)
    end
 end
-  
-if mouseOverPetBar == 1 then
-   petBarHolder:EnableMouse(true)
-   petBarHolder:SetScript("OnEnter", function(self) showhidepet(1) end)
-   petBarHolder:SetScript("OnLeave", function(self) showhidepet(0) end)  
-   for i=1, NUM_PET_ACTION_SLOTS do
-      local pb = _G["PetActionButton"..i]
-      pb:SetAlpha(0)
-      pb:HookScript("OnEnter", function(self) showhidepet(1) end)
-      pb:HookScript("OnLeave", function(self) showhidepet(0) end)
+
+local function showhiderightbar(alpha)
+   if MultiBarLeft:IsShown() then
+      for i=1, 12 do
+			local pb = _G["MultiBarLeftButton"..i]
+			pb:SetAlpha(alpha)
+      end
+   end
+   if MultiBarRight:IsShown() then
+      for i=1, 12 do
+			local pb = _G["MultiBarRightButton"..i]
+			pb:SetAlpha(alpha)
+      end
    end
 end
-  
+
 if mouseOverBar45 == 1 then
    bar45Holder:EnableMouse(true)
    bar45Holder:SetScript("OnEnter", function(self) showhiderightbar(1) end)
@@ -387,6 +370,26 @@ if mouseOverBar45 == 1 then
    end
 end
 --]]
+
+local function showhidepet(alpha)
+   for i=1, NUM_PET_ACTION_SLOTS do
+      local pb = _G["PetActionButton"..i]
+      pb:SetAlpha(alpha)
+   end
+end
+
+if mouseOverPetBar == 1 then
+   petBarHolder:EnableMouse(true)
+   petBarHolder:SetScript("OnEnter", function(self) showhidepet(1) end)
+   petBarHolder:SetScript("OnLeave", function(self) showhidepet(0) end)  
+   for i=1, NUM_PET_ACTION_SLOTS do
+      local pb = _G["PetActionButton"..i]
+      pb:SetAlpha(0)
+      pb:HookScript("OnEnter", function(self) showhidepet(1) end)
+      pb:HookScript("OnLeave", function(self) showhidepet(0) end)
+   end
+end
+
 ---------------------------------------------------
 -- MAKE THE DEFAULT BARS UNVISIBLE
 ---------------------------------------------------
