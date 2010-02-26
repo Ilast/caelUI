@@ -1,13 +1,21 @@
 ﻿local chatFrames = CreateFrame("Frame")
 
-CHAT_TELL_ALERT_TIME = 0 -- sound on every whisper
-DEFAULT_CHATFRAME_ALPHA = 0 -- remove mouseover background
+local backdrop = {
+	bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
+	edgeFile = [=[Interface\Addons\caelMedia\Miscellaneous\glowtex]=], edgeSize = 2,
+	insets = {left = 3, right = 3, top = 3, bottom = 3}
+}
 
 local print = function(text)
 	DEFAULT_CHAT_FRAME:AddMessage("|cffD7BEA5cael|rChat: "..tostring(text))
 end
 
+local _G = getfenv(0)
+
 local _, playerClass = UnitClass("player")
+
+CHAT_TELL_ALERT_TIME = 0 -- sound on every whisper
+DEFAULT_CHATFRAME_ALPHA = 0 -- remove mouseover background
 
 local ChatFrameEditBox = ChatFrameEditBox
 ChatFrameEditBox:SetAltArrowKeyMode(nil)
@@ -16,10 +24,7 @@ ChatFrameEditBox:SetHeight(25)
 ChatFrameEditBox:SetPoint("BOTTOMLEFT",  caelPanel1, "TOPLEFT", 0, 1.5)
 ChatFrameEditBox:SetPoint("BOTTOMRIGHT", caelPanel1, "TOPRIGHT", 0, 1.5)
 ChatFrameEditBox:SetFontObject(neuropolrg12)
-ChatFrameEditBox:SetBackdrop {bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
-	edgeFile = [=[Interface\Addons\caelMedia\Miscellaneous\glowtex]=], edgeSize = 2,
-	insets = {left = 3, right = 3, top = 3, bottom = 3}
-}
+ChatFrameEditBox:SetBackdrop(backdrop)
 ChatFrameEditBox:SetBackdropColor(0, 0, 0, 0.5)
 ChatFrameEditBox:SetBackdropBorderColor(0, 0, 0)
 ChatFrameEditBoxHeader:SetFontObject(neuropolrg12)
@@ -68,14 +73,68 @@ local mergedTable = {
 	[28] = "CHANNEL",
 }
 
+local function Kill(obj)
+	obj.Show = function() end
+	obj:Hide()
+end
+
+-- Container frame for tab buttons
+local cftbb = CreateFrame("Frame", "ChatButtonBar", UIParent)
+-- FCF override funcs
+local function GetCurrentChatFrame(...)
+--	Gets the chat frame which should be currently shown.
+	return _G[format("ChatFrame%s", ChatButtonBar.id)]
+end
+local function GetChatFrameID(...)
+--	Gets the current chat frame's id.
+	return ChatButtonBar.id
+end
+local function ShowChatFrame(self)
+--	Set required id variables.
+	ChatButtonBar.id = self.id
+	SELECTED_CHAT_FRAME = _G[format("ChatFrame%s", self.id)]
+
+--	Hide all chat frames
+	for i = 1, 4 do
+		if i ~= 2 then
+			_G[format("ChatButton%s", i)]:SetBackdropBorderColor(0.5, 0.5, 0.5)
+			_G[format("ChatFrame%s", i)]:Hide()
+		end
+	end
+
+--	Change our tab to a colored version so the user can see which tab is selected.
+	self:SetBackdropBorderColor(0.33, 0.59, 0.33)
+
+	_G[format("ChatFrame%s", self.id)]:Show()
+end
+
 chatFrames:RegisterEvent("ADDON_LOADED")
 chatFrames:HookScript("OnEvent", function(self, event, addon)
 	if event == "ADDON_LOADED" then
 		if addon == "Blizzard_CombatLog" then
 			chatFrames:UnregisterEvent("ADDON_LOADED")
 			for i = 1, NUM_CHAT_WINDOWS do 
-				local frame = _G["ChatFrame"..i]
-				local dockHighlight = _G["ChatFrame"..i.."TabDockRegionHighlight"]
+				local frame = _G[format("ChatFrame%s", i)]
+				local dockHighlight = _G[format("ChatFrame%sTabDockRegionHighlight", i)]
+				
+--				Kill chat tabs
+				local cft = _G[format("ChatFrame%sTab", i)]
+				local cftf = _G[format("ChatFrame%sTabFlash", i)]
+
+				cft:EnableMouse(false)
+				cft:SetScript("OnEnter", nil)
+				cft:SetScript("OnLeave", nil)
+				cft:GetHighlightTexture():SetTexture(nil)
+				cft.SetAlpha = function() end
+
+				cftf:SetScript("OnShow", nil)
+				cftf:SetScript("OnHide", nil)
+				cftf:GetRegions():SetTexture(nil)
+
+				Kill(_G[format("ChatFrame%sTabLeft", i)])
+				Kill(_G[format("ChatFrame%sTabMiddle", i)])
+				Kill(_G[format("ChatFrame%sTabRight", i)])
+				Kill(_G[format("ChatFrame%sTabText", i)])
 
 				frame:SetFading(true)
 				frame:SetFadeDuration(5)
@@ -134,6 +193,67 @@ chatFrames:HookScript("OnEvent", function(self, event, addon)
 					if i ~= 2 then frame:Show() end
 				end
 			end
+			
+--			Custom chat tabs
+			local function MakeButton(id, txt, tip)
+				local btn = CreateFrame("Button", format("ChatButton%s", id), cftbb)
+				btn.id = id
+				btn:SetSize(30, 15)
+--				If you want them to only show on_enter
+--				btn:SetScript("OnEnter", function(...) ChatButtonBar:SetAlpha(1) end)
+--				btn:SetScript("OnLeave", function(...) ChatButtonBar:SetAlpha(0) end)
+				btn:RegisterForClicks("LeftButtonDown", "RightButtonDown")
+				btn:SetScript("OnClick", function(self, button, ...)
+					if button == "RightButton" then
+						if self.id == ChatButtonBar.id then
+							ShowUIPanel(ChatConfigFrame)
+						end
+					else
+						ShowChatFrame(self)
+					end
+				end)
+				btn:SetScript("OnEnter", function(self)
+					GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 3)
+					GameTooltip:AddLine(tip)
+					GameTooltip:Show()
+				end)
+				btn:SetScript("OnLeave", function()
+					GameTooltip:Hide()
+				end)
+				btn.t = btn:CreateFontString(nil, "OVERLAY")
+				btn.t:SetFontObject(neuropolrg9)
+				btn.t:SetPoint("CENTER", 0, 1)
+				btn.t:SetTextColor(1, 1, 1)
+				btn.t:SetText(txt)
+				
+				btn:SetBackdrop(backdrop)
+				btn:SetBackdropColor(0, 0, 0, 0)
+				
+				return btn
+			end
+			
+			local cft1 = MakeButton(1, "G", "• Gen •")
+--			2 would be combat log, but not for gotChat
+			local cft3 = MakeButton(3, "W", "• w <-> •")
+			local cft4 = MakeButton(4, "L", "• Loot •")
+			
+			cft4:SetPoint("TOPRIGHT", caelPanel1, -3.5, -3)
+			cft3:SetPoint("RIGHT", cft4, "LEFT")
+			cft1:SetPoint("RIGHT", cft3, "LEFT")
+			
+--			Override old tab bar functions so that we can use our custom buttons to open chat options
+			FCF_GetCurrentChatFrameID = GetChatFrameID
+			FCF_GetCurrentChatFrame = GetCurrentChatFrame
+			
+--			Start with chat frame 1 shown.
+			ShowChatFrame(cft1)
+			
+--			Prevent Blizzard from changing to chat tab 1 (on instance enter, flight path end etc).
+			ChatFrame1:HookScript("OnShow", function()
+				if ChatButtonBar.id ~= 1 then
+					ShowChatFrame(_G[format("ChatButton%d", ChatButtonBar.id)])
+				end
+			end)
 		end
 	end
 end)
@@ -155,7 +275,7 @@ local chatFrames_OnUpdate = function(self, elapsed)
 		delay1 = delay1 - elapsed
 		if delay1 <= 0 then
 			for i = 1, NUM_CHAT_WINDOWS do
-				local frame = _G["ChatFrame"..i]
+				local frame = _G[format("ChatFrame%s", i)]
 				if(i == 1) then
 					chatStuff()
 				end
