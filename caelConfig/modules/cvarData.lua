@@ -31,15 +31,10 @@ local ZoneChange = function(zone)
 end
 
 caelConfig.events:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-caelConfig.events:HookScript("OnEvent", function(self, event)
-	if event == "ZONE_CHANGED_NEW_AREA" then
-		return ZoneChange(GetRealZoneText())
-	end
-end)
-
 caelConfig.events:RegisterEvent("WORLD_MAP_UPDATE")
+caelConfig.events:RegisterEvent("PLAYER_ENTERING_WORLD")
 local mapUpdate = function(self, event)
-	if event == "WORLD_MAP_UPDATE" then
+	if event == "ZONE_CHANGED_NEW_AREA" or event == "WORLD_MAP_UPDATE" or event == "PLAYER_ENTERING_WORLD" then
 		local zone = GetRealZoneText()
 		if zone and zone ~= "" then
 			mapUpdate = function() end
@@ -48,13 +43,6 @@ local mapUpdate = function(self, event)
 	end
 end
 caelConfig.events:HookScript("OnEvent", mapUpdate)
-
-caelConfig.events:RegisterEvent("PLAYER_ENTERING_WORLD")
-caelConfig.events:HookScript("OnEvent", function(self, event)
-	if event == "PLAYER_ENTERING_WORLD" then
-		return ZoneChange(GetRealZoneText())
-	end
-end)
 
 --[[
 Scales = {
