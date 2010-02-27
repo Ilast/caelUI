@@ -101,10 +101,12 @@ local function GetCurrentChatFrame(...)
 --	Gets the chat frame which should be currently shown.
 	return _G[format("ChatFrame%s", ChatButtonBar.id)]
 end
+
 local function GetChatFrameID(...)
 --	Gets the current chat frame's id.
 	return ChatButtonBar.id
 end
+
 local function ShowChatFrame(self)
 --	Set required id variables.
 	ChatButtonBar.id = self.id
@@ -117,7 +119,7 @@ local function ShowChatFrame(self)
 			_G[format("ChatFrame%s", i)]:Hide()
 		end
 	end
-	
+
 --	Make sure tab is not flashing (stop on click)
 	FlashTab(self)
 
@@ -213,7 +215,7 @@ chatFrames:HookScript("OnEvent", function(self, event, addon)
 					if i ~= 2 then frame:Show() end
 				end
 			end
-			
+
 --			Custom chat tabs
 			local function MakeButton(id, txt, tip)
 				local btn = CreateFrame("Button", format("ChatButton%s", id), cftbb)
@@ -245,10 +247,10 @@ chatFrames:HookScript("OnEvent", function(self, event, addon)
 				btn.t:SetPoint("CENTER", 0, 1)
 				btn.t:SetTextColor(1, 1, 1)
 				btn.t:SetText(txt)
-				
+
 				btn:SetBackdrop(backdrop)
 				btn:SetBackdropColor(0, 0, 0, 0)
-				
+
 --				Create the flash frame
 				btn.flash = CreateFrame("Frame", format("ChatButton%sFlash", id), btn)
 				btn.flash:SetAllPoints()
@@ -263,7 +265,7 @@ chatFrames:HookScript("OnEvent", function(self, event, addon)
 					self.elapsed = self.elapsed + elapsed
 					if self.elapsed <= self.frequency then return end
 					self.elapsed = 0
-					
+
 --					Determine if we should fade or not
 					local currentAlpha = self:GetAlpha()
 					if self.isFading and currentAlpha <= 0 then
@@ -271,38 +273,43 @@ chatFrames:HookScript("OnEvent", function(self, event, addon)
 					elseif not self.isFading and currentAlpha >= 1 then
 						self.isFading = true
 					end
-					
+
 --					Change alpha
 					self:SetAlpha(currentAlpha - (self.isFading and .1 or -.1))
 				end)
+--				Stop flashing if player sends an outgoing whisper
+				btn.flash:RegisterEvent("CHAT_MSG_WHISPER_INFORM")
+				btn.flash:SetScript("OnEvent", function(self, event, ...)
+					FlashTab(self:GetParent())
+				end)
+
 				btn.flash:Hide()
-				
 				return btn
 			end
-			
+
 			local cft1 = MakeButton(1, "G", "• Gen •")
 --			2 would be combat log, but not for gotChat
 			local cft3 = MakeButton(3, "W", "• w <-> •")
 			local cft4 = MakeButton(4, "L", "• Loot •")
-			
+
 			cft4:SetPoint("TOPRIGHT", caelPanel1, -3.5, -3)
 			cft3:SetPoint("RIGHT", cft4, "LEFT")
 			cft1:SetPoint("RIGHT", cft3, "LEFT")
-			
+
 --			Override old tab bar functions so that we can use our custom buttons to open chat options
 			FCF_GetCurrentChatFrameID = GetChatFrameID
 			FCF_GetCurrentChatFrame = GetCurrentChatFrame
-			
+
 --			Start with chat frame 1 shown.
 			ShowChatFrame(cft1)
-			
+
 --			Prevent Blizzard from changing to chat tab 1 (on instance enter, flight path end etc).
 			ChatFrame1:HookScript("OnShow", function()
 				if ChatButtonBar.id ~= 1 then
 					ShowChatFrame(_G[format("ChatButton%d", ChatButtonBar.id)])
 				end
 			end)
-			
+
 --			Hook cf3's add message so we can flash.
 			oAddMessage = ChatFrame3.AddMessage
 			ChatFrame3.AddMessage = function(...)
