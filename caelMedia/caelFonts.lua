@@ -84,8 +84,8 @@ caelFonts:SetScript("OnEvent", function(self, event, addon)
 	SetFont(QuestFontNormalSmall,          BOLD, 11, nil, nil, nil, nil, 0.54, 0.4, 0.1)
 	SetFont(WorldMapTextFont,        BOLDITALIC, 29, "THICKOUTLINE",  38, nil, nil, 0, 0, 0, 1, -1)
 
-	for i = 1, 7 do
-		local frame = _G["ChatFrame"..i]
+	for i = 1, NUM_CHAT_WINDOWS do
+		local frame =_G[format("ChatFrame%s", i)]
 		local _, size = frame:GetFont()
 		frame:SetFont([=[Interface\Addons\caelMedia\Fonts\xenara rg.ttf]=], size)
 	end
