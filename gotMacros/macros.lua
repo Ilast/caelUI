@@ -38,7 +38,7 @@ gM_Macros = {
 --[[	GENERAL	]]--
 -------------------
 	["T2"] = {
-		char = "Bonewraith, Cowdiak, Pimiko",
+		char = "Bonewraith, Dens, Cowdiak, Pimiko",
 		icon = [=[Interface\Icons\Ability_Hunter_MasterMarksman]=],
 		body = [=[/cleartarget [exists]
 			/targetenemy]=],
@@ -339,8 +339,9 @@ gM_Macros = {
 -------------------
 	["DPS"] = {
 		char = "Dens",
-		show = "Auto Attack",
-		body = [=[/castsequence [noexists][noharm][dead] reset=target/combat Toucher de glace, Frappe de peste, Frappe de sang, Frappe de sang, Frappe du fléau, Voile mortel]=],
+		show = "Attaque Auto",
+		body = [=[/click [noexists][noharm][dead] gotMacros_T2
+			/castsequence [harm, nodead] reset=target/combat Toucher de glace, Frappe de peste, Frappe de sang, Frappe de sang, Frappe du fléau, Voile mortel]=],
 		blizzmacro = true,
 		perChar = true,
 	},
