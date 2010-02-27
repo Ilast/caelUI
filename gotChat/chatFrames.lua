@@ -57,7 +57,7 @@ local mergedTable = {
 	[14] = "BATTLEGROUND_LEADER",
 	[15] = "ACHIEVEMENT",
 	
---	messageGroups only.
+--	MessageGroups only.
 	[16] = "MONSTER_SAY",
 	[17] = "MONSTER_EMOTE",
 	[18] = "MONSTER_YELL",
@@ -80,6 +80,22 @@ end
 
 -- Container frame for tab buttons
 local cftbb = CreateFrame("Frame", "ChatButtonBar", UIParent)
+
+--	Make chat tab flash.
+local function FlashTab(tab, start)
+        if start and tab.flash:IsShown() then
+                return
+        elseif not start and not tab.flash:IsShown() then
+                return
+        elseif start then
+			tab.flash:SetAlpha(0)
+			tab.flash.elapsed = 0
+            tab.flash:Show()
+        else
+            tab.flash:Hide()
+        end
+end
+
 -- FCF override funcs
 local function GetCurrentChatFrame(...)
 --	Gets the chat frame which should be currently shown.
@@ -101,6 +117,9 @@ local function ShowChatFrame(self)
 			_G[format("ChatFrame%s", i)]:Hide()
 		end
 	end
+	
+--	Make sure tab is not flashing (stop on click)
+	FlashTab(self)
 
 --	Change our tab to a colored version so the user can see which tab is selected.
 	self:SetBackdropBorderColor(0.33, 0.59, 0.33)
@@ -112,6 +131,7 @@ chatFrames:RegisterEvent("ADDON_LOADED")
 chatFrames:HookScript("OnEvent", function(self, event, addon)
 	if event == "ADDON_LOADED" then
 		if addon == "Blizzard_CombatLog" then
+			ChatConfigFrame_OnEvent(nil, "PLAYER_ENTERING_WORLD", addon)
 			chatFrames:UnregisterEvent("ADDON_LOADED")
 			for i = 1, NUM_CHAT_WINDOWS do 
 				local frame = _G[format("ChatFrame%s", i)]
@@ -229,6 +249,34 @@ chatFrames:HookScript("OnEvent", function(self, event, addon)
 				btn:SetBackdrop(backdrop)
 				btn:SetBackdropColor(0, 0, 0, 0)
 				
+--				Create the flash frame
+				btn.flash = CreateFrame("Frame", format("ChatButton%sFlash", id), btn)
+				btn.flash:SetAllPoints()
+				btn.flash:SetBackdrop(backdrop)
+				btn.flash:SetBackdropColor(0, 0, 0, 0)
+				btn.flash:SetBackdropBorderColor(0.69, 0.31, 0.31)
+				btn.flash.frequency = .05
+				btn.flash.elapsed = 0
+				btn.flash.isFading = false
+				btn.flash:SetScript("OnUpdate", function(self, elapsed)
+--					Check if update should happen yet
+					self.elapsed = self.elapsed + elapsed
+					if self.elapsed <= self.frequency then return end
+					self.elapsed = 0
+					
+--					Determine if we should fade or not
+					local currentAlpha = self:GetAlpha()
+					if self.isFading and currentAlpha <= 0 then
+						self.isFading = false
+					elseif not self.isFading and currentAlpha >= 1 then
+						self.isFading = true
+					end
+					
+--					Change alpha
+					self:SetAlpha(currentAlpha - (self.isFading and .1 or -.1))
+				end)
+				btn.flash:Hide()
+				
 				return btn
 			end
 			
@@ -254,6 +302,16 @@ chatFrames:HookScript("OnEvent", function(self, event, addon)
 					ShowChatFrame(_G[format("ChatButton%d", ChatButtonBar.id)])
 				end
 			end)
+			
+--			Hook cf3's add message so we can flash.
+			oAddMessage = ChatFrame3.AddMessage
+			ChatFrame3.AddMessage = function(...)
+--				Flash if tab is not selected.
+				if ChatButtonBar.id ~= 3 then
+					FlashTab(cft3, true)
+				end
+				oAddMessage(...)
+			end
 		end
 	end
 end)
