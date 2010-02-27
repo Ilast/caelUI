@@ -334,4 +334,21 @@ gM_Macros = {
 		nosound = true,
 		perChar = true,
 	},
+-------------------
+--[[	DEATH KNIGHT	]]--
+-------------------
+	["DPS"] = {
+		char = "Dens",
+		show = "Auto Attack",
+		body = [=[/castsequence [noexists][noharm][dead] reset=target/combat Toucher de glace, Frappe de peste, Frappe de sang, Frappe de sang, Frappe du fléau, Voile mortel]=],
+		blizzmacro = true,
+		perChar = true,
+	},
+	["BUFF"] = {
+		char = "Dens",
+		show = "",
+		body = [=[/castsequence Cor de l'hiver, Bouclier d'os]=],
+		blizzmacro = true,
+		perChar = true,
+	},
 }
