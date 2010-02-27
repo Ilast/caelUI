@@ -129,6 +129,45 @@ local function ShowChatFrame(self)
 	_G[format("ChatFrame%s", self.id)]:Show()
 end
 
+local ctddm = CreateFrame("Frame", "ChatTabDropDown")
+ctddm.displayMode = "MENU"
+ctddm.info = {}
+ctddm.initialize = function(self, level)
+	local info = self.info
+	local id = self.id
+	
+	if level == 1 then
+		wipe(info)
+		info.text = "Config"
+		info.notCheckable = 1
+		info.hasArrow = false
+		info.func = function() ShowUIPanel(ChatConfigFrame) end
+		UIDropDownMenu_AddButton(info, level)
+		wipe(info)
+		info.text = "Font Size"
+		info.notCheckable = 1
+		info.hasArrow = true
+		info.value = "FONTSIZE"
+		UIDropDownMenu_AddButton(info, level)
+	elseif level == 2 then
+		if UIDROPDOWNMENU_MENU_VALUE == "FONTSIZE" then
+			for _, size in pairs(CHAT_FONT_HEIGHTS) do
+				wipe(info)
+				info.text = format(FONT_SIZE_TEMPLATE, size)
+				info.value = size
+				info.func = function()
+					FCF_SetChatWindowFontSize(self, _G[format("ChatFrame%s", id)], size)
+				end
+				local _, currentSize, _ = _G[format("ChatFrame%s", id)]:GetFont()
+				if size == floor(currentSize+.5) then
+					info.checked = 1
+				end
+				UIDropDownMenu_AddButton(info, level)
+			end
+		end
+	end
+end
+
 chatFrames:RegisterEvent("ADDON_LOADED")
 chatFrames:HookScript("OnEvent", function(self, event, addon)
 	if event == "ADDON_LOADED" then
@@ -228,7 +267,8 @@ chatFrames:HookScript("OnEvent", function(self, event, addon)
 				btn:SetScript("OnClick", function(self, button, ...)
 					if button == "RightButton" then
 						if self.id == ChatButtonBar.id then
-							ShowUIPanel(ChatConfigFrame)
+							ChatTabDropDown.id = self.id
+							ToggleDropDownMenu(1, nil, ChatTabDropDown, "cursor")
 						end
 					else
 						ShowChatFrame(self)
