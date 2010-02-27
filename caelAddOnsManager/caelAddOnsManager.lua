@@ -4,7 +4,7 @@
 		---------------------------------------------------------------------------
 		These addons will load for every user, always.								--]]
 	["base"] = {"!recBug", "BadBoy", "BadBoy_Levels", "Buffet-Lite",
-		"caelActionBars", "caelAddOnsManager", "caelCCBreak", "caelCombatLog", "caelConfig", "caelEmote", "caelFactions", "caelInterrupt",
+		"caelActionBars", "caelAddOnsManager", "caelCCBreak", "caelChat", "caelCombatLog", "caelConfig", "caelEmote", "caelFactions", "caelInterrupt",
 		"caelMinimap", "caelNamePlates", "caelCooldowns", "caelMap", "caelMedia", "caelPanels", "caelQuests", "caelStats", "caelTooltips",
 		"GetReagents-Lite", "gotChat", "gotMacros",
 		"oUF", "oUF_Caellian", "oUF_CombatFeedback", "oUF_ReadyCheck", "oUF_SpellRange", "oUF_ThreatFeedback",
