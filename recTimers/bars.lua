@@ -34,9 +34,11 @@ end
 
 -- DEATHKNIGHT
 if class == "DEATHKNIGHT" then
-	t:make_bar("Blood Plague",		"target", "debuff", true,	0, .5, 0,	200, 10, "BOTTOM", UIParent, "BOTTOM", 0, 312)
-	t:make_bar("Frost Fever",		"target", "debuff", true,	0, .5, .5,	200, 10, "BOTTOM", UIParent, "BOTTOM", 0, 328)
-	t:make_bar("Horn of Winter",	"player", "buff",	false, nil, nil, nil,	200, 10, "BOTTOM", UIParent, "BOTTOM", 0, 344, nil, nil, nil, 0, 355)
+	t:make_bar("Frost Fever", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 286)
+	t:make_bar("Ebon Plague", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 271)
+	t:make_bar("Blood Plague", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 256)
+	t:make_bar("Horn of Winter", "player", "buff", false, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 241)
+	t:make_bar("Bone Shield", "player", "buff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 226)
 end
 
 -- DRUID
