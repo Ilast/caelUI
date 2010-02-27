@@ -89,7 +89,7 @@ local SetupMap = function()
 		WorldMapFrame.EnableKeyboard = dummy
 		WorldMapFrame:EnableMouse(false)
 		WorldMapFrame.EnableMouse = dummy
-		
+
 		WorldMapFrame.sizedDown = true
 --[[
 		WorldMapFrame:HookScript("OnShow", function()
@@ -127,6 +127,11 @@ local OnEvent = function()
 	end
 
 	if event == "PLAYER_ENTERING_WORLD" then
+		if WorldMapFrame.sizedDown then
+			ToggleFrame(WorldMapFrame)
+			WorldMapFrameSizeDownButton_OnClick()
+			ToggleFrame(WorldMapFrame)
+		end
 		SetupMap()
 		caelMap:UnregisterEvent("PLAYER_ENTERING_WORLD")
 		SeupMap = nil
