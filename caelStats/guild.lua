@@ -4,7 +4,7 @@ local Holder = CreateFrame("Frame")
 
 caelStats.guild = caelPanel8:CreateFontString(nil, "OVERLAY")
 caelStats.guild:SetFontObject(neuropolrg10)
-caelStats.guild:SetPoint("CENTER", caelPanel8, "CENTER", 300, 0.5) 
+caelStats.guild:SetPoint("CENTER", caelPanel8, "CENTER", 275, 0.5) 
 
 local numGuildMembers = 0
 local numOnlineGuildMembers = 0
