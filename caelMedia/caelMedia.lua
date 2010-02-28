@@ -53,4 +53,5 @@ SharedMedia.revision = (revision > SharedMedia.revision) and revision or SharedM
 --   BUTTON
 -- -----
 	SharedMedia:Register("button", "Button Overlay", [[Interface\Addons\caelMedia\Buttons\buttonoverlay.tga]])
-	SharedMedia:Register("button", "Button Border 1", [[Interface\Addons\caelMedia\Buttons\buttonborder.tga]])
+	SharedMedia:Register("button", "Button Border 1", [[Interface\Addons\caelMedia\Buttons\buttonborder1.tga]])
+	SharedMedia:Register("button", "Button Border 2", [[Interface\Addons\caelMedia\Buttons\buttonborder2.tga]])
