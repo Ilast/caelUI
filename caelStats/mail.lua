@@ -10,7 +10,7 @@ local function OnEvent(self)
 	if HasNewMail() then
 		caelStats.mail:SetText("New mail", 1, 1, 1)
 	else
-		caelStats.mail:SetText("No new mail", 1, 1, 1)
+		caelStats.mail:SetText("")
 	end
 end
 
