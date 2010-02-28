@@ -426,265 +426,217 @@ end
 
 HideDefaultFrames()
 
-  
-  --caelActionBars - roth 2009
+--	caelActionBars - roth 2009
 
-  ---------------------------------------
-  -- CONFIG 
-  ---------------------------------------
-  
-  --TEXTURES
-  --default border texture  
-  local rb2_normal_texture    = [=[Interface\AddOns\caelMedia\caelActionBars\gloss]=]
-  --texture when a button flashs --> button becomes ready
-  local rb2_flash_texture     = [=[Interface\AddOns\caelMedia\caelActionBars\flash]=]
-  --hover textures
-  local rb2_hover_texture     = [=[Interface\AddOns\caelMedia\caelActionBars\hover]=]
-  --texture if you push that button
-  local rb2_pushed_texture    = [=[Interface\AddOns\caelMedia\caelActionBars\pushed]=]
-  --texture that is active when the button is in active state (next melee swing attacks mostly)
-  local rb2_checked_texture   = [=[Interface\AddOns\caelMedia\caelActionBars\checked]=]
-  --texture used for equipped items, this can differ since you may want to apply a different vertexcolor
-  local rb2_equipped_texture  = [=[Interface\AddOns\caelMedia\caelActionBars\gloss_grey]=]
+--	TEXTURES
+--	default border texture  
+local buttonTex = [=[Interface\AddOns\caelMedia\Buttons\buttonborder1]=]
 
-  --hide the hotkey? 0/1
-  local hide_hotkey = 1
-  
-  --COLORS
-  --color you want to appy to the standard texture (red, green, blue in RGB)
-  local color = { r = 0.84, g = 0.75, b = 0.65, }
-  --want class color? just comment in this:
-  --local color = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
+--	hide the hotkey? 0/1
+local hide_hotkey = 1
 
-  --color for equipped border texture (red, green, blue in RGB)
-  local color_equipped = { r = 0.33, g = 0.59, b = 0.33, }
-  
-  --color when out of range
-  local range_color = { r = 0.69, g = 0.31, b = 0.31, }
-    
---color when out of power (mana)
-  local mana_color = { r = 0.31, g = 0.45, b = 0.63, }
+--	COLORS
+--	color you want to appy to the standard texture (red, green, blue in RGB)
+local color = { r = 0.75, g = 0.75, b = 0.75, }
+--	want class color? just comment in this:
+--	local color = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
 
-  --color when button is usable
-  local usable_color = { r = 0.84, g = 0.75, b = 0.65, }
-  
-  --color when button is unusable (example revenge not active, since you have not blocked yet)
-  local unusable_color = { r = 0.5, g = 0.5, b = 0.5, }
+--	color when button is usable
+local usable_color = { r = 0.75, g = 0.75, b = 0.75, }
 
-  -- !!!IMPORTANT!!! - read this before editing the value blow
-  -- !!!do not set this below 0.1 ever!!!
-  -- you have 120 actionbuttons on screen (most of you have at 80) and each of them will get updated on this timer in seconds
-  -- default is 1, it is needed for the rangecheck
-  -- if you dont want it just set the timer to 999 and the cpu usage will be near zero
-  -- if you set the timer to 0 it will update all your 120 buttons on every single frame
-  -- so if you have 120FPS it will call the function 14.400 times a second!
-  -- if the timer is 1 it will call the function 120 times a second (depends on actionbuttons in screen)
-  local update_timer = 1
+--	color for equipped border texture (red, green, blue in RGB)
+local color_equipped = { r = 0.33, g = 0.59, b = 0.33, }
 
-  ---------------------------------------
-  -- CONFIG END
-  ---------------------------------------
+--	color when out of range
+local range_color = { r = 0.69, g = 0.31, b = 0.31, }
 
-  -- DO NOT TOUCH ANYTHING BELOW!
+--	color when out of power (mana)
+local mana_color = { r = 0.31, g = 0.45, b = 0.63, }
 
-  ---------------------------------------
-  -- FUNCTIONS
-  ---------------------------------------
+--	color when button is unusable (example revenge not active, since you have not blocked yet)
+local unusable_color = { r = 0.69, g = 0.31, b = 0.31, }
+
+--	!!!IMPORTANT!!! - read this before editing the value blow
+--	!!!do not set this below 0.1 ever!!!
+--	you have 120 actionbuttons on screen (most of you have at 80) and each of them will get updated on this timer in seconds
+--	default is 1, it is needed for the rangecheck
+--	if you dont want it just set the timer to 999 and the cpu usage will be near zero
+--	if you set the timer to 0 it will update all your 120 buttons on every single frame
+--	so if you have 120FPS it will call the function 14.400 times a second!
+--	if the timer is 1 it will call the function 120 times a second (depends on actionbuttons in screen)
+local update_timer = 1
+
+---------------------------------------
+-- FUNCTIONS
+---------------------------------------
+
+--	initial style func
+local function StyleBar(name, action)
+
+--	Needed to find out which way to style bar
+	local isPet        = name:find("PetActionButton")
+	local isShapeshift = name:find("ShapeshiftButton")
+
+--	Shared shortcuts
+	local bu = _G[name]
+	local ic = _G[format("%sIcon", name)]
+	local fl = _G[format("%sFlash", name)]
+	local nt = isPet and _G[format("%sNormalTexture2", name)] or _G[format("%sNormalTexture", name)]
+
+--	Set Textures
+	fl:SetTexture(buttonTex)
+	bu:SetHighlightTexture(buttonTex)
+	bu:SetPushedTexture(buttonTex)
+	bu:SetCheckedTexture(buttonTex)
+	bu:SetNormalTexture(buttonTex)
+
+--	Position Icon
+	ic:SetTexCoord(0.1,0.9,0.1,0.9)
+	ic:SetPoint("TOPLEFT", bu, 2, -2)
+	ic:SetPoint("BOTTOMRIGHT", bu, -2, 2)
+
+--	Non-equipped coloring.
+	nt:SetVertexColor(color.r,color.g,color.b,1)
+
+--	Set Texture position
+	nt:SetHeight(bu:GetHeight())
+	nt:SetWidth(bu:GetWidth())
+	nt:SetPoint("Center", 0, 0)
+
+	if action then
+--		Regular bar shortcuts
+		local co  = _G[format("%sCount", name)]
+		local bo  = _G[format("%sBorder", name)]
+		local ho  = _G[format("%sHotKey", name)]
+		local cd  = _G[format("%sCooldown", name)]
+		local na  = _G[format("%sName", name)]
+
+		bo:Hide()
+
+		ho:SetFontObject(neuropolrg12)
+		co:SetFontObject(neuropolrg12)
+		na:SetFontObject(neuropolrg10)
+		if hide_hotkey == 1 then
+			ho:Hide()
+		end
+		na:Hide()
+
+		if ( IsEquippedAction(action) ) then
+			nt:SetVertexColor(color_equipped.r,color_equipped.g,color_equipped.b,1)
+		end
+	elseif isShapeshift then
+		-- Set Texture Postion
+		nt:ClearAllPoints()
+		nt:SetAllPoints(bu)
+	end
+end
+
+local function caelActionBars_AB_style(self)
+	StyleBar(self:GetName(), self.action)
+end
   
-  --initial style func
-  local function caelActionBars_AB_style(self)
+--	style pet buttons
+local function caelActionBars_AB_stylepet()
+	for i = 1, NUM_PET_ACTION_SLOTS do
+		StyleBar(format("PetActionButton%d", i))
+	end
+end
   
-    local action = self.action
-    local name = self:GetName()
-    local bu  = _G[name]
-    local ic  = _G[name.."Icon"]
-    local co  = _G[name.."Count"]
-    local bo  = _G[name.."Border"]
-    local ho  = _G[name.."HotKey"]
-    local cd  = _G[name.."Cooldown"]
-    local na  = _G[name.."Name"]
-    local fl  = _G[name.."Flash"]
-    local nt  = _G[name.."NormalTexture"]
-    
-    nt:SetHeight(bu:GetHeight())
-    nt:SetWidth(bu:GetWidth())
-    nt:SetPoint("Center", 0, 0)
-    bo:Hide()
-    
-    ho:SetFontObject(neuropolrg12)
-    co:SetFontObject(neuropolrg12)
-    na:SetFontObject(neuropolrg10)
-    if hide_hotkey == 1 then
-      ho:Hide()
-    end
-    na:Hide()
+--	style shapeshift buttons
+local function caelActionBars_AB_styleshapeshift()    
+	for i = 1, NUM_SHAPESHIFT_SLOTS do
+		StyleBar(format("ShapeshiftButton%d", i))
+	end
+end
   
-    fl:SetTexture(rb2_flash_texture)
-    bu:SetHighlightTexture(rb2_hover_texture)
-    bu:SetPushedTexture(rb2_pushed_texture)
-    bu:SetCheckedTexture(rb2_checked_texture)
-    bu:SetNormalTexture(rb2_normal_texture)
-  
-    ic:SetTexCoord(0.1,0.9,0.1,0.9)
-    ic:SetPoint("TOPLEFT", bu, "TOPLEFT", 2, -2)
-    ic:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", -2, 2)
-  
-    if ( IsEquippedAction(action) ) then
-      bu:SetNormalTexture(rb2_equipped_texture)
-      nt:SetVertexColor(color_equipped.r,color_equipped.g,color_equipped.b,1)
-    else
-      bu:SetNormalTexture(rb2_normal_texture)
-      nt:SetVertexColor(color.r,color.g,color.b,1)
-    end  
-  
-  end
-  
-  --style pet buttons
-  local function caelActionBars_AB_stylepet()
-    
-    for i=1, NUM_PET_ACTION_SLOTS do
-      local name = "PetActionButton"..i
-      local bu  = _G[name]
-      local ic  = _G[name.."Icon"]
-      local fl  = _G[name.."Flash"]
-      local nt  = _G[name.."NormalTexture2"]
-  
-      nt:SetHeight(bu:GetHeight())
-      nt:SetWidth(bu:GetWidth())
-      nt:SetPoint("Center", 0, 0)
-      
-      nt:SetVertexColor(color.r,color.g,color.b,1)
-      
-      fl:SetTexture(rb2_flash_texture)
-      bu:SetHighlightTexture(rb2_hover_texture)
-      bu:SetPushedTexture(rb2_pushed_texture)
-      bu:SetCheckedTexture(rb2_checked_texture)
-      bu:SetNormalTexture(rb2_normal_texture)
-    
-      ic:SetTexCoord(0.1,0.9,0.1,0.9)
-      ic:SetPoint("TOPLEFT", bu, "TOPLEFT", 2, -2)
-      ic:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", -2, 2)
-      
-    end  
-  end
-  
-  --style shapeshift buttons
-  local function caelActionBars_AB_styleshapeshift()    
-    for i=1, NUM_SHAPESHIFT_SLOTS do
-      local name = "ShapeshiftButton"..i
-      local bu  = _G[name]
-      local ic  = _G[name.."Icon"]
-      local fl  = _G[name.."Flash"]
-      local nt  = _G[name.."NormalTexture"]
-  
-      nt:ClearAllPoints()
-      nt:SetPoint("TOPLEFT", bu, "TOPLEFT", 0, 0)
-      nt:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", 0, 0)
-      
-      nt:SetVertexColor(color.r,color.g,color.b,1)
-      
-      fl:SetTexture(rb2_flash_texture)
-      bu:SetHighlightTexture(rb2_hover_texture)
-      bu:SetPushedTexture(rb2_pushed_texture)
-      bu:SetCheckedTexture(rb2_checked_texture)
-      bu:SetNormalTexture(rb2_normal_texture)
-    
-      ic:SetTexCoord(0.1,0.9,0.1,0.9)
-      ic:SetPoint("TOPLEFT", bu, "TOPLEFT", 2, -2)
-      ic:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", -2, 2)  
-    end    
-  end
-  
-  --fix the grid display
-  --the default function has a bug and once you move a button the alpha stays at 0.5, this gets fixed here
-  local function caelActionBars_AB_fixgrid(button)
-    local name = button:GetName()
-    local action = button.action
-    local nt  = _G[name.."NormalTexture"]
-    if ( IsEquippedAction(action) ) then
-      nt:SetVertexColor(color_equipped.r,color_equipped.g,color_equipped.b,1)
-    else
-      nt:SetVertexColor(color.r,color.g,color.b,1)
-    end  
-  end
-  
-  --update the button colors onUpdateUsable
-  local function caelActionBars_AB_usable(self)
-    local name = self:GetName()
-    local action = self.action
-    local nt  = _G[name.."NormalTexture"]
-    local icon = _G[name.."Icon"]
-    if ( IsEquippedAction(action) ) then
-      nt:SetVertexColor(color_equipped.r,color_equipped.g,color_equipped.b,1)
-    else
-      nt:SetVertexColor(color.r,color.g,color.b,1)
-    end  
-    local isUsable, notEnoughMana = IsUsableAction(action)
-    if (ActionHasRange(action) and IsActionInRange(action) == 0) then
-      icon:SetVertexColor(range_color.r,range_color.g,range_color.b,1)
-      return
-    elseif (notEnoughMana) then
-      icon:SetVertexColor(mana_color.r,mana_color.g,mana_color.b,1)
-      return
-    elseif (isUsable) then
-      icon:SetVertexColor(usable_color.r,usable_color.g,usable_color.b,1)
-      return
-    else
-      icon:SetVertexColor(unusable_color.r,unusable_color.g,unusable_color.b,1);
-      return
-    end
-  end
-  
-  --rewrite of the onupdate func
-  --much less cpu usage needed
-  local function caelActionBars_AB_onupdate(self,elapsed)
-    local t = self.cAB_range
-    if (not t) then
-      self.cAB_range = 0
-      return
-    end
-    t = t + elapsed
-    if (t<update_timer) then
-      self.cAB_range = t
-      return
-    else
-      self.cAB_range = 0
-      caelActionBars_AB_usable(self)
-    end
-  end
-  
-  --hotkey func
-  local function caelActionBars_AB_hotkey(self, actionButtonType)
-    if (not actionButtonType) then
-      actionButtonType = "ACTIONBUTTON";
-    end
-    local hotkey = _G[self:GetName().."HotKey"]
-    local key = GetBindingKey(actionButtonType..self:GetID()) or GetBindingKey("CLICK "..self:GetName()..":LeftButton");
-   	local text = GetBindingText(key, "KEY_", 1);
-    hotkey:SetText(text);
-    hotkey:Hide()
-  end 
-  
-  
-  ---------------------------------------
-  -- CALLS // HOOKS
-  ---------------------------------------
-  
-  hooksecurefunc("ActionButton_Update",   caelActionBars_AB_style)
-  hooksecurefunc("ActionButton_UpdateUsable",   caelActionBars_AB_usable)
-  
-  --rewrite default onUpdateFunc, the new one uses much less CPU power
-  ActionButton_OnUpdate = caelActionBars_AB_onupdate
-  
-  --fix grid
-  hooksecurefunc("ActionButton_ShowGrid", caelActionBars_AB_fixgrid)
-  
-  --call the special func to hide hotkeys after entering combat with the default actionbar
-  if hide_hotkey == 1 then
-    hooksecurefunc("ActionButton_UpdateHotkeys", caelActionBars_AB_hotkey)
-  end
-  
-  hooksecurefunc("ShapeshiftBar_OnLoad",   caelActionBars_AB_styleshapeshift)
-  hooksecurefunc("ShapeshiftBar_Update",   caelActionBars_AB_styleshapeshift)
-  hooksecurefunc("ShapeshiftBar_UpdateState",   caelActionBars_AB_styleshapeshift)
-  hooksecurefunc("PetActionBar_Update",   caelActionBars_AB_stylepet)
+--	fix the grid display
+--	the default function has a bug and once you move a button the alpha stays at 0.5, this gets fixed here
+local function caelActionBars_AB_fixgrid(button)
+	local name = button:GetName()
+	local action = button.action
+	local nt  = _G[format("%sNormalTexture", name)]
+	if ( IsEquippedAction(action) ) then
+		nt:SetVertexColor(color_equipped.r,color_equipped.g,color_equipped.b,1)
+	else
+		nt:SetVertexColor(color.r,color.g,color.b,1)
+	end  
+end
+
+--	update the button colors onUpdateUsable
+local function caelActionBars_AB_usable(self)
+	local name = self:GetName()
+	local action = self.action
+	local nt  = _G[format("%sNormalTexture", name)]
+	local icon = _G[format("%sIcon", name)]
+	if ( IsEquippedAction(action) ) then
+		nt:SetVertexColor(color_equipped.r,color_equipped.g,color_equipped.b,1)
+	else
+		nt:SetVertexColor(color.r,color.g,color.b,1)
+	end  
+	local isUsable, notEnoughMana = IsUsableAction(action)
+	if (ActionHasRange(action) and IsActionInRange(action) == 0) then
+		icon:SetVertexColor(range_color.r,range_color.g,range_color.b,1)
+		return
+	elseif (notEnoughMana) then
+		icon:SetVertexColor(mana_color.r,mana_color.g,mana_color.b,1)
+		return
+	elseif (isUsable) then
+		icon:SetVertexColor(usable_color.r,usable_color.g,usable_color.b,1)
+		return
+	else
+		icon:SetVertexColor(unusable_color.r,unusable_color.g,unusable_color.b,1)
+		return
+	end
+end
+
+--	rewrite of the onupdate func, much less cpu usage needed
+local function caelActionBars_AB_onupdate(self,elapsed)
+	local t = self.cAB_range
+	if (not t) then
+		self.cAB_range = 0
+		return
+	end
+	t = t + elapsed
+	if (t<update_timer) then
+		self.cAB_range = t
+		return
+	else
+		self.cAB_range = 0
+		caelActionBars_AB_usable(self)
+	end
+end
+
+--	hotkey func
+local function caelActionBars_AB_hotkey(self, actionButtonType)
+	if (not actionButtonType) then
+		actionButtonType = "ACTIONBUTTON"
+	end
+	local hotkey = _G[self:GetName().."HotKey"]
+	local key = GetBindingKey(actionButtonType..self:GetID()) or GetBindingKey("CLICK "..self:GetName()..":LeftButton")
+	local text = GetBindingText(key, "KEY_", 1)
+	hotkey:SetText(text)
+	hotkey:Hide()
+end
+
+---------------------------------------
+-- CALLS // HOOKS
+---------------------------------------
+
+hooksecurefunc("ActionButton_Update",   caelActionBars_AB_style)
+hooksecurefunc("ActionButton_UpdateUsable",   caelActionBars_AB_usable)
+
+--	rewrite default onUpdateFunc, the new one uses much less CPU power
+ActionButton_OnUpdate = caelActionBars_AB_onupdate
+
+--	fix grid
+hooksecurefunc("ActionButton_ShowGrid", caelActionBars_AB_fixgrid)
+
+--	call the special func to hide hotkeys after entering combat with the default actionbar
+if hide_hotkey == 1 then
+	hooksecurefunc("ActionButton_UpdateHotkeys", caelActionBars_AB_hotkey)
+end
+
+hooksecurefunc("ShapeshiftBar_OnLoad",   caelActionBars_AB_styleshapeshift)
+hooksecurefunc("ShapeshiftBar_Update",   caelActionBars_AB_styleshapeshift)
+hooksecurefunc("ShapeshiftBar_UpdateState",   caelActionBars_AB_styleshapeshift)
+hooksecurefunc("PetActionBar_Update",   caelActionBars_AB_stylepet)
