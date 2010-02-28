@@ -13,10 +13,6 @@
 		},
 	}
 
-[14:56] <Gotai> ./spew GetMouseFocus()
-[14:56] <Gotai> Then look at the GetRegions() result and look for a texture field, probably something called SomethingSomethingIcon.
-[14:56] <Gotai> Then /spew SomethingSomethingIcon:GetTexture()
-
 	example:
 	
 	gM_Macros = {
