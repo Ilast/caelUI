@@ -39,6 +39,13 @@ gM_Macros = {
 		body = [=[/cleartarget [exists]
 			/targetenemy]=],
 	},
+	["CDs2"] = {
+		char = "Cowdiak, Bonewraith",
+		icon = [=[Interface\Icons\Spell_Shadow_LastingAfflictions]=],
+		body = [=[/use Battlemaster's Determination
+			/use Bloodlust Brooch]=],
+		nosound = true,
+	},
 -------------------
 --[[	HUNTER	]]--
 -------------------
@@ -48,11 +55,10 @@ gM_Macros = {
 		body = [=[/targetenemy [noexists][noharm][dead]
 			/cast [nopet]Call Pet
 			/castsequence [harm]reset=target Hunter's Mark, null
-			/petpassive [target=pettarget,exists] 
-			/stopmacro [target=pettarget,exists] 
+			/petpassive [target=pettarget,exists]
+			/stopmacro [target=pettarget,exists]
 			/petdefensive
 			/petattack]=],
-		nosound = true,
 		blizzmacro = true,
 		perChar = true,
 	},
@@ -71,13 +77,6 @@ gM_Macros = {
 			/cast [target=pettarget, exists] Bestial Wrath
 			/cast Blood Fury
 			/cast Berserking]=],
-		nosound = true,
-	},
-	["CDs2"] = {
-		char = "Cowdiak, Bonewraith",
-		icon = [=[Interface\Icons\Spell_Shadow_LastingAfflictions]=],
-		body = [=[/use Battlemaster's Determination
-			/use Bloodlust Brooch]=],
 		nosound = true,
 	},
 	["Foc"] = {
@@ -119,101 +118,65 @@ gM_Macros = {
 	},
 	["RotA"] = {
 		char = "Caellian, Callysto, Dynames",
-		show = "Steady Shot",
 		body = [=[/cast !Auto Shot
 			/click gotMacros_ExpS
 			/click gotMacros_BlkA
 			/click gotMacros_SrSa
 			/click gotMacros_AimS
 			/click gotMacros_StdS]=],
-		nosound = true,
-		perChar = true,
 	},
 	["RotB"] = {
 		char = "Caellian, Callysto, Dynames",
-		show = "Steady Shot",
 		body = [=[/cast !Auto Shot
 			/click gotMacros_SrSb
 			/click gotMacros_Mark
 			/click gotMacros_AimS
 			/cast Silencing Shot
 			/click gotMacros_StdS]=],
-		nosound = true,
-		perChar = true,
 	},
 	["RotC"] = {
 		char = "Caellian, Callysto, Dynames",
-		show = "Steady Shot",
 		body = [=[/cast !Auto Shot
 			/click gotMacros_SrSa
 			/click gotMacros_AimS
 			/click gotMacros_ArcS
 			/click gotMacros_StdS]=],
-		nosound = true,
-		perChar = true,
 	},
 	["BlkA"] = {
 		char = "Caellian, Callysto, Dynames",
-		show = "Black Arrow",
 		body = [=[/castsequence reset=23.3 Black Arrow, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
-		nosound = true,
-		perChar = true,
 	},
 	["SrSa"] = {
 		char = "Caellian, Callysto, Dynames",
-		show = "Serpent Sting",
 		body = [=[/castsequence reset=20.4/target Serpent Sting, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
-		nosound = true,
-		perChar = true,
 	},
 	["SrSb"] = {
 		char = "Caellian, Callysto, Dynames",
-		show = "Serpent Sting",
 		body = [=[/castsequence reset=target Serpent Sting, Null]=],
-		nosound = true,
-		perChar = true,
 	},
 	["ExpS"] = {
 		char = "Caellian, Callysto, Dynames",
-		show = "Explosive Shot",
 		body = [=[/castsequence reset=5.6 Explosive Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
-		nosound = true,
-		perChar = true,
 	},
 	["Mark"] = {
 		char = "Caellian, Callysto, Dynames",
-		show = "Chimera Shot",
 		body = [=[/castsequence reset=9.3 Chimera Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
-		nosound = true,
-		perChar = true,
 	},
 	["AimS"] = {
 		char = "Caellian, Callysto, Dynames",
-		show = "Aimed Shot",
 		body = [=[/castsequence reset=9.7 Aimed Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
-		nosound = true,
-		perChar = true,
 	},
 	["MulS"] = {
 		char = "Caellian, Callysto, Dynames",
-		show = "Multi-Shot",
 		body = [=[/castsequence reset=9.7 Multi-Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
-		nosound = true,
-		perChar = true,
 	},
 	["ArcS"] = {
 		char = "Caellian, Callysto, Dynames",
-		show = "Arcane Shot",
 		body = [=[/castsequence reset=5.8 Arcane Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
-		nosound = true,
-		perChar = true,
 	},
 	["StdS"] = {
 		char = "Caellian, Callysto, Dynames",
-		show = "Steady Shot",
 		body = [=[/cast Steady Shot]=],
-		nosound = true,
-		perChar = true,
 	},
 	["LnL"] = {
 		char = "Caellian, Callysto, Dynames",
@@ -229,16 +192,12 @@ gM_Macros = {
 		char = "Caellian, Callysto, Dynames",
 		show = "Misdirection",
 		body = [=[/cast [help][target=focus, help][target=pet, exists, nodead] Misdirection]=],
-		nosound = true,
 		blizzmacro = true,
 		perChar = true,
 	},
 	["RfRd"] = {
 		char = "Caellian, Callysto, Dynames",
-		show = "Rapid Fire",
 		body = [=[/castsequence reset=3 Rapid Fire, Readiness, null]=],
-		nosound = true,
-		perChar = true,
 	},
 -------------------
 --[[	ROGUE	]]--
@@ -313,22 +272,18 @@ gM_Macros = {
 		body = [=[/startattack
 			/click gotMacros_MgB
 			/click gotMacros_Maul]=],
-		nosound = true,
-		perChar = true,
 	},
 	["MgB"] = {
 		char = "Cowdiak",
 		show = "Mangle (Bear)(Rank 3)",
 		body = [=[/castsequence reset=target Mangle (Bear)(Rank 3), Mangle (Bear)(Rank 3), Lacerate]=],
 		nosound = true,
-		perChar = true,
 	},
 	["Maul"] = {
 		char = "Cowdiak",
 		show = "Maul",
 		body = [=[/cast !Maul]=],
 		nosound = true,
-		perChar = true,
 	},
 -------------------
 --[[	DEATH KNIGHT	]]--
@@ -343,7 +298,6 @@ gM_Macros = {
 	},
 	["BUFF"] = {
 		char = "Dens",
-		show = "",
 		body = [=[/castsequence Cor de l'hiver, Bouclier d'os]=],
 		blizzmacro = true,
 		perChar = true,
