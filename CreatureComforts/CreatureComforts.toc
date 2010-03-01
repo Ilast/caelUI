@@ -1,7 +1,0 @@
-## Interface: 30300
-## Version: 3.2.0.76
-## Title: Creature Comforts
-## Notes: Easy hunter pet care
-## Author: Phanx, Recluse
-
-Core.lua
