@@ -15,7 +15,7 @@
 		---------------------------------------------------------------------------
 		These addons will load for the specified class, always.						--]]
 	["DEATHKNIGHT"] = {"oUF_RuneBar"},
-	["HUNTER"] = {"BadPet", "caelMisdirection", "caelSmartAmmo", "caelTracking", "CreatureComforts"},
+	["HUNTER"] = {"BadPet", "caelMisdirection", "caelSmartAmmo", "caelPetCare", "caelTracking"},
 	["ROGUE"] = {"oUF_WeaponEnchant"},
 	["SHAMAN"] = {"oUF_TotemBar", "oUF_WeaponEnchant"},
 
