@@ -153,7 +153,7 @@ caelConfig.events:HookScript("OnEvent", function(self, event)
 			"enableCombatText 0",
 			"hidePartyInRaid 1",
 			"showArenaEnemyFrames 0",
-			"autointeract 1",
+			"autointeract 0",
 			"previewTalents 1",
 			"showTutorials 0",
 			"UberTooltips 1",
