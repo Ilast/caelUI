@@ -45,6 +45,7 @@ caelPanels.PLAYER_LOGIN = function(self)
 	for i = 1, 10 do
 		local panel = panels[i]
 		if panel then
+--[[
 			local gradient = panel:CreateTexture(nil, "BORDER")
 			gradient:SetTexture([=[Interface\ChatFrame\ChatFrameBackground]=])
 			gradient:SetPoint("TOP", panel, 0, -2)
@@ -53,6 +54,26 @@ caelPanels.PLAYER_LOGIN = function(self)
 			gradient:SetPoint("BOTTOM", panel, 0, 2)
 			gradient:SetBlendMode("ADD")
 			gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.33)
+--]]
+			local background = panel:CreateTexture(nil, "BORDER")
+			background:SetPoint("TOP", panel, 0, -2)
+			background:SetPoint("LEFT", panel, 2, 0)
+			background:SetPoint("RIGHT", panel, -2, 0)
+			background:SetPoint("BOTTOM", panel, 0, 2)
+			background:SetVertexColor(0.25, 0.25, 0.25, 0.75)
+			if i == 1 then
+				background:SetTexture([=[Interface\Addons\caelMedia\Backgrounds\carbonRight]=])
+				background:SetGradientAlpha("HORIZONTAL", 1, 1, 1, 0.75, 0, 0, 0, 0.5)
+			elseif i == 2 then
+				background:SetTexture([=[Interface\Addons\caelMedia\Backgrounds\carbonLeft]=])
+				background:SetGradientAlpha("HORIZONTAL", 0, 0, 0, 0.5, 1, 1, 1, 0.75)
+			else
+				background:SetTexture([=[Interface\Addons\caelMedia\Backgrounds\carbonCenter]=])
+				background:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.5, 1, 1, 1, 0.75)
+				if i == 3 then
+					background:SetBlendMode("ADD")
+				end
+			end
 		end
 	end
 
