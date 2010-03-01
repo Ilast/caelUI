@@ -29,6 +29,24 @@ ChatFrameEditBox:SetBackdropColor(0, 0, 0, 0.5)
 ChatFrameEditBox:SetBackdropBorderColor(0, 0, 0)
 ChatFrameEditBoxHeader:SetFontObject(neuropolrg12)
 
+local function colorize(r, g, b)
+	ChatFrameEditBox:SetBackdropColor(r * 0.33, g * 0.33, b * 0.33)
+end
+
+hooksecurefunc("ChatEdit_UpdateHeader", function()
+	local type = ChatFrameEditBox:GetAttribute("chatType")
+	if type == "CHANNEL" then
+		local chatType = GetChannelName(ChatFrameEditBox:GetAttribute("channelTarget"))
+		if chatType == 0 then
+			colorize(0.5, 0.5, 0.5)
+		else
+			colorize(ChatTypeInfo[type..chatType].r, ChatTypeInfo[type..chatType].g, ChatTypeInfo[type..chatType].b)
+		end
+	else
+		colorize(ChatTypeInfo[type].r, ChatTypeInfo[type].g,ChatTypeInfo[type].b)
+	end
+end)
+
 local gradient = ChatFrameEditBox:CreateTexture(nil, "BORDER")
 gradient:SetTexture([=[Interface\Addons\caelMedia\Backgrounds\carbonCenter]=])
 gradient:SetPoint("TOPLEFT", 2, -2)
