@@ -235,11 +235,11 @@ caelTooltips:SetScript("OnEvent", function(self)
 --		v:SetScale(theOneScale)
 
 		v.gradient = v:CreateTexture(nil, "BORDER")
-		v.gradient:SetTexture([=[Interface\ChatFrame\ChatFrameBackground]=])
+		v.gradient:SetTexture([=[Interface\Addons\caelMedia\Backgrounds\carbonCenter]=])
 		v.gradient:SetPoint("TOPLEFT", 2, -2)
 		v.gradient:SetPoint("BOTTOMRIGHT", -2, 2)
 		v.gradient:SetBlendMode("ADD")
-		v.gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.33)
+		v.gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.5, 1, 1, 1, 0.75)
 	end
 
 	GameTooltipStatusBar:SetAlpha(0)
