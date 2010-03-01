@@ -107,7 +107,9 @@ local OnEvent = function(self)
 			end
 		end
 	end
-	
+
+	numOnlineGuildMembers = numOnlineGuildMembers - 1
+
 	if numOnlineGuildMembers > 0 then
 		Text = string.format("%s %d", numOnlineFriends > 0 and "|cffD7BEA5G|r" or "|cffD7BEA5Guild|r", numOnlineGuildMembers)
 	end
