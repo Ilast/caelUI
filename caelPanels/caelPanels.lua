@@ -63,10 +63,10 @@ caelPanels.PLAYER_LOGIN = function(self)
 			background:SetVertexColor(0.25, 0.25, 0.25, 0.75)
 			if i == 1 then
 				background:SetTexture([=[Interface\Addons\caelMedia\Backgrounds\carbonRight]=])
-				background:SetGradientAlpha("HORIZONTAL", 1, 1, 1, 0.75, 0, 0, 0, 0.5)
+				background:SetGradientAlpha("HORIZONTAL", 0, 0, 0, 0.5, 1, 1, 1, 0.75)
 			elseif i == 2 then
 				background:SetTexture([=[Interface\Addons\caelMedia\Backgrounds\carbonLeft]=])
-				background:SetGradientAlpha("HORIZONTAL", 0, 0, 0, 0.5, 1, 1, 1, 0.75)
+				background:SetGradientAlpha("HORIZONTAL", 1, 1, 1, 0.75, 0, 0, 0, 0.5)
 			else
 				background:SetTexture([=[Interface\Addons\caelMedia\Backgrounds\carbonCenter]=])
 				background:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.5, 1, 1, 1, 0.75)
