@@ -6,7 +6,7 @@ local barTexture = [=[Interface\Addons\caelNamePlates\media\normtexa]=]
 local overlayTexture = [=[Interface\Tooltips\Nameplate-Border]=]
 local glowTexture = [=[Interface\Addons\caelNamePlates\media\glowtex]=]
 local iconTexture = [=[Interface\Addons\caelNamePlates\media\icontex]=]
-local font, fontSize, fontOutline = [=[Interface\Addons\caelNamePlates\media\neuropol x cd rg.ttf]=], 9, "OUTLINE"
+local font, fontSize, fontOutline = [=[Interface\Addons\caelNameplates\media\xenara rg.ttf]=], 8
 local backdrop = {
 	edgeFile = glowTexture, edgeSize = 3,
 	insets = {left = 3, right = 3, top = 3, bottom = 3}
@@ -54,18 +54,13 @@ local ThreatUpdate = function(self, elapsed)
 	end
 end
 
-local UnitType
 local UpdateFrame = function(self)
-	self.healthBar.UnitType = nil
 	local r, g, b = self.healthBar:GetStatusBarColor()
 	local newr, newg, newb
 	if g + b == 0 then
 		-- Hostile unit
 		newr, newg, newb = 0.69, 0.31, 0.31
 		self.healthBar:SetStatusBarColor(0.69, 0.31, 0.31)
---		if self.boss:IsShown() or self.elite:IsShown() then
-			self.healthBar.UnitType = "Hostile"
---		end
 	elseif r + b == 0 then
 		-- Friendly unit
 		newr, newg, newb = 0.33, 0.59, 0.33
@@ -87,7 +82,7 @@ local UpdateFrame = function(self)
 
 	self.healthBar:ClearAllPoints()
 	self.healthBar:SetPoint("CENTER", self.healthBar:GetParent())
-	self.healthBar:SetHeight(6.5)
+	self.healthBar:SetHeight(6)
 	self.healthBar:SetWidth(100)
 
 	self.castBar:ClearAllPoints()
@@ -98,11 +93,16 @@ local UpdateFrame = function(self)
 	self.highlight:ClearAllPoints()
 	self.highlight:SetAllPoints(self.healthBar)
 
-	self.name:SetText(self.oldname:GetText())
+	local nameString = self.oldname:GetText()
+	if string.len(nameString) < 22 then
+		self.name:SetText(nameString)
+	else
+		self.name:SetFormattedText(nameString:sub(0, 19).." ...")
+	end
 
 	local level, elite, mylevel = tonumber(self.level:GetText()), self.elite:IsShown(), UnitLevel("player")
 	self.level:ClearAllPoints()
-	self.level:SetPoint("RIGHT", self.healthBar, "LEFT", -2, 1)
+	self.level:SetPoint("RIGHT", self.healthBar, "LEFT", -2, 0)
 	if self.boss:IsShown() then
 		self.level:SetText("B")
 		self.level:SetTextColor(0.8, 0.05, 0)
@@ -115,46 +115,6 @@ local UpdateFrame = function(self)
 end
 
 local _, playerClass = UnitClass("player")
-
-local testTable = {
-	["HUNTER"] = { skill = "Kill Shot", range = 5 },
-	["PALADIN"] = { skill = "Hammer of Wrath", range = 5 },
-	["WARRIOR"] = { skill = "Execute", range = 5 },
-	["WARLOCK"] = { skill = "Drain Soul", range = 4 },
-}
-
-
-local nukeSpell = testTable[playerClass] and testTable[playerClass].skill
-
-local OnHealthChanged = function(self,cur)
-	local _, nukeCooldown = GetSpellCooldown(nukeSpell)
-	if not nukeCooldown then
-		return
-	elseif nukeCooldown > 1.5 then
-		return addon.flash.StopNow(self)
-	end
-
-	local r, g, b = self:GetStatusBarColor()
-	local _, max = self:GetMinMaxValues()
-
-	if self.UnitType == "Hostile" and cur > 0 and cur < max/testTable[playerClass].range then
-		if addon.flash then
-			addon.flash.Start(self, 0.25, 0.25, 1)
-		end
-
-		if not self.Trigger and RecScrollAreas then
-			self.Trigger = true
-			RecScrollAreas:AddText("|cffAF5050Kill Shot|r", true, "Notification", true)
-		end
-	elseif self.UnitType == "Hostile" and cur >= max/testTable[playerClass].range then
-		if self.Trigger then
-			self.Trigger = false
-		end
-		if addon.flash then
-			addon.flash.StopNow(self)
-		end
-	end
-end
 
 local FixCastbar = function(self)
 	self.castbarOverlay:Hide()
@@ -196,9 +156,6 @@ end
 local OnHide = function(self)
 	self.highlight:Hide()
 	self.healthBar.hpGlow:SetBackdropBorderColor(0, 0, 0)
-	if addon.flash then
-		addon.flash.StopNow(self.healthBar)
-	end
 end
 
 local OnEvent = function(self, event, unit)
@@ -225,7 +182,7 @@ local CreateFrame = function(frame)
 	nameTextRegion:Hide()
 
 	local newNameRegion = frame:CreateFontString()
-	newNameRegion:SetPoint("BOTTOM", healthBar, "TOP", 0, 1)
+	newNameRegion:SetPoint("BOTTOMLEFT", healthBar, "TOPLEFT", 0, -2)
 	newNameRegion:SetFont(font, fontSize, fontOutline)
 	newNameRegion:SetTextColor(0.84, 0.75, 0.65)
 	newNameRegion:SetShadowOffset(1.25, -1.25)
@@ -236,10 +193,6 @@ local CreateFrame = function(frame)
 	levelTextRegion:SetShadowOffset(1.25, -1.25)
 
 	healthBar:SetStatusBarTexture(barTexture)
-	if testTable[playerClass] then
-		healthBar:HookScript("OnValueChanged", OnHealthChanged)
-		healthBar:HookScript("OnEvent", OnHealthChanged)
-	end
 
 	local hpOffset = UIParent:GetScale() / healthBar:GetEffectiveScale()
 	healthBar.hpBackground = healthBar:CreateTexture(nil, "BACKGROUND")
@@ -269,7 +222,7 @@ local CreateFrame = function(frame)
 	castBar:RegisterEvent("UNIT_SPELLCAST_NOT_INTERRUPTIBLE")
 
 	castBar.time = castBar:CreateFontString(nil, "ARTWORK")
-	castBar.time:SetPoint("RIGHT", castBar, "LEFT", -2, 1)
+	castBar.time:SetPoint("RIGHT", castBar, "LEFT", -2, 0)
 	castBar.time:SetFont(font, fontSize, fontOutline)
 	castBar.time:SetTextColor(0.84, 0.75, 0.65)
 	castBar.time:SetShadowOffset(1.25, -1.25)
@@ -321,17 +274,6 @@ local CreateFrame = function(frame)
 	raidIconRegion:SetPoint("LEFT", healthBar, "RIGHT", 2, 0)
 	raidIconRegion:SetHeight(15)
 	raidIconRegion:SetWidth(15)
-
-	frame:RegisterEvent("UNIT_TARGET")
-	frame:SetScript("OnEvent", function(self, event, unit)
-		if unit == "player" then
-			local alpha = self:GetAlpha()
-			self.isTarget = alpha == 1
-			if self.healthBar.FlashData then
-				self.healthBar.FlashData.high = alpha
-			end
-		end
-	end)
 	
 	frame.oldglow = glowRegion
 	frame.elite = stateIconRegion
