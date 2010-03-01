@@ -94,22 +94,27 @@ end)
 -- MOVE STUFF INTO POSITION
 ---------------------------------------------------
 
+local currentButton
+
 ActionButton1:ClearAllPoints()
 ActionButton1:SetPoint('TOPLEFT', bar1Holder, 'TOPLEFT', 4.5, -4.5)
 
 for i = 1, 12 do
-	_G["ActionButton"..i]:SetParent(bar1Holder)
-	_G["ActionButton"..i]:SetScale(0.68625)
+	currentButton = _G["ActionButton"..i]
+	currentButton:SetParent(bar1Holder)
+	currentButton:SetScale(0.68625)
 
-	b1 = _G["ActionButton"..i]
+	currentButton:RegisterForClicks("AnyDown")
+
+--	SetOverrideBindingClick(button, true, KEYBIND, button:GetName(), MOUSEBUTTONTOFAKE)
+	SetOverrideBindingClick(currentButton, true, i == 12 and "-" or i == 11 and ")" or i == 10 and "0" or i, currentButton:GetName(), "LeftButton")
+
 	if i > 1 and i ~= 7 then
-		b2 = _G["ActionButton"..i-1]
-		b1:ClearAllPoints()
-		b1:SetPoint("LEFT", b2, "RIGHT", 5, 0)
+		currentButton:ClearAllPoints()
+		currentButton:SetPoint("LEFT", _G["ActionButton"..i-1], "RIGHT", 5, 0)
 	elseif i == 7 then
-		b2 = _G["ActionButton"..i-6]
-		b1:ClearAllPoints()
-		b1:SetPoint("TOPLEFT",b2,"BOTTOMLEFT",0,-6.5)
+		currentButton:ClearAllPoints()
+		currentButton:SetPoint("TOPLEFT", _G["ActionButton"..i-6],"BOTTOMLEFT",0, -6.5)
 	end
 end
 
@@ -125,17 +130,15 @@ BonusActionButton7:ClearAllPoints()
 BonusActionButton7:SetPoint('TOPLEFT', BonusActionButton1, 'BOTTOMLEFT', 0, -5)
 
 for i = 1, 12 do
-	_G["BonusActionButton"..i]:SetScale(0.68625)
+	currentButton = _G["BonusActionButton"..i]
+	currentButton:SetScale(0.68625)
 
-	b1 = _G["BonusActionButton"..i]
 	if i > 1 and i ~= 7 then
-		b2 = _G["BonusActionButton"..i-1]
-		b1:ClearAllPoints()
-		b1:SetPoint("LEFT", b2, "RIGHT", 5, 0)
+		currentButton:ClearAllPoints()
+		currentButton:SetPoint("LEFT", _G["BonusActionButton"..i-1], "RIGHT", 5, 0)
 	elseif i == 7 then
-		b2 = _G["BonusActionButton"..i-6]
-		b1:ClearAllPoints()
-		b1:SetPoint("TOPLEFT",b2,"BOTTOMLEFT",0,-6.5)
+		currentButton:ClearAllPoints()
+		currentButton:SetPoint("TOPLEFT",_G["BonusActionButton"..i-6],"BOTTOMLEFT",0, -6.5)
 	end
 end
 
@@ -163,17 +166,15 @@ MultiBarBottomRightButton1:ClearAllPoints()
 MultiBarBottomRightButton1:SetPoint('TOPLEFT', bar3Holder, 'TOPLEFT', 4.5, -4.5)
 
 for i = 1, 12 do
-	_G["MultiBarBottomRightButton"..i]:SetScale(0.68625)
+	currentButton = _G["MultiBarBottomRightButton"..i]
+	currentButton:SetScale(0.68625)
 
-	b1 = _G["MultiBarBottomRightButton"..i]
 	if i > 1 and i ~= 7 then
-		b2 = _G["MultiBarBottomRightButton"..i-1]
-		b1:ClearAllPoints()
-		b1:SetPoint("LEFT", b2, "RIGHT", 5, 0)
+		currentButton:ClearAllPoints()
+		currentButton:SetPoint("LEFT", _G["MultiBarBottomRightButton"..i-1], "RIGHT", 5, 0)
 	elseif i == 7 then
-		b2 = _G["MultiBarBottomRightButton"..i-6]
-		b1:ClearAllPoints()
-		b1:SetPoint("TOPLEFT", b2, "BOTTOMLEFT", 0, -6.5)
+		currentButton:ClearAllPoints()
+		currentButton:SetPoint("TOPLEFT", _G["MultiBarBottomRightButton"..i-6], "BOTTOMLEFT", 0, -6.5)
 	end
 end
 
@@ -182,21 +183,19 @@ MultiBarRightButton1:ClearAllPoints()
 MultiBarRightButton1:SetPoint('TOPLEFT', bar45Holder, 'TOPLEFT', 4.5, -4.5)
 
 for i = 1, 12 do
-	_G["MultiBarRightButton"..i]:SetScale(0.68625)
+	currentButton = _G["MultiBarRightButton"..i]
+	currentButton:SetScale(0.68625)
 
-	b1 = _G["MultiBarRightButton"..i]
 	if i > 1 and i ~= 7 then
-		b2 = _G["MultiBarRightButton"..i-1]
-		b1:ClearAllPoints()
-		b1:SetPoint("LEFT", b2, "RIGHT", 5, 0)
+		currentButton:ClearAllPoints()
+		currentButton:SetPoint("LEFT", _G["MultiBarRightButton"..i-1], "RIGHT", 5, 0)
 	elseif i == 7 then
-		b2 = _G["MultiBarRightButton"..i-6]
-		b1:ClearAllPoints()
-		b1:SetPoint("TOPLEFT", b2, "BOTTOMLEFT", 0, -6.5)
+		currentButton:ClearAllPoints()
+		currentButton:SetPoint("TOPLEFT", _G["MultiBarRightButton"..i-6], "BOTTOMLEFT", 0, -6.5)
 	end
 end
 
-for i=1, 12 do
+for i = 1, 12 do
 	_G["MultiBarLeftButton"..i]:SetScale(0.68625)
 end
 
@@ -234,7 +233,7 @@ PetActionButton6:SetPoint('TOPLEFT', PetActionButton1, 'BOTTOMLEFT' ,0, -5)
 -- hide actionbuttons when the bonusbar is visible (rogue stealth and such)
 local function showhideactionbuttons(alpha)
    local f = "ActionButton"
-   for i=1, 12 do
+   for i = 1, 12 do
       _G[f..i]:SetAlpha(alpha)
    end
 end
@@ -372,7 +371,7 @@ end
 --]]
 
 local function showhidepet(alpha)
-   for i=1, NUM_PET_ACTION_SLOTS do
+   for i = 1, NUM_PET_ACTION_SLOTS do
       local pb = _G["PetActionButton"..i]
       pb:SetAlpha(alpha)
    end
@@ -382,7 +381,7 @@ if mouseOverPetBar == 1 then
    petBarHolder:EnableMouse(true)
    petBarHolder:SetScript("OnEnter", function(self) showhidepet(1) end)
    petBarHolder:SetScript("OnLeave", function(self) showhidepet(0) end)  
-   for i=1, NUM_PET_ACTION_SLOTS do
+   for i = 1, NUM_PET_ACTION_SLOTS do
       local pb = _G["PetActionButton"..i]
       pb:SetAlpha(0)
       pb:HookScript("OnEnter", function(self) showhidepet(1) end)
