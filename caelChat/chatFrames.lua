@@ -30,11 +30,10 @@ ChatFrameEditBox:SetBackdropBorderColor(0, 0, 0)
 ChatFrameEditBoxHeader:SetFontObject(neuropolrg12)
 
 local gradient = ChatFrameEditBox:CreateTexture(nil, "BORDER")
-gradient:SetTexture([=[Interface\ChatFrame\ChatFrameBackground]=])
+gradient:SetTexture([=[Interface\Addons\caelMedia\Backgrounds\carbonCenter]=])
 gradient:SetPoint("TOPLEFT", 2, -2)
 gradient:SetPoint("BOTTOMRIGHT", -2, 2)
-gradient:SetBlendMode("ADD")
-gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.33)
+gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.5, 1, 1, 1, 0.75)
 
 local mergedTable = {
 --	coloredChats values only
