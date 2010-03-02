@@ -1,89 +1,68 @@
 local caelMinimap = CreateFrame("Frame", nil, Minimap)
-local dummy = function() end
 
-local onMouseWheel = function(self, direction)
-	local zoom = Minimap:GetZoom()
-	if not direction then return end
-	if direction > 0 and zoom < 5 then
-		Minimap:SetZoom(zoom + 1)
-	elseif direction < 0 and zoom > 0 then
-		Minimap:SetZoom(zoom - 1)
-	end
-end
-
-local onEvent = function(self, event)
-	self:SetAllPoints(Minimap)
-	self:EnableMouse(false)
-	self:EnableMouseWheel(true)
-	self:SetScript("OnMouseWheel", onMouseWheel)
-
-	local regions = {
+for _, object in pairs({
 		GameTimeFrame,
 		MinimapBorder,
 		MinimapZoomIn,
 		MinimapZoomOut,
 		MinimapNorthTag,
 		MinimapBorderTop,
-		MiniMapMailBorder,
 		MinimapToggleButton,
---		MiniMapWorldMapButton,
---		MinimapZoneTextButton,
+		MiniMapWorldMapButton,
+		MinimapZoneTextButton,
 		MiniMapBattlefieldBorder,
 		MiniMapTrackingBackground,
+		MiniMapTrackingIconOverlay,
 		MiniMapTrackingButtonBorder,
-	}
-
-	for _, frame in ipairs(regions) do
-		frame:Hide()
-		frame.Show = dummy
+}) do
+	if object:GetObjectType() == "Texture" then
+		object:SetTexture(nil)
+	else
+		object:Hide()
 	end
-
-	MiniMapTrackingButton:SetScript("OnEnter", function() MiniMapTracking:SetAlpha(1) end)
-	MiniMapTrackingButton:SetScript("OnLeave", function() MiniMapTracking:SetAlpha(0) end)
 end
 
-	MiniMapWorldMapButton:Hide()
-	MinimapZoneTextButton:Hide()
-	
-	MiniMapInstanceDifficulty:ClearAllPoints()
-	MiniMapInstanceDifficulty:SetParent(Minimap)
-	MiniMapInstanceDifficulty:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMLEFT")
-	
-	MiniMapLFGFrame:ClearAllPoints()
-	MiniMapLFGFrame:SetParent(Minimap)
-	MiniMapLFGFrame:SetPoint("TOPRIGHT", Minimap, "TOPRIGHT")
-	
-MinimapCluster:EnableMouse(false)
+Minimap:RegisterEvent("PLAYER_ENTERING_WORLD")
+Minimap:SetScript("OnEvent", function(self, event, ...)
+	self:EnableMouse(false)
+	self:EnableMouseWheel(true)
+	self:SetScript("OnMouseWheel", function(frame, direction)
+		if direction > 0 then
+			Minimap_ZoomIn()
+		else
+			Minimap_ZoomOut()
+		end
+	end)
 
-Minimap:ClearAllPoints()
-Minimap:SetScale(0.875)
-Minimap:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, 27.25)
-Minimap:SetMaskTexture([=[Interface\ChatFrame\ChatFrameBackground]=])
-Minimap:SetBackdrop{
-	bgFile = [=[Interface\Tooltips\UI-Tooltip-Background]=],
+	self:ClearAllPoints()
+	self:SetParent(UIParent)
+	self:SetScale(0.875)
+	self:SetPoint("BOTTOM", UIParent, 0, 27.25)
+	self:SetBackdrop{
+	bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
 	insets = {left = -1, right = -0.5, top = -1.5, bottom = -0.5},
 }
-Minimap:SetBackdropColor(0, 0, 0, 1)
-Minimap:SetBlipTexture([=[Interface\Addons\caelMedia\Miscellaneous\charmed.tga]=])
+	self:SetBackdropColor(0, 0, 0, 1)
+	self:SetMaskTexture([=[Interface\ChatFrame\ChatFrameBackground]=])
+	self:SetBlipTexture([=[Interface\Addons\caelMedia\Miscellaneous\charmed.tga]=])
 
-MiniMapTracking:SetParent(Minimap)
-MiniMapTracking:ClearAllPoints()
-MiniMapTracking:SetPoint("TOPLEFT")
-MiniMapTracking:SetAlpha(0)
-MiniMapTrackingButton:SetHighlightTexture("")
+	MinimapCluster:EnableMouse(false)
 
-MiniMapBattlefieldFrame:SetParent(Minimap)
-MiniMapBattlefieldFrame:ClearAllPoints()
-MiniMapBattlefieldFrame:SetPoint("TOPRIGHT", 1, -2)
+	MiniMapBattlefieldFrame:SetParent(self)
+	MiniMapBattlefieldFrame:ClearAllPoints()
+	MiniMapBattlefieldFrame:SetPoint("TOPRIGHT", 1, -2)
 
-MiniMapMailFrame:SetParent(Minimap)
-MiniMapMailFrame:ClearAllPoints()
-MiniMapMailFrame:SetPoint("TOP")
-MiniMapMailFrame:EnableMouse(false)
-MiniMapMailIcon:SetTexture([=[Interface\Addons\caelMedia\Miscellaneous\mail]=])
-MiniMapMailIcon:Hide()
+	MiniMapTracking:SetParent(self)
+	MiniMapTracking:ClearAllPoints()
+	MiniMapTracking:SetPoint("TOPLEFT")
+	MiniMapTracking:SetAlpha(0)
 
-caelMinimap:SetScript("OnEvent", onEvent)
-caelMinimap:RegisterEvent("PLAYER_ENTERING_WORLD")
+	MiniMapTrackingButton:SetHighlightTexture(nil)
+	MiniMapTrackingButton:SetScript("OnEnter", function() MiniMapTracking:SetAlpha(1) end)
+	MiniMapTrackingButton:SetScript("OnLeave", function() MiniMapTracking:SetAlpha(0) end)
 
-function GetMinimapShape() return "SQUARE" end
+	DurabilityFrame:UnregisterAllEvents()
+	MiniMapMailFrame:UnregisterAllEvents()
+	MiniMapInstanceDifficulty:UnregisterAllEvents()
+	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+end)
