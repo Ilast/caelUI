@@ -25,12 +25,12 @@ ChatFrameEditBox:SetPoint("BOTTOMLEFT",  caelPanel1, "TOPLEFT", 0, 1.5)
 ChatFrameEditBox:SetPoint("BOTTOMRIGHT", caelPanel1, "TOPRIGHT", 0, 1.5)
 ChatFrameEditBox:SetFontObject(neuropolrg12)
 ChatFrameEditBox:SetBackdrop(backdrop)
-ChatFrameEditBox:SetBackdropColor(0, 0, 0, 0.5)
+ChatFrameEditBox:SetBackdropColor(0, 0, 0, 0.66)
 ChatFrameEditBox:SetBackdropBorderColor(0, 0, 0)
 ChatFrameEditBoxHeader:SetFontObject(neuropolrg12)
 
 local function colorize(r, g, b)
-	ChatFrameEditBox:SetBackdropColor(r * 0.33, g * 0.33, b * 0.33)
+	ChatFrameEditBox:SetBackdropColor(r * 0.33, g * 0.33, b * 0.33, 0.5)
 end
 
 hooksecurefunc("ChatEdit_UpdateHeader", function()
@@ -47,11 +47,12 @@ hooksecurefunc("ChatEdit_UpdateHeader", function()
 	end
 end)
 
-local gradient = ChatFrameEditBox:CreateTexture(nil, "BORDER")
-gradient:SetTexture([=[Interface\Addons\caelMedia\Backgrounds\carbonCenter]=])
-gradient:SetPoint("TOPLEFT", 2, -2)
-gradient:SetPoint("BOTTOMRIGHT", -2, 2)
-gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.5, 1, 1, 1, 0.75)
+local background = ChatFrameEditBox:CreateTexture(nil, "BORDER")
+background:SetTexture([=[Interface\Addons\caelMedia\Backgrounds\carbonCenter]=])
+background:SetPoint("TOPLEFT", 2, -2)
+background:SetPoint("BOTTOMRIGHT", -2, 2)
+background:SetVertexColor(0.25, 0.25, 0.25, 0.5)
+background:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.5, 1, 1, 1, 0.75)
 
 local mergedTable = {
 --	coloredChats values only
