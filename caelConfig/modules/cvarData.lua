@@ -111,7 +111,7 @@ caelConfig.events:HookScript("OnEvent", function(self, event)
 			"synchronizeMacros 0",
 			"alwaysCompareItems 1",
 			"autoDismountFlying 1",
-			"autoClearAFK 0",
+			"autoClearAFK 1",
 			"lootUnderMouse 0",
 			"autoLootDefault 1",
 			"autoRangedCombat 1", -- Automatically switch between auto attack & auto shot

@@ -1,7 +1,6 @@
 ﻿<Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file="caelConfig.lua"/>
 
-	<Script file="modules\afkMode.lua"/>
 	<Script file="modules\autoGreed.lua"/>
 	<Script file="modules\autoInvite.lua"/>
 	<Script file="modules\battleground.lua"/>
