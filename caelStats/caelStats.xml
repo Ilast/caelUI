@@ -1,11 +1,12 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file="clock.lua"/>
 	<Script file="coords.lua"/>
+	<Script file="dps.lua"/>
 	<Script file="durability.lua"/>
 	<Script file="experience.lua"/>
 	<Script file="gold.lua"/>
-	<Script file="guild.lua"/>
 	<Script file="lfg.lua"/>
 	<Script file="mail.lua"/>
+	<Script file="social.lua"/>
 	<Script file="system.lua"/>
 </Ui>

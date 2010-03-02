@@ -2,15 +2,16 @@
 
 local Holder = CreateFrame("Frame")
 
-caelStats.guild = caelPanel8:CreateFontString(nil, "OVERLAY")
-caelStats.guild:SetFontObject(neuropolrg10)
-caelStats.guild:SetPoint("CENTER", caelPanel8, "CENTER", 275, 0.5) 
+caelStats.social = caelPanel8:CreateFontString(nil, "OVERLAY")
+caelStats.social:SetFontObject(neuropolrg10)
+caelStats.social:SetPoint("CENTER", caelPanel8, "CENTER", 325, 0.5) 
 
 local numGuildMembers = 0
 local numOnlineGuildMembers = 0
 
 local numFriends = 0
 local numOnlineFriends = 0
+local playerName = UnitName("player")
 
 local delay = 0
 local OnUpdate = function(self, elapsed)
@@ -39,7 +40,7 @@ local OnEnter = function(self)
 			local memberName, _, _, _, _, _, _, _, memberIsOnline, _, classFileName = GetGuildRosterInfo(i)
 			local color = RAID_CLASS_COLORS[classFileName]
 			if memberIsOnline then
-				GameTooltip:AddLine(memberName, color.r, color.g, color.b)
+				GameTooltip:AddLine(memberName ~= playerName and memberName, color.r, color.g, color.b)
 			end
 		end
 
@@ -116,11 +117,11 @@ local OnEvent = function(self)
 	if numOnlineFriends > 0 then
 		Text = string.format("%s %s %d", (numOnlineGuildMembers > 0) and Text or "", numOnlineGuildMembers > 0 and "- |cffD7BEA5F|r" or (numOnlineFriends > 1 and "|cffD7BEA5Friends|r" or "|cffD7BEA5Friend|r"), numOnlineFriends)
 	end
-	caelStats.guild:SetText(Text)
+	caelStats.social:SetText(Text)
 end
 
 Holder:EnableMouse(true)
-Holder:SetAllPoints(caelStats.guild)
+Holder:SetAllPoints(caelStats.social)
 Holder:RegisterEvent("GUILD_ROSTER_UPDATE")
 Holder:RegisterEvent("FRIENDLIST_UPDATE")
 Holder:SetScript("OnEvent", OnEvent)
