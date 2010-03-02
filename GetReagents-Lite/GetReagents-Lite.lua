@@ -16,8 +16,8 @@ local reagents = {
 }
 
 -- Internal settings, local globals.
-local name, realm
-local not_enough_money		= "GetReagents-Lite: Not enough money."
+local name, realm, my_reagents
+local not_enough_money		= "GetReagents-Lite: Not enough money to purchase reagents."
 local itemid_pattern		= "item:(%d+)"
 local GetContainerNumSlots	= _G.GetContainerNumSlots
 local GetContainerItemLink	= _G.GetContainerItemLink
@@ -47,7 +47,7 @@ local f = CreateFrame("Frame", "GetReagentsLite", UIParent)
 	overstock), rather the total amount which would be ideal.
 --]]
 local function HowMany(checkid)
-	if not reagents[realm][name][checkid] then return 0 end
+	if not my_reagents[checkid] then return 0 end
 	local total = 0
 	for bag = 0, NUM_BAG_FRAMES do
 		for slot = 1, GetContainerNumSlots(bag) do
@@ -55,12 +55,11 @@ local function HowMany(checkid)
 			if link then
 				local id = tonumber(select(3, string_find(link, itemid_pattern)))
 				local stack = select(2, GetContainerItemInfo(bag, slot))
-				if id == checkid then total = total + stack
-				end
+				if id == checkid then total = total + stack end
 			end
 		end
 	end
-	return math_max(0, (reagents[realm][name][checkid] - total))
+	return math_max(0, (my_reagents[checkid] - total))
 end
 
 --[[
@@ -72,7 +71,7 @@ local function BuyReagents()
 	for i=1, GetMerchantNumItems() do
 		local link, id = GetMerchantItemLink(i)
 		if link then id = tonumber(select(3, string_find(link, itemid_pattern))) end
-		if id and reagents[realm][name][id] then
+		if id and my_reagents[id] then
 			local price, stack, stock = select(3, GetMerchantItemInfo(i))
 			local quantity = HowMany(id)
 			if quantity > 0 then
@@ -97,9 +96,16 @@ end
 	that particular character before scanning the vendor for purchases.
 --]]
 local function OnMerchantShow()
-	if not name then name = UnitName("player") end
-	if not realm then realm = GetRealmName() end
-	if reagents[realm] and reagents[realm][name] then BuyReagents() end
+	if my_reagents then
+		BuyReagents()
+	end
+end
+
+name = UnitName("player")
+realm = GetRealmName()
+if reagents[realm] and reagents[realm][name] then
+	my_reagents = reagents[realm][name]
+	reagents = nil
 end
 
 -- Frame events.
