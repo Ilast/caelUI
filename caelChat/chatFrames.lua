@@ -12,6 +12,7 @@ end
 
 local _G = getfenv(0)
 
+local playerName = UnitName("player")
 local _, playerClass = UnitClass("player")
 
 CHAT_TELL_ALERT_TIME = 0 -- sound on every whisper
@@ -415,7 +416,7 @@ local chatFrames_OnUpdate = function(self, elapsed)
 			ChangeChatColor("CHANNEL5", 0.84, 0.75, 0.65)
 			ChangeChatColor("WHISPER", 0.3, 0.6, 0.9)
 			ChangeChatColor("WHISPER_INFORM", 0.3, 0.6, 0.9)
-			if playerClass == "HUNTER" then
+			if playerClass == "HUNTER" and playerName == "Caellian" then
 				JoinTemporaryChannel("GICaster")
 				ChatFrame_AddChannel(_G.ChatFrame1, "GICaster")
 				ChangeChatColor("CHANNEL5", 0.67, 0.83, 0.45)
