@@ -56,10 +56,8 @@ caelPanels.PLAYER_LOGIN = function(self)
 			gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.33)
 --]]
 			local background = panel:CreateTexture(nil, "BORDER")
-			background:SetPoint("TOP", panel, 0, -2)
-			background:SetPoint("LEFT", panel, 2, 0)
-			background:SetPoint("RIGHT", panel, -2, 0)
-			background:SetPoint("BOTTOM", panel, 0, 2)
+			background:SetPoint("TOPLEFT", 2, -2)
+			background:SetPoint("BOTTOMRIGHT", -2, 2)
 			background:SetVertexColor(0.25, 0.25, 0.25, 0.75)
 			if i == 1 then
 				background:SetTexture([=[Interface\Addons\caelMedia\Backgrounds\carbonRight]=])
