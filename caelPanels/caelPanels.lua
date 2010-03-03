@@ -1,8 +1,11 @@
+local _, caelPanels = ...
+
+caelPanels.eventFrame = CreateFrame("frame", nil, UIParent)
+
 local panels, n = {}, 1
 --	local fadePanels = {}
-local caelPanels = CreateFrame("frame", nil, UIParent)
 
-CreatePanel = function(name, x, y, width, height, point, rpoint, anchor, parent, strata)
+caelPanels.createPanel = function(name, x, y, width, height, point, rpoint, anchor, parent, strata)
 	panels[n] = CreateFrame("frame", name, parent)
 	panels[n]:SetFrameStrata(strata)
 	panels[n]:SetWidth(width)
@@ -18,27 +21,27 @@ CreatePanel = function(name, x, y, width, height, point, rpoint, anchor, parent,
 	n = n + 1
 end
 
-CreatePanel("caelPanel1", 401, 20, 321, 130, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- Chatframes
-CreatePanel("caelPanel2", -401, 20, 321, 130, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- CombatLog
-CreatePanel("caelPanel3", 0, 20, 130, 130, "BOTTOM", "BOTTOM", UIParent, UIParent, "MEDIUM") -- Minimap
-CreatePanel("caelPanel4", -153, 90, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- TopLeftBar
-CreatePanel("caelPanel5", 153, 90, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- TopRightBar
-CreatePanel("caelPanel6", -153, 20, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- BottomLeftBar
-CreatePanel("caelPanel7", 153, 20, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- BottomRightBar
-CreatePanel("caelPanel8", 0, 2, 1124, 18, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- DataFeeds bar
+caelPanels.createPanel("caelPanel1", 401, 20, 321, 130, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- Chatframes
+caelPanels.createPanel("caelPanel2", -401, 20, 321, 130, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- CombatLog
+caelPanels.createPanel("caelPanel3", 0, 20, 130, 130, "BOTTOM", "BOTTOM", UIParent, UIParent, "MEDIUM") -- Minimap
+caelPanels.createPanel("caelPanel4", -153, 90, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- TopLeftBar
+caelPanels.createPanel("caelPanel5", 153, 90, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- TopRightBar
+caelPanels.createPanel("caelPanel6", -153, 20, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- BottomLeftBar
+caelPanels.createPanel("caelPanel7", 153, 20, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- BottomRightBar
+caelPanels.createPanel("caelPanel8", 0, 2, 1124, 18, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- DataFeeds bar
 
-caelPanels:RegisterEvent("PLAYER_LOGIN")
-caelPanels:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE")
-caelPanels:SetScript("OnEvent", function(self, event)
+caelPanels.eventFrame:RegisterEvent("PLAYER_LOGIN")
+caelPanels.eventFrame:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE")
+caelPanels.eventFrame:SetScript("OnEvent", function(self, event)
 	if event == "PLAYER_LOGIN" then
 		if recDamageMeter then
-			CreatePanel("caelPanel9", -647, 20, 167, 130, "BOTTOM", "BOTTOM", UIParent, recDamageMeter, "BACKGROUND") -- MeterLeft
+			caelPanels.createPanel("caelPanel9", -647, 20, 167, 130, "BOTTOM", "BOTTOM", UIParent, recDamageMeter, "BACKGROUND") -- MeterLeft
 			recDamageMeter:ClearAllPoints()
 			recDamageMeter:SetPoint("TOPLEFT", caelPanel9, "TOPLEFT", 3, -3)
 		end
 
 		if recThreatMeter then
-			CreatePanel("caelPanel10", 647, 20, 167, 130, "BOTTOM", "BOTTOM", UIParent, recThreatMeter, "BACKGROUND") -- MeterRight
+			caelPanels.createPanel("caelPanel10", 647, 20, 167, 130, "BOTTOM", "BOTTOM", UIParent, recThreatMeter, "BACKGROUND") -- MeterRight
 			recThreatMeter:ClearAllPoints()
 			recThreatMeter:SetPoint("TOPLEFT", caelPanel10, "TOPLEFT", 3, -3)
 		end
