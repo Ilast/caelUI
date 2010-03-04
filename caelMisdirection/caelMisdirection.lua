@@ -9,13 +9,14 @@ if select(2, UnitClass("player")) ~= "HUNTER" then
 	return DisableAddOn("caelMisdirection")
 end
 
+local playerName = UnitName("player")
+
 local textColor = {r = 0.84, g = 0.75, b = 0.65}
 function caelMisdirection_OnEvent(_, _, _, subEvent, _, sourceName, _, _, destName, _, _, spellName, ...)
 	if subEvent == "SPELL_CAST_SUCCESS" then
 		if  spellName == "Misdirection" then
 			if sourceName and UnitIsPlayer(destName) then
-				if UnitIsUnit(sourceName, "Caellian") and not UnitIsUnit(destName, "pet") then
---					SendChatMessage(("Misdirected"), "WHISPER", GetDefaultLanguage("player"), destName)
+				if sourceName == playerName and not UnitIsUnit(destName, "pet") then
 					SendChatMessage(("Détourné"), "WHISPER", GetDefaultLanguage("player"), destName)
 					RaidNotice_AddMessage(RaidWarningFrame, "Misdirection on "..destName, textColor)
 
