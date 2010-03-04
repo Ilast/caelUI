@@ -369,8 +369,8 @@ end
 
 local CreateAura = function(self, button, icons)
 	button.backdrop = CreateFrame("Frame", nil, button)
-	button.backdrop:SetPoint("TOPLEFT", button, "TOPLEFT", -3.5, 3)
-	button.backdrop:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 4, -3.5)
+	button.backdrop:SetPoint("TOPLEFT", button, -3.5, 3)
+	button.backdrop:SetPoint("BOTTOMRIGHT", button, 4, -3.5)
 	button.backdrop:SetFrameStrata("BACKGROUND")
 	button.backdrop:SetBackdrop {
 		edgeFile = glowTex, edgeSize = 5,
@@ -389,8 +389,8 @@ local CreateAura = function(self, button, icons)
 	icons.disableCooldown = true
 
 	button.overlay:SetTexture(buttonTex)
-	button.overlay:SetPoint("TOPLEFT", button, "TOPLEFT", -1, 1)
-	button.overlay:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 1, -1)
+	button.overlay:SetPoint("TOPLEFT", button, -1, 1)
+	button.overlay:SetPoint("BOTTOMRIGHT", button, 1, -1)
 	button.overlay:SetTexCoord(0, 1, 0.02, 1)
 	button.overlay.Hide = function(self) end
 
@@ -530,7 +530,7 @@ local SetStyle = function(self, unit)
 	self:HookScript("OnShow", updateAllElements)
 
 	self.FrameBackdrop = CreateFrame("Frame", nil, self)
-	self.FrameBackdrop:SetPoint("TOPLEFT", self, "TOPLEFT", -4, 4)
+	self.FrameBackdrop:SetPoint("TOPLEFT", self, -4, 4)
 	self.FrameBackdrop:SetFrameStrata("BACKGROUND")
 	self.FrameBackdrop:SetBackdrop {
 		bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
@@ -541,9 +541,9 @@ local SetStyle = function(self, unit)
 	self.FrameBackdrop:SetBackdropBorderColor(0, 0, 0)
 
 	if unit == "player" and playerClass == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and unit == "player" and playerClass == "SHAMAN" then
-		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 4, -12)
+		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, 4, -12)
 	else
-		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 4, -4)
+		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, 4, -4)
 	end
 	self.ThreatFeedbackFrame = self.FrameBackdrop
 
@@ -784,8 +784,8 @@ local SetStyle = function(self, unit)
 		end
 
 			self.Portrait = CreateFrame("PlayerModel", nil, self)
-			self.Portrait:SetPoint("TOPLEFT", self, "TOPLEFT", 0, -23)
-			self.Portrait:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 8)
+			self.Portrait:SetPoint("TOPLEFT", self, 0, -23)
+			self.Portrait:SetPoint("BOTTOMRIGHT", self, 0, 8)
 			self.Portrait:SetBackdrop {
 				bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
 			}
@@ -795,21 +795,21 @@ local SetStyle = function(self, unit)
 	
 			self.PortraitOverlay = CreateFrame("StatusBar", self:GetName().."_PortraitOverlay", self.Portrait)
 			self.PortraitOverlay:SetFrameLevel(self.PortraitOverlay:GetFrameLevel() + 1)
-			self.PortraitOverlay:SetPoint("TOPLEFT", self, "TOPLEFT", 0, -23)
-			self.PortraitOverlay:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 8)
+			self.PortraitOverlay:SetPoint("TOPLEFT", self, 0, -23)
+			self.PortraitOverlay:SetPoint("BOTTOMRIGHT", self, 0, 8)
 			self.PortraitOverlay:SetStatusBarTexture(normtexa)
 			self.PortraitOverlay:SetStatusBarColor(0.25, 0.25, 0.25, 0.5)
 
 			self.ThinLine1 = self.PortraitOverlay:CreateTexture(nil, "BORDER")
 			self.ThinLine1:SetHeight(1)
-			self.ThinLine1:SetPoint("TOPLEFT", self, "TOPLEFT", 0, -22)
-			self.ThinLine1:SetPoint("TOPRIGHT", self, "TOPRIGHT", 0, -22)
+			self.ThinLine1:SetPoint("TOPLEFT", self, 0, -22)
+			self.ThinLine1:SetPoint("TOPRIGHT", self, 0, -22)
 			self.ThinLine1:SetTexture(0.25, 0.25, 0.25)
 
 			self.ThinLine2 = self.PortraitOverlay:CreateTexture(nil, "BORDER")
 			self.ThinLine2:SetHeight(1)
-			self.ThinLine2:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 7)
-			self.ThinLine2:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 7)
+			self.ThinLine2:SetPoint("BOTTOMLEFT", self, 0, 7)
+			self.ThinLine2:SetPoint("BOTTOMRIGHT", self, 0, 7)
 			self.ThinLine2:SetTexture(0.25, 0.25, 0.25)
 
 			self.CombatFeedbackText = SetFontString(self.PortraitOverlay, font, 18, "OUTLINE")
@@ -873,8 +873,8 @@ local SetStyle = function(self, unit)
 		self.Castbar.bg:SetVertexColor(0.15, 0.15, 0.15, 0.75)
 
 		if unit == "player" or unit == "target" then
-			self.Castbar:SetPoint("TOPLEFT", self, "TOPLEFT", 0, -23)
-			self.Castbar:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 8)
+			self.Castbar:SetPoint("TOPLEFT", self, 0, -23)
+			self.Castbar:SetPoint("BOTTOMRIGHT", self, 0, 8)
 		else
 			self.Castbar:SetHeight(5)
 			self.Castbar:SetAllPoints()
@@ -906,14 +906,14 @@ local SetStyle = function(self, unit)
 			end
 
 			self.IconOverlay = self.Castbar:CreateTexture(nil, "OVERLAY")
-			self.IconOverlay:SetPoint("TOPLEFT", self.Castbar.Icon, "TOPLEFT", -1, 1)
-			self.IconOverlay:SetPoint("BOTTOMRIGHT", self.Castbar.Icon, "BOTTOMRIGHT", 1, -1)
+			self.IconOverlay:SetPoint("TOPLEFT", self.Castbar.Icon, -1, 1)
+			self.IconOverlay:SetPoint("BOTTOMRIGHT", self.Castbar.Icon, 1, -1)
 			self.IconOverlay:SetTexture(buttonTex)
 			self.IconOverlay:SetVertexColor(0.25, 0.25, 0.25)
 
 			self.IconBackdrop = CreateFrame("Frame", nil, self.Castbar)
-			self.IconBackdrop:SetPoint("TOPLEFT", self.Castbar.Icon, "TOPLEFT", -4, 3)
-			self.IconBackdrop:SetPoint("BOTTOMRIGHT", self.Castbar.Icon, "BOTTOMRIGHT", 4, -3.5)
+			self.IconBackdrop:SetPoint("TOPLEFT", self.Castbar.Icon, -4, 3)
+			self.IconBackdrop:SetPoint("BOTTOMRIGHT", self.Castbar.Icon, 4, -3.5)
 			self.IconBackdrop:SetBackdrop({
 				edgeFile = glowTex, edgeSize = 4,
 				insets = {left = 3, right = 3, top = 3, bottom = 3}
@@ -1062,7 +1062,7 @@ oUF:Spawn("focustarget", "oUF_Caellian_focustarget"):SetPoint("BOTTOMLEFT", oUF_
 oUF:Spawn("targettarget", "oUF_Caellian_targettarget"):SetPoint("BOTTOMRIGHT", oUF_Caellian_target, "TOPRIGHT", 0, 10)
 
 local party = oUF:Spawn("header", "oUF_Party")
-party:SetPoint("TOPLEFT", UIParent, "TOPLEFT", cfg.partyX, cfg.partyY)
+party:SetPoint("TOPLEFT", UIParent, cfg.partyX, cfg.partyY)
 party:SetAttribute("showParty", true)
 party:SetAttribute("yOffset", -27.5)
 party:SetAttribute("template", "oUF_cParty")
@@ -1075,7 +1075,7 @@ for i = 1, NUM_RAID_GROUPS do
 	raidgroup:SetAttribute("yOffSet", -7.5)
 	table.insert(raid, raidgroup)
 	if i == 1 then
-		raidgroup:SetPoint("TOPLEFT", UIParent, "TOPLEFT", cfg.raidX, cfg.raidY)
+		raidgroup:SetPoint("TOPLEFT", UIParent, cfg.raidX, cfg.raidY)
 	else
 		raidgroup:SetPoint("TOPLEFT", raid[i-1], "TOPRIGHT", (60 * settings.scale - 60) + 7.5, 0)
 	end
@@ -1086,7 +1086,7 @@ for i = 1, MAX_BOSS_FRAMES do
 	boss[i] = oUF:Spawn("boss"..i, "oUF_Boss"..i)
 
 	if i == 1 then
-		boss[i]:SetPoint("TOP", UIParent, "TOP", 0, -15)
+		boss[i]:SetPoint("TOP", UIParent, 0, -15)
 	else
 		boss[i]:SetPoint("TOP", boss[i-1], "BOTTOM", 0, -7.5)
 	end
