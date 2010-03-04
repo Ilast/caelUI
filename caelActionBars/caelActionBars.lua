@@ -17,14 +17,14 @@ local _G = getfenv(0)
 local bar1Holder = CreateFrame("Frame", "Bar1Holder", caelPanel5)
 --bar1Holder:SetWidth(172)
 --bar1Holder:SetHeight(60)
---bar1Holder:SetPoint("BOTTOM", UIParent, "BOTTOM", 153, 90)
+--bar1Holder:SetPoint("BOTTOM", UIParent, 153, 90)
 bar1Holder:SetAllPoints()
 
 -- Frame to hold the MultibarBottomLeft
 local bar2Holder = CreateFrame("Frame", "Bar2Holder", caelPanel6)
 --bar2Holder:SetWidth(172)
 --bar2Holder:SetHeight(60)
---bar2Holder:SetPoint("BOTTOM", UIParent, "BOTTOM", -153, 20)  
+--bar2Holder:SetPoint("BOTTOM", UIParent, -153, 20)  
 bar2Holder:SetAllPoints()
 
 
@@ -32,14 +32,14 @@ bar2Holder:SetAllPoints()
 local bar3Holder = CreateFrame("Frame", "Bar3Holder", caelPanel7)
 --bar3Holder:SetWidth(172)
 --bar3Holder:SetHeight(60)
---bar3Holder:SetPoint("BOTTOM", UIParent, "BOTTOM", 153, 20)
+--bar3Holder:SetPoint("BOTTOM", UIParent, 153, 20)
 bar3Holder:SetAllPoints()
 
 -- Frame to hold the right bars
 local bar45Holder = CreateFrame("Frame", "Bar45Holder", caelPanel4)
 --bar45Holder:SetWidth(172)
 --bar45Holder:SetHeight(60)
---bar45Holder:SetPoint("BOTTOM", UIParent, "BOTTOM", -153, 90)
+--bar45Holder:SetPoint("BOTTOM", UIParent, -153, 90)
 bar45Holder:SetAllPoints()
 
 
@@ -47,7 +47,7 @@ bar45Holder:SetAllPoints()
 local petBarHolder = CreateFrame("Frame", "PetBarHolder", UIParent)
 petBarHolder:SetWidth(120)
 petBarHolder:SetHeight(47)
-petBarHolder:SetPoint("BOTTOM", UIParent, "BOTTOM", -337, 359)
+petBarHolder:SetPoint("BOTTOM", UIParent, -337, 359)
   
 -- Frame to hold the shapeshift bars  
 local shiftBarHolder = CreateFrame("Frame", "ShapeShiftHolder", UIParent)
@@ -97,24 +97,24 @@ end)
 local currentButton
 
 ActionButton1:ClearAllPoints()
-ActionButton1:SetPoint('TOPLEFT', bar1Holder, 'TOPLEFT', 4.5, -4.5)
+ActionButton1:SetPoint("TOPLEFT", bar1Holder, "TOPLEFT", 4.5, -4.5)
 
 for i = 1, 12 do
 	currentButton = _G["ActionButton"..i]
 	currentButton:SetParent(bar1Holder)
 	currentButton:SetScale(0.68625)
 
-	currentButton:RegisterForClicks("AnyDown")
+--	currentButton:RegisterForClicks("AnyDown")
 
 --	SetOverrideBindingClick(button, true, KEYBIND, button:GetName(), MOUSEBUTTONTOFAKE)
-	SetOverrideBindingClick(currentButton, true, i == 12 and "-" or i == 11 and ")" or i == 10 and "0" or i, currentButton:GetName(), "LeftButton")
+--	SetOverrideBindingClick(currentButton, true, i == 12 and "-" or i == 11 and ")" or i == 10 and "0" or i, currentButton:GetName(), "LeftButton")
 
 	if i > 1 and i ~= 7 then
 		currentButton:ClearAllPoints()
 		currentButton:SetPoint("LEFT", _G["ActionButton"..i-1], "RIGHT", 5, 0)
 	elseif i == 7 then
 		currentButton:ClearAllPoints()
-		currentButton:SetPoint("TOPLEFT", _G["ActionButton"..i-6],"BOTTOMLEFT",0, -6.5)
+		currentButton:SetPoint("TOPLEFT", _G["ActionButton"..i-6],"BOTTOMLEFT", 0, -6.5)
 	end
 end
 
@@ -124,10 +124,10 @@ BonusActionBarTexture0:Hide()
 BonusActionBarTexture1:Hide()
 
 BonusActionButton1:ClearAllPoints()
-BonusActionButton1:SetPoint('TOPLEFT', bar1Holder, 'TOPLEFT', 4.5, -4.5)
+BonusActionButton1:SetPoint("TOPLEFT", bar1Holder, 4.5, -4.5)
 
 BonusActionButton7:ClearAllPoints()
-BonusActionButton7:SetPoint('TOPLEFT', BonusActionButton1, 'BOTTOMLEFT', 0, -5)
+BonusActionButton7:SetPoint("TOPLEFT", BonusActionButton1, "BOTTOMLEFT", 0, -5)
 
 for i = 1, 12 do
 	currentButton = _G["BonusActionButton"..i]
@@ -144,26 +144,24 @@ end
 
 MultiBarBottomLeft:SetParent(bar2Holder)
 MultiBarBottomLeftButton1:ClearAllPoints()
-MultiBarBottomLeftButton1:SetPoint('TOPLEFT', bar2Holder, 'TOPLEFT', 4.5, -4.5)
+MultiBarBottomLeftButton1:SetPoint("TOPLEFT", bar2Holder, 4.5, -4.5)
 
 for i = 1, 12 do
-	_G["MultiBarBottomLeftButton"..i]:SetScale(0.68625)
+	currentButton = _G["MultiBarBottomLeftButton"..i]
+	currentButton:SetScale(0.68625)
 
-	b1 = _G["MultiBarBottomLeftButton"..i]
 	if i > 1 and i ~= 7 then
-		b2 = _G["MultiBarBottomLeftButton"..i-1]
-		b1:ClearAllPoints()
-		b1:SetPoint("LEFT", b2, "RIGHT", 5, 0)
+		currentButton:ClearAllPoints()
+		currentButton:SetPoint("LEFT", _G["MultiBarBottomLeftButton"..i-1], "RIGHT", 5, 0)
 	elseif i == 7 then
-		b2 = _G["MultiBarBottomLeftButton"..i-6]
-		b1:ClearAllPoints()
-		b1:SetPoint("TOPLEFT", b2, "BOTTOMLEFT", 0, -6.5)
+		currentButton:ClearAllPoints()
+		currentButton:SetPoint("TOPLEFT", _G["MultiBarBottomLeftButton"..i-6], "BOTTOMLEFT", 0, -6.5)
 	end
 end
 
 MultiBarBottomRight:SetParent(bar3Holder)
 MultiBarBottomRightButton1:ClearAllPoints()
-MultiBarBottomRightButton1:SetPoint('TOPLEFT', bar3Holder, 'TOPLEFT', 4.5, -4.5)
+MultiBarBottomRightButton1:SetPoint("TOPLEFT", bar3Holder, 4.5, -4.5)
 
 for i = 1, 12 do
 	currentButton = _G["MultiBarBottomRightButton"..i]
@@ -180,7 +178,7 @@ end
 
 MultiBarRight:SetParent(bar45Holder)
 MultiBarRightButton1:ClearAllPoints()
-MultiBarRightButton1:SetPoint('TOPLEFT', bar45Holder, 'TOPLEFT', 4.5, -4.5)
+MultiBarRightButton1:SetPoint("TOPLEFT", bar45Holder, 4.5, -4.5)
 
 for i = 1, 12 do
 	currentButton = _G["MultiBarRightButton"..i]
@@ -201,20 +199,20 @@ end
 
 MultiBarLeft:SetParent(bar45Holder)
 MultiBarLeftButton1:ClearAllPoints()
-MultiBarLeftButton1:SetPoint('TOPLEFT', bar45Holder, 'TOPLEFT', 4.5, -4.5)
+MultiBarLeftButton1:SetPoint("TOPLEFT", bar45Holder, 4.5, -4.5)
 
 ShapeshiftBarFrame:SetParent(shiftBarHolder)
 ShapeshiftBarFrame:SetWidth(0.01)
 ShapeshiftButton1:ClearAllPoints()
-ShapeshiftButton1:SetPoint("BOTTOMLEFT",shiftBarHolder,"BOTTOMLEFT",10,10)
+ShapeshiftButton1:SetPoint("BOTTOMLEFT",shiftBarHolder, 10, 10)
 local function MoveShapeshift()
-	ShapeshiftButton1:SetPoint("BOTTOMLEFT",shiftBarHolder,"BOTTOMLEFT",10,10)
+	ShapeshiftButton1:SetPoint("BOTTOMLEFT",shiftBarHolder, 10, 10)
 end
 hooksecurefunc("ShapeshiftBar_Update", MoveShapeshift)  
 
 PossessBarFrame:SetParent(shiftBarHolder)
 PossessButton1:ClearAllPoints()
-PossessButton1:SetPoint("BOTTOMLEFT", shiftBarHolder, "BOTTOMLEFT", 10, 10)
+PossessButton1:SetPoint("BOTTOMLEFT", shiftBarHolder, 10, 10)
 
 for i = 1, 10 do
 	_G["PetActionButton"..i]:SetScale(0.63)
@@ -222,9 +220,9 @@ end
 PetActionBarFrame:SetParent(petBarHolder)
 PetActionBarFrame:SetWidth(0.01)
 PetActionButton1:ClearAllPoints()
-PetActionButton1:SetPoint('TOPLEFT', petBarHolder, 'TOPLEFT', 4.5, -4.5)
+PetActionButton1:SetPoint("TOPLEFT", petBarHolder, 4.5, -4.5)
 PetActionButton6:ClearAllPoints()
-PetActionButton6:SetPoint('TOPLEFT', PetActionButton1, 'BOTTOMLEFT' ,0, -5)
+PetActionButton6:SetPoint("TOPLEFT", PetActionButton1, "BOTTOMLEFT" ,0, -5)
 
 ---------------------------------------------------
 -- ACTIONBUTTONS MUST BE HIDDEN
