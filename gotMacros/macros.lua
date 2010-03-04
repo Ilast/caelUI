@@ -130,7 +130,7 @@ gM_Macros = {
 		body = [=[/cast !Auto Shot
 			/click gotMacros_SrSb
 			/click gotMacros_Mark
-			/click gotMacros_MulS
+			/click gotMacros_AimS
 			/cast Silencing Shot
 			/click gotMacros_StdS]=],
 	},
