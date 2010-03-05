@@ -1,9 +1,11 @@
 ﻿local chatFrames = CreateFrame("Frame")
 
+local bgTexture = [=[Interface\ChatFrame\ChatFrameBackground]=]
+
 local backdrop = {
-	bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
+	bgFile = bgTexture,
 	edgeFile = [=[Interface\Addons\caelMedia\Miscellaneous\glowtex]=], edgeSize = 2,
-	insets = {left = 3, right = 3, top = 3, bottom = 3}
+	insets = {left = 2, right = 2, top = 2, bottom = 2}
 }
 
 local print = function(text)
@@ -26,7 +28,7 @@ ChatFrameEditBox:SetPoint("BOTTOMLEFT",  caelPanel1, "TOPLEFT", 0, 1.5)
 ChatFrameEditBox:SetPoint("BOTTOMRIGHT", caelPanel1, "TOPRIGHT", 0, 1.5)
 ChatFrameEditBox:SetFontObject(neuropolrg12)
 ChatFrameEditBox:SetBackdrop(backdrop)
-ChatFrameEditBox:SetBackdropColor(0, 0, 0, 0.66)
+ChatFrameEditBox:SetBackdropColor(0, 0, 0, 0.5)
 ChatFrameEditBox:SetBackdropBorderColor(0, 0, 0)
 ChatFrameEditBoxHeader:SetFontObject(neuropolrg12)
 
@@ -48,12 +50,17 @@ hooksecurefunc("ChatEdit_UpdateHeader", function()
 	end
 end)
 
-local background = ChatFrameEditBox:CreateTexture(nil, "BORDER")
-background:SetTexture([=[Interface\Addons\caelMedia\Backgrounds\carbonCenter]=])
-background:SetPoint("TOPLEFT", 2, -2)
-background:SetPoint("BOTTOMRIGHT", -2, 2)
-background:SetVertexColor(0.25, 0.25, 0.25, 0.5)
-background:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.5, 1, 1, 1, 0.75)
+local gradientTop = ChatFrameEditBox:CreateTexture(nil, "BORDER")
+gradientTop:SetTexture(bgTexture)
+gradientTop:SetPoint("TOPLEFT", 2, -2)
+gradientTop:SetPoint("TOPRIGHT", -2, -12)
+gradientTop:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.5)
+
+local gradientBottom = ChatFrameEditBox:CreateTexture(nil, "BORDER")
+gradientBottom:SetTexture(bgTexture)
+gradientBottom:SetPoint("TOPLEFT", 2, -12)
+gradientBottom:SetPoint("BOTTOMRIGHT", -2, 2)
+gradientBottom:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.75, 0, 0, 0, 0)
 
 local mergedTable = {
 --	coloredChats values only
