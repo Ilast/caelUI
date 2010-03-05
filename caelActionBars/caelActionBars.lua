@@ -460,12 +460,12 @@ local hide_hotkey = 1
 
 --	COLORS
 --	color you want to appy to the standard texture (red, green, blue in RGB)
-local color = { r = 0.75, g = 0.75, b = 0.75, }
+local color = { r = 0.84, g = 0.75, b = 0.65, }
 --	want class color? just comment in this:
 --	local color = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
 
 --	color when button is usable
-local usable_color = { r = 0.75, g = 0.75, b = 0.75, }
+local usable_color = { r = 1, g = 1, b = 1, }
 
 --	color for equipped border texture (red, green, blue in RGB)
 local color_equipped = { r = 0.33, g = 0.59, b = 0.33, }
@@ -477,7 +477,7 @@ local range_color = { r = 0.69, g = 0.31, b = 0.31, }
 local mana_color = { r = 0.31, g = 0.45, b = 0.63, }
 
 --	color when button is unusable (example revenge not active, since you have not blocked yet)
-local unusable_color = { r = 0.69, g = 0.31, b = 0.31, }
+local unusable_color = { r = 0.25, g = 0.25, b = 0.25, }
 
 --	!!!IMPORTANT!!! - read this before editing the value blow
 --	!!!do not set this below 0.1 ever!!!
