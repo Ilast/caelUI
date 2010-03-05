@@ -138,7 +138,7 @@ gM_Macros = {
 		char = "Caellian, Callysto, Dynames",
 		body = [=[/cast !Auto Shot
 			/click gotMacros_SrSa
-			/click gotMacros_AimS
+			/click gotMacros_MulS
 			/click gotMacros_ArcS
 			/click gotMacros_StdS]=],
 	},
