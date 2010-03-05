@@ -4,7 +4,7 @@ local Holder = CreateFrame("Frame")
 
 caelStats.dps = caelPanel8:CreateFontString(nil, "OVERLAY")
 caelStats.dps:SetFontObject(neuropolrg10)
-caelStats.dps:SetPoint("CENTER", caelPanel8, "CENTER", 125, 0.5)
+caelStats.dps:SetPoint("CENTER", caelPanel8, "CENTER", 125, 1)
 caelStats.dps:SetText("|cffD7BEA5DPS|r 0")
 
 local playerName = UnitName("player")

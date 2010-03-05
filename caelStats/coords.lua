@@ -4,7 +4,7 @@ local Holder = CreateFrame("Frame")
 
 caelStats.coords = caelPanel8:CreateFontString(nil, "OVERLAY")
 caelStats.coords:SetFontObject(neuropolrg10)
-caelStats.coords:SetPoint("CENTER", caelPanel8, "CENTER", 425, 0.5) 
+caelStats.coords:SetPoint("CENTER", caelPanel8, "CENTER", 425, 1) 
 
 local ColorizePVPType = function(pvpType)
 	if pvpType == "sanctuary" then

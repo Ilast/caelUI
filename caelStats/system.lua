@@ -4,7 +4,7 @@ local Holder = CreateFrame("Frame")
 
 caelStats.system = caelPanel8:CreateFontString(nil, "OVERLAY")
 caelStats.system:SetFontObject(neuropolrg10)
-caelStats.system:SetPoint("LEFT", caelPanel8, "LEFT", 10, 0.5) 
+caelStats.system:SetPoint("LEFT", caelPanel8, "LEFT", 10, 1) 
 
 local Addons = {}
 local AddonsMemoryCompare = function(a, b)

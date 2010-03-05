@@ -4,7 +4,7 @@ local Holder = CreateFrame("Frame")
 
 caelStats.mail = caelPanel8:CreateFontString(nil, "OVERLAY")
 caelStats.mail:SetFontObject(neuropolrg10)
-caelStats.mail:SetPoint("CENTER", caelPanel8, "CENTER", 0, 0.5)
+caelStats.mail:SetPoint("CENTER", caelPanel8, "CENTER", 0, 1)
 
 local function OnEvent(self)
 	if HasNewMail() then
