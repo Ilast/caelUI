@@ -39,14 +39,12 @@ for i,v in pairs(items) do
 	items[i] = TableStuffer(string.split(" ,", v))
 end
 
-Buffet = CreateFrame("frame")
-Buffet:SetScript("OnEvent", function(self, event, ...) if self[event] then return self[event](self, event, ...) end end)
-function Buffet:Print(...) ChatFrame1:AddMessage(string.join(" ", "|cFF33FF99Buffet|r:", ...)) end
-Buffet:RegisterEvent("PLAYER_LOGIN")
+BuffetLite = CreateFrame("frame")
+BuffetLite:SetScript("OnEvent", function(self, event, ...) if self[event] then return self[event](self, event, ...) end end)
+function BuffetLite:Print(...) ChatFrame1:AddMessage(string.join(" ", "|cFF33FF99BuffetLite|r:", ...)) end
+BuffetLite:RegisterEvent("PLAYER_LOGIN")
 
-function Buffet:PLAYER_LOGIN()
-	self:RegisterEvent("PLAYER_LOGOUT")
-
+function BuffetLite:PLAYER_LOGIN()
 	self:RegisterEvent("PLAYER_REGEN_ENABLED")
 	self:RegisterEvent("BAG_UPDATE")
 	self:RegisterEvent("PLAYER_LEVEL_UP")
@@ -59,17 +57,17 @@ function Buffet:PLAYER_LOGIN()
 	self:Scan()
 end
 
-function Buffet:PLAYER_REGEN_ENABLED()
+function BuffetLite:PLAYER_REGEN_ENABLED()
 	if dirty then self:Scan() end
 end
 
-function Buffet:BAG_UPDATE()
+function BuffetLite:BAG_UPDATE()
 	dirty = true
 	if not InCombatLockdown() then self:Scan() end
 end
-Buffet.PLAYER_LEVEL_UP = Buffet.BAG_UPDATE
+BuffetLite.PLAYER_LEVEL_UP = BuffetLite.BAG_UPDATE
 
-function Buffet:Scan()
+function BuffetLite:Scan()
 	for _,t in pairs(bests) do
 		for i in pairs(t) do
 			t[i] = nil
@@ -101,7 +99,7 @@ function Buffet:Scan()
 	dirty = false
 end
 
-function Buffet:Edit(name, substring, food, pot, stone, shift)
+function BuffetLite:Edit(name, substring, food, pot, stone, shift)
 	local macroid = GetMacroIndexByName(name)
 	if not macroid then return end
 
