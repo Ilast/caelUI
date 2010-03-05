@@ -2,6 +2,8 @@
 
 local _G = getfenv(0)
 local orig1, orig2 = {}, {}
+local width, height
+local bgTexture = [=[Interface\ChatFrame\ChatFrameBackground]=]
 
 --local theOneScale = (768/tonumber(GetCVar("gxResolution"):match("%d+x(%d+)")))/GetCVar("uiScale")
 local GameTooltip, GameTooltipStatusBar = _G["GameTooltip"], _G["GameTooltipStatusBar"]
@@ -24,9 +26,9 @@ local classification = {
 }
 
 local backdrop = {
-	bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
+	bgFile = bgTexture,
 	edgeFile = [=[Interface\Addons\caelMedia\Miscellaneous\glowtex]=], edgeSize = 2,
-	insets = {left = 3, right = 3, top = 3, bottom = 3}
+	insets = {left = 2, right = 2, top = 2, bottom = 2}
 }
 
 local OnHyperlinkEnter = function(frame, link, ...)
@@ -71,7 +73,7 @@ local BorderColor = function(self)
 			self:SetBackdropBorderColor(0, 0, 0)
 		end
 	end
-	self:SetBackdropColor(0, 0, 0, GetMouseFocus() == WorldFrame and 0.75 or 0.75)
+	self:SetBackdropColor(0, 0, 0, GetMouseFocus() == WorldFrame and 0.5 or 0.5)
 end
 
 local FormatMoney = function(money)
@@ -225,21 +227,32 @@ GameTooltip:SetScript("OnTooltipAddMoney", OnTooltipAddMoney)
 caelTooltips:RegisterEvent("PLAYER_ENTERING_WORLD")
 caelTooltips:SetScript("OnEvent", function(self)
 	for _, v in ipairs(Tooltips) do
+		v.gradientTop = v:CreateTexture(nil, "BORDER")
+		v.gradientTop:SetTexture(bgTexture)
+		v.gradientTop:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.5)
+
+		v.gradientBottom = v:CreateTexture(nil, "BORDER")
+		v.gradientBottom:SetTexture(bgTexture)
+		v.gradientBottom:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.75, 0, 0, 0, 0)
+
 		v:HookScript("OnShow", function(self)
 			self:SetHeight(floor(self:GetHeight()))
 			self:SetWidth(floor(self:GetWidth()))
+
 			BorderColor(self)
+
+			width = self:GetWidth() - 4
+			height = self:GetHeight() / 5
+
+			v.gradientTop:SetPoint("TOPLEFT", 2, -2)
+			v.gradientTop:SetSize(width, height)
+
+			v.gradientBottom:SetSize(width, height)
+			v.gradientBottom:SetPoint("BOTTOMRIGHT", -2, 2)
 		end)
 
 		v:SetBackdrop(backdrop)
 --		v:SetScale(theOneScale)
-
-		v.gradient = v:CreateTexture(nil, "BORDER")
-		v.gradient:SetTexture([=[Interface\Addons\caelMedia\Backgrounds\carbonCenter]=])
-		v.gradient:SetPoint("TOPLEFT", 2, -2)
-		v.gradient:SetPoint("BOTTOMRIGHT", -2, 2)
-		v.gradient:SetBlendMode("ADD")
-		v.gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.5, 1, 1, 1, 0.75)
 	end
 
 	GameTooltipStatusBar:SetAlpha(0)
