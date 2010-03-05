@@ -7,16 +7,17 @@ local panels, n = {}, 1
 
 caelPanels.createPanel = function(name, x, y, width, height, point, rpoint, anchor, parent, strata)
 	panels[n] = CreateFrame("frame", name, parent)
+	panels[n]:EnableMouse(false)
 	panels[n]:SetFrameStrata(strata)
 	panels[n]:SetWidth(width)
 	panels[n]:SetHeight(height)
 	panels[n]:SetPoint(point, anchor, rpoint, x, y)
 	panels[n]:SetBackdrop({
 		bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
-		edgeFile = [=[Interface\Addons\caelMedia\Miscellaneous\glowtex]=], edgeSize = 2,
+		edgeFile = [=[Interface\Addons\caelMedia\Miscellaneous\glowtex]=], edgeSize = 3,
 		insets = {left = 3, right = 3, top = 3, bottom = 3}
 	})
-	panels[n]:SetBackdropColor(0, 0, 0, 0.66)
+	panels[n]:SetBackdropColor(0, 0, 0, 0.5)
 	panels[n]:Show()
 	n = n + 1
 end
@@ -49,30 +50,20 @@ caelPanels.eventFrame:SetScript("OnEvent", function(self, event)
 		for i = 1, 10 do
 			local panel = panels[i]
 			if panel then
---[[
-			local gradient = panel:CreateTexture(nil, "BORDER")
-			gradient:SetTexture([=[Interface\ChatFrame\ChatFrameBackground]=])
-			gradient:SetPoint("TOP", panel, 0, -2)
-			gradient:SetPoint("LEFT", panel, 2, 0)
-			gradient:SetPoint("RIGHT", panel, -2, 0)
-			gradient:SetPoint("BOTTOM", panel, 0, 2)
-			gradient:SetBlendMode("ADD")
-			gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.33)
---]]
-				local background = panel:CreateTexture(nil, "BORDER")
-				background:SetPoint("TOPLEFT", 2, -2)
-				background:SetPoint("BOTTOMRIGHT", -2, 2)
-				background:SetVertexColor(0.25, 0.25, 0.25, 0.75)
-				if i == 1 then
-					background:SetTexture([=[Interface\Addons\caelMedia\Backgrounds\carbonRight]=])
-					background:SetGradientAlpha("HORIZONTAL", 0, 0, 0, 0.5, 1, 1, 1, 0.75)
-				elseif i == 2 then
-					background:SetTexture([=[Interface\Addons\caelMedia\Backgrounds\carbonLeft]=])
-					background:SetGradientAlpha("HORIZONTAL", 1, 1, 1, 0.75, 0, 0, 0, 0.5)
-				else
-					background:SetTexture([=[Interface\Addons\caelMedia\Backgrounds\carbonCenter]=])
-					background:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.5, 1, 1, 1, 0.75)
-				end
+				local width = panel:GetWidth() - 4
+				local height = panel:GetHeight() / 5
+
+				local gradientTop = panel:CreateTexture(nil, "BORDER")
+				gradientTop:SetTexture([=[Interface\ChatFrame\ChatFrameBackground]=])
+				gradientTop:SetSize(width, height)
+				gradientTop:SetPoint("TOPLEFT", 2, -2)
+				gradientTop:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.5)
+
+				local gradientBottom = panel:CreateTexture(nil, "BORDER")
+				gradientBottom:SetTexture([=[Interface\ChatFrame\ChatFrameBackground]=])
+				gradientBottom:SetSize(width, height)
+				gradientBottom:SetPoint("BOTTOMRIGHT", -2, 2)
+				gradientBottom:SetGradientAlpha("VERTICAL", 0.84, 0.75, 0.65, 0.5, 0, 0, 0, 0)
 			end
 		end
 	elseif event == "UNIT_THREAT_SITUATION_UPDATE" then
