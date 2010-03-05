@@ -2,7 +2,7 @@
 
 local _G = getfenv(0)
 local orig1, orig2 = {}, {}
-local width, height
+local height
 local bgTexture = [=[Interface\ChatFrame\ChatFrameBackground]=]
 
 --local theOneScale = (768/tonumber(GetCVar("gxResolution"):match("%d+x(%d+)")))/GetCVar("uiScale")
@@ -54,26 +54,6 @@ for i = 1, NUM_CHAT_WINDOWS do
 
 	orig2[frame] = frame:GetScript("OnHyperlinkLeave")
 	frame:SetScript("OnHyperlinkLeave", OnHyperlinkLeave)
-end
-
-local BorderColor = function(self)
-	local unit = select(2, self:GetUnit())
-	local reaction = unit and UnitReaction("player", unit)
-
-	if reaction then
-		local r, g, b = FACTION_BAR_COLORS[reaction].r, FACTION_BAR_COLORS[reaction].g, FACTION_BAR_COLORS[reaction].b
-		self:SetBackdropBorderColor(r, g, b)
-	else
-		local _, link = self:GetItem()
-		local quality = link and select(3, GetItemInfo(link))
-		if quality and quality >= 2 then
-			local r, g, b = GetItemQualityColor(quality)
-			self:SetBackdropBorderColor(r, g, b, borderAlpha)
-		else
-			self:SetBackdropBorderColor(0, 0, 0)
-		end
-	end
-	self:SetBackdropColor(0, 0, 0, GetMouseFocus() == WorldFrame and 0.5 or 0.5)
 end
 
 local FormatMoney = function(money)
@@ -224,32 +204,57 @@ end
 
 GameTooltip:SetScript("OnTooltipAddMoney", OnTooltipAddMoney)
 
+local BorderColor = function(self)
+	local unit = select(2, self:GetUnit())
+	local reaction = unit and UnitReaction("player", unit)
+
+	if reaction then
+		local r, g, b = FACTION_BAR_COLORS[reaction].r, FACTION_BAR_COLORS[reaction].g, FACTION_BAR_COLORS[reaction].b
+		self:SetBackdropBorderColor(r, g, b)
+	else
+		local _, link = self:GetItem()
+		local quality = link and select(3, GetItemInfo(link))
+		if quality and quality >= 2 then
+			local r, g, b = GetItemQualityColor(quality)
+			self:SetBackdropBorderColor(r, g, b, borderAlpha)
+		else
+			self:SetBackdropBorderColor(0, 0, 0)
+		end
+	end
+	self:SetBackdropColor(0, 0, 0, GetMouseFocus() == WorldFrame and 0.5 or 0.5)
+end
+
+local gradientTop = caelTooltips:CreateTexture(nil, "BORDER")
+gradientTop:SetTexture(bgTexture)
+gradientTop:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.5)
+
+local gradientBottom = caelTooltips:CreateTexture(nil, "BORDER")
+gradientBottom:SetTexture(bgTexture)
+gradientBottom:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.75, 0, 0, 0, 0)
+
+local ApplyGradient = function(self)
+	self:SetHeight(floor(self:GetHeight()))
+	self:SetWidth(floor(self:GetWidth()))
+	
+	BorderColor(self)
+	
+	height = self:GetHeight() / 5
+	
+	gradientTop:SetParent(self)
+	gradientTop:SetPoint("TOPLEFT", 2, -2)
+	gradientTop:SetPoint("TOPRIGHT", -2, -2)
+	gradientTop:SetHeight(height)
+	
+	gradientBottom:SetParent(self)
+	gradientBottom:SetPoint("BOTTOMLEFT", 2, 2)
+	gradientBottom:SetPoint("BOTTOMRIGHT", -2, 2)
+	gradientBottom:SetHeight(height)
+end
+
 caelTooltips:RegisterEvent("PLAYER_ENTERING_WORLD")
 caelTooltips:SetScript("OnEvent", function(self)
 	for _, v in ipairs(Tooltips) do
-		v.gradientTop = v:CreateTexture(nil, "BORDER")
-		v.gradientTop:SetTexture(bgTexture)
-		v.gradientTop:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.5)
-
-		v.gradientBottom = v:CreateTexture(nil, "BORDER")
-		v.gradientBottom:SetTexture(bgTexture)
-		v.gradientBottom:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.75, 0, 0, 0, 0)
-
-		v:HookScript("OnShow", function(self)
-			self:SetHeight(floor(self:GetHeight()))
-			self:SetWidth(floor(self:GetWidth()))
-
-			BorderColor(self)
-
-			width = self:GetWidth() - 4
-			height = self:GetHeight() / 5
-
-			v.gradientTop:SetPoint("TOPLEFT", 2, -2)
-			v.gradientTop:SetSize(width, height)
-
-			v.gradientBottom:SetSize(width, height)
-			v.gradientBottom:SetPoint("BOTTOMRIGHT", -2, 2)
-		end)
+		v:HookScript("OnShow", ApplyGradient)
 
 		v:SetBackdrop(backdrop)
 --		v:SetScale(theOneScale)
