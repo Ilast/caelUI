@@ -114,8 +114,8 @@ f:SetScript("OnEvent", function(self, event, ...)
 	
 	if event == "PLAYER_REGEN_ENABLED" then
 		self:UnregisterEvent(event)
-	else
-		self:UnregisterEvent(event)
+--	else
+--		self:UnregisterEvent(event)
 	end
 end)
 
