@@ -2,7 +2,7 @@
 ## Author: Caellian
 ## Title: |cffD7BEA5cael|rAddOnsManager
 ## Notes: AddOns Management
-## X-Revision: $Revision: 1 $
+## X-Revision: $Id$
 ## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
 ## X-Email: sdkyron@gmail.com
 ## X-Category: UI Tweaks
