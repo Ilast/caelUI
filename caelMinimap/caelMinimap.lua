@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 local caelMinimap = CreateFrame("Frame", nil, Minimap)
 
 for _, object in pairs({
