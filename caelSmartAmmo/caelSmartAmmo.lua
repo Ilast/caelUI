@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 local print = function(text)
 	DEFAULT_CHAT_FRAME:AddMessage("|cffD7BEA5cael|rSmartAmmo: "..tostring(text))
 end
