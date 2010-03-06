@@ -1,3 +1,5 @@
+--[[	$Id	]]
+
 local frame = CreateFrame("Frame", "caelCombatLog", UIParent)
 
 frame:SetWidth(311.5)

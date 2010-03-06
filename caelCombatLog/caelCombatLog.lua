@@ -1,4 +1,6 @@
-﻿local cCL, frames = cCLFrame, cCLFrame.frames
+﻿--[[	$Id	]]
+
+local cCL, frames = cCLFrame, cCLFrame.frames
 cCLFrame = nil
 
 local holdTime = 5
