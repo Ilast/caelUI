@@ -24,7 +24,7 @@ end
 
 Minimap:RegisterEvent("PLAYER_ENTERING_WORLD")
 Minimap:SetScript("OnEvent", function(self, event, ...)
-	self:EnableMouse(false)
+	self:EnableMouse(true)
 	self:EnableMouseWheel(true)
 	self:SetScript("OnMouseWheel", function(frame, direction)
 		if direction > 0 then
