@@ -1,4 +1,6 @@
-﻿local caelInterrupt = CreateFrame("Frame")
+﻿--[[	$Id$	]]
+
+local caelInterrupt = CreateFrame("Frame")
 local playerGuid = nil
 local msg = "%s: %s (%s)"
 --local emo = "interrupted %s. (%s)"
