@@ -5,7 +5,7 @@
 	of each item they will want auto-stocked.
 --]]
 local reagents = {
-	["Temple noir"] = {
+		["Temple noir"] = {
 		["Caellian"] = {[31737] = 18000, [33445] = 40, [35953] = 40},
 		["Callysto"] = {[41586] = 18000, [33445] = 40, [35953] = 40},
 		["Pimiko"] = {[33445] = 40}
