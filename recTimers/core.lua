@@ -1,4 +1,5 @@
--- $Id: core.lua 497 2010-02-25 06:31:32Z john.d.mann@gmail.com $
+--[[	$Id$	]]
+
 local _, t = ...
 local event_frame = CreateFrame("Frame")
 local floor = math.floor
