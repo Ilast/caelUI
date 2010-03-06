@@ -1,0 +1,7 @@
+## Interface: 30300
+## Title: recReagents
+## Notes: Restocks your reagents.
+## Author: Recluse
+## X-Revision: $Id$
+
+recReagents.lua
