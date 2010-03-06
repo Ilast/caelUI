@@ -3,6 +3,7 @@ local triggers = {
 	--Phrases
 	"%d+eurfor%d%d%d+g",
 	"%d%d%d+g.?only.?%d%.?%d*eur",
+	"%d+%.?%d*eurfuer%d%d%d+g", -->>>>1 EUR fuer 1000G?<<<
 
 	"%d+%.?%d*pounds?[/\92=]?p?e?r?%d%d%d+g",
 	"%d+%.?%d*eur?o?s?[/\92=]?p?e?r?%d%d%d+",
@@ -56,11 +57,13 @@ local triggers = {
 	"you.*become.*blizzard.*gift.*add?res",
 	"mount.*server.*guys.*go.*app.*available",
 	"deliver.*buy.*gold.*fast",
+	"euro.*delivery.*service", --38.56 euro/10k, delivery in 15mins,24/7 service, more than 100000 faithful customers, McAfee Secure ,Welcome to www.storeingame.com
 	"free.*gold.*gold.*bonus", --ant to get free gold? just ask your friends to get some gold on <www.4WOWGOLD.c@m/special2> with your char name in Introduce char blank, then you can get 10% bonuses G from his order, more details to <www.4WOWGOLD.c@m/special2>
 	"discount.*gold.*cheap", -->>>>30% discount for all new customers! WoW Gold, Powerleveling, CD-Keys and much more! Cheaper than ever! Only at [MMOGGG.COM]
 	"offer.*free.*gold.*deliver", --Greeting! SusanExpress is offering 5% free gold for the coming Valentine's Day. (1k/$6.88) Delivery time from 30 minutes to several hours. Welcome to SusanExpress.?om, we are awaiting for you.
 	--In order to repay all WoW players better,SusanExpress reduced the price at 3.34eur/1K. Please grasp the chance, we will continue providing the best service for you. Welcome to www.SusanExpress.Com"
 	"reduced.*price.*best.*service", --In order to repay all WoW players better,SusanExpress reduced the price at 5.98$/1K. Furthermore,10% Bonus Gold is still existent! Please grasp the chance, we will continue providing the best service for you. Welcome to www.SusanExpress.Com
+	"gold.*customer.*low.*price", --Hi from SusanExpress.Com. Not all that glitters is gold, so make sure you have some extra change in your pocket. In gratitude to our customers old & new, we continue to provide the lowest price (1K/$7.88) within 30 mins to a few hrs
 	"promot[ei].*bonus.*gold", --Big promotion:we have hot new deals that you never see anywhere else,purchase g will get you mats or recipes for bonus. 15K-25K get ore ,35K get recipes,50K will get you ore and recipes.Welcome to <www.4WOWGOLD.c@m>  
 	--Sales Promotion Activities for Christmas. Price declined to $5.98/k, Visit ThIGe.(@m to enjoy 15 mins of delivery. Use code: CMAS to enjoy 10% free gold with your order! ThIGe.(om Now!
 	"price.*deliver.*gold", --Free Gold for Christmas:<uGuysGold.c0m> beats other sites with cheap price(1000G==EUR3.85 =USD5.77),  5% extra free gold, and Instant delivery.  We are trustworthy and professional. Google uGuysGold to find our reputation and  take your G0ld  now :)
@@ -117,6 +120,9 @@ local triggers = {
 	"become.*lucky.*player.*free.*motor.*log", --Hi. You have become the lucky players, will receive free a motorcycle. please log in:XYZ
 	"become.*blizz.*customer.*gift.*reg", --Hi! You have become a Blizz lucky Customer, 3 days later you'll get a Mystery Gift, registered address: XYZ
 	"claim.*free.*time.*warcraft.*free", --Hi,Claim Your Free Game Time!One or more of your World of Warcraft licenses are eligible for 70 free days of game time! please log in:XYZ
+	"warcraft.*account.*suspended.*info", --Your world of warcraft account has been temporarily suspended. go to  [XYZ] for further information.......
+	"blizz.*launch.*free.*now.*log", --#Hey! Blizzard is to launch Free unicorn zebra, Get Now please log in : [XYZ] .^#
+	"system.*pumping.*lucky.*player.*info", --Hello, you have been system Pumping To the lucky player ,For more informationplease log in: [XYZ]
 
 	--Lvl 1 whisperers
 	".*%d+.*lfggameteam.*", --actually we have 10kg in stock from Lfggame team ,do you want some?
@@ -180,34 +186,41 @@ local function filter(_, event, msg, player, _, _, _, _, channelId, _, _, _, lin
 		prevLineId = lineId
 		if event == "CHAT_MSG_CHANNEL" and channelId == 0 then result = nil return end --Only scan official custom channels (gen/trade)
 		if not _G.CanComplainChat(lineId) then result = nil return end --Don't report ourself/friends
-		--START: 5 line text buffer, this checks the current line, and blocks it if it's the same as one of the previous 5
-		for k,v in ipairs(chatLines) do
-			if v == msg then
-				for l,w in ipairs(chatPlayers) do
-					if l == k and w == player then
-						result = true return true
-					end
-				end
-			end
-			if k == 5 then table.remove(chatLines, 1) table.remove(chatPlayers, 1) end
-		end
-		table.insert(chatLines, msg)
-		table.insert(chatPlayers, player)
-		--END: Text buffer
+		if UnitInRaid(player) or UnitInParty(player) then result = nil return end --Don't try macro/filter raid/party members
 	end
+	local debug = msg
 	msg = (msg):lower() --Lower all text, remove capitals
 	msg = strreplace(msg, " ", "") --Remove spaces
 	msg = strreplace(msg, ",", ".") --Convert commas to periods
+	--START: Art remover
+	if fnd(msg, "^%p+$") then
+		result = true return true
+	end
+	--END: Art remover
+	--START: 5 line text buffer, this checks the current line, and blocks it if it's the same as one of the previous 5
+	for k,v in ipairs(chatLines) do
+		if v == msg then
+			for l,w in ipairs(chatPlayers) do
+				if l == k and w == player then
+					result = true return true
+				end
+			end
+		end
+		if k == 6 then table.remove(chatLines, 1) table.remove(chatPlayers, 1) end
+	end
+	table.insert(chatLines, msg)
+	table.insert(chatPlayers, player)
+	--END: Text buffer
 	for k, v in ipairs(triggers) do --Scan database
 		if fnd(msg, v) then --Found a match
-			if _G.BADBOY_DEBUG then print("|cFF33FF99BadBoy|r: ", v, " - ", chatLines[#chatLines], player) end --Debug
+			if _G.BADBOY_DEBUG then print("|cFF33FF99BadBoy|r: ", v, " - ", debug, player) end --Debug
 			local time = GetTime()
 			if (time - prevReportTime) > 0.5 then --Timer to prevent spamming reported messages on multi line spam
 				prevReportTime = time
 				_G.COMPLAINT_ADDED = "|cFF33FF99BadBoy|r: "..orig.." |Hplayer:"..player.."|h["..player.."]|h" --Add name to reported message
 				if _G.BADBOY_POPUP then --Manual reporting via popup
 					--Add original spam line to Blizzard popup message
-					_G.StaticPopupDialogs["CONFIRM_REPORT_SPAM_CHAT"].text = _G.REPORT_SPAM_CONFIRMATION .."\n\n".. strreplace(chatLines[#chatLines], "%", "%%")
+					_G.StaticPopupDialogs["CONFIRM_REPORT_SPAM_CHAT"].text = _G.REPORT_SPAM_CONFIRMATION .."\n\n".. strreplace(debug, "%", "%%")
 					local dialog = _G.StaticPopup_Show("CONFIRM_REPORT_SPAM_CHAT", player)
 					dialog.data = lineId
 				else
