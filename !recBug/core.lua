@@ -1,4 +1,4 @@
--- $Id: core.lua 400 2010-02-14 21:40:22Z john.d.mann@gmail.com $
+--[[	$Id$	]]
 ----------------------------------------
 -- NOTE:
 -- You probably do not have this stuff set, as it is from recMedia.
