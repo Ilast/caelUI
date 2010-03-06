@@ -1,4 +1,6 @@
-﻿local print = function(text)
+﻿--[[	$Id$	]]
+
+local print = function(text)
 	DEFAULT_CHAT_FRAME:AddMessage("|cffD7BEA5cael|rTracking: "..tostring(text))
 end
 
