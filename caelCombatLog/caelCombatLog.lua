@@ -1,4 +1,4 @@
-﻿--[[	$Id	]]
+﻿--[[	$Id$	]]
 
 local cCL, frames = cCLFrame, cCLFrame.frames
 cCLFrame = nil
