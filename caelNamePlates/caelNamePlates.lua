@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 local _, addon = ...
 local caelNamePlates = CreateFrame("Frame", nil, UIParent)
 caelNamePlates:SetScript("OnEvent", function(self, event, ...) self[event](self, ...) end)
