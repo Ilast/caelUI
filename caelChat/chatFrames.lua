@@ -1,4 +1,4 @@
-﻿--[[	$Id	]]
+﻿--[[	$Id$	]]
 
 local chatFrames = CreateFrame("Frame")
 
