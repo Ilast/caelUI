@@ -1,6 +1,6 @@
 ﻿--[[	$Id$	]]
 
- local chatFrames = CreateFrame("Frame")
+local chatFrames = CreateFrame("Frame")
 
 local bgTexture = [=[Interface\ChatFrame\ChatFrameBackground]=]
 
