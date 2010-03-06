@@ -1,9 +1,0 @@
-## Interface: 30300
-## Title: SimpleBossWhisperer
-## Notes: Sets you to DND when you fight a boss, and some other crap.
-## Author: Rabbit
-## Version: $Id$
-## X-Category: Chat/Communication
-
-SimpleBossWhisperer.lua
-
