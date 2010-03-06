@@ -1,6 +1,5 @@
--- recThreatMeter.lua
--- $Revision: 452 $
--- $Date: 2009-09-14 17:54:58 -0500 (Mon, 14 Sep 2009) $
+--[[	$Id$	]]
+
 local round_off = true			-- Should we leave 2 decimal places, or round the threat off?  This is for display only, internally the values will retain their precision.
 
 raid_threat = {}
@@ -136,7 +135,7 @@ local function UpdateUnitThreat(unit_id)
 						if not(raid_threat[i].tanking) and warning_played then
 
 							-- If we were not tanking before, and we were warned, then play aggro sound.
-							PlaySoundFile(AGGRO)
+--							PlaySoundFile(AGGRO)
 						end
 
 						-- Flag this unit as tanking, for special formatting on the bars.
@@ -185,7 +184,7 @@ local function UpdateDisplay()
 	-- Whether to sound a warning for the user or not, and resets our warning played
 	-- flag if the user slips back under 80% threat.
 	if not(i_am_tank) and my_threat >= (top_threat * 0.8) and not(warning_played) then
-		PlaySoundFile(WARNING)
+--		PlaySoundFile(WARNING)
 		warning_played = true
 	elseif my_threat < (top_threat * 0.8) then
 		warning_played = false

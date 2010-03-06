@@ -2,6 +2,7 @@
 ## Title: recThreatMeter
 ## Notes: Threat Meter
 ## Author: Recluse
+## X-Revision: $Id$
 ## Dependencies: caelMedia
 
 recThreatMeter.lua
