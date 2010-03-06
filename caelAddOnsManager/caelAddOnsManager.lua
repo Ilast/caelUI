@@ -27,7 +27,7 @@ local addons = {
 		These addons will load if you use their set name after the slash command.
 		'/addonset raid' to load raid addons, for example.							--]]
 
-	["raid"]	= {"BigWigs", "BigWigs_Citadel", "BigWigs_Coliseum", "BigWigs_Core", "BigWigs_Options", "BigWigs_Plugins", "BigWigs_Ulduar", "RecDamageMeter", "RecThreatMeter", "SimpleBossWhisperer"},
+	["raid"]	= {"BigWigs", "BigWigs_Citadel", "BigWigs_Coliseum", "BigWigs_Core", "BigWigs_Options", "BigWigs_Plugins", "BigWigs_Ulduar", "caelBossMsg", "RecDamageMeter", "RecThreatMeter"},
 	["party"] = {"recDamageMeter", "recThreatMeter"},
 	["pvp"] = {},
 	["dev"] = {},
