@@ -2,9 +2,8 @@
 ## Author: Caellian
 ## Title: |cffD7BEA5cael|rQuests
 ## Notes: Quests enhancements
-## X-Revision: $Revision: 1 $
+## X-Revision: $Id$
 ## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
-## X-Email: sdkyron@gmail.com
 ## X-Category: Quests
 
 caelQuests.lua

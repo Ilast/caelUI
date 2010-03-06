@@ -1,4 +1,6 @@
-﻿local recycle_bin = {}
+﻿--[[	$Id$	]]
+
+local recycle_bin = {}
 
 local function Recycler(trash_table)
 	if trash_table then
