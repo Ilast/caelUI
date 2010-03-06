@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 local LSM3 = LibStub("LibSharedMedia-3.0", true)
 local LSM2 = LibStub("LibSharedMedia-2.0", true)
 local SML = LibStub("SharedMedia-1.0", true)

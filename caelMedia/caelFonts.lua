@@ -1,4 +1,6 @@
-﻿local neuropolrg9 = CreateFont("neuropolrg9")
+﻿--[[	$Id$	]]
+
+local neuropolrg9 = CreateFont("neuropolrg9")
 neuropolrg9:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 9, "")
 local neuropolrg10 = CreateFont("neuropolrg10")
 neuropolrg10:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 10, "")
