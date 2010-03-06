@@ -1,4 +1,6 @@
-﻿local _, caelConfig = ...
+﻿--[[	$Id$	]]
+
+local _, caelConfig = ...
 
 --[[	Turn my name on when i'm AFK	]]
 

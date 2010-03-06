@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 local addon = CreateFrame("Frame")
 
 local frames = {

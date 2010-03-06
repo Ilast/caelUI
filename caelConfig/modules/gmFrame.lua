@@ -1,4 +1,6 @@
-﻿local _, caelConfig = ...
+﻿--[[	$Id$	]]
+
+local _, caelConfig = ...
 
 --[[	GM chat frame enhancement	]]
 

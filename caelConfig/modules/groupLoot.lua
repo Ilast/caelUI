@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 --[[	Relocating the group loot frames	]]
 --[[
 local frame = _G["GroupLootFrame1"]

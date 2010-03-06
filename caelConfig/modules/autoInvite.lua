@@ -1,4 +1,6 @@
-﻿local _, caelConfig = ...
+﻿--[[	$Id$	]]
+
+local _, caelConfig = ...
 
 --[[	Auto accept some invites	]]
 

@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 local grid
 local boxSize = 32
 

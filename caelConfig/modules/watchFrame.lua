@@ -1,4 +1,6 @@
-﻿local dummy = function() end
+﻿--[[	$Id$	]]
+
+local dummy = function() end
 
 WatchFrame:ClearAllPoints()
 WatchFrame:SetHeight(600)

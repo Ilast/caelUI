@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 local cAutoConfirm = CreateFrame("Frame", "cAutoConfirmFrame")
 
 local curLootSlots = {}

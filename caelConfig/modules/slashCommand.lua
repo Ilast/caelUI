@@ -1,4 +1,6 @@
-﻿--[[	Some new slash commands	]]
+﻿--[[	$Id$	]]
+
+--[[	Some new slash commands	]]
 
 SlashCmdList["FRAMENAME"] = function() print(GetMouseFocus():GetName()) end
 SlashCmdList["PARENT"] = function() print(GetMouseFocus():GetParent():GetName()) end

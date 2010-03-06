@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 CharacterFrameTab3:SetWidth(57)
 CharacterFrameTab3Middle:SetWidth(17)
 CharacterFrameTab3Text:SetText("Rep")

@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 --| Optional deps |--
 LoadAddOn("GPS")  -- I heard there was a problem with optdeps not working. Let"s force it. 
 

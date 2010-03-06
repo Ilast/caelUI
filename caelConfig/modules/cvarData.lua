@@ -1,4 +1,6 @@
-﻿local _, caelConfig = ...
+﻿--[[	$Id$	]]
+
+local _, caelConfig = ...
 
 local ZoneChange = function(zone)
 	local _, instanceType = IsInInstance()

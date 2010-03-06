@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 --[[  Channel(s) muting	]]
 
 local function ChannelMessageFilter(self, event, ...)

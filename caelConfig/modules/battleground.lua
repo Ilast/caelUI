@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 local _, caelConfig = ...
 
 --[[	Auto release in battleground	]]

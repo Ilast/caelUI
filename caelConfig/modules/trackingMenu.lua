@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 --	Rawr! GTFO POI tracking!  Default _Init, with filter for only find/track/quest entries.
 function MiniMapTrackingDropDown_Initialize()
 	local name, texture, active, category
