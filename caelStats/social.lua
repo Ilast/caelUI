@@ -1,4 +1,6 @@
-﻿local _, caelStats = ...
+﻿--[[	$Id$	]]
+
+local _, caelStats = ...
 
 local Holder = CreateFrame("Frame")
 
