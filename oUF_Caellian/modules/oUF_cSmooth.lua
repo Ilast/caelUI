@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 if not oUF then return end
 
 local smoothing = {}

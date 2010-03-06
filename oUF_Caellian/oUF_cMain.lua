@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 local settings = Caellian.oUF
 local mediaPath = [=[Interface\Addons\oUF_Caellian\media\]=]
 

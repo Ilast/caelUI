@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 if select(2, UnitClass("player")) ~= "HUNTER" then return end
 
 local viperAspectName = GetSpellInfo(34074)

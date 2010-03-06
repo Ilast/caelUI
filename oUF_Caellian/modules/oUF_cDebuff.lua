@@ -1,4 +1,6 @@
-﻿if not oUF then return end
+﻿--[[	$Id$	]]
+
+if not oUF then return end
 
 local _, playerClass = UnitClass("player")
 
