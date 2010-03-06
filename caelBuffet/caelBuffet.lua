@@ -1,6 +1,6 @@
 --[[	$Id$	]]
 
-local macroHP = "#showtooltip\n%MACRO%"
+ local macroHP = "#showtooltip\n%MACRO%"
 local macroMP = "#showtooltip\n%MACRO%"
 local bests = {}
 local items = {
