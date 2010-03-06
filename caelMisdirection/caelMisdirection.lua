@@ -1,4 +1,6 @@
-﻿local caelMisdirection = CreateFrame("Frame")
+﻿--[[	$Id$	]]
+
+local caelMisdirection = CreateFrame("Frame")
 
 local print = function(text)
 	DEFAULT_CHAT_FRAME:AddMessage("|cffD7BEA5cael|rMisdirection: "..tostring(text))
