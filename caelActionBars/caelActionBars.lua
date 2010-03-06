@@ -1,4 +1,5 @@
-$Id$
+--[[	$Id$	]]--
+
 --[[
 local mouseOverBar1 = 0
 local mouseOverBar2 = 0
