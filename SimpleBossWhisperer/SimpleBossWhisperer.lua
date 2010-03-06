@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 local inCombat = nil
 local dndBanner = "<SBW> "
 
