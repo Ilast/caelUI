@@ -1,7 +1,0 @@
-## Interface: 30300
-## Title: recClassTimers
-## Author: Recluse
-## Version: $Id: recClassTimers.toc 190 2010-02-03 08:22:02Z john.d.mann@gmail.com $
-## Dependencies: caelMedia
-
-recClassTimers.xml
