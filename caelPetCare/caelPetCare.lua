@@ -1,15 +1,4 @@
-if select(2, UnitClass("player")) ~= "HUNTER" then
-	return DisableAddOn("caelPetCare")
-end
-
-
-
-local function Print(str, ...)
-	if select(1, ...) then str = str:format(...) end
-	DEFAULT_CHAT_FRAME:AddMessage("|cffD7BEA5cael|rPetCare: "..str)
-end
-
-------------------------------------------------------------------------
+--[[	$Id$	]]
 
 local data = {
 	["Bread"] = {
@@ -79,6 +68,11 @@ caelPetCare:RegisterEvent("ADDON_LOADED")
 
 function caelPetCare:ADDON_LOADED(addon)
 	if addon ~= "caelPetCare" then return end
+
+	if select(2, UnitClass("player")) ~= "HUNTER" then
+		self:UnregisterAllEvents()
+		return DisableAddOn("caelPetCare")
+	end
 
 	self.db = {
 		["warnFood"] = true, -- Print a notice when you have no food to feed your pet
@@ -249,12 +243,12 @@ function caelPetCare:UNIT_HAPPINESS(unit)
 	if self.db.warnHungry then
 		if happiness == 1 then
 			if (GetTime() - warned) > 60 then
-				Print("%s is very hungry!", UnitName("pet"))
+				print("|cffD7BEA5cael|rPetCare: ".."%s is very hungry!", UnitName("pet"))
 				warned = GetTime()
 			end
 		elseif happiness == 2 then
 			if (GetTime() - warned) > 120 then
-				Print("%s is hungry.", UnitName("pet"))
+				print("|cffD7BEA5cael|rPetCare: ".."%s is hungry.", UnitName("pet"))
 				warned = GetTime()
 			end
 		end
@@ -418,7 +412,7 @@ function caelPetCare:Scan()
 			end
 		end
 		if not best.id and UnitName("pet") ~= "Unknown" and self.db.warnFood and GetTime() - warned > 240 then
-			Print("You don't have any food for %s.", UnitName("pet"))
+			print("|cffD7BEA5cael|rPetCare: ".."You don't have any food for %s.", UnitName("pet"))
 			warned = GetTime()
 		end
 		self:Edit()
