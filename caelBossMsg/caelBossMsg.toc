@@ -1,0 +1,9 @@
+## Interface: 30300
+## Author: Caellian, Rabbit
+## Title: |cffD7BEA5cael|rBossMsg
+## Notes: Sets you to DND when you fight a boss, and some other crap.
+## X-Revision: $Id$
+## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
+## X-Category: Chat/Communication
+
+caelBossMsg.lua
