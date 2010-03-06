@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 local _, caelPanels = ...
 
 caelPanels.eventFrame = CreateFrame("frame", nil, UIParent)
