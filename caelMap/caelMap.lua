@@ -1,4 +1,6 @@
-﻿caelMap = CreateFrame("Frame")
+﻿--[[	$Id$	]]
+
+caelMap = CreateFrame("Frame")
 
 local dummy = function() end
 local Kill = function(object)
