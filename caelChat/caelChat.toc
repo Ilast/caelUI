@@ -3,7 +3,7 @@
 ## Title: |cffD7BEA5cael|rChat
 ## Notes: ChatFrames modifications
 ## Dependencies: caelMedia, caelPanels
-## X-Revision: $Id$
+## X-Revision: $Id $
 ## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
 ## X-Category: Communication
 
