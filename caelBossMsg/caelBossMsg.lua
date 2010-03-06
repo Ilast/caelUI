@@ -1,7 +1,7 @@
 --[[	$Id$	]]
 
 local inCombat = nil
-local dndBanner = "|cffD7BEA5cael|rBW "
+local dndBanner = "caelBW "
 
 local dndString = dndBanner .. "I'm busy fighting %s (currently at %d%% with %d/%d players alive). You'll be notified when combat ends."
 local combatEndedString = dndBanner .. "Combat ended after %d minutes."
