@@ -1,4 +1,6 @@
-﻿local playerName = UnitName("player")
+﻿--[[	$Id	]]
+
+local playerName = UnitName("player")
 
 local gsub, find, match, lower = string.gsub, string.find, string.match, string.lower
 
