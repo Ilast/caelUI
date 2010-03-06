@@ -8,9 +8,9 @@ local addons = {
 	["base"] = {"!recBug", "BadBoy", "BadBoy_Levels",
 		"caelActionBars", "caelAddOnsManager", "caelBuffet", "caelCCBreak", "caelChat", "caelCombatLog", "caelConfig", "caelEmote", "caelFactions", "caelInterrupt",
 		"caelMinimap", "caelNamePlates", "caelCooldowns", "caelMap", "caelMedia", "caelPanels", "caelQuests", "caelStats", "caelTooltips",
-		"GetReagents-Lite", "gotChat", "gotMacros",
+		"gotChat", "gotMacros",
 		"oUF", "oUF_Caellian", "oUF_CombatFeedback", "oUF_ReadyCheck", "oUF_SpellRange", "oUF_ThreatFeedback",
-		"recBaudBag", "recScrollAreas", "recTimers", "Snoopy"
+		"recBaudBag", "recReagents", "recScrollAreas", "recTimers", "Snoopy"
 	},
 	--[[---------------------------------------------------------------------------
 							  -=( Class-Specific Addons )=-
