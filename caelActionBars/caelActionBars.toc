@@ -3,7 +3,7 @@
 ## Title: |cffD7BEA5cael|rActionBars
 ## Notes: Styles the standard ActionBars and ActionButtons
 ## Dependencies: caelMedia, caelPanels
-## X-Revision: $Revision: 1 $
+## X-Revision: $Id$
 ## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
 ## X-Email: sdkyron@gmail.com
 ## X-Category: ActionBars
