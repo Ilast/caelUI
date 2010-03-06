@@ -1,4 +1,6 @@
-﻿--[==[ 0.89 with 2.30 base speed
+﻿--[[	$Id$	]]
+
+--[==[ 0.89 with 2.30 base speed
 	gM_Macros = {
 		name = {		Macroname, these need to be unique
 			body,		Macrobody, 1023 chars max. Use either linebreaks in long comments [=[ ]=] or \n.

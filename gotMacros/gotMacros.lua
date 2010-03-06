@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 LoadAddOn("Blizzard_MacroUI")
 local macros = gM_Macros
 local playername = UnitName("player")

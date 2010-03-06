@@ -2,7 +2,7 @@
 ## Author: Gotai
 ## Title: gotMacros?
 ## Notes: Silly!
-## Version: r1
+## Version: $Id$
 
 macros.lua
 gotMacros.lua
