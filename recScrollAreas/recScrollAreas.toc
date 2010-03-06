@@ -1,6 +1,7 @@
 ## Interface: 30300
 ## Title: recScrollAreas
 ## Author: Recluse
+## X-Revision: $Id$
 
 core\init.lua
 core\utils.lua

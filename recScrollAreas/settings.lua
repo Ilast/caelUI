@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 -- Font Settings
 recScrollAreas.font_face					= [=[Interface\Addons\caelMedia\Fonts\neuropol nova cd rg.ttf]=]
 recScrollAreas.font_face_sticky				= [=[Interface\Addons\caelMedia\Fonts\neuropol nova cd bd.ttf]=]

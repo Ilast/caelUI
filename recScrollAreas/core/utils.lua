@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 function recScrollAreas:CreateScrollArea(id, height, x_pos, y_pos, textalign, direction, font_face, font_size, font_flags, font_face_sticky, font_size_sticky, font_flags_sticky, animation_duration, animation_duration_sticky)
 	recScrollAreas.scroll_area_frames[id] = CreateFrame("Frame", nil, UIParent)
 	recScrollAreas.scroll_area_frames[id.."sticky"] = CreateFrame("Frame", nil, UIParent)
