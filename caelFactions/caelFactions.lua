@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 local caelFactions = CreateFrame("frame")
 local factionName, factionValue
 local standings = {}
