@@ -1,6 +1,4 @@
---$Revision: 459 $
---$Date: 2009-09-17 08:15:24 -0500 (Thu, 17 Sep 2009) $
----------------------------------------------
+--[[	$Id$	]]
 
 local opt = recDamageMeterOptions
 local raid = {}

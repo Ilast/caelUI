@@ -2,6 +2,7 @@
 ## Title: recDamageMeter
 ## Notes: Minimalistic Damage Meter
 ## Author: Recluse
+## X-Revision: $Id$
 
 default_settings.lua
 recDamageMeter.lua
