@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 local playerName = UnitName("player")
 local playerFaction
 local targets = {}
