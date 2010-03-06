@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 local a = CreateFrame("Frame", "Snoopy", UIParent)
 
 local _G = getfenv(0)
