@@ -1,4 +1,6 @@
-﻿local caelTooltips = CreateFrame("Frame")
+﻿--[[	$Id$	]]
+
+local caelTooltips = CreateFrame("Frame")
 
 local _G = getfenv(0)
 local orig1, orig2 = {}, {}
