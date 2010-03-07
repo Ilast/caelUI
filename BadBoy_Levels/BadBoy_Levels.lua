@@ -1,3 +1,4 @@
+--[[	$Id$	]]
 
 --good players(guildies/friends), maybe(for processing)
 local good, maybe, badboy, filterName, login = {}, {}, CreateFrame("Frame", "BadBoy_Levels"), "", nil
