@@ -152,7 +152,7 @@ local ShowChatFrame = function(self)
 	FlashTab(self)
 
 --	Change our tab to a colored version so the user can see which tab is selected.
-	self:SetBackdropColor(0.33, 0.59, 0.33, 0.5)
+	self:SetBackdropColor(0.84, 0.75, 0.65, 0.5)
 
 	_G[format("ChatFrame%s", self.id)]:Show()
 end
