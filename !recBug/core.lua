@@ -1,5 +1,5 @@
 --[[	$Id$	]]
-	----------------------------------------
+----------------------------------------
 -- NOTE:
 -- You probably do not have this stuff set, as it is from recMedia.
 -- If not, you need to uncomment the following 3 lines and set your own font and edge file.

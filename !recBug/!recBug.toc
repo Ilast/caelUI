@@ -1,4 +1,4 @@
-	## Interface: 30300
+## Interface: 30300
 ## Title: recBug
 ## Notes: Error handling
 ## Author: Recluse
