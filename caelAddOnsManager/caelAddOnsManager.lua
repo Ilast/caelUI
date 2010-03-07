@@ -10,7 +10,7 @@ local addons = {
 		"caelMinimap", "caelNamePlates", "caelCooldowns", "caelMap", "caelMedia", "caelPanels", "caelQuests", "caelStats", "caelTooltips",
 		"gotChat", "gotMacros",
 		"oUF", "oUF_Caellian", "oUF_CombatFeedback", "oUF_ReadyCheck", "oUF_SpellRange", "oUF_ThreatFeedback",
-		"recBaudBag", "recReagents", "recScrollAreas", "recTimers", "Snoopy"
+		"recBags", "recReagents", "recScrollAreas", "recTimers", "Snoopy"
 	},
 	--[[---------------------------------------------------------------------------
 							  -=( Class-Specific Addons )=-
