@@ -25,17 +25,19 @@ DEFAULT_CHATFRAME_ALPHA = 0 -- remove mouseover background
 local ChatFrameEditBox = ChatFrameEditBox
 ChatFrameEditBox:SetAltArrowKeyMode(nil)
 ChatFrameEditBox:ClearAllPoints()
-ChatFrameEditBox:SetHeight(25)
-ChatFrameEditBox:SetPoint("BOTTOMLEFT",  caelPanel1, "TOPLEFT", 0, 1.5)
-ChatFrameEditBox:SetPoint("BOTTOMRIGHT", caelPanel1, "TOPRIGHT", 0, 1.5)
+ChatFrameEditBox:SetHeight(20)
+ChatFrameEditBox:SetPoint("BOTTOMLEFT",  caelPanel1, "TOPLEFT", 0, 1)
+ChatFrameEditBox:SetPoint("BOTTOMRIGHT", caelPanel1, "TOPRIGHT", -90, 1)
 ChatFrameEditBox:SetFontObject(neuropolrg12)
-ChatFrameEditBox:SetBackdrop(backdrop)
-ChatFrameEditBox:SetBackdropColor(0, 0, 0, 0.5)
-ChatFrameEditBox:SetBackdropBorderColor(0, 0, 0)
+ChatFrameEditBoxHeader:SetPoint("LEFT", caelPanel3a, 5, 0)
 ChatFrameEditBoxHeader:SetFontObject(neuropolrg12)
 
+ChatFrameEditBox:HookScript("OnHide", function()
+	caelPanel3a:SetBackdropColor(0, 0, 0, 0.5)
+end)
+
 local function colorize(r, g, b)
-	ChatFrameEditBox:SetBackdropColor(r * 0.33, g * 0.33, b * 0.33, 0.5)
+	caelPanel3a:SetBackdropColor(r * 0.5, g * 0.5, b * 0.5, 0.5)
 end
 
 hooksecurefunc("ChatEdit_UpdateHeader", function()
@@ -51,18 +53,6 @@ hooksecurefunc("ChatEdit_UpdateHeader", function()
 		colorize(ChatTypeInfo[type].r, ChatTypeInfo[type].g,ChatTypeInfo[type].b)
 	end
 end)
-
-local gradientTop = ChatFrameEditBox:CreateTexture(nil, "BORDER")
-gradientTop:SetTexture(bgTexture)
-gradientTop:SetPoint("TOPLEFT", 2, -2)
-gradientTop:SetPoint("TOPRIGHT", -2, -12)
-gradientTop:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.5)
-
-local gradientBottom = ChatFrameEditBox:CreateTexture(nil, "BORDER")
-gradientBottom:SetTexture(bgTexture)
-gradientBottom:SetPoint("TOPLEFT", 2, -12)
-gradientBottom:SetPoint("BOTTOMRIGHT", -2, 2)
-gradientBottom:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.75, 0, 0, 0, 0)
 
 local mergedTable = {
 --	coloredChats values only
@@ -143,7 +133,7 @@ local function ShowChatFrame(self)
 --	Hide all chat frames
 	for i = 1, 4 do
 		if i ~= 2 then
-			_G[format("ChatButton%s", i)]:SetBackdropBorderColor(0.5, 0.5, 0.5)
+			_G[format("ChatButton%s", i)]:SetBackdropColor(0, 0, 0, 0.5)
 			_G[format("ChatFrame%s", i)]:Hide()
 		end
 	end
@@ -152,7 +142,7 @@ local function ShowChatFrame(self)
 	FlashTab(self)
 
 --	Change our tab to a colored version so the user can see which tab is selected.
-	self:SetBackdropBorderColor(0.33, 0.59, 0.33)
+	self:SetBackdropColor(0.33, 0.59, 0.33, 0.5)
 
 	_G[format("ChatFrame%s", self.id)]:Show()
 end
@@ -287,7 +277,7 @@ chatFrames:HookScript("OnEvent", function(self, event, addon)
 			local function MakeButton(id, txt, tip)
 				local btn = CreateFrame("Button", format("ChatButton%s", id), cftbb)
 				btn.id = id
-				btn:SetSize(30, 15)
+				btn:SetSize(30, 20)
 --				If you want them to only show on_enter
 --				btn:SetScript("OnEnter", function(...) ChatButtonBar:SetAlpha(1) end)
 --				btn:SetScript("OnLeave", function(...) ChatButtonBar:SetAlpha(0) end)
@@ -317,15 +307,16 @@ chatFrames:HookScript("OnEvent", function(self, event, addon)
 				btn.t:SetText(txt)
 
 				btn:SetBackdrop(backdrop)
-				btn:SetBackdropColor(0, 0, 0, 0)
+				btn:SetBackdropColor(0, 0, 0, 0.15)
+				btn:SetBackdropBorderColor(0, 0, 0)
 
 --				Create the flash frame
 				btn.flash = CreateFrame("Frame", format("ChatButton%sFlash", id), btn)
 				btn.flash:SetAllPoints()
 				btn.flash:SetBackdrop(backdrop)
-				btn.flash:SetBackdropColor(0, 0, 0, 0)
-				btn.flash:SetBackdropBorderColor(0.69, 0.31, 0.31)
-				btn.flash.frequency = .05
+				btn.flash:SetBackdropColor(0.69, 0.31, 0.31, 0.5)
+				btn.flash:SetBackdropBorderColor(0, 0, 0)
+				btn.flash.frequency = .025
 				btn.flash.elapsed = 0
 				btn.flash.isFading = false
 				btn.flash:SetScript("OnUpdate", function(self, elapsed)
@@ -343,15 +334,30 @@ chatFrames:HookScript("OnEvent", function(self, event, addon)
 					end
 
 --					Change alpha
-					self:SetAlpha(currentAlpha - (self.isFading and .1 or -.1))
+					self:SetAlpha(currentAlpha + (self.isFading and -.1 or .1))
 				end)
 --				Stop flashing if player sends an outgoing whisper
 				btn.flash:RegisterEvent("CHAT_MSG_WHISPER_INFORM")
 				btn.flash:SetScript("OnEvent", function(self, event, ...)
-					FlashTab(self:GetParent())
+--					FlashTab(self:GetParent())
 				end)
 
 				btn.flash:Hide()
+
+				btn.skinTop = btn:CreateTexture(nil, "BORDER")
+				btn.skinTop:SetTexture(bgTexture)
+				btn.skinTop:SetHeight(4)
+				btn.skinTop:SetPoint("TOPLEFT", 2, -2)
+				btn.skinTop:SetPoint("TOPRIGHT", -2, -2)
+				btn.skinTop:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.5)
+
+				btn.skinBottom = btn:CreateTexture(nil, "BORDER")
+				btn.skinBottom:SetTexture(bgTexture)
+				btn.skinBottom:SetHeight(4)
+				btn.skinBottom:SetPoint("TOPLEFT", 2, -12)
+				btn.skinBottom:SetPoint("BOTTOMRIGHT", -2, 2)
+				btn.skinBottom:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.75, 0, 0, 0, 0)
+
 				return btn
 			end
 
@@ -360,7 +366,7 @@ chatFrames:HookScript("OnEvent", function(self, event, addon)
 			local cft3 = MakeButton(3, "W", "• w <-> •")
 			local cft4 = MakeButton(4, "L", "• Loot •")
 
-			cft4:SetPoint("TOPRIGHT", caelPanel1, -3.5, -3)
+			cft4:SetPoint("BOTTOMRIGHT", caelPanel1, "TOPRIGHT", 0, 1)
 			cft3:SetPoint("RIGHT", cft4, "LEFT")
 			cft1:SetPoint("RIGHT", cft3, "LEFT")
 
