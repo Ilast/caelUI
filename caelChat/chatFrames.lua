@@ -339,7 +339,7 @@ chatFrames:HookScript("OnEvent", function(self, event, addon)
 --				Stop flashing if player sends an outgoing whisper
 				btn.flash:RegisterEvent("CHAT_MSG_WHISPER_INFORM")
 				btn.flash:SetScript("OnEvent", function(self, event, ...)
---					FlashTab(self:GetParent())
+					FlashTab(self:GetParent())
 				end)
 
 				btn.flash:Hide()
