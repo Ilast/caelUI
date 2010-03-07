@@ -29,14 +29,24 @@ ChatFrameEditBox:SetHeight(20)
 ChatFrameEditBox:SetPoint("BOTTOMLEFT",  caelPanel1, "TOPLEFT", 0, 1)
 ChatFrameEditBox:SetPoint("BOTTOMRIGHT", caelPanel1, "TOPRIGHT", -90, 1)
 ChatFrameEditBox:SetFontObject(neuropolrg12)
-ChatFrameEditBoxHeader:SetPoint("LEFT", caelPanel3a, 5, 0)
+ChatFrameEditBoxHeader:SetPoint("LEFT", caelPanel3a, 5, 1)
 ChatFrameEditBoxHeader:SetFontObject(neuropolrg12)
+
+-- save original function to alternate name
+ChatFrameEditBox.oldSetTextInsets = ChatFrameEditBox.SetTextInsets
+-- override function to modify values.
+ChatFrameEditBox.SetTextInsets = function(self, left, right, top, bottom)
+	left = left - 10
+	top = top - 2
+	-- call original function
+	ChatFrameEditBox.oldSetTextInsets(self, left, right, top, bottom)
+end
 
 ChatFrameEditBox:HookScript("OnHide", function()
 	caelPanel3a:SetBackdropColor(0, 0, 0, 0.5)
 end)
 
-local function colorize(r, g, b)
+local colorize = function(r, g, b)
 	caelPanel3a:SetBackdropColor(r * 0.5, g * 0.5, b * 0.5, 0.5)
 end
 
@@ -91,7 +101,7 @@ local mergedTable = {
 	[28] = "CHANNEL",
 }
 
-local function Kill(obj)
+local Kill = function(obj)
 	obj.Show = function() end
 	obj:Hide()
 end
@@ -100,7 +110,7 @@ end
 local cftbb = CreateFrame("Frame", "ChatButtonBar", UIParent)
 
 --	Make chat tab flash.
-local function FlashTab(tab, start)
+local FlashTab = function(tab, start)
         if start and tab.flash:IsShown() then
                 return
         elseif not start and not tab.flash:IsShown() then
@@ -115,17 +125,17 @@ local function FlashTab(tab, start)
 end
 
 -- FCF override funcs
-local function GetCurrentChatFrame(...)
+local GetCurrentChatFrame = function(...)
 --	Gets the chat frame which should be currently shown.
 	return _G[format("ChatFrame%s", ChatButtonBar.id)]
 end
 
-local function GetChatFrameID(...)
+local GetChatFrameID = function(...)
 --	Gets the current chat frame's id.
 	return ChatButtonBar.id
 end
 
-local function ShowChatFrame(self)
+local ShowChatFrame = function(self)
 --	Set required id variables.
 	ChatButtonBar.id = self.id
 	SELECTED_CHAT_FRAME = _G[format("ChatFrame%s", self.id)]
@@ -274,7 +284,7 @@ chatFrames:HookScript("OnEvent", function(self, event, addon)
 			end
 
 --			Custom chat tabs
-			local function MakeButton(id, txt, tip)
+			local MakeButton = function(id, txt, tip)
 				local btn = CreateFrame("Button", format("ChatButton%s", id), cftbb)
 				btn.id = id
 				btn:SetSize(30, 20)
