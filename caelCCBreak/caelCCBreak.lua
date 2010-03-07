@@ -51,7 +51,8 @@ local spells = {
 	getName(51514), -- Hex
 }
 
-function caelCCBreak_OnEvent(_, _, _, subEvent, _, sourceName, _, _, destName, destFlags, _, spellName, _, _, extraSkillName, ...)
+caelCCBreak:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+caelCCBreak:SetScript("OnEvent", function(_, _, _, subEvent, _, sourceName, _, _, destName, destFlags, _, spellName, _, _, extraSkillName, ...)
 	if subEvent == "SPELL_AURA_BROKEN_SPELL" or subEvent == "SPELL_AURA_BROKEN" then
 		if bit.band(destFlags, hostile) == hostile then
 			for k,v in pairs(spells) do
@@ -63,7 +64,4 @@ function caelCCBreak_OnEvent(_, _, _, subEvent, _, sourceName, _, _, destName, d
 			end
 		end
 	end
-end
-
-caelCCBreak:SetScript("OnEvent", caelCCBreak_OnEvent)
-caelCCBreak:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+end)
