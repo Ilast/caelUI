@@ -89,9 +89,9 @@ veb:RegisterEvent("UNIT_EXITING_VEHICLE")
 veb:RegisterEvent("UNIT_EXITED_VEHICLE")
 veb:SetScript("OnEvent", function(self,event,...)
 	local arg1 = ...
-	if(((event=="UNIT_ENTERING_VEHICLE") or (event=="UNIT_ENTERED_VEHICLE")) and arg1 == "player") then
+	if(((event == "UNIT_ENTERING_VEHICLE") or (event == "UNIT_ENTERED_VEHICLE")) and arg1 == "player") then
 		veb:SetAlpha(1)
-	elseif(((event=="UNIT_EXITING_VEHICLE") or (event=="UNIT_EXITED_VEHICLE")) and arg1 == "player") then
+	elseif(((event == "UNIT_EXITING_VEHICLE") or (event == "UNIT_EXITED_VEHICLE")) and arg1 == "player") then
 		veb:SetAlpha(0)
 	end
 end)
@@ -103,7 +103,7 @@ end)
 local currentButton
 
 ActionButton1:ClearAllPoints()
-ActionButton1:SetPoint("TOPLEFT", bar1Holder, "TOPLEFT", 4.5, -4.5)
+ActionButton1:SetPoint("TOPLEFT", bar1Holder, 4.5, -4.5)
 
 for i = 1, 12 do
 	currentButton = _G["ActionButton"..i]
