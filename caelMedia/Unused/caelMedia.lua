@@ -1,4 +1,4 @@
---[[	$Id$	]]
+--[[	$Id: caelMedia.lua 521 2010-03-06 16:47:07Z sdkyron@gmail.com $	]]
 
 -- tab size is 4
 -- registrations for media from the client itself belongs in LibSharedMedia-3.0

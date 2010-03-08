@@ -1,4 +1,4 @@
---[[	$Id$	]]
+--[[	$Id: LibStub.lua 521 2010-03-06 16:47:07Z sdkyron@gmail.com $	]]
 
 -- LibStub is a simple versioning stub meant for use in Libraries.  http://www.wowace.com/wiki/LibStub for more info
 -- LibStub is hereby placed in the Public Domain Credits: Kaelten, Cladhaire, ckknight, Mikk, Ammo, Nevcairiel, joshborke

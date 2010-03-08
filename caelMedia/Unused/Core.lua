@@ -1,4 +1,4 @@
---[[	$Id$	]]
+--[[	$Id: Core.lua 521 2010-03-06 16:47:07Z sdkyron@gmail.com $	]]
 
 local LSM3 = LibStub("LibSharedMedia-3.0", true)
 local LSM2 = LibStub("LibSharedMedia-2.0", true)

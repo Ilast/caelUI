@@ -1,5 +1,9 @@
 ﻿--[[	$Id$	]]
 
+local _, caelFonts = ...
+
+caelFonts.eventFrame = CreateFrame("Frame", nil, UIParent)
+
 local neuropolrg9 = CreateFont("neuropolrg9")
 neuropolrg9:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 9, "")
 local neuropolrg10 = CreateFont("neuropolrg10")
@@ -21,10 +25,8 @@ local FixTitleFont = function()
 	end
 end
 
-local caelFonts = CreateFrame("Frame")
-caelFonts:RegisterEvent("ADDON_LOADED")
-
-caelFonts:SetScript("OnEvent", function(self, event, addon)
+caelFonts.eventFrame:RegisterEvent("ADDON_LOADED")
+caelFonts.eventFrame:SetScript("OnEvent", function(self, event, addon)
 
 	if addon ~= "caelMedia" then return end
 
