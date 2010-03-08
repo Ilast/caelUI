@@ -1,16 +1,13 @@
 ﻿--[[	$Id$	]]
 
-local print = function(text)
-	DEFAULT_CHAT_FRAME:AddMessage("|cffD7BEA5cael|rTracking: "..tostring(text))
-end
-
 if select(2, UnitClass("player")) ~= "HUNTER" then
-	print("You are not a Hunter, caelTracking will be disabled on next UI reload.")
+	print("|cffD7BEA5cael|rTracking: You are not a Hunter, caelTracking will be disabled on next UI reload.")
 	return DisableAddOn("caelTracking")
 end
 
-local caelTracking = CreateFrame("Frame")
-caelTracking:Hide()
+local _, caelTracking = ...
+
+caelTracking.eventFrame = CreateFrame("Frame", nil, UIParent)
 
 local cities = {
 --	["Darnassus"] = true,
@@ -29,77 +26,71 @@ local cities = {
 
 local ZoneChange = function(zone)
 	if cities[zone] then
-		if select(2, UnitClass("player")) == "HUNTER" then
+--		if select(2, UnitClass("player")) == "HUNTER" then
 			SetTracking(nil)
+--		end
+	end
+end
+
+caelTracking.eventFrame:RegisterEvent("WORLD_MAP_UPDATE")
+caelTracking.eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+caelTracking.eventFrame:SetScript("OnEvent", function(self, event)
+	if event == "WORLD_MAP_UPDATE" or event == "ZONE_CHANGED_NEW_AREA" then
+		local zone = GetRealZoneText()
+		if zone and zone ~= "" then
+			return ZoneChange(zone)
 		end
 	end
-end
-
-caelTracking:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-caelTracking.ZONE_CHANGED_NEW_AREA = function(self)
-	local zone = GetRealZoneText()
-	if zone and zone ~= "" then
-		self:UnregisterEvent("WORLD_MAP_UPDATE")
-		return ZoneChange(zone)
-	end
-end
-
-caelTracking:RegisterEvent("WORLD_MAP_UPDATE")
-caelTracking.WORLD_MAP_UPDATE = caelTracking.ZONE_CHANGED_NEW_AREA
+end)
 
 local TrackingTypeToID, TrackingTypeToTexture
-caelTracking:RegisterEvent("PLAYER_ENTERING_WORLD")
-caelTracking.PLAYER_ENTERING_WORLD = function(self)
-	TrackingTypeToID = {}
-	TrackingTypeToTexture = {}
-	for i = 1, GetNumTrackingTypes() do
-		local name, tex, _, type = GetTrackingInfo(i)
-		if type == "spell" then
-			name = name:match("Track (.-)s?$")
-			if name then
-				TrackingTypeToID[name] = i
-				TrackingTypeToTexture[name] = tex
+caelTracking.eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+caelTracking.eventFrame:HookScript("OnEvent", function(self, event)
+	if event == "PLAYER_ENTERING_WORLD" then
+		TrackingTypeToID = {}
+		TrackingTypeToTexture = {}
+		for i = 1, GetNumTrackingTypes() do
+			local name, tex, _, type = GetTrackingInfo(i)
+			if type == "spell" then
+				name = name:match("Track (.-)s?$")
+				if name then
+					TrackingTypeToID[name] = i
+					TrackingTypeToTexture[name] = tex
+				end
+			end
+		end
+		return ZoneChange(GetRealZoneText())
+	end
+end)
+
+local function unitTarget(self, event, unit)
+	if event == "UNIT_TARGET" then
+		if unit == "player" and UnitCanAttack("player", "target") and not UnitIsDead("target") then
+			local targettype = UnitCreatureType("target")
+			if GetTrackingTexture() ~= TrackingTypeToTexture[targettype] then
+				local id = TrackingTypeToID[targettype]
+				if id then
+					local start, duration = GetSpellCooldown((GetTrackingInfo(id)))
+					if start ~= 0 then
+						timeleft = start-GetTime()+duration
+						self:Show()
+						return
+					end
+					SetTracking(id)
+				end
 			end
 		end
 	end
-	return ZoneChange(GetRealZoneText())
 end
 
-local timeleft
-local OnUpdate = function(self, elapsed)
+local timeleft = 0
+caelTracking.eventFrame:SetScript("OnUpdate", function(self, elapsed)
 	timeleft = timeleft - elapsed
 	if timeleft <= 0 then
 		self:Hide()
-		return self:UNIT_TARGET(nil, "player")
+		return unitTarget(self, "UNIT_TARGET", "player")
 	end
-end
+end)
 
-caelTracking:RegisterEvent("UNIT_TARGET")
-caelTracking.UNIT_TARGET = function(self, event, unit)
-	if unit == "player" and UnitCanAttack("player", "target") and not UnitIsDead("target") then
-		local targettype = UnitCreatureType("target")
-		if GetTrackingTexture() ~= TrackingTypeToTexture[targettype] then
-			local id = TrackingTypeToID[targettype]
-			if id then
-				local start, duration = GetSpellCooldown((GetTrackingInfo(id)))
-				if start ~= 0 then
-					timeleft = start-GetTime()+duration
-					self:Show()
-					return
-				end
-				SetTracking(id)
-			end
-		end
-	end
-end
-
-OnEvent = function(self, event, ...)
-	if type(self[event]) == "function" then
-		return self[event](self, event, ...)
-	else
-		print(string.format("Unhandled event: %s", event))
-	end
-end
-
-caelTracking:SetScript("OnUpdate", OnUpdate)
-caelTracking:SetScript("OnEvent", OnEvent)
+caelTracking.eventFrame:RegisterEvent("UNIT_TARGET")
+caelTracking.eventFrame:HookScript("OnEvent", unitTarget)
