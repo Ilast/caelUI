@@ -33,12 +33,12 @@ local addons = {
 	["dev"] = {},
 }
 
-local function EnableSet(set)
+local EnableSet = function(set)
 	if not addons[set] then return end		-- If the set does not exist, then bail.
 	for k, v in pairs(addons[set]) do EnableAddOn(v) end		-- Load all addons in set
 end
 
-local function HandleSlash(set)
+local HandleSlash = function(set)
 	for i = 1, GetNumAddOns() do DisableAddOn(i) end	-- Disable all addons (to ensure only what we want gets loaded)
 
 	EnableSet("base")							-- Enable base addons
