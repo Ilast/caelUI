@@ -1,6 +1,8 @@
 ﻿--[[	$Id$	]]
 
-local caelTooltips = CreateFrame("Frame")
+local _, caelTooltips = ...
+
+caelTooltips = CreateFrame("Frame", nil, UIParent)
 
 local _G = getfenv(0)
 local orig1, orig2 = {}, {}
