@@ -1,6 +1,8 @@
 ﻿--[[	$Id$	]]
 
-caelMap = CreateFrame("Frame")
+local _, caelMap = ...
+
+caelMap.eventFrame = CreateFrame("Frame")
 
 local dummy = function() end
 local Kill = function(object)
@@ -34,7 +36,7 @@ WorldMapButton:HookScript("OnUpdate", function(self, u)
 	end
 end)
 
-local OnUpdate = function(self)
+local caelMap_OnUpdate = function(self)
 	color = RAID_CLASS_COLORS[select(2, UnitClass(self.unit))]
 	self.icon:SetVertexColor(color.r, color.g, color.b)
 end
@@ -113,29 +115,33 @@ local SetupMap = function()
 		WorldMapFrame_AdjustMapAndQuestList = dummy
 end
 
-local OnEvent = function()
-	for r = 1, 40 do
-		if UnitInParty(_G["WorldMapRaid"..r].unit) then
-			_G["WorldMapRaid"..r].icon:SetTexture([=[Interface\Addons\caelMedia\Miscellaneous\partyicon]=])
-		else
-			_G["WorldMapRaid"..r].icon:SetTexture([=[Interface\Addons\caelMedia\Miscellaneous\raidicon]=])
+caelMap.eventFrame:RegisterEvent("WORLD_MAP_UPDATE")
+caelMap.eventFrame:RegisterEvent("RAID_ROSTER_UPDATE")
+caelMap.eventFrame:RegisterEvent("PARTY_MEMBERS_CHANGED")
+caelMap.eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+caelMap.eventFrame:SetScript("OnEvent", function()
+	if event == "RAID_ROSTER_UPDATE" or event == "PARTY_MEMBERS_CHANGED" then
+		for r = 1, 40 do
+			if UnitInParty(_G["WorldMapRaid"..r].unit) then
+				_G["WorldMapRaid"..r].icon:SetTexture([=[Interface\Addons\caelMedia\Miscellaneous\partyicon]=])
+			else
+				_G["WorldMapRaid"..r].icon:SetTexture([=[Interface\Addons\caelMedia\Miscellaneous\raidicon]=])
+			end
+			_G["WorldMapRaid"..r]:SetScript("OnUpdate", caelMap_OnUpdate)
 		end
-		_G["WorldMapRaid"..r]:SetScript("OnUpdate", OnUpdate)
-	end
 
-	for p = 1, 4 do
-		_G["WorldMapParty"..p].icon:SetTexture([=[Interface\Addons\caelMedia\Miscellaneous\partyicon]=])
-		_G["WorldMapParty"..p]:SetScript("OnUpdate", OnUpdate)
-	end
-
-	if event == "PLAYER_ENTERING_WORLD" then
+		for p = 1, 4 do
+			_G["WorldMapParty"..p].icon:SetTexture([=[Interface\Addons\caelMedia\Miscellaneous\partyicon]=])
+			_G["WorldMapParty"..p]:SetScript("OnUpdate", caelMap_OnUpdate)
+		end
+	elseif event == "PLAYER_ENTERING_WORLD" then
 		if WorldMapFrame.sizedDown then
 			ToggleFrame(WorldMapFrame)
 			WorldMapFrameSizeDownButton_OnClick()
 			ToggleFrame(WorldMapFrame)
 		end
 		SetupMap()
-		caelMap:UnregisterEvent("PLAYER_ENTERING_WORLD")
+		caelMap.eventFrame:UnregisterEvent("PLAYER_ENTERING_WORLD")
 		SeupMap = nil
 		
 	elseif event == "WORLD_MAP_UPDATE" then
@@ -143,10 +149,4 @@ local OnEvent = function()
 		WatchFrame_Update()
 		WorldMapFrame_UpdateQuests()
 	end
-end
-
-caelMap:SetScript("OnEvent", OnEvent)
-caelMap:RegisterEvent("PLAYER_ENTERING_WORLD")
-caelMap:RegisterEvent("PARTY_MEMBERS_CHANGED")
-caelMap:RegisterEvent("RAID_ROSTER_UPDATE")
-caelMap:RegisterEvent("WORLD_MAP_UPDATE")
+end)
