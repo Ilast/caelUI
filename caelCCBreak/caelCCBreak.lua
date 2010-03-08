@@ -1,6 +1,8 @@
 --[[	$Id$	]]
 
-local caelCCBreak = CreateFrame("Frame")
+local _, caelCCBreak = ...
+
+caelCCBreak.eventFrame = CreateFrame("Frame", nil, UIParent)
 
 --local msg = "|cffD7BEA5%s|r on |cffAF5050%s|r broken by |cff559655%s|r%s"
 local msg = "|cffD7BEA5%s|r broken by |cff559655%s|r"
@@ -51,11 +53,11 @@ local spells = {
 	getName(51514), -- Hex
 }
 
-caelCCBreak:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-caelCCBreak:SetScript("OnEvent", function(_, _, _, subEvent, _, sourceName, _, _, destName, destFlags, _, spellName, _, _, extraSkillName, ...)
+caelCCBreak.eventFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+caelCCBreak.eventFrame:SetScript("OnEvent", function(_, _, _, subEvent, _, sourceName, _, _, destName, destFlags, _, spellName, _, _, extraSkillName, ...)
 	if subEvent == "SPELL_AURA_BROKEN_SPELL" or subEvent == "SPELL_AURA_BROKEN" then
 		if bit.band(destFlags, hostile) == hostile then
-			for k,v in pairs(spells) do
+			for k, v in pairs(spells) do
 				if v == spellName then
 --					DEFAULT_CHAT_FRAME:AddMessage(msg:format(spellName, destName, sourceName and sourceName or "Unknown", extraSkillName and "'s "..extraSkillName or ""))
 					DEFAULT_CHAT_FRAME:AddMessage(msg:format(spellName, sourceName and sourceName or "Unknown"))
