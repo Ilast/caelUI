@@ -1,26 +1,28 @@
 --[[	$Id$	]]
 
-local frame = CreateFrame("Frame", "caelCombatLog", UIParent)
+local _, caelCombatLog = ...
 
-frame:SetWidth(311.5)
-frame:SetHeight(104.5)
-frame:SetPoint("BOTTOM", UIParent, "BOTTOM", -401, 43)
+caelCombatLog.frame = CreateFrame("Frame", "caelCombatLogFrame", UIParent)
+
+caelCombatLog.frame:SetWidth(311.5)
+caelCombatLog.frame:SetHeight(104.5)
+caelCombatLog.frame:SetPoint("BOTTOM", UIParent, "BOTTOM", -401, 43)
 
 local function ScrollFrame(self, delta)
 	if delta > 0 then
-		for i = 1, #frame.frames do
+		for i = 1, #self:GetParent().collumns do
 			if IsShiftKeyDown() then
-				frame.frames[i]:ScrollToTop()
+				self:GetParent().collumns[i]:ScrollToTop()
 			else
-				frame.frames[i]:ScrollUp()
+				self:GetParent().collumns[i]:ScrollUp()
 			end
 		end
 	elseif delta < 0 then
-		for i = 1, #frame.frames do
+		for i = 1, #self:GetParent().collumns do
 			if IsShiftKeyDown() then
-				frame.frames[i]:ScrollToBottom()
+				self:GetParent().collumns[i]:ScrollToBottom()
 			else
-				frame.frames[i]:ScrollDown()
+				self:GetParent().collumns[i]:ScrollDown()
 			end
 		end
 	end
@@ -63,13 +65,13 @@ local function OnLeave(self)
 	end
 end
 
-frame.frames = {}
+caelCombatLog.frame.collumns = {}
 for i = 1, 3 do
-   local smf = CreateFrame("ScrollingMessageFrame", nil, frame)
-   smf:SetMaxLines(1000)
-   smf:SetFont([=[Interface\Addons\caelMedia\Fonts\xenara rg.ttf]=], 9)
-	smf:SetSpacing(2)
-   smf:SetFading(true)
+   local smf = CreateFrame("ScrollingMessageFrame", nil, caelCombatLog.frame)
+    smf:SetMaxLines(1000)
+    smf:SetFont([=[Interface\Addons\caelMedia\Fonts\xenara rg.ttf]=], 9)
+    smf:SetSpacing(2)
+    smf:SetFading(true)
 	smf:SetFadeDuration(5)
 	smf:SetTimeVisible(20)
 	smf:SetScript("OnMouseWheel", ScrollFrame)
@@ -80,59 +82,47 @@ for i = 1, 3 do
 	smf:SetScript("OnHyperlinkClick", OnHyperlinkClick)
 	smf:SetScript("OnLeave", OnLeave)
 	if i == 1 or i == 3 then
-		smf:SetWidth(frame:GetWidth()/3 - 45)
+		smf:SetWidth(caelCombatLog.frame:GetWidth()/3 - 45)
 	else
-		smf:SetWidth(frame:GetWidth()/3 + 82)
+		smf:SetWidth(caelCombatLog.frame:GetWidth()/3 + 82)
 	end
-	frame.frames[i] = smf
+	caelCombatLog.frame.collumns[i] = smf
 end
 
-frame.frames[1]:SetPoint("TOPLEFT")
-frame.frames[1]:SetPoint("BOTTOMLEFT")
-frame.frames[2]:SetPoint("TOP")
-frame.frames[2]:SetPoint("BOTTOM")
-frame.frames[3]:SetPoint("TOPRIGHT")
-frame.frames[3]:SetPoint("BOTTOMRIGHT")
+caelCombatLog.frame.collumns[1]:SetPoint("TOPLEFT")
+caelCombatLog.frame.collumns[1]:SetPoint("BOTTOMLEFT")
+caelCombatLog.frame.collumns[2]:SetPoint("TOP")
+caelCombatLog.frame.collumns[2]:SetPoint("BOTTOM")
+caelCombatLog.frame.collumns[3]:SetPoint("TOPRIGHT")
+caelCombatLog.frame.collumns[3]:SetPoint("BOTTOMRIGHT")
 
-frame.frames[1]:SetJustifyH("LEFT")
-frame.frames[2]:SetJustifyH("CENTER")
-frame.frames[3]:SetJustifyH("RIGHT")
+caelCombatLog.frame.collumns[1]:SetJustifyH("LEFT")
+caelCombatLog.frame.collumns[2]:SetJustifyH("CENTER")
+caelCombatLog.frame.collumns[3]:SetJustifyH("RIGHT")
 
 --local icon = "Interface\\LFGFrame\\LFGRole"
 local icon = [=[Interface\LFGFrame\UI-LFG-ICON-PORTRAITROLES]=]
 
-local tex1 = frame:CreateTexture(nil, "ARTWORK")
+local tex1 = caelCombatLog.frame:CreateTexture(nil, "ARTWORK")
 tex1:SetWidth(14)
 tex1:SetHeight(14)
 tex1:SetTexture(icon)
 --tex1:SetTexCoord(1/2, 0, 1/2, 1, 3/4, 0, 3/4, 1)
 tex1:SetTexCoord(0, 19/64, 22/64, 41/64)
-tex1:SetPoint("TOPLEFT", frame, "BOTTOMLEFT", 0, -5)
+tex1:SetPoint("TOPLEFT", caelCombatLog.frame, "BOTTOMLEFT", 0, -5)
 
-local tex2 = frame:CreateTexture(nil, "ARTWORK")
+local tex2 = caelCombatLog.frame:CreateTexture(nil, "ARTWORK")
 tex2:SetWidth(14)
 tex2:SetHeight(14)
 tex2:SetTexture(icon)
 --tex2:SetTexCoord(3/4, 0, 3/4, 1, 1, 0, 1, 1)
 tex2:SetTexCoord(20/64, 39/64, 1/64, 20/64)
-tex2:SetPoint("TOP", frame, "BOTTOM", 0, -5)
+tex2:SetPoint("TOP", caelCombatLog.frame, "BOTTOM", 0, -5)
 
-local tex3 = frame:CreateTexture(nil, "ARTWORK")
+local tex3 = caelCombatLog.frame:CreateTexture(nil, "ARTWORK")
 tex3:SetWidth(14)
 tex3:SetHeight(14)
 tex3:SetTexture(icon)
 --tex3:SetTexCoord(1/4, 0, 1/4, 1, 1/2, 0, 1/2, 1)
 tex3:SetTexCoord(20/64, 39/64, 22/64, 41/64)
-tex3:SetPoint("TOPRIGHT", frame, "BOTTOMRIGHT", 0, -5)
-
-cCLFrame = frame
-
-OnEvent = function(self, event, ...)
-	if type(self[event]) == "function" then
-		return self[event](self, event, ...)
-	else
-		print(string.format("Unhandled event: %s", event))
-	end
-end
-
-frame:SetScript("OnEvent", OnEvent)
+tex3:SetPoint("TOPRIGHT", caelCombatLog.frame, "BOTTOMRIGHT", 0, -5)
