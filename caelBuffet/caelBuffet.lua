@@ -26,6 +26,7 @@ local function TableStuffer(...)
 	end
 	return t
 end
+
 local function KnownItem(id)
 	for k,v in pairs(items) do
 		for l,u in pairs(v) do
@@ -36,6 +37,7 @@ local function KnownItem(id)
 	end
 	return false
 end
+
 for i,v in pairs(items) do
 	bests[i] = {}
 	items[i] = TableStuffer(string.split(" ,", v))
@@ -43,7 +45,6 @@ end
 
 caelBuffet = CreateFrame("frame")
 caelBuffet:SetScript("OnEvent", function(self, event, ...) if self[event] then return self[event](self, event, ...) end end)
-function caelBuffet:Print(...) ChatFrame1:AddMessage(string.join(" ", "|cFF33FF99caelBuffet|r:", ...)) end
 caelBuffet:RegisterEvent("PLAYER_LOGIN")
 
 function caelBuffet:PLAYER_LOGIN()
