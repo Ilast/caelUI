@@ -1,15 +1,13 @@
 --[[	$Id$	]]
 
-local print = function(text)
-	DEFAULT_CHAT_FRAME:AddMessage("|cffD7BEA5cael|rSmartAmmo: "..tostring(text))
-end
-
 if select(2, UnitClass("player")) ~= "HUNTER" then
-	print("You are not a Hunter, caelSmartAmmo will be disabled on next UI reload.")
+	print("|cffD7BEA5cael|rSmartAmmo: You are not a Hunter, caelSmartAmmo will be disabled on next UI reload.")
 	return DisableAddOn("caelSmartAmmo")
 end
 
-local caelSmartAmmo = CreateFrame("Frame", nil, UIParent)
+local _, caelSmartAmmo = ...
+
+caelSmartAmmo.eventFrame = CreateFrame("Frame", nil, UIParent)
 
 local hiBullets, medBullets, loBullets, vloBullets = 52020, 41164, 31735, 41584 -- Shatter Rounds, Mammoth Cutters, Timeless Shell, Frostbite Bullets
 local hiArrows, medArrows, loArrows, vloArrows = 52021, 41165, 31737, 41586 -- Iceblade Arrow, Saronite Razorheads, Timeless Arrow, Terrorshaft Arrow
@@ -28,12 +26,13 @@ local EquipAmmo = function(primary, secondary, tertiary, fallback)
 		return
 	end
 
-	if not GetInventoryItemLink("player", 0):match("item:"..tostring(itemid)..":") then
+	local link = GetInventoryItemLink("player", 0)
+	if link and not link:match("item:"..tostring(itemid)..":") then
 		EquipItemByName(itemid)
 	end
 end
 
-local AmmosSwitch = function(zone)
+local AmmosSwitch = function(self)
 --	if not UnitCanAttack("player", "target") or UnitIsDead("target") then return end
 
 	local rangedWeapon = GetInventoryItemLink("player", GetInventorySlotInfo("RangedSlot"))
@@ -54,8 +53,9 @@ local AmmosSwitch = function(zone)
 		end
 --]]
 		if InCombatLockdown() then
-			caelSmartAmmo:RegisterEvent("PLAYER_REGEN_ENABLED")
+			self:RegisterEvent("PLAYER_REGEN_ENABLED")
 		else
+			self:UnregisterEvent("PLAYER_REGEN_ENABLED")
 			local _, instanceType = IsInInstance()
 			if instanceType == "raid" then
 				EquipAmmo(hiAmmo, medAmmo, loAmmo, vloAmmo)
@@ -66,27 +66,6 @@ local AmmosSwitch = function(zone)
 	end
 end
 
-caelSmartAmmo.PLAYER_REGEN_ENABLED = function(self)
-	return AmmosSwitch(zone)
-end
-
-caelSmartAmmo:RegisterEvent("UNIT_INVENTORY_CHANGED")
-caelSmartAmmo.UNIT_INVENTORY_CHANGED = function(self)
-	return AmmosSwitch(zone)
-end
-
-caelSmartAmmo:RegisterEvent("PLAYER_ENTERING_WORLD")
-caelSmartAmmo.PLAYER_ENTERING_WORLD = function(self)
-	return AmmosSwitch(zone)
-end
-
-OnEvent = function(self, event, ...)
-	if type(self[event]) == "function" then
-		return self[event](self, event, ...)
-	else
-		print(string.format("Unhandled event: %s", event))
-	end
-end
-
-caelSmartAmmo:SetScript("OnEvent", OnEvent)
--- caelSmartAmmo:RegisterEvent("PLAYER_TARGET_CHANGED")
+caelSmartAmmo.eventFrame:RegisterEvent("UNIT_INVENTORY_CHANGED")
+caelSmartAmmo.eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+caelSmartAmmo.eventFrame:SetScript("OnEvent", AmmosSwitch)
