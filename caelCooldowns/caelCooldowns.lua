@@ -10,7 +10,7 @@ local min = math.min
 
 local day, hour, minute = 86400, 3600, 60
 
-local function GetFormattedTime(s)
+local GetFormattedTime = function(s)
 	if s >= day then
 		return format("%dd", floor(s/day + 0.5)), s % day
 	elseif s >= hour then
@@ -29,7 +29,7 @@ local function GetFormattedTime(s)
 --	return floor(s*10)/10, 0.02 -- s-floor(s*10)/20
 end
 
-local function Timer_OnUpdate(self, elapsed)
+local timerUpdate = function(self, elapsed)
 	if self.text:IsShown() then
 		if self.nextUpdate > 0 then
 			self.nextUpdate = self.nextUpdate - elapsed
@@ -51,7 +51,7 @@ local function Timer_OnUpdate(self, elapsed)
 	end
 end
 
-local function Timer_Create(self)
+local timerCreate = function(self)
 	local scale = min(self:GetParent():GetWidth() / 32, 1)
 	if scale < minScale then
 		self.noOCC = true
@@ -63,17 +63,17 @@ local function Timer_Create(self)
 		
 		self.text = text
 		self:HookScript("OnHide", function(self) self.text:Hide() end)
-		self:SetScript("OnUpdate", Timer_OnUpdate)
+		self:SetScript("OnUpdate", timerUpdate)
 		return text
 	end
 end
 
-local function Timer_Start(self, start, duration)
+local timerStart = function(self, start, duration)
 	self.start = start
 	self.duration = duration
 	self.nextUpdate = 0
 
-	local text = self.text or (not self.noOCC and Timer_Create(self))
+	local text = self.text or (not self.noOCC and timerCreate(self))
 	if text then
 		text:Show()
 	end
@@ -83,7 +83,7 @@ local methods = getmetatable(ActionButton1Cooldown).__index
 hooksecurefunc(methods, "SetCooldown", function(self, start, duration)
 	if self.ocd then return end
 	if start > 0 and duration > minDuration then
-		Timer_Start(self, start, duration)
+		timerStart(self, start, duration)
 	else
 		local text = self.text
 		if text then
