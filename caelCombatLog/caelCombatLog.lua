@@ -1,7 +1,8 @@
 ﻿--[[	$Id$	]]
 
-local cCL, frames = cCLFrame, cCLFrame.frames
-cCLFrame = nil
+local _, caelCombatLog = ...
+
+local cCL, collumns = caelCombatLog.frame, caelCombatLog.frame.collumns
 
 local holdTime = 5
 local player, damage, duration
@@ -115,7 +116,7 @@ for event, entry in pairs(throttledEvents) do
 		t[k] = newTable
 		return newTable
 	end}
-	
+
 	for unit, entry in pairs(entry) do
 		setmetatable(entry, mt)
 	end
@@ -125,7 +126,7 @@ local Output = function(frame, rsaFrame, color, text, rsaText, critical, pet, pr
 	local msg = format("%s%s%s%s%s|h", link:format(tooltipMsg or ""), ((frame == 2 or frame == 3) and prefix and prefix ~= "" and "|cffD7BEA5"..prefix.."|r" or ""), (color or ""), text, ((frame == 1 or frame == 2) and suffix and suffix ~= "" and "|cffD7BEA5"..suffix.."|r" or ""))
 
 	if not(noccl) then
-		for i, v in pairs(frames) do
+		for i, v in pairs(collumns) do
 			v:AddMessage(i == frame and msg or " ")
 		end
 	end
@@ -137,14 +138,16 @@ local Output = function(frame, rsaFrame, color, text, rsaText, critical, pet, pr
 end
 
 cCL:RegisterEvent("PLAYER_LOGIN")
-function cCL:PLAYER_LOGIN()
-	player = UnitGUID("player")
-	for i, v in pairs(COMBATLOG_DEFAULT_COLORS.schoolColoring) do
-		schoolColors[i] = format("|cff%02x%02x%02x", v.r * 255, v.g * 255, v.b * 255)
+cCL:SetScript("OnEvent", function(self, event)
+	if event == "PLAYER_LOGIN" then
+		player = UnitGUID("player")
+		for i, v in pairs(COMBATLOG_DEFAULT_COLORS.schoolColoring) do
+			schoolColors[i] = format("|cff%02x%02x%02x", v.r * 255, v.g * 255, v.b * 255)
+		end
+		self:UnregisterEvent("PLAYER_LOGIN")
+		self.PLAYER_LOGIN = nil
 	end
-	self:UnregisterEvent("PLAYER_LOGIN")
-	self.PLAYER_LOGIN = nil
-end
+end)
 
 local FormatMissType = function(event, missType, amountMissed)
 	local resultStr
@@ -171,248 +174,252 @@ end
 
 local report = {}
 cCL:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-function cCL:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, subEvent, sourceGUID, sourceName, sourceFlags, destGUID, destName, destFlags, ...)
-	local pet = UnitGUID("pet")
+cCL:HookScript("OnEvent", function(self, event, timestamp, subEvent, sourceGUID, sourceName, sourceFlags, destGUID, destName, destFlags, ...)
+	if event == "COMBAT_LOG_EVENT_UNFILTERED" then
+		local pet = UnitGUID("pet")
 
-	if not (sourceGUID == player or destGUID == player or sourceGUID == pet or destGUID == pet) then return end
+		if not (sourceGUID == player or destGUID == player or sourceGUID == pet or destGUID == pet) then return end
 
-	local meSource, meTarget, isPet = sourceGUID == player, destGUID == player, sourceGUID == pet or destGUID == pet
-	local modString, tooltipMsg, rsaFrame
-	local color, crit, prefix, suffix, scrollFrame, text, rsaText, noccl
-	local absorbed, amount, blocked, critical, crushing, enviromentalType, extraAmount, glancing, missAmount, missType, overheal, overkill, powerType, resisted, school, spellId, spellName, spellSchool
-	local timeStamp = date("%H:%M:%S", timestamp)
+		local meSource, meTarget, isPet = sourceGUID == player, destGUID == player, sourceGUID == pet or destGUID == pet
+		local modString, tooltipMsg, rsaFrame
+		local color, crit, prefix, suffix, scrollFrame, text, rsaText, noccl
+		local absorbed, amount, blocked, critical, crushing, enviromentalType, extraAmount, glancing, missAmount, missType, overheal, overkill, powerType, resisted, school, spellId, spellName, spellSchool
+		local timeStamp = date("%H:%M:%S", timestamp)
 
-	scrollFrame = (sourceGUID == player or sourceGUID == pet) and 3 or 1
+		scrollFrame = (sourceGUID == player or sourceGUID == pet) and 3 or 1
 
-	local direction = (destGUID == player or destGUID == pet) and "In" or "Out"
-	local unitDirection = (isPet and "pet" or "player")..direction
-	
-	if subEvent == "SWING_DAMAGE" then
+		local direction = (destGUID == player or destGUID == pet) and "In" or "Out"
+		local unitDirection = (isPet and "pet" or "player")..direction
 
-		amount, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing = ...
-		text, rsaText, crit, color = amount - overkill, amount, critical, schoolColors[school <= 1 and 0 or school]
-		
-		modString = CombatLog_String_DamageResultString(resisted, blocked, absorbed, critical, glancing, crushing, overheal, textMode, spellId, overkill) or ""
-		tooltipMsg = format(tooltipStrings[1], timeStamp, (meSource and "Your" or sourceName.."'s"), "melee swing", "hit", (meTarget and "you" or destName), amount, modString)
+		if subEvent == "SWING_DAMAGE" then
 
-	elseif subEvent == "RANGE_DAMAGE"  or subEvent == "SPELL_DAMAGE" or subEvent == "SPELL_PERIODIC_DAMAGE" or subEvent == "DAMAGE_SHIELD" or subEvent == "DAMAGE_SPLIT" then
+			amount, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing = ...
+			text, rsaText, crit, color = amount - overkill, amount, critical, schoolColors[school <= 1 and 0 or school]
 
-		spellId, spellName, spellSchool, amount, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing = ...
-		if subEvent == "RANGE_DAMAGE" then spellSchool = school end
+			modString = CombatLog_String_DamageResultString(resisted, blocked, absorbed, critical, glancing, crushing, overheal, textMode, spellId, overkill) or ""
+			tooltipMsg = format(tooltipStrings[1], timeStamp, (meSource and "Your" or sourceName.."'s"), "melee swing", "hit", (meTarget and "you" or destName), amount, modString)
 
-		text, rsaText, crit, color = amount - overkill, format("%s %s", ShortName(spellName), amount), critical, subEvent == "RANGE_DAMAGE" and schoolColors[school <= 1 and 0 or school] or schoolColors[spellSchool]
+		elseif subEvent == "RANGE_DAMAGE"  or subEvent == "SPELL_DAMAGE" or subEvent == "SPELL_PERIODIC_DAMAGE" or subEvent == "DAMAGE_SHIELD" or subEvent == "DAMAGE_SPLIT" then
 
-		modString = CombatLog_String_DamageResultString(resisted, blocked, absorbed, critical, glancing, crushing, overheal, textMode, spellId, overkill) or ""
-		tooltipMsg = format(tooltipStrings[1], timeStamp, (meSource and "Your" or sourceName and sourceName.."'s" or ""), (spellName), (subEvent == "RANGE_DAMAGE"  or subEvent == "SPELL_DAMAGE") and "hit" or "damaged", (meTarget and "you" or destName), amount, modString)
+			spellId, spellName, spellSchool, amount, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing = ...
+			if subEvent == "RANGE_DAMAGE" then spellSchool = school end
 
-	elseif subEvent == "ENVIRONMENTAL_DAMAGE" then
+			text, rsaText, crit, color = amount - overkill, format("%s %s", ShortName(spellName), amount), critical, subEvent == "RANGE_DAMAGE" and schoolColors[school <= 1 and 0 or school] or schoolColors[spellSchool]
 
-		enviromentalType, amount, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing = ...
-		text, rsaText, color = amount, format("%s %s", _G["ACTION_ENVIRONMENTAL_DAMAGE_"..enviromentalType], amount), schoolColors[school <= 1 and 0 or school]
+			modString = CombatLog_String_DamageResultString(resisted, blocked, absorbed, critical, glancing, crushing, overheal, textMode, spellId, overkill) or ""
+			tooltipMsg = format(tooltipStrings[1], timeStamp, (meSource and "Your" or sourceName and sourceName.."'s" or ""), (spellName), (subEvent == "RANGE_DAMAGE"  or subEvent == "SPELL_DAMAGE") and "hit" or "damaged", (meTarget and "you" or destName), amount, modString)
 
-		tooltipMsg = format(tooltipStrings[2], timeStamp, (meTarget and "You" or destName), amount, _G["ACTION_ENVIRONMENTAL_DAMAGE_"..enviromentalType])
+		elseif subEvent == "ENVIRONMENTAL_DAMAGE" then
 
- 	elseif subEvent == "SPELL_HEAL" or subEvent == "SPELL_PERIODIC_HEAL" then
+			enviromentalType, amount, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing = ...
+			text, rsaText, color = amount, format("%s %s", _G["ACTION_ENVIRONMENTAL_DAMAGE_"..enviromentalType], amount), schoolColors[school <= 1 and 0 or school]
 
-		spellId, spellName, spellSchool, amount, overheal, absorbed, critical = ...
-		if overheal < amount then
-			text, rsaText, crit, prefix = amount - overheal, format("%s %s", ShortName(spellName), amount), critical, sourceGUID == player and destGUID ~= player and "» " or "« "
-		end
+			tooltipMsg = format(tooltipStrings[2], timeStamp, (meTarget and "You" or destName), amount, _G["ACTION_ENVIRONMENTAL_DAMAGE_"..enviromentalType])
 
-		color = subEvent == "SPELL_PERIODIC_HEAL" and lightgreen or green
-		scrollFrame = 2
+		elseif subEvent == "SPELL_HEAL" or subEvent == "SPELL_PERIODIC_HEAL" then
 
-		modString = CombatLog_String_DamageResultString(resisted, blocked, absorbed, critical, glancing, crushing, overheal, textMode, spellId, overkill) or ""
-		tooltipMsg = format(tooltipStrings[1], timeStamp, (meSource and "Your" or sourceName.."'s"), (spellName), "heal", (meTarget and "you" or destName), amount, modString)
+			spellId, spellName, spellSchool, amount, overheal, absorbed, critical = ...
+			if overheal < amount then
+				text, rsaText, crit, prefix = amount - overheal, format("%s %s", ShortName(spellName), amount), critical, sourceGUID == player and destGUID ~= player and "» " or "« "
+			end
 
-	elseif subEvent:find("ENERGIZE") or subEvent:find("DRAIN") or subEvent:find("LEECH") then
-
-		spellId, spellName, spellSchool, amount, powerType, extraAmount = ...
-
-		if amount == 0 then
-			return
-		else
+			color = subEvent == "SPELL_PERIODIC_HEAL" and lightgreen or green
 			scrollFrame = 2
+
+			modString = CombatLog_String_DamageResultString(resisted, blocked, absorbed, critical, glancing, crushing, overheal, textMode, spellId, overkill) or ""
+			tooltipMsg = format(tooltipStrings[1], timeStamp, (meSource and "Your" or sourceName.."'s"), (spellName), "heal", (meTarget and "you" or destName), amount, modString)
+
+		elseif subEvent:find("ENERGIZE") or subEvent:find("DRAIN") or subEvent:find("LEECH") then
+
+			spellId, spellName, spellSchool, amount, powerType, extraAmount = ...
+
+			if amount == 0 then
+				return
+			else
+				scrollFrame = 2
+			end
+
+			text = extraAmount and format("%s (%s %s)", amount, meSource and "+" or "-", extraAmount - amount) or amount
+			rsaText = format("%s %s %s", ShortName(spellName), extraAmount and (meSource and "+" or "-") or "", extraAmount and extraAmount or amount)
+			crit = critical
+			color = powerColors[powerType]
+
+			tooltipMsg = format(subEvent:find("ENERGIZE") and tooltipStrings[1] or tooltipStrings[3],
+				timeStamp,
+				meSource and "Your" or sourceName and sourceName.."'s" or "",
+				spellName,
+				subEvent:find("ENERGIZE") and "energize" or subEvent:find("DRAIN") and "drain" or "leech",
+				meTarget and "you" or destName,
+				amount,
+				powerStrings[powerType],
+				extraAmount and format("(%s %s)", extraAmount, meSource and "gained" or "lost") or ""
+			)
+
+		elseif subEvent == "SWING_MISSED" then
+
+			missType, missAmount = ...
+			text = missTypes[missType] or missType
+
+			tooltipMsg = format(tooltipStrings[4], timeStamp, (meSource and "You" or sourceName.."'s"), "melee swing", (meTarget and "you" or destName), FormatMissType(subEvent, missType, missAmount))
+
+		elseif subEvent == "RANGE_MISSED" or subEvent == "SPELL_MISSED" or subEvent == "SPELL_PERIODIC_MISSED" or subEvent == "DAMAGE_SHIELD_MISSED" then
+
+			spellId, spellName, spellSchool, missType, missAmount = ...
+			text, rsaText = missTypes[missType] or missType, format("%s %s", ShortName(spellName), missTypes[missType] or missType), schoolColors[spellSchool]
+
+			tooltipMsg = format(tooltipStrings[4], timeStamp, (meSource and "Your" or sourceName and sourceName.."'s" or ""), (spellName), (meTarget and "you" or destName), FormatMissType(subEvent, missType, missAmount) or "")
+
+		elseif subEvent:find("AURA_APPLIED") or subEvent:find("AURA_REMOVED") then
+
+			spellId, spellName, spellSchool, auraType, amount = ...
+
+			color, noccl = schoolColors[spellSchool], true
+
+			if auraType == "DEBUFF" and meTarget then
+				scrollFrame = 1
+			elseif auraType == "DEBUFF" and meSource then
+				scrollFrame = 3
+			elseif auraType == "BUFF" and meSource and meTarget then
+				scrollFrame = 2
+				crit = true
+			else
+				return
+			end
+
+			if spellName == "Lock and Load" then
+				rsaFrame = "Notification"
+			end
+
+			if not (throttledSpells[spellName] and throttledSpells[spellName][unitDirection]) then
+				text = format("%s%s", scrollFrame == 2 and spellName or ShortName(spellName), amount and format(" (%d)", amount) or "")
+			end
+
+			if throttledSpells[spellName] and throttledSpells[spellName][unitDirection] and throttledSpells[spellName][unitDirection].reportOnFade then
+				throttledSpells[spellName][unitDirection].elapsed = holdTime
+			end
+
+		elseif subEvent == "PARTY_KILL" or subEvent == "UNIT_DIED" or subEvent == "UNIT_DESTROYED" or subEvent == "UNIT_DISSIPATES" then
+
+			text, color, crit, scrollFrame, rsaFrame = deathChar.." "..destName.." "..deathChar, beige, true, 2, "Notification"
+
+			if meTarget then
+				tooltipMsg = table.concat(report, "\n")
+				for k, v in pairs(report) do
+					report[k] = nil
+				end
+			end
 		end
 
-		text = extraAmount and format("%s (%s %s)", amount, meSource and "+" or "-", extraAmount - amount) or amount
-		rsaText = format("%s %s %s", ShortName(spellName), extraAmount and (meSource and "+" or "-") or "", extraAmount and extraAmount or amount)
-		crit = critical
-		color = powerColors[powerType]
-
-		tooltipMsg = format(subEvent:find("ENERGIZE") and tooltipStrings[1] or tooltipStrings[3],
-			timeStamp,
-			meSource and "Your" or sourceName and sourceName.."'s" or "",
-			spellName,
-			subEvent:find("ENERGIZE") and "energize" or subEvent:find("DRAIN") and "drain" or "leech",
-			meTarget and "you" or destName,
-			amount,
-			powerStrings[powerType],
-			extraAmount and format("(%s %s)", extraAmount, meSource and "gained" or "lost") or ""
-		)
-
-	elseif subEvent == "SWING_MISSED" then
-
-		missType, missAmount = ...
-		text = missTypes[missType] or missType
-
-		tooltipMsg = format(tooltipStrings[4], timeStamp, (meSource and "You" or sourceName.."'s"), "melee swing", (meTarget and "you" or destName), FormatMissType(subEvent, missType, missAmount))
-
-	elseif subEvent == "RANGE_MISSED" or subEvent == "SPELL_MISSED" or subEvent == "SPELL_PERIODIC_MISSED" or subEvent == "DAMAGE_SHIELD_MISSED" then
-
-		spellId, spellName, spellSchool, missType, missAmount = ...
-		text, rsaText = missTypes[missType] or missType, format("%s %s", ShortName(spellName), missTypes[missType] or missType), schoolColors[spellSchool]
-
-		tooltipMsg = format(tooltipStrings[4], timeStamp, (meSource and "Your" or sourceName and sourceName.."'s" or ""), (spellName), (meTarget and "you" or destName), FormatMissType(subEvent, missType, missAmount) or "")
-
-	elseif subEvent:find("AURA_APPLIED") or subEvent:find("AURA_REMOVED") then
-
-		spellId, spellName, spellSchool, auraType, amount = ...
-
-		color, noccl = schoolColors[spellSchool], true
-
-		if auraType == "DEBUFF" and meTarget then
-			scrollFrame = 1
-		elseif auraType == "DEBUFF" and meSource then
-			scrollFrame = 3
-		elseif auraType == "BUFF" and meSource and meTarget then
-			scrollFrame = 2
-			crit = true
-		else
-			return
+		if scrollFrame == 1 then
+			suffix = format("%s%s%s%s%s%s%s%s%s%s%s%s",
+				suffix or "",
+				isPet and "·" or "",
+				blocked and " b" or "",
+				crushing and " c" or "",
+				glancing and " g" or "",
+				resisted and " r" or "",
+				absorbed and absorbed > 0 and " a" or "",
+				overheal and overheal > 0 and " h" or "",
+				overkill and overkill > 0 and " k" or "",
+				critical and " •" or "",
+				subEvent:find("AURA_APPLIED") and not throttledSpells[spellName] and " ++" or "",
+				subEvent:find("AURA_REMOVED") and not throttledSpells[spellName] and " --" or ""
+			)
+		elseif scrollFrame == 2 then
+			suffix = format("%s%s%s%s%s",
+				suffix or "",
+				isPet and "·" or "",
+				critical and " •" or "",
+				subEvent:find("AURA_APPLIED") and not throttledSpells[spellName] and " ++" or "",
+				subEvent:find("AURA_REMOVED") and not throttledSpells[spellName] and " --" or ""
+			)
+			prefix = format("%s%s%s%s%s%s",
+				prefix or "",
+				extraAmount and (meSource and "« " or "» ") or "",
+				overheal and overheal > 0 and "h " or "",
+				critical and "• " or "",
+				subEvent:find("AURA_APPLIED") and not throttledSpells[spellName] and "++ " or "",
+				subEvent:find("AURA_REMOVED") and not throttledSpells[spellName] and "-- " or "",
+				isPet and "·" or ""
+			)
+		elseif scrollFrame == 3 then
+			prefix = format("%s%s%s%s%s%s%s%s%s%s%s%s",
+				prefix or "",
+				blocked and "b " or "",
+				crushing and "c " or "",
+				glancing and "g " or "",
+				resisted and "r " or "",
+				absorbed and absorbed > 0 and "a " or "",
+				overheal and overheal > 0 and "h " or "",
+				overkill and overkill > 0 and "k " or "",
+				critical and "• " or "",
+				subEvent:find("AURA_APPLIED") and not throttledSpells[spellName] and "++ " or "",
+				subEvent:find("AURA_REMOVED") and not throttledSpells[spellName] and "-- " or "",
+				isPet and "·" or ""
+			)
 		end
 
-		if spellName == "Lock and Load" then
-			rsaFrame = "Notification"
+		local valueType = eventTable[subEvent]
+
+		if valueType then
+			data[valueType..direction] = data[valueType..direction] + amount
 		end
 
-		if not (throttledSpells[spellName] and throttledSpells[spellName][unitDirection]) then
-			text = format("%s%s", scrollFrame == 2 and spellName or ShortName(spellName), amount and format(" (%d)", amount) or "")
+		local throttle
+		if (throttledEvents[subEvent] and throttledEvents[subEvent][unitDirection] or throttledSpells[spellName] and throttledSpells[spellName][unitDirection]) and not excludedSpells[spellName] then
+			if throttledSpells[spellName] then
+				throttle = throttledSpells[spellName][unitDirection]
+			else
+				throttle = throttledEvents[subEvent][unitDirection][spellName]
+			end
+			throttle.amount = throttle.amount + (amount or 0) - (overheal or overkill or 0)
+			if extraAmount then
+				throttle.extraAmount = throttle.extraAmount + (extraAmount or 0)
+			end
+			if not throttle.elapsed and not throttle.reportOnFade then
+				throttle.elapsed = 0
+			end
+
+			throttle.color = color
+
+			if not throttle.scrollFrame then
+				throttle.scrollFrame = scrollFrame
+			end
+
+			if critical then
+				throttle.isCrit = throttle.isCrit + 1
+			else
+				throttle.isHit = throttle.isHit + 1
+			end
 		end
 
-		if throttledSpells[spellName] and throttledSpells[spellName][unitDirection] and throttledSpells[spellName][unitDirection].reportOnFade then
-			throttledSpells[spellName][unitDirection].elapsed = holdTime
+		if text then
+			Output(scrollFrame, rsaFrame, color, text, rsaText, crit, isPet, prefix, suffix, tooltipMsg, throttle, noccl)
 		end
 
-	elseif subEvent == "PARTY_KILL" or subEvent == "UNIT_DIED" or subEvent == "UNIT_DESTROYED" or subEvent == "UNIT_DISSIPATES" then
-
-		text, color, crit, scrollFrame, rsaFrame = deathChar.." "..destName.." "..deathChar, beige, true, 2, "Notification"
-
-		if meTarget then
-			tooltipMsg = table.concat(report, "\n")
-			for k, v in pairs(report) do
-				report[k] = nil
+		if meTarget and ((find(subEvent, "DAMAGE") and not(find(subEvent, "MISS")) or find(subEvent, "HEAL"))) then
+			table.insert(report, tooltipMsg)
+			if #report > 5 then
+				table.remove(report, 1)
 			end
 		end
 	end
-
-	if scrollFrame == 1 then
-		suffix = format("%s%s%s%s%s%s%s%s%s%s%s%s",
-			suffix or "",
-			isPet and "·" or "",
-			blocked and " b" or "",
-			crushing and " c" or "",
-			glancing and " g" or "",
-			resisted and " r" or "",
-			absorbed and absorbed > 0 and " a" or "",
-			overheal and overheal > 0 and " h" or "",
-			overkill and overkill > 0 and " k" or "",
-			critical and " •" or "",
-			subEvent:find("AURA_APPLIED") and not throttledSpells[spellName] and " ++" or "",
-			subEvent:find("AURA_REMOVED") and not throttledSpells[spellName] and " --" or ""
-		)
-	elseif scrollFrame == 2 then
-		suffix = format("%s%s%s%s%s",
-			suffix or "",
-			isPet and "·" or "",
-			critical and " •" or "",
-			subEvent:find("AURA_APPLIED") and not throttledSpells[spellName] and " ++" or "",
-			subEvent:find("AURA_REMOVED") and not throttledSpells[spellName] and " --" or ""
-		)
-		prefix = format("%s%s%s%s%s%s",
-			prefix or "",
-			extraAmount and (meSource and "« " or "» ") or "",
-			overheal and overheal > 0 and "h " or "",
-			critical and "• " or "",
-			subEvent:find("AURA_APPLIED") and not throttledSpells[spellName] and "++ " or "",
-			subEvent:find("AURA_REMOVED") and not throttledSpells[spellName] and "-- " or "",
-			isPet and "·" or ""
-		)
-	elseif scrollFrame == 3 then
-		prefix = format("%s%s%s%s%s%s%s%s%s%s%s%s",
-			prefix or "",
-			blocked and "b " or "",
-			crushing and "c " or "",
-			glancing and "g " or "",
-			resisted and "r " or "",
-			absorbed and absorbed > 0 and "a " or "",
-			overheal and overheal > 0 and "h " or "",
-			overkill and overkill > 0 and "k " or "",
-			critical and "• " or "",
-			subEvent:find("AURA_APPLIED") and not throttledSpells[spellName] and "++ " or "",
-			subEvent:find("AURA_REMOVED") and not throttledSpells[spellName] and "-- " or "",
-			isPet and "·" or ""
-		)
-	end
-
-	local valueType = eventTable[subEvent]
-
-	if valueType then
-		data[valueType..direction] = data[valueType..direction] + amount
-	end
-
-	local throttle
-	if (throttledEvents[subEvent] and throttledEvents[subEvent][unitDirection] or throttledSpells[spellName] and throttledSpells[spellName][unitDirection]) and not excludedSpells[spellName] then 
-		if throttledSpells[spellName] then
-			throttle = throttledSpells[spellName][unitDirection]
-		else
-			throttle = throttledEvents[subEvent][unitDirection][spellName]  
-		end
-		throttle.amount = throttle.amount + (amount or 0) - (overheal or overkill or 0)
-		if extraAmount then
-			throttle.extraAmount = throttle.extraAmount + (extraAmount or 0)
-		end
-		if not throttle.elapsed and not throttle.reportOnFade then
-			throttle.elapsed = 0
-		end
-
-		throttle.color = color
-
-		if not throttle.scrollFrame then
-			throttle.scrollFrame = scrollFrame
-		end
-
-		if critical then
-			throttle.isCrit = throttle.isCrit + 1
-		else
-			throttle.isHit = throttle.isHit + 1
-		end
-	end
-
-	if text then
-		Output(scrollFrame, rsaFrame, color, text, rsaText, crit, isPet, prefix, suffix, tooltipMsg, throttle, noccl)
-	end
-
-	if meTarget and ((find(subEvent, "DAMAGE") and not(find(subEvent, "MISS")) or find(subEvent, "HEAL"))) then
-		table.insert(report, tooltipMsg)
-		if #report > 5 then
-			table.remove(report, 1)
-		end
-	end
-end
+end)
 
 --		Output(scrollFrame, rsaFrame, color, text, rsaText, crit, isPet, prefix, suffix, tooltipMsg, throttle, noccl)
 local oldstate = nil
 cCL:RegisterEvent("UNIT_AURA")
-function cCL:UNIT_AURA()
-	local newstate = UnitAura("player", "Lock and Load")
-	if newstate and not oldstate then
-		Output(nil, "Notification", red, "++ Lock and Load ++", nil, true)
-	elseif oldstate and not newstate then
-		Output(nil, "Notification", red, "-- Lock and Load --", nil, true)
+cCL:HookScript("OnEvent", function(self, event)
+	if event == "UNIT_AURA" then
+		local newstate = UnitAura("player", "Lock and Load")
+		if newstate and not oldstate then
+			Output(nil, "Notification", red, "++ Lock and Load ++", nil, true)
+		elseif oldstate and not newstate then
+			Output(nil, "Notification", red, "-- Lock and Load --", nil, true)
+		end
+		oldstate = newstate
 	end
-	oldstate = newstate
-end
+end)
 
 local UpdateThrottle = function(v, unit, spellName, elapsed)
 	if v.elapsed then
@@ -439,7 +446,7 @@ local UpdateThrottle = function(v, unit, spellName, elapsed)
 	end
 end
 
-local OnUpdate = function(self, elapsed)
+cCL:SetScript("OnUpdate", function(self, elapsed)
 	for event, t in pairs(throttledEvents) do
 		for unit, throttledEvents in pairs(t) do
 			for spellName, v in pairs(throttledEvents) do
@@ -453,18 +460,18 @@ local OnUpdate = function(self, elapsed)
 			UpdateThrottle(data, unit, spellName, elapsed)
 		end
 	end
-end
-
-cCL:SetScript("OnUpdate", OnUpdate)
+end)
 
 cCL:RegisterEvent("PLAYER_REGEN_DISABLED")
-function cCL:PLAYER_REGEN_DISABLED()
-	Output(2, "Information", red, "++ Combat ++", nil, true)
-	PlaySoundFile([=[Interface\Addons\caelMedia\Sounds\combat+.mp3]=])
+cCL:HookScript("OnEvent", function(self, event)
+	if event == "PLAYER_REGEN_DISABLED" then
+		Output(2, "Information", red, "++ Combat ++", nil, true)
+		PlaySoundFile([=[Interface\Addons\caelMedia\Sounds\combat+.mp3]=])
 
-	duration = GetTime()
-	clearSummary()
-end
+		duration = GetTime()
+		clearSummary()
+	end
+end)
 
 local ShortValue = function(value)
 	if value >= 1e6 then
@@ -478,27 +485,29 @@ end
 
 local t = {}
 cCL:RegisterEvent("PLAYER_REGEN_ENABLED")
-function cCL:PLAYER_REGEN_ENABLED()
-	duration = GetTime() - duration
+cCL:HookScript("OnEvent", function(self, event)
+	if event == "PLAYER_REGEN_ENABLED" then
+		duration = GetTime() - duration
 
-	for k,_ in pairs(t) do t[k] = nil end
+		for k,_ in pairs(t) do t[k] = nil end
 
-	t[#t+1] = (data.damageOut) > 0 and red..ShortValue(data.damageOut).."|r"  or nil
-	t[#t+1] = (data.damageIn) > 0 and red..ShortValue(data.damageIn).."|r" or nil
-	t[#t+1] = (data.healingOut) > 0 and green..ShortValue(data.healingOut).."|r" or nil
-	t[#t+1] = (data.healingIn) > 0 and green..ShortValue(data.healingIn).."|r" or nil
+		t[#t+1] = (data.damageOut) > 0 and red..ShortValue(data.damageOut).."|r"  or nil
+		t[#t+1] = (data.damageIn) > 0 and red..ShortValue(data.damageIn).."|r" or nil
+		t[#t+1] = (data.healingOut) > 0 and green..ShortValue(data.healingOut).."|r" or nil
+		t[#t+1] = (data.healingIn) > 0 and green..ShortValue(data.healingIn).."|r" or nil
 
-	Output(2, "Information", green, "-- Combat --", nil, true)
-	PlaySoundFile([=[Interface\Addons\caelMedia\Sounds\combat-.mp3]=])
+		Output(2, "Information", green, "-- Combat --", nil, true)
+		PlaySoundFile([=[Interface\Addons\caelMedia\Sounds\combat-.mp3]=])
 
-	if #t > 0 then
-		tooltipMsg = format("%s%s%s%s%s",
-			(floor(duration / 60) > 0) and (floor(duration / 60).."m "..(floor(duration) % 60).."s") or (floor(duration).."s").." in combat\n",
-			data.damageOut > 0 and "Damage done: "..(data.damageOut).."\n" or "",
-			data.damageIn > 0 and "Damage recieved: "..(data.damageIn).."\n" or "",
-			data.healingOut > 0 and "Healing done: "..data.healingOut.."\n" or "",
-			data.healingIn > 0 and "Healing recieved: "..data.healingIn.."\n" or ""
-		)
-		Output(2, "Notification", nil, table.concat(t, beige.." ¦ "), nil, true, nil, nil, nil, tooltipMsg)
+		if #t > 0 then
+			tooltipMsg = format("%s%s%s%s%s",
+				(floor(duration / 60) > 0) and (floor(duration / 60).."m "..(floor(duration) % 60).."s") or (floor(duration).."s").." in combat\n",
+				data.damageOut > 0 and "Damage done: "..(data.damageOut).."\n" or "",
+				data.damageIn > 0 and "Damage recieved: "..(data.damageIn).."\n" or "",
+				data.healingOut > 0 and "Healing done: "..data.healingOut.."\n" or "",
+				data.healingIn > 0 and "Healing recieved: "..data.healingIn.."\n" or ""
+			)
+			Output(2, "Notification", nil, table.concat(t, beige.." ¦ "), nil, true, nil, nil, nil, tooltipMsg)
+		end
 	end
-end
+end)
