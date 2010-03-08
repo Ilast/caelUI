@@ -1,13 +1,13 @@
 --[[	$Id$	]]
 
-local _, addon = ...
-local caelNamePlates = CreateFrame("Frame", nil, UIParent)
-caelNamePlates:SetScript("OnEvent", function(self, event, ...) self[event](self, ...) end)
+local _, caelNameplates = ...
 
-local barTexture = [=[Interface\Addons\caelNamePlates\media\normtexa]=]
+caelNameplates.eventFrame = CreateFrame("Frame", nil, UIParent)
+
+local barTexture = [=[Interface\Addons\caelNameplates\media\normtexa]=]
 local overlayTexture = [=[Interface\Tooltips\Nameplate-Border]=]
-local glowTexture = [=[Interface\Addons\caelNamePlates\media\glowtex]=]
-local iconTexture = [=[Interface\Addons\caelNamePlates\media\icontex]=]
+local glowTexture = [=[Interface\Addons\caelNameplates\media\glowtex]=]
+local iconTexture = [=[Interface\Addons\caelNameplates\media\icontex]=]
 local font, fontSize, fontOutline = [=[Interface\Addons\caelNameplates\media\xenara rg.ttf]=], 8
 local backdrop = {
 	edgeFile = glowTexture, edgeSize = 3,
@@ -116,8 +116,6 @@ local UpdateFrame = function(self)
 	end
 end
 
-local _, playerClass = UnitClass("player")
-
 local FixCastbar = function(self)
 	self.castbarOverlay:Hide()
 
@@ -150,7 +148,7 @@ local OnValueChanged = function(self, curValue)
 end
 
 local OnShow = function(self)
-	self.channeling  = UnitChannelInfo("target") 
+	self.channeling  = UnitChannelInfo("target")
 	FixCastbar(self)
 	ColorCastBar(self, self.shieldedRegion:IsShown())
 end
@@ -175,7 +173,6 @@ local CreateFrame = function(frame)
 
 	frame.nameplate = true
 
-	
 	frame.healthBar, frame.castBar = frame:GetChildren()
 	local healthBar, castBar = frame.healthBar, frame.castBar
 	local glowRegion, overlayRegion, castbarOverlay, shieldedRegion, spellIconRegion, highlightRegion, nameTextRegion, levelTextRegion, bossIconRegion, raidIconRegion, stateIconRegion = frame:GetRegions()
@@ -204,7 +201,7 @@ local CreateFrame = function(frame)
 	healthBar.hpBackground:SetVertexColor(0.15, 0.15, 0.15)
 
 	healthBar.hpGlow = CreateFrame("Frame", nil, healthBar)
-	healthBar.hpGlow:SetFrameLevel(healthBar:GetFrameLevel() -1)
+	healthBar.hpGlow:SetFrameLevel(healthBar:GetFrameLevel() -1 > 0 and healthBar:GetFrameLevel() -1 or 0)
 	healthBar.hpGlow:SetPoint("TOPLEFT", healthBar, "TOPLEFT", -3, 3)
 	healthBar.hpGlow:SetPoint("BOTTOMRIGHT", healthBar, "BOTTOMRIGHT", 3, -3)
 	healthBar.hpGlow:SetBackdrop(backdrop)
@@ -237,7 +234,7 @@ local CreateFrame = function(frame)
 	castBar.cbBackground:SetVertexColor(0.15, 0.15, 0.15)
 
 	castBar.cbGlow = CreateFrame("Frame", nil, castBar)
-	castBar.cbGlow:SetFrameLevel(castBar:GetFrameLevel() -1)
+	castBar.cbGlow:SetFrameLevel(castBar:GetFrameLevel() -1 > 0 and castBar:GetFrameLevel() -1 or 0)
 	castBar.cbGlow:SetPoint("TOPLEFT", castBar, "TOPLEFT", -3, 3)
 	castBar.cbGlow:SetPoint("BOTTOMRIGHT", castBar, "BOTTOMRIGHT", 3, -3)
 	castBar.cbGlow:SetBackdrop(backdrop)
@@ -276,7 +273,7 @@ local CreateFrame = function(frame)
 	raidIconRegion:SetPoint("LEFT", healthBar, "RIGHT", 2, 0)
 	raidIconRegion:SetHeight(15)
 	raidIconRegion:SetWidth(15)
-	
+
 	frame.oldglow = glowRegion
 	frame.elite = stateIconRegion
 	frame.boss = bossIconRegion
@@ -301,7 +298,7 @@ end
 
 local numKids = 0
 local lastUpdate = 0
-local OnUpdate = function(self, elapsed)
+caelNameplates.eventFrame:SetScript("OnUPdate", function(self, elapsed)
 	lastUpdate = lastUpdate + elapsed
 
 	if lastUpdate > 0.1 then
@@ -319,16 +316,18 @@ local OnUpdate = function(self, elapsed)
 			numKids = newNumKids
 		end
 	end
-end
+end)
 
-caelNamePlates:SetScript("OnUpdate", OnUpdate)
+caelNameplates.eventFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
+caelNameplates.eventFrame:HookScript("OnEvent", function()
+	if event == "PLAYER_REGEN_ENABLED" then
+		SetCVar("nameplateShowEnemies", 0)
+	end
+end)
 
-caelNamePlates:RegisterEvent("PLAYER_REGEN_ENABLED")
-function caelNamePlates:PLAYER_REGEN_ENABLED()
-	SetCVar("nameplateShowEnemies", 0)
-end
-
-caelNamePlates:RegisterEvent("PLAYER_REGEN_DISABLED")
-function caelNamePlates.PLAYER_REGEN_DISABLED()
-	SetCVar("nameplateShowEnemies", 1)
-end
+caelNameplates.eventFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
+caelNameplates.eventFrame:HookScript("OnEvent", function()
+	if event == "PLAYER_REGEN_DISABLED" then
+		SetCVar("nameplateShowEnemies", 1)
+	end
+end)
