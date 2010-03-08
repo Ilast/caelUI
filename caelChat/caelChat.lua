@@ -1,6 +1,8 @@
-﻿--[[	$Id$	]]
+﻿--[[	$Id: caelChat.lua 576 2010-03-07 19:37:00Z sdkyron@gmail.com $	]]
 
-local chatFrames = CreateFrame("Frame")
+local _, caelChat = ...
+
+caelChat.eventFrame = CreateFrame("Frame", nil, UIParent)
 
 local bgTexture = [=[Interface\ChatFrame\ChatFrameBackground]=]
 
@@ -9,10 +11,6 @@ local backdrop = {
 	edgeFile = [=[Interface\Addons\caelMedia\Miscellaneous\glowtex]=], edgeSize = 2,
 	insets = {left = 2, right = 2, top = 2, bottom = 2}
 }
-
-local print = function(text)
-	DEFAULT_CHAT_FRAME:AddMessage("|cffD7BEA5cael|rChat: "..tostring(text))
-end
 
 local _G = getfenv(0)
 
@@ -196,12 +194,12 @@ ctddm.initialize = function(self, level)
 	end
 end
 
-chatFrames:RegisterEvent("ADDON_LOADED")
-chatFrames:HookScript("OnEvent", function(self, event, addon)
+caelChat.eventFrame:RegisterEvent("ADDON_LOADED")
+caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 	if event == "ADDON_LOADED" then
 		if addon == "Blizzard_CombatLog" then
 			ChatConfigFrame_OnEvent(nil, "PLAYER_ENTERING_WORLD", addon)
-			chatFrames:UnregisterEvent("ADDON_LOADED")
+			caelChat.eventFrame:UnregisterEvent("ADDON_LOADED")
 			for i = 1, NUM_CHAT_WINDOWS do 
 				local frame = _G[format("ChatFrame%s", i)]
 				local dockHighlight = _G[format("ChatFrame%sTabDockRegionHighlight", i)]
@@ -419,7 +417,7 @@ end
 
 local delay1 = 5
 local delay2 = 10
-local chatFrames_OnUpdate = function(self, elapsed)
+local caelChat_OnUpdate = function(self, elapsed)
 	if delay1 then
 		delay1 = delay1 - elapsed
 		if delay1 <= 0 then
@@ -446,20 +444,20 @@ local chatFrames_OnUpdate = function(self, elapsed)
 				ChatFrame_AddChannel(_G.ChatFrame1, "GICaster")
 				ChangeChatColor("CHANNEL5", 0.67, 0.83, 0.45)
 			end
-			print("Chatframes setup complete")
+			print("|cffD7BEA5cael|rChat: Chatframes setup complete")
 			self:SetScript("OnUpdate", nil) -- Done now, nil the OnUpdate completely.
 		end
 	end
 end
 
 local first = true
-chatFrames:RegisterEvent("PLAYER_ENTERING_WORLD")
-chatFrames:HookScript("OnEvent", function(self, event)
+caelChat.eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+caelChat.eventFrame:HookScript("OnEvent", function(self, event)
 	if event == "PLAYER_ENTERING_WORLD" then
 		chatStuff()
 
 		if first then
-			chatFrames:SetScript("OnUpdate", chatFrames_OnUpdate)
+			caelChat.eventFrame:SetScript("OnUpdate", caelChat_OnUpdate)
 			first = nil
 		end
 	end
