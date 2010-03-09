@@ -43,7 +43,7 @@ caelConfig.events:HookScript("OnEvent", function(self, event, name)
 	if event == "PARTY_INVITE_REQUEST" then
 		if IsFriend(name) then
 			for i = 1, STATICPOPUP_NUMDIALOGS do
-				local frame = _G("StaticPopup"..i)
+				local frame = _G["StaticPopup"..i]
 				if frame:IsVisible() and frame.which == "PARTY_INVITE" then
 					StaticPopup_OnClick(frame, 1)
 				end
