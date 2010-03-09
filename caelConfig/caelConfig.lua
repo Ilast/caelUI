@@ -1,7 +1,7 @@
 ﻿--[[	$Id$	]]
 
 local _, caelConfig = ...
-caelConfig.events = CreateFrame("Frame")
+caelConfig.events = CreateFrame("Frame", nil, UIParent)
 
 caelConfig.dummy = function() end
 
