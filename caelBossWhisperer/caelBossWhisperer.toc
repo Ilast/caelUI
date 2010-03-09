@@ -6,4 +6,4 @@
 ## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
 ## X-Category: Chat/Communication
 
-	caelBossWhisperer.lua
+caelBossWhisperer.lua
