@@ -2,7 +2,7 @@
 
 local _, caelBossWhisperer = ...
 
-	caelBossWhisperer.eventFrame = CreateFrame("Frame", nil, UIParent)
+caelBossWhisperer.eventFrame = CreateFrame("Frame", nil, UIParent)
 
 local inCombat = nil
 local dndBanner = "<caelBossWhisperer> "
