@@ -114,11 +114,7 @@ f:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 	
-	if event == "PLAYER_REGEN_ENABLED" then
-		self:UnregisterEvent(event)
---	else
---		self:UnregisterEvent(event)
-	end
+	self:UnregisterEvent(event)
 end)
 
 local _GetActionText = GetActionText
