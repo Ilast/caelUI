@@ -176,6 +176,7 @@ caelConfig.events:HookScript("OnEvent", function(self, event)
 --			"gxRefresh 50",
 			"Maxfps 35",
 			"maxfpsbk 10",
+--			"maxFPS 0", -- New in 3.3.3 0-1 enable/disable the 200 frames per second limitation
 			"ffx 0",
 			"textureFilteringMode 0",
 			"baseMip 0", -- 0 for max
