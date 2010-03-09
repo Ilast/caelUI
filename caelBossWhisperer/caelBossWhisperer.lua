@@ -1,8 +1,8 @@
---[[	$Id: caelBossWhisperer.lua 560 2010-03-06 21:29:31Z sdkyron@gmail.com $	]]
+--[[	$Id$	]]
 
 local _, caelBossWhisperer = ...
 
-caelBossWhisperer.eventFrame = CreateFrame("Frame", nil, UIParent)
+	caelBossWhisperer.eventFrame = CreateFrame("Frame", nil, UIParent)
 
 local inCombat = nil
 local dndBanner = "<caelBossWhisperer> "
