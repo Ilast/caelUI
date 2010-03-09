@@ -36,10 +36,31 @@ local function IsFriend(name)
 			end
 		end
 	end
-
-	return false
 end
 
+caelConfig.events:RegisterEvent("PARTY_INVITE_REQUEST")
+caelConfig.events:HookScript("OnEvent", function(self, event, name)
+	if event == "PARTY_INVITE_REQUEST" then
+		if IsFriend(name) then
+			for i = 1, STATICPOPUP_NUMDIALOGS do
+				local frame = _G("StaticPopup"..i)
+				if frame:IsVisible() and frame.which == "PARTY_INVITE" then
+					StaticPopup_OnClick(frame, 1)
+				end
+			end
+		else
+			SendWho(string.join("", "n-\"", name, "\""))
+		end
+	end
+end)
+
+StaticPopupDialogs["LOOT_BIND"].OnCancel = function(self, slot)
+	if GetNumPartyMembers() == 0 and GetNumRaidMembers() == 0 then
+		ConfirmLootSlot(slot)
+	end
+end
+
+--[[
 caelConfig.events:RegisterEvent("PARTY_INVITE_REQUEST")
 caelConfig.events:HookScript("OnEvent", function(self, event, name)
 	if event == "PARTY_INVITE_REQUEST" then
@@ -54,6 +75,9 @@ caelConfig.events:HookScript("OnEvent", function(self, event, name)
 				end
 			end
 			StaticPopup_Hide("PARTY_INVITE")
+		else
+			SendWho(string.join("", "n-\"", name, "\""))
 		end
 	end
 end)
+--]]
