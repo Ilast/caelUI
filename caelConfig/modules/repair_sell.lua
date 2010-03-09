@@ -33,11 +33,11 @@ caelConfig.events:HookScript("OnEvent", function(self, event)
 			end
 		end
 
-		if(CanMerchantRepair()) then
+		if CanMerchantRepair() then
 			local cost, afford = GetRepairAllCost()
-			if(afford) then
+			if afford then
 				local GuildWealth = CanGuildBankRepair() and GetGuildBankWithdrawMoney() > cost
-				if(GuildWealth) then
+				if GuildWealth then
 					RepairAllItems(1)
 					print(format("Guild bank repaired for %s.", formatMoney(cost)))
 				else
@@ -46,15 +46,14 @@ caelConfig.events:HookScript("OnEvent", function(self, event)
 				end
 			end
 		end
-	end
-
-	if event == "PLAYER_MONEY" then
+	elseif event == "PLAYER_MONEY" then
 		local newMoney = GetMoney()
 		if oldMoney and oldMoney > 0 then
 			diffMoney = newMoney - oldMoney
 		else
 			diffMoney = 0
 		end
+
 		if diffMoney > 0 and itemCount > 0 then
 			print(format("Sold %d trash item%s for %s.", itemCount, itemCount ~= 1 and "s" or "", formatMoney(diffMoney)))
 		end
