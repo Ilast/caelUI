@@ -20,7 +20,7 @@ local ZoneChange = function(zone)
 		SetCVar("groundEffectDensity", 256)
 		SetCVar("groundEffectDist", 45)
 		SetCVar("particleDensity", 1)
-		SetCVar("projectedTextures", 0)
+		SetCVar("projectedTextures", 1)
 	else
 		SetCVar("useWeatherShaders", "1")
 		SetCVar("weatherDensity", 3)
@@ -165,7 +165,7 @@ caelConfig.events:HookScript("OnEvent", function(self, event)
 --			"gxcolorbits","16"
 --			"gxdepthbits","16"
 			"gxTextureCacheSize 512",
-			"M2Faster 1", -- Adds additional threads used in rendering models on screen (0 = no additional threads, 1 - 3 = adds additional threads to the WoW Client)
+			"M2Faster 3", -- Adds additional threads used in rendering models on screen (0 = no additional threads, 1 - 3 = adds additional threads to the WoW Client)
 
 			"gxMultisample 1",
 			"gxMultisampleQuality 0.000000",
@@ -176,7 +176,6 @@ caelConfig.events:HookScript("OnEvent", function(self, event)
 --			"gxRefresh 50",
 			"Maxfps 45",
 			"maxfpsbk 10",
---			"maxFPS 0", -- New in 3.3.3 0-1 enable/disable the 200 frames per second limitation
 			"ffx 0",
 			"textureFilteringMode 0",
 			"baseMip 0", -- 0 for max
@@ -198,7 +197,6 @@ caelConfig.events:HookScript("OnEvent", function(self, event)
 			"Sound_NumChannels 128", -- 12, 32, 64, 128
 			"Sound_OutputQuality 2", -- 0-2
 			"Sound_EnableSoftwareHRTF 1", -- Enables headphone designed sound subsystem
-
 			"Sound_AmbienceVolume 0.10000000149012",
 			"Sound_EnableErrorSpeech 0",
 			"Sound_EnableMusic 0",
