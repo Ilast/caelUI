@@ -8,7 +8,8 @@ local inCombat = nil
 local dndBanner = "<caelBossWhisperer> "
 
 local dndString = dndBanner .. "I'm busy fighting %s (currently at %d%% with %d/%d players alive). You'll be notified when combat ends."
-local combatEndedString = dndBanner .. "Combat ended after %d minutes."
+--local combatEndedString = dndBanner .. "Combat ended after %d minutes."
+local combatEndedString = dndBanner .. "Combat against %s ended %safter %d minutes."
 
 local whisperers = {}
 local combatStart = nil
@@ -115,7 +116,8 @@ local caelBossWhisperer_OnUpdate = function(self, elapsed)
 		self:SetScript("OnUpdate", nil)
 
 		local time = GetTime() - combatStart
-		local msg = combatEndedString:format(math.floor(time / 60))
+--		local msg = combatEndedString:format(math.floor(time / 60))
+		local msg = combatEndedString:format(boss, math.floor(time / 60), (alive > 0) and "" or "with a wipe ")
 		for k, v in pairs(whisperers) do
 			-- Notify people that combat has ended
 			SendChatMessage(msg, "WHISPER", nil, k)
