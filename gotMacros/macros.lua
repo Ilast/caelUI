@@ -45,7 +45,8 @@ gM_Macros = {
 		char = "Cowdiak, Bonewraith",
 		icon = [=[Interface\Icons\Spell_Shadow_LastingAfflictions]=],
 		body = [=[/use Battlemaster's Determination
-			/use Bloodlust Brooch]=],
+			/use Bloodlust Brooch
+			/cast Tiger's Fury]=],
 		nosound = true,
 	},
 -------------------
@@ -259,6 +260,15 @@ gM_Macros = {
 -------------------
 --[[	DRUID	]]--
 -------------------
+	["Cat"] = {
+		char = "Cowdiak",
+		show = "Mangle (Cat)(Rank 3)",
+		body = [=[/click [noexists][noharm][dead] gotMacros_T2
+			/click [combat, harm, nodead] gotMacros_CDs2
+			/cast [harm, nodead] Mangle (Cat)(Rank 3)]=],
+		blizzmacro = true,
+		perChar = true,
+	},
 	["Bear"] = {
 		char = "Cowdiak",
 		show = "Mangle (Bear)(Rank 3)",
