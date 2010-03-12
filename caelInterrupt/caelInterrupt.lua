@@ -1,6 +1,9 @@
 ﻿--[[	$Id$	]]
 
-local caelInterrupt = CreateFrame("Frame")
+local _, caelInterrupt = ...
+
+caelInterrupt.eventFrame = CreateFrame("Frame", nil, UIParent)
+
 local playerGuid = nil
 local msg = "%s: %s (%s)"
 --local emo = "interrupted %s. (%s)"
@@ -8,7 +11,10 @@ local emo = "a interrompu %s. (%s)"
 local grouped = nil
 local lastTimestamp = nil
 local lastInterrupted = nil
-caelInterrupt:SetScript("OnEvent", function(self, event, timestamp, subEvent, sourceGUID, _, _, _, destName, _, _, spellName, _, _, extraSkillName)
+
+caelInterrupt.eventFrame:RegisterEvent("PLAYER_LOGIN")
+caelInterrupt.eventFrame:RegisterEvent("PARTY_MEMBERS_CHANGED")
+caelInterrupt.eventFrame:SetScript("OnEvent", function(self, event, timestamp, subEvent, sourceGUID, _, _, _, destName, _, _, spellName, _, _, extraSkillName)
 	if event == "PARTY_MEMBERS_CHANGED" then
 		local n = GetNumPartyMembers()
 		if not grouped and n > 0 then
@@ -33,5 +39,3 @@ caelInterrupt:SetScript("OnEvent", function(self, event, timestamp, subEvent, so
 		end
 	end
 end)
-caelInterrupt:RegisterEvent("PARTY_MEMBERS_CHANGED")
-caelInterrupt:RegisterEvent("PLAYER_LOGIN")
