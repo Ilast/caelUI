@@ -174,7 +174,7 @@ caelConfig.events:HookScript("OnEvent", function(self, event)
 			"gxFixLag 0",
 			"gxCursor 1",
 --			"gxRefresh 50",
-			"Maxfps 35",
+			"Maxfps 45",
 			"maxfpsbk 10",
 --			"maxFPS 0", -- New in 3.3.3 0-1 enable/disable the 200 frames per second limitation
 			"ffx 0",
@@ -194,15 +194,18 @@ caelConfig.events:HookScript("OnEvent", function(self, event)
 			"componentTextureLevel 9", -- min 8
 			"violencelevel 5", -- 0-5 Level of violence, 0 == none, 1 == green blood 2-5 == red blood
 
+			"Sound_EnableHardware 1",
+			"Sound_NumChannels 128", -- 12, 32, 64, 128
+			"Sound_OutputQuality 2", -- 0-2
+			"Sound_EnableSoftwareHRTF 1", -- Enables headphone designed sound subsystem
+
 			"Sound_AmbienceVolume 0.10000000149012",
 			"Sound_EnableErrorSpeech 0",
 			"Sound_EnableMusic 0",
 			"Sound_EnableSoundWhenGameIsInBG 1",
 			"Sound_MasterVolume 0.20000000298023",
 			"Sound_MusicVolume 0",
-			"Sound_OutputQuality 0",
 			"Sound_SFXVolume 0.20000000298023",
-			"Sound_EnableSoftwareHRTF 1",
 
 			"extShadowQuality 0",
 			"cameraDistanceMax 50",
