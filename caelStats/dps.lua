@@ -3,7 +3,7 @@
 local _, caelStats = ...
 
 caelStats.dps = caelPanel8:CreateFontString(nil, "OVERLAY")
-caelStats.dps:SetFontObject(neuropolrg10)
+caelStats.dps:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 10)
 caelStats.dps:SetPoint("CENTER", caelPanel8, "CENTER", 125, 1)
 caelStats.dps:SetText("|cffD7BEA5DPS|r 0")
 
