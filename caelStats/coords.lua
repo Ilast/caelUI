@@ -59,8 +59,7 @@ caelStats.eventFrame:HookScript("OnEnter", function(self)
 		subzoneName = ""
 	end
 
-	GameTooltip:AddLine(zoneName, zoneColor.r, zoneColor.g, zoneColor.b)
-	GameTooltip:AddLine(subzoneName, 0.84, 0.75, 0.65)
+	GameTooltip:AddDoubleLine(zoneName, subzoneName, zoneColor.r, zoneColor.g, zoneColor.b, 0.84, 0.75, 0.65)
 	GameTooltip:Show()
 end)
 
