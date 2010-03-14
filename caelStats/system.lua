@@ -2,11 +2,14 @@
 
 local _, caelStats = ...
 
-local Holder = CreateFrame("Frame")
-
 caelStats.system = caelPanel8:CreateFontString(nil, "OVERLAY")
 caelStats.system:SetFontObject(neuropolrg10)
-caelStats.system:SetPoint("LEFT", caelPanel8, "LEFT", 10, 1) 
+caelStats.system:SetPoint("LEFT", caelPanel8, "LEFT", 10, 1)
+
+caelStats.eventFrame = CreateFrame("Frame", nil, UIParent)
+caelStats.eventFrame:SetAllPoints(caelStats.system)
+caelStats.eventFrame:EnableMouse(true)
+caelStats.eventFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
 
 local Addons = {}
 local AddonsMemoryCompare = function(a, b)
@@ -48,7 +51,7 @@ local function UpdateMemory(self)
 end
 
 local delay1, delay2 = 0, 0
-local OnUpdate = function(self, elapsed)
+caelStats.eventFrame:HookScript("OnUpdate", function(self, elapsed)
 	delay1 = delay1 - elapsed
 	delay2 = delay2 - elapsed
 
@@ -61,17 +64,14 @@ local OnUpdate = function(self, elapsed)
 
 	if delay2 < 0 then
 		fpsText = string.format("%.1f |cffD7BEA5fps|r", GetFramerate())
---		caelStats.system:SetText(memText.."  -  "..lagText.."  -  "..fpsText)
 		caelStats.system:SetFormattedText("%s - %s - %s", memText, lagText, fpsText)
 		delay2 = 1
 	end
-end
+end)
 
-local OnEnter = function(self)
+caelStats.eventFrame:HookScript("OnEnter", function(self)
 	if IsShiftKeyDown() then
-		GameTooltip:SetOwner(UIParent, "ANCHOR_NONE")
-		GameTooltip:ClearAllPoints()
-		GameTooltip:SetPoint("BOTTOM", self, "TOP", 0, 5)
+		GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
 		local SortingTable = {}
 		for name in pairs(Addons) do
@@ -94,9 +94,9 @@ local OnEnter = function(self)
 		GameTooltip:AddDoubleLine("Addon Memory Usage", FormatMemoryNumber(totalMemory), 0.84, 0.75, 0.65, 0.65, 0.63, 0.35)
 		GameTooltip:Show()
 	end
-end
+end)
 
-local OnClick = function(self, button)
+caelStats.eventFrame:HookScript("OnMouseDown", function(self, button)
 	if button == "LeftButton" then
 		local collected = collectgarbage("count")
 		collectgarbage("collect")
@@ -104,11 +104,4 @@ local OnClick = function(self, button)
 		GameTooltip:AddDoubleLine("Garbage Collected:", FormatMemoryNumber(collected - collectgarbage("count")), 0.84, 0.75, 0.65, 0.65, 0.63, 0.35)
 		GameTooltip:Show()
 	end
-end
-
-Holder:EnableMouse(true)
-Holder:SetAllPoints(caelStats.system)
-Holder:SetScript("OnEnter", OnEnter)
-Holder:SetScript("OnLeave", function() GameTooltip:Hide() end)
-Holder:SetScript("OnMouseDown", OnClick)
-Holder:SetScript("OnUpdate", OnUpdate)
+end)
