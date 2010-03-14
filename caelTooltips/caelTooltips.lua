@@ -7,6 +7,7 @@ caelTooltips = CreateFrame("Frame", nil, UIParent)
 local _G = getfenv(0)
 local orig1, orig2 = {}, {}
 local height
+local fontName = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=]
 local bgTexture = [=[Interface\ChatFrame\ChatFrameBackground]=]
 
 --local theOneScale = (768/tonumber(GetCVar("gxResolution"):match("%d+x(%d+)")))/GetCVar("uiScale")
@@ -14,9 +15,9 @@ local GameTooltip, GameTooltipStatusBar = _G["GameTooltip"], _G["GameTooltipStat
 
 local gsub, find, format = string.gsub, string.find, string.format
 
-_G["GameTooltipHeaderText"]:SetFontObject(neuropolrg10)
-_G["GameTooltipText"]:SetFontObject(neuropolrg10)
-_G["GameTooltipTextSmall"]:SetFontObject(neuropolrg9)
+_G["GameTooltipHeaderText"]:SetFont(fontName, 10, "OUTLINE")
+_G["GameTooltipText"]:SetFont(fontName, 10, "OUTLINE")
+_G["GameTooltipTextSmall"]:SetFont(fontName, 9, "OUTLINE")
 
 local Tooltips = {GameTooltip, ItemRefTooltip, ShoppingTooltip1, ShoppingTooltip2, ShoppingTooltip3, WorldMapTooltip}
 
@@ -225,7 +226,7 @@ local BorderColor = function(self)
 			self:SetBackdropBorderColor(0, 0, 0)
 		end
 	end
-	self:SetBackdropColor(0, 0, 0, GetMouseFocus() == WorldFrame and 0.5 or 0.5)
+	self:SetBackdropColor(0, 0, 0, GetMouseFocus() == WorldFrame and 0.5 or 0.75)
 end
 
 local gradientTop = caelTooltips:CreateTexture(nil, "BORDER")
