@@ -2,11 +2,15 @@
 
 local _, caelStats = ...
 
-local Holder = CreateFrame("Frame")
-
 caelStats.coords = caelPanel8:CreateFontString(nil, "OVERLAY")
 caelStats.coords:SetFontObject(neuropolrg10)
 caelStats.coords:SetPoint("CENTER", caelPanel8, "CENTER", 425, 1) 
+
+caelStats.eventFrame = CreateFrame("Frame", nil, UIParent)
+caelStats.eventFrame:SetAllPoints(caelStats.coords)
+caelStats.eventFrame:EnableMouse(true)
+caelStats.eventFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
+caelStats.eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 
 local ColorizePVPType = function(pvpType)
 	if pvpType == "sanctuary" then
@@ -22,13 +26,14 @@ local ColorizePVPType = function(pvpType)
 	end
 end
 
-Holder:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-Holder:SetScript("OnEvent", function()
-	SetMapToCurrentZone()
+caelStats.eventFrame:HookScript("OnEvent", function(self, event)
+	if event == "ZONE_CHANGED_NEW_AREA" then
+		SetMapToCurrentZone()
+	end
 end)
 
 local delay = 0
-local OnUpdate = function(self, elapsed)
+caelStats.eventFrame:HookScript("OnUpdate", function(self, elapsed)
 	delay = delay - elapsed
 	if delay <= 0 then
 	local x, y = GetPlayerMapPosition("player")
@@ -40,10 +45,10 @@ local OnUpdate = function(self, elapsed)
 		end
 	delay = 0.2
 	end
-end
+end)
 
 local zoneName, zoneColor, subzoneName
-local OnEnter = function(self)
+caelStats.eventFrame:HookScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
 	zoneName = GetZoneText()
@@ -57,9 +62,9 @@ local OnEnter = function(self)
 	GameTooltip:AddLine(zoneName, zoneColor.r, zoneColor.g, zoneColor.b)
 	GameTooltip:AddLine(subzoneName, 0.84, 0.75, 0.65)
 	GameTooltip:Show()
-end
+end)
 
-local OnClick = function(self, button)
+caelStats.eventFrame:HookScript("OnMouseDown", function(self, button)
 	if not InCombatLockdown() then
 		if (button == "LeftButton") then
 			ToggleFrame(WorldMapFrame)
@@ -67,11 +72,4 @@ local OnClick = function(self, button)
 			ToggleBattlefieldMinimap()
 		end
 	end
-end
-
-Holder:EnableMouse(true)
-Holder:SetAllPoints(caelStats.coords)
-Holder:SetScript("OnEnter", OnEnter)
-Holder:SetScript("OnLeave", function() GameTooltip:Hide() end)
-Holder:SetScript("OnMouseDown", OnClick)
-Holder:SetScript("OnUpdate", OnUpdate)
+end)
