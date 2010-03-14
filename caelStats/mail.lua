@@ -3,7 +3,7 @@
 local _, caelStats = ...
 
 caelStats.mail = caelPanel8:CreateFontString(nil, "OVERLAY")
-caelStats.mail:SetFontObject(neuropolrg10)
+caelStats.mail:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 10)
 caelStats.mail:SetPoint("CENTER", caelPanel8, "CENTER", 0, 1)
 
 caelStats.eventFrame = CreateFrame("Frame", nil, UIParent)
