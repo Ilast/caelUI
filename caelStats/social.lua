@@ -108,6 +108,7 @@ caelStats.eventFrame:HookScript("OnEvent", function(self, event)
 					numOnlineGuildMembers = numOnlineGuildMembers + 1
 				end
 			end
+			numOnlineGuildMembers = numOnlineGuildMembers - 1
 		else
 			self:SetScript("OnUpdate", nil)
 		end
@@ -117,7 +118,7 @@ caelStats.eventFrame:HookScript("OnEvent", function(self, event)
 		
 		if numFriends > 0 then
 			for i = 1, numFriends do
-				local friendIsOnline = select(5,GetFriendInfo(i))
+				local friendIsOnline = select(5, GetFriendInfo(i))
 				if friendIsOnline then
 					numOnlineFriends = numOnlineFriends + 1
 				end
@@ -125,13 +126,17 @@ caelStats.eventFrame:HookScript("OnEvent", function(self, event)
 		end
 	end
 
-	numOnlineGuildMembers = numOnlineGuildMembers - 1
-
 	if numOnlineGuildMembers > 0 then
 		Text = string.format("%s %d", numOnlineFriends > 0 and "|cffD7BEA5G|r" or "|cffD7BEA5Guild|r", numOnlineGuildMembers)
 	end
+
 	if numOnlineFriends > 0 then
 		Text = string.format("%s %s %d", (numOnlineGuildMembers > 0) and Text or "", numOnlineGuildMembers > 0 and "- |cffD7BEA5F|r" or (numOnlineFriends > 1 and "|cffD7BEA5Friends|r" or "|cffD7BEA5Friend|r"), numOnlineFriends)
 	end
+
+	if numOnlineGuildMembers == 0 and numOnlineFriends == 0 then
+		Text = ""
+	end
+
 	caelStats.social:SetText(Text)
 end)
