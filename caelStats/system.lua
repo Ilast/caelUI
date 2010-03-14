@@ -3,7 +3,7 @@
 local _, caelStats = ...
 
 caelStats.system = caelPanel8:CreateFontString(nil, "OVERLAY")
-caelStats.system:SetFontObject(neuropolrg10)
+caelStats.system:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 10)
 caelStats.system:SetPoint("LEFT", caelPanel8, "LEFT", 10, 1)
 
 caelStats.eventFrame = CreateFrame("Frame", nil, UIParent)
