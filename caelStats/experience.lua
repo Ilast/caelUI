@@ -5,7 +5,7 @@ if UnitLevel("player") == 80 then return end
 local _, caelStats = ...
 
 caelStats.experience = caelPanel3:CreateFontString(nil, "OVERLAY")
-caelStats.experience:SetFontObject(neuropolrg10)
+caelStats.experience:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 10)
 caelStats.experience:SetPoint("BOTTOM", caelPanel3, "BOTTOM", 0, 5)
 
 caelStats.eventFrame = CreateFrame("Frame", nil, UIParent)
