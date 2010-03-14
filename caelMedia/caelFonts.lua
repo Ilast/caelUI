@@ -4,13 +4,6 @@ local _, caelFonts = ...
 
 caelFonts.eventFrame = CreateFrame("Frame", nil, UIParent)
 
-local neuropolrg9 = CreateFont("neuropolrg9")
-neuropolrg9:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 9, "")
-local neuropolrg10 = CreateFont("neuropolrg10")
-neuropolrg10:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 10, "")
-local neuropolrg12 = CreateFont("neuropolrg12")
-neuropolrg12:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 12, "")
-
 local SetFont = function(obj, font, size, style, r, g, b, sr, sg, sb, sox, soy)
 	obj:SetFont(font, size, style)
 	if sr and sg and sb then obj:SetShadowColor(sr, sg, sb) end
