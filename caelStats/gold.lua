@@ -2,11 +2,20 @@
 
 local _, caelStats = ...
 
-local Holder = CreateFrame("Frame")
-
 caelStats.gold = caelPanel8:CreateFontString(nil, "OVERLAY")
 caelStats.gold:SetFontObject(neuropolrg10)
 caelStats.gold:SetPoint("CENTER", caelPanel8, "CENTER", -300, 1) 
+
+caelStats.eventFrame = CreateFrame("Frame", nil, UIParent)
+caelStats.eventFrame:SetAllPoints(caelStats.gold)
+caelStats.eventFrame:EnableMouse(true)
+caelStats.eventFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
+caelStats.eventFrame:RegisterEvent("PLAYER_MONEY")
+caelStats.eventFrame:RegisterEvent("PLAYER_TRADE_MONEY")
+caelStats.eventFrame:RegisterEvent("TRADE_MONEY_CHANGED")
+caelStats.eventFrame:RegisterEvent("SEND_MAIL_COD_CHANGED")
+caelStats.eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+caelStats.eventFrame:RegisterEvent("SEND_MAIL_MONEY_CHANGED")
 
 local Profit	= 0
 local Spent		= 0
@@ -26,7 +35,7 @@ local function formatMoney(money)
 	end
 end
 
-local OnEvent = function(self, event)
+caelStats.eventFrame:HookScript("OnEvent", function(self, event)
 	if event == "PLAYER_ENTERING_WORLD" then
 		OldMoney = GetMoney()
 	end
@@ -42,9 +51,9 @@ local OnEvent = function(self, event)
 	
 	caelStats.gold:SetText(formatMoney(NewMoney))
 	OldMoney = NewMoney
-end
+end)
 
-local OnEnter = function(self)
+caelStats.eventFrame:HookScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
 	GameTooltip:AddDoubleLine("Earned:", formatMoney(Profit), 1, 1, 1, 1, 1, 1)
@@ -55,16 +64,4 @@ local OnEnter = function(self)
 		GameTooltip:AddDoubleLine("Profit:", formatMoney(Profit-Spent), 0, 1, 0, 1, 1, 1)
 	end
 	GameTooltip:Show()
-end
-
-Holder:EnableMouse(true)
-Holder:SetAllPoints(caelStats.gold)
-Holder:RegisterEvent("PLAYER_MONEY")
-Holder:RegisterEvent("SEND_MAIL_MONEY_CHANGED")
-Holder:RegisterEvent("SEND_MAIL_COD_CHANGED")
-Holder:RegisterEvent("PLAYER_TRADE_MONEY")
-Holder:RegisterEvent("TRADE_MONEY_CHANGED")
-Holder:RegisterEvent("PLAYER_ENTERING_WORLD")
-Holder:SetScript("OnEvent", OnEvent)
-Holder:SetScript("OnEnter", OnEnter)
-Holder:SetScript("OnLeave", function() GameTooltip:Hide() end)
+end)
