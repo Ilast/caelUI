@@ -5,6 +5,7 @@ local _, caelChat = ...
 caelChat.eventFrame = CreateFrame("Frame", nil, UIParent)
 
 local bgTexture = [=[Interface\ChatFrame\ChatFrameBackground]=]
+local fontName = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=]
 
 local backdrop = {
 	bgFile = bgTexture,
@@ -26,9 +27,9 @@ ChatFrameEditBox:ClearAllPoints()
 ChatFrameEditBox:SetHeight(20)
 ChatFrameEditBox:SetPoint("BOTTOMLEFT",  caelPanel1, "TOPLEFT", 0, 1)
 ChatFrameEditBox:SetPoint("BOTTOMRIGHT", caelPanel1, "TOPRIGHT", -90, 1)
-ChatFrameEditBox:SetFontObject(neuropolrg12)
+ChatFrameEditBox:SetFont(fontName, 12)
 ChatFrameEditBoxHeader:SetPoint("LEFT", caelPanel3a, 5, 1)
-ChatFrameEditBoxHeader:SetFontObject(neuropolrg12)
+ChatFrameEditBoxHeader:SetFont(fontName, 12)
 
 -- save original function to alternate name
 ChatFrameEditBox.oldSetTextInsets = ChatFrameEditBox.SetTextInsets
@@ -309,7 +310,7 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 					GameTooltip:Hide()
 				end)
 				btn.t = btn:CreateFontString(nil, "OVERLAY")
-				btn.t:SetFontObject(neuropolrg9)
+				btn.t:SetFont(fontName, 9)
 				btn.t:SetPoint("CENTER", 0, 1)
 				btn.t:SetTextColor(1, 1, 1)
 				btn.t:SetText(txt)
