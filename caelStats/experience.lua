@@ -1,15 +1,23 @@
 --[[	$Id$	]]
 
-local level = UnitLevel("player")
-if level == 80 then return end
+if UnitLevel("player") == 80 then return end
 
 local _, caelStats = ...
-
-local Holder = CreateFrame("Frame")
 
 caelStats.experience = caelPanel3:CreateFontString(nil, "OVERLAY")
 caelStats.experience:SetFontObject(neuropolrg10)
 caelStats.experience:SetPoint("BOTTOM", caelPanel3, "BOTTOM", 0, 5)
+
+caelStats.eventFrame = CreateFrame("Frame", nil, UIParent)
+caelStats.eventFrame:SetAllPoints(caelStats.experience)
+caelStats.eventFrame:EnableMouse(true)
+caelStats.eventFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
+caelStats.eventFrame:RegisterEvent("UNIT_PET")
+caelStats.eventFrame:RegisterEvent("UNIT_LEVEL")
+caelStats.eventFrame:RegisterEvent("UNIT_EXPERIENCE")
+caelStats.eventFrame:RegisterEvent("PLAYER_XP_UPDATE")
+caelStats.eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+caelStats.eventFrame:RegisterEvent("CHAT_MSG_COMBAT_XP_GAIN")
 
 local find, tonumber = string.find, tonumber
 
@@ -43,7 +51,9 @@ local OnEvent = function(retval, self, event, ...)
 	end
 end
 
-local OnEnter = function(self, ...)
+caelStats.eventFrame:HookScript("OnEvent", function(...) OnEvent(false, ...) end)
+
+caelStats.eventFrame:HookScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 	local playerXp, petXp = OnEvent(true)
 	GameTooltip:AddLine(playerXp)
@@ -51,16 +61,4 @@ local OnEnter = function(self, ...)
 		GameTooltip:AddLine(petXp)
 	end
 	GameTooltip:Show()
-end
-
-Holder:EnableMouse(true)
-Holder:SetAllPoints(caelStats.experience)
-Holder:RegisterEvent("PLAYER_ENTERING_WORLD")
-Holder:RegisterEvent("CHAT_MSG_COMBAT_XP_GAIN")
-Holder:RegisterEvent("PLAYER_XP_UPDATE")
-Holder:RegisterEvent("UNIT_PET")
-Holder:RegisterEvent("UNIT_EXPERIENCE")
-Holder:RegisterEvent("UNIT_LEVEL")
-Holder:SetScript("OnEvent", function(s,e,...) OnEvent(false, s,e,...) end)
-Holder:SetScript("OnEnter", OnEnter)
-Holder:SetScript("OnLeave", function(...) GameTooltip:Hide() end)
+end)
