@@ -3,7 +3,7 @@
 local _, caelStats = ...
 
 caelStats.clock = caelPanel8:CreateFontString(nil, "OVERLAY")
-caelStats.clock:SetFontObject(neuropolrg10)
+caelStats.clock:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 10)
 caelStats.clock:SetPoint("RIGHT", caelPanel8, "RIGHT", -10, 1) 
 
 caelStats.eventFrame = CreateFrame("Frame", nil, UIParent)
