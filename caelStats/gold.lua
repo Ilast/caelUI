@@ -56,12 +56,12 @@ end)
 caelStats.eventFrame:HookScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
-	GameTooltip:AddDoubleLine("Earned:", formatMoney(Profit), 1, 1, 1, 1, 1, 1)
-	GameTooltip:AddDoubleLine("Spent:", formatMoney(Spent), 1, 1, 1, 1, 1, 1)
+	GameTooltip:AddDoubleLine("|cffD7BEA5Earned|r", formatMoney(Profit), 0.84, 0.75, 0.65, 1, 1, 1)
+	GameTooltip:AddDoubleLine("|cffD7BEA5Spent|r", formatMoney(Spent), 0.84, 0.75, 0.65, 1, 1, 1)
 	if Profit < Spent then
-		GameTooltip:AddDoubleLine("Deficit:", formatMoney(Profit-Spent), 1, 0, 0, 1, 1, 1)
+		GameTooltip:AddDoubleLine("|cffAF5050Deficit|r", formatMoney(Profit-Spent), 0.69, 0.31, 0.31, 1, 1, 1)
 	elseif (Profit-Spent)>0 then
-		GameTooltip:AddDoubleLine("Profit:", formatMoney(Profit-Spent), 0, 1, 0, 1, 1, 1)
+		GameTooltip:AddDoubleLine("|cff559655Profit|r", formatMoney(Profit-Spent), 0.33, 0.59, 0.33, 1, 1, 1)
 	end
 	GameTooltip:Show()
 end)
