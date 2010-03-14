@@ -2,15 +2,25 @@
 
 local _, caelStats = ...
 
-local Holder = CreateFrame("Frame")
-
 caelStats.lfg = caelPanel8:CreateFontString(nil, "OVERLAY")
 caelStats.lfg:SetFontObject(neuropolrg10)
 caelStats.lfg:SetPoint("CENTER", caelPanel8, "CENTER", -150, 1) 
 
+caelStats.eventFrame = CreateFrame("Frame", nil, UIParent)
+caelStats.eventFrame:SetAllPoints(caelStats.lfg)
+caelStats.eventFrame:EnableMouse(true)
+caelStats.eventFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
+caelStats.eventFrame:RegisterEvent("LFG_UPDATE")
+caelStats.eventFrame:RegisterEvent("UPDATE_LFG_LIST")
+caelStats.eventFrame:RegisterEvent("LFG_PROPOSAL_UPDATE")
+caelStats.eventFrame:RegisterEvent("PARTY_MEMBERS_CHANGED")
+caelStats.eventFrame:RegisterEvent("LFG_ROLE_CHECK_UPDATE")
+caelStats.eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+caelStats.eventFrame:RegisterEvent("LFG_QUEUE_STATUS_UPDATE")
+
 local red, green = "AF5050", "559655"
 
-local OnEvent = function(self)
+caelStats.eventFrame:HookScript("OnEvent", function(self, event)
 	MiniMapLFGFrame:UnregisterAllEvents()
 	MiniMapLFGFrame:Hide()
 	MiniMapLFGFrame.Show = function() end
@@ -40,9 +50,9 @@ local OnEvent = function(self)
 			(myWait ~= -1 and SecondsToTime(myWait, false, false, 1) or "|cffD7BEA5Unknown|r")
 		)
 	)
-end
+end)
 
-local OnClick = function(self, button)
+caelStats.eventFrame:HookScript("OnMouseDown", function(self, button)
 	local mode, _ = GetLFGMode()
 	if button == "LeftButton" then
 		if mode == "listed" then
@@ -62,16 +72,4 @@ local OnClick = function(self, button)
 		MiniMapLFGFrameDropDown.relativePoint = "TOPRIGHT"
 		ToggleDropDownMenu(1, nil, MiniMapLFGFrameDropDown, Holder, 0, 0)
 	end
-end
-
-Holder:EnableMouse(true)
-Holder:SetAllPoints(caelStats.lfg)
-Holder:RegisterEvent("PLAYER_ENTERING_WORLD")
-Holder:RegisterEvent("LFG_QUEUE_STATUS_UPDATE")
-Holder:RegisterEvent("LFG_UPDATE")
-Holder:RegisterEvent("UPDATE_LFG_LIST")
-Holder:RegisterEvent("LFG_ROLE_CHECK_UPDATE")
-Holder:RegisterEvent("LFG_PROPOSAL_UPDATE")
-Holder:RegisterEvent("PARTY_MEMBERS_CHANGED")
-Holder:SetScript("OnEvent", OnEvent)
-Holder:SetScript("OnMouseDown", OnClick)
+end)
