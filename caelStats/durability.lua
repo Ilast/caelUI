@@ -42,8 +42,7 @@ caelStats.eventFrame:HookScript("OnEvent", function(self, event)
 		table.sort(Slots, function(a, b) return a[3] < b[3] end)
 		
 		if Total > 0 then
-	--		caelStats.durability:SetText("|cffD7BEA5Dur |r"..floor(Slots[1][3]*100).."%")
-			caelStats.durability:SetFormattedText("|cffD7BEA5Dur |r%d%s", floor(Slots[1][3]*100), "%")
+			caelStats.durability:SetFormattedText("|cffD7BEA5Dur|r %d%s", floor(Slots[1][3] * 100), "%")
 		else
 			caelStats.durability:SetText("100% |cffD7BEA5Armor|r")
 		end
@@ -55,9 +54,9 @@ caelStats.eventFrame:HookScript("OnEnter", function(self)
 
 	for i = 1, 11 do
 		if Slots[i][3] ~= 1000 then
-			green = Slots[i][3]*2
+			green = Slots[i][3] * 2
 			red = 1 - green
-			GameTooltip:AddDoubleLine(Slots[i][2], floor(Slots[i][3]*100).."%",1 ,1 , 1, red + 1, green, 0)
+			GameTooltip:AddDoubleLine(Slots[i][2], floor(Slots[i][3]*100).."%", 0.84, 0.75, 0.65, red + 1, green, 0)
 		end
 	end
 	GameTooltip:Show()
