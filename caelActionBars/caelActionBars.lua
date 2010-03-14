@@ -11,6 +11,27 @@ local mouseOverPetBar = 1
 
 local _G = getfenv(0)
 
+local actionBars = CreateFrame("Frame", nil, UIParent)
+actionBars:RegisterEvent("PLAYER_ENTERING_WORLD")
+actionBars:SetScript("OnEvent", function()
+	SHOW_MULTI_ACTIONBAR_1 = true
+	SHOW_MULTI_ACTIONBAR_2 = true
+	SHOW_MULTI_ACTIONBAR_3 = true
+	SHOW_MULTI_ACTIONBAR_4 = false
+	InterfaceOptions_UpdateMultiActionBars()
+
+	ActionButton_HideGrid = function() end
+	for i = 1, 12 do
+		local button = _G[format("ActionButton%d", i)]
+		button:SetAttribute("showgrid", 1)
+		ActionButton_ShowGrid(button)
+
+		button = _G[format("BonusActionButton%d", i)]
+		button:SetAttribute("showgrid", 1)
+		ActionButton_ShowGrid(button)
+	end
+end)
+
 ---------------------------------------------------
 -- CREATE ALL THE HOLDER FRAMES
 ---------------------------------------------------
