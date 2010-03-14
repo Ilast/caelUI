@@ -41,6 +41,6 @@ end)
 
 caelStats.eventFrame:HookScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
-	GameTooltip:AddLine(date("%B, %A %d %Y"))
+	GameTooltip:AddLine(date("%B, %A %d %Y"), 0.84, 0.75, 0.65)
 	GameTooltip:Show()
 end)
