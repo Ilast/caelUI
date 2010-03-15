@@ -10,14 +10,16 @@ local Kill = function(object)
 	object:Hide()
 end
 
+local fontName = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=]
+
 local Player = WorldMapButton:CreateFontString(nil, "ARTWORK")
 Player:SetPoint("TOPLEFT", WorldMapButton, 0, 40)
-Player:SetFontObject(neuropolrg12)
+Player:SetFont(fontName, 12)
 Player:SetTextColor(0.84, 0.75, 0.65)
 
 local Cursor = WorldMapButton:CreateFontString(nil, "ARTWORK")
 Cursor:SetPoint("TOPLEFT", WorldMapButton, 0, 20)
-Cursor:SetFontObject(neuropolrg12)
+Cursor:SetFont(fontName, 12)
 Cursor:SetTextColor(0.84, 0.75, 0.65)
 
 WorldMapButton:HookScript("OnUpdate", function(self, u)
