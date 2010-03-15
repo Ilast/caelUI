@@ -14,12 +14,13 @@ local _G = getfenv(0)
 local actionBars = CreateFrame("Frame", nil, UIParent)
 actionBars:RegisterEvent("PLAYER_ENTERING_WORLD")
 actionBars:SetScript("OnEvent", function()
+	-- Force bottom left, bottom right and right bars to be shown.
 	SHOW_MULTI_ACTIONBAR_1 = true
 	SHOW_MULTI_ACTIONBAR_2 = true
 	SHOW_MULTI_ACTIONBAR_3 = true
 	SHOW_MULTI_ACTIONBAR_4 = false
 	InterfaceOptions_UpdateMultiActionBars()
-
+	-- Force empty buttons to be shown.
 	ActionButton_HideGrid = function() end
 	for i = 1, 12 do
 		local button = _G[format("ActionButton%d", i)]
@@ -483,7 +484,7 @@ local unusable_color = { r = 0.25, g = 0.25, b = 0.25, }
 --	if you set the timer to 0 it will update all your 120 buttons on every single frame
 --	so if you have 120FPS it will call the function 14.400 times a second!
 --	if the timer is 1 it will call the function 120 times a second (depends on actionbuttons in screen)
-local update_timer = 1
+local update_timer = TOOLTIP_UPDATE_TIME + 0.1
 
 ---------------------------------------
 -- FUNCTIONS
@@ -609,14 +610,14 @@ local function caelActionBars_AB_usable(self)
 end
 
 --	rewrite of the onupdate func, much less cpu usage needed
-local function caelActionBars_AB_onupdate(self,elapsed)
+local function caelActionBars_AB_onupdate(self, elapsed)
 	local t = self.cAB_range
 	if (not t) then
 		self.cAB_range = 0
 		return
 	end
 	t = t + elapsed
-	if (t<update_timer) then
+	if (t < update_timer) then
 		self.cAB_range = t
 		return
 	else
