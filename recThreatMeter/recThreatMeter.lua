@@ -17,6 +17,7 @@ local HIDDEN, TANKING, BLANK = "* %s", ">>> %s <<<", " "
 local WARNING		= [=[Interface\Addons\caelMedia\Sounds\warning.mp3]=]
 local AGGRO			= [=[Interface\Addons\caelMedia\Sounds\aggro.mp3]=]
 local bar_texture	= [=[Interface\Addons\caelMedia\StatusBars\normtexa]=]
+local fontName = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=]
 
 local recycle_bin = {}
 local function Recycler(trash_table)
@@ -280,7 +281,7 @@ local function MakeDisplay()
 	f.texture:SetDrawLayer("BACKGROUND")
 
 	f.titletext = f:CreateFontString(nil, "ARTWORK")
-	f.titletext:SetFontObject(neuropolrg10)
+	f.titletext:SetFont(fontName, 10)
 	f.titletext:SetText("Threat")
 	f.titletext:SetPoint("TOP", f, "TOP", 0, 0)
 
@@ -297,11 +298,11 @@ local function MakeDisplay()
 		f.bars[i]:SetPoint("TOPLEFT", i == 1 and f or f.bars[i-1], i == 1 and "TOPLEFT" or "BOTTOMLEFT", i == 1 and 2 or 0, i == 1 and -15 or -1.5)
 		f.bars[i]:SetPoint("TOPRIGHT", i == 1 and f or f.bars[i-1], i == 1 and "TOPRIGHT" or "BOTTOMRIGHT", i == 1 and -2 or 0, i == 1 and -15 or -1.5)
 		f.bars[i].lefttext = f.bars[i]:CreateFontString(nil, "ARTWORK")
-		f.bars[i].lefttext:SetFontObject(neuropolrg9)
+		f.bars[i].lefttext:SetFont(fontName, 9)
 		f.bars[i].lefttext:SetPoint("LEFT", f.bars[i], "LEFT", 0, 2)
 		f.bars[i].lefttext:Show()
 		f.bars[i].righttext = f.bars[i]:CreateFontString(nil, "ARTWORK")
-		f.bars[i].righttext:SetFontObject(neuropolrg9)
+		f.bars[i].righttext:SetFont(fontName, 9)
 		f.bars[i].righttext:SetPoint("RIGHT", f.bars[i], "RIGHT", 0, 2)
 		SetBarValues(i)
 	end
