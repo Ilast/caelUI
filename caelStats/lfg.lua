@@ -6,21 +6,21 @@ caelStats.lfg = caelPanel8:CreateFontString(nil, "OVERLAY")
 caelStats.lfg:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 10)
 caelStats.lfg:SetPoint("CENTER", caelPanel8, "CENTER", -150, 1) 
 
-caelStats.eventFrame = CreateFrame("Frame", nil, UIParent)
-caelStats.eventFrame:SetAllPoints(caelStats.lfg)
-caelStats.eventFrame:EnableMouse(true)
-caelStats.eventFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
-caelStats.eventFrame:RegisterEvent("LFG_UPDATE")
-caelStats.eventFrame:RegisterEvent("UPDATE_LFG_LIST")
-caelStats.eventFrame:RegisterEvent("LFG_PROPOSAL_UPDATE")
-caelStats.eventFrame:RegisterEvent("PARTY_MEMBERS_CHANGED")
-caelStats.eventFrame:RegisterEvent("LFG_ROLE_CHECK_UPDATE")
-caelStats.eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-caelStats.eventFrame:RegisterEvent("LFG_QUEUE_STATUS_UPDATE")
+caelStats.lfgFrame = CreateFrame("Frame", nil, UIParent)
+caelStats.lfgFrame:SetAllPoints(caelStats.lfg)
+caelStats.lfgFrame:EnableMouse(true)
+caelStats.lfgFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
+caelStats.lfgFrame:RegisterEvent("LFG_UPDATE")
+caelStats.lfgFrame:RegisterEvent("UPDATE_LFG_LIST")
+caelStats.lfgFrame:RegisterEvent("LFG_PROPOSAL_UPDATE")
+caelStats.lfgFrame:RegisterEvent("PARTY_MEMBERS_CHANGED")
+caelStats.lfgFrame:RegisterEvent("LFG_ROLE_CHECK_UPDATE")
+caelStats.lfgFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+caelStats.lfgFrame:RegisterEvent("LFG_QUEUE_STATUS_UPDATE")
 
 local red, green = "AF5050", "559655"
 
-caelStats.eventFrame:HookScript("OnEvent", function(self, event)
+caelStats.lfgFrame:HookScript("OnEvent", function(self, event)
 	MiniMapLFGFrame:UnregisterAllEvents()
 	MiniMapLFGFrame:Hide()
 	MiniMapLFGFrame.Show = function() end
@@ -52,7 +52,7 @@ caelStats.eventFrame:HookScript("OnEvent", function(self, event)
 	)
 end)
 
-caelStats.eventFrame:HookScript("OnMouseDown", function(self, button)
+caelStats.lfgFrame:HookScript("OnMouseDown", function(self, button)
 	local mode, _ = GetLFGMode()
 	if button == "LeftButton" then
 		if mode == "listed" then
