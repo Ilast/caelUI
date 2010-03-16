@@ -6,14 +6,14 @@ caelStats.mail = caelPanel8:CreateFontString(nil, "OVERLAY")
 caelStats.mail:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 10)
 caelStats.mail:SetPoint("CENTER", caelPanel8, "CENTER", 0, 1)
 
-caelStats.eventFrame = CreateFrame("Frame", nil, UIParent)
-caelStats.eventFrame:SetAllPoints(caelStats.mail)
-caelStats.eventFrame:EnableMouse(true)
-caelStats.eventFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
-caelStats.eventFrame:RegisterEvent("UPDATE_PENDING_MAIL")
-caelStats.eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+caelStats.mailFrame = CreateFrame("Frame", nil, UIParent)
+caelStats.mailFrame:SetAllPoints(caelStats.mail)
+caelStats.mailFrame:EnableMouse(true)
+caelStats.mailFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
+caelStats.mailFrame:RegisterEvent("UPDATE_PENDING_MAIL")
+caelStats.mailFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 
-caelStats.eventFrame:HookScript("OnEvent", function(self, event)
+caelStats.mailFrame:HookScript("OnEvent", function(self, event)
 	if event == "UPDATE_PENDING_MAIL" then
 		if HasNewMail() then
 			caelStats.mail:SetText("New mail", 1, 1, 1)
@@ -23,7 +23,7 @@ caelStats.eventFrame:HookScript("OnEvent", function(self, event)
 	end
 end)
 
-caelStats.eventFrame:HookScript("OnEnter", function(self)
+caelStats.mailFrame:HookScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
 	local sender1, sender2, sender3 = GetLatestThreeSenders()
