@@ -8,16 +8,16 @@ caelStats.experience = caelPanel3:CreateFontString(nil, "OVERLAY")
 caelStats.experience:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 10)
 caelStats.experience:SetPoint("BOTTOM", caelPanel3, "BOTTOM", 0, 5)
 
-caelStats.eventFrame = CreateFrame("Frame", nil, UIParent)
-caelStats.eventFrame:SetAllPoints(caelStats.experience)
-caelStats.eventFrame:EnableMouse(true)
-caelStats.eventFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
-caelStats.eventFrame:RegisterEvent("UNIT_PET")
-caelStats.eventFrame:RegisterEvent("UNIT_LEVEL")
-caelStats.eventFrame:RegisterEvent("UNIT_EXPERIENCE")
-caelStats.eventFrame:RegisterEvent("PLAYER_XP_UPDATE")
-caelStats.eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-caelStats.eventFrame:RegisterEvent("CHAT_MSG_COMBAT_XP_GAIN")
+caelStats.expFrame = CreateFrame("Frame", nil, UIParent)
+caelStats.expFrame:SetAllPoints(caelStats.experience)
+caelStats.expFrame:EnableMouse(true)
+caelStats.expFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
+caelStats.expFrame:RegisterEvent("UNIT_PET")
+caelStats.expFrame:RegisterEvent("UNIT_LEVEL")
+caelStats.expFrame:RegisterEvent("UNIT_EXPERIENCE")
+caelStats.expFrame:RegisterEvent("PLAYER_XP_UPDATE")
+caelStats.expFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+caelStats.expFrame:RegisterEvent("CHAT_MSG_COMBAT_XP_GAIN")
 
 local find, tonumber = string.find, tonumber
 
@@ -51,9 +51,9 @@ local OnEvent = function(retval, self, event, ...)
 	end
 end
 
-caelStats.eventFrame:HookScript("OnEvent", function(...) OnEvent(false, ...) end)
+caelStats.expFrame:HookScript("OnEvent", function(...) OnEvent(false, ...) end)
 
-caelStats.eventFrame:HookScript("OnEnter", function(self)
+caelStats.expFrame:HookScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 	local playerXp, petXp = OnEvent(true)
 	GameTooltip:AddLine(playerXp)
