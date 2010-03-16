@@ -6,12 +6,12 @@ caelStats.social = caelPanel8:CreateFontString(nil, "OVERLAY")
 caelStats.social:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 10)
 caelStats.social:SetPoint("CENTER", caelPanel8, "CENTER", 325, 1) 
 
-caelStats.eventFrame = CreateFrame("Frame", nil, UIParent)
-caelStats.eventFrame:SetAllPoints(caelStats.social)
-caelStats.eventFrame:EnableMouse(true)
-caelStats.eventFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
-caelStats.eventFrame:RegisterEvent("FRIENDLIST_UPDATE")
-caelStats.eventFrame:RegisterEvent("GUILD_ROSTER_UPDATE")
+caelStats.socialFrame = CreateFrame("Frame", nil, UIParent)
+caelStats.socialFrame:SetAllPoints(caelStats.social)
+caelStats.socialFrame:EnableMouse(true)
+caelStats.socialFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
+caelStats.socialFrame:RegisterEvent("FRIENDLIST_UPDATE")
+caelStats.socialFrame:RegisterEvent("GUILD_ROSTER_UPDATE")
 
 local numGuildMembers = 0
 local numOnlineGuildMembers = 0
@@ -21,7 +21,7 @@ local numOnlineFriends = 0
 local playerName = UnitName("player")
 
 local delay = 0
-caelStats.eventFrame:HookScript("OnUpdate", function(self, elapsed)
+caelStats.socialFrame:SetScript("OnUpdate", function(self, elapsed)
 	delay = delay - elapsed
 	if delay < 0 then
 		if IsInGuild("player") then
@@ -33,7 +33,7 @@ caelStats.eventFrame:HookScript("OnUpdate", function(self, elapsed)
 	end
 end)
 
-caelStats.eventFrame:HookScript("OnEnter", function(self)
+caelStats.socialFrame:HookScript("OnEnter", function(self)
 	numGuildMembers = GetNumGuildMembers()
 	numFriends = GetNumFriends() 
 
@@ -76,7 +76,7 @@ caelStats.eventFrame:HookScript("OnEnter", function(self)
 	GameTooltip:Show()
 end)
 
-caelStats.eventFrame:HookScript("OnMouseDown", function(self, button)
+caelStats.socialFrame:HookScript("OnMouseDown", function(self, button)
 	if button == "LeftButton" then
 		if GuildFrame:IsShown() then
 			FriendsFrame:Hide()
@@ -97,7 +97,7 @@ caelStats.eventFrame:HookScript("OnMouseDown", function(self, button)
 end)
 
 local Text
-caelStats.eventFrame:HookScript("OnEvent", function(self, event)
+caelStats.socialFrame:HookScript("OnEvent", function(self, event)
 	if event == "GUILD_ROSTER_UPDATE" then
 		if IsInGuild("player") then
 			numOnlineGuildMembers = 0
