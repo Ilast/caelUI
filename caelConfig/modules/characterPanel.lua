@@ -9,11 +9,8 @@ CharacterModelFrameRotateRightButton:SetPoint("RIGHT", PaperDollFrame, "RIGHT", 
 local blacklist, items = {}, {}
 local slots = {1, 3, 5, 6, 7, 8, 9 ,10, 16, 17, 18}
 
-local localized, class = UnitClass("player")
-local GameTooltip = GameTooltip
-
-local ShowCloak, ShowHelm, noop = ShowCloak, ShowHelm, function() end
-_G.ShowCloak, _G.ShowHelm = noop, noop
+local ShowCloak, ShowHelm, dummy = ShowCloak, ShowHelm, function() end
+_G.ShowCloak, _G.ShowHelm = dummy, dummy
 
 for k, v in next, {InterfaceOptionsDisplayPanelShowCloak, InterfaceOptionsDisplayPanelShowHelm} do
 	v:SetButtonState("DISABLED", true)
@@ -63,25 +60,25 @@ local function onClick(self)
 	end
 end
 
-local undress = CreateFrame("Button", "StripTease_DressUpFrame", DressUpFrame, "UIPanelButtonTemplate")
+local undress = CreateFrame("Button", nil, DressUpFrame, "UIPanelButtonTemplate")
 undress:SetPoint("RIGHT", DressUpFrameResetButton, "LEFT")
 undress:SetHeight(22)
 undress:SetWidth(80)
 undress:SetText("Undress")
 undress:SetScript("OnClick", function() DressUpModel:Undress() end)
 
-local nacked = CreateFrame("CheckButton", "StripTease", PaperDollFrame, "OptionsCheckButtonTemplate")
+local nacked = CreateFrame("CheckButton", nil, PaperDollFrame, "OptionsCheckButtonTemplate")
 nacked:SetPoint("LEFT", CharacterHeadSlot, "RIGHT", 7, -36)
 nacked:SetToplevel(true)
 nacked:SetChecked(true)
 nacked:SetScript("OnClick", onClick)
-nacked:SetScript("OnEnter", function()
-	GameTooltip:SetOwner(this, "ANCHOR_RIGHT")
+nacked:SetScript("OnEnter", function(self)
+	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 	GameTooltip:SetText("Naked !")
 end)
 nacked:SetScript("OnLeave", function() GameTooltip:Hide() end)
 
-local helm = CreateFrame("CheckButton", "HelmToggle", PaperDollFrame, "OptionsCheckButtonTemplate")
+local helm = CreateFrame("CheckButton", nil, PaperDollFrame, "OptionsCheckButtonTemplate")
 helm:SetPoint("LEFT", CharacterHeadSlot, "RIGHT", 7, 6)
 helm:SetChecked(ShowingHelm())
 helm:SetToplevel()
@@ -92,13 +89,13 @@ helm:SetScript("OnEvent", function(self, event, unit)
 		self:SetChecked(ShowingHelm())
 	end
 end)
-helm:SetScript("OnEnter", function()
- 	GameTooltip:SetOwner(this, "ANCHOR_RIGHT")
+helm:SetScript("OnEnter", function(self)
+ 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 	GameTooltip:SetText("Toggles helmet model.")
 end)
 helm:SetScript("OnLeave", function() GameTooltip:Hide() end)
 
-local cloak = CreateFrame("CheckButton", "CloakToggle", PaperDollFrame, "OptionsCheckButtonTemplate")
+local cloak = CreateFrame("CheckButton", nil, PaperDollFrame, "OptionsCheckButtonTemplate")
 cloak:SetPoint("LEFT", CharacterHeadSlot, "RIGHT", 7, -15)
 cloak:SetChecked(ShowingCloak())
 cloak:SetToplevel()
@@ -109,8 +106,8 @@ cloak:SetScript("OnEvent", function(self, event, unit)
 		self:SetChecked(ShowingCloak())
 	end
 end)
-cloak:SetScript("OnEnter", function()
-	GameTooltip:SetOwner(this, "ANCHOR_RIGHT")
+cloak:SetScript("OnEnter", function(self)
+	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 	GameTooltip:SetText("Toggles cloak model.")
 end)
 cloak:SetScript("OnLeave", function() GameTooltip:Hide() end)
