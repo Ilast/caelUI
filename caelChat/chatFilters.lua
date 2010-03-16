@@ -75,13 +75,12 @@ end
 
 local Spam = {
 	[1] = "Bienvenue dans World of Warcraft !",
-	[2] = "La mise à jour 3.3 est désormais disponible et la citadelle de la Couronne",
-	[3] = "de glace vous attend !",
-	[4] = "Joignez%-vous à nous pour fêter le 5e anniversaire de World of Warcraft sur ",
-	[5] = "http://www.wow%-europe.com/wowanniversary !",
-	[6] = "You have .+ the title '.atron Caellian'%.",
-	[7] = "^(%S+) has come online%.",
-	[8] = "^(%S+) has gone offline%.",
+	[2] = "Nous nous préoccupons de la sécurité des joueurs et vous",
+	[3] = "encourageons à consulter le site http://eu.battle.net/security",
+	[4] = "pour de plus amples astuces et informations à ce sujet.",
+	[5] = "You have .+ the title '.atron Caellian'%.",
+	[6] = "^(%S+) has come online%.",
+	[7] = "^(%S+) has gone offline%.",
 }
 
 local SystemMessageFilter = function(self, event, ...)
