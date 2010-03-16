@@ -6,10 +6,10 @@ caelStats.system = caelPanel8:CreateFontString(nil, "OVERLAY")
 caelStats.system:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 10)
 caelStats.system:SetPoint("LEFT", caelPanel8, "LEFT", 10, 1)
 
-caelStats.eventFrame = CreateFrame("Frame", nil, UIParent)
-caelStats.eventFrame:SetAllPoints(caelStats.system)
-caelStats.eventFrame:EnableMouse(true)
-caelStats.eventFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
+caelStats.sysFrame = CreateFrame("Frame", nil, UIParent)
+caelStats.sysFrame:SetAllPoints(caelStats.system)
+caelStats.sysFrame:EnableMouse(true)
+caelStats.sysFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
 
 local Addons = {}
 local AddonsMemoryCompare = function(a, b)
@@ -51,7 +51,7 @@ local function UpdateMemory(self)
 end
 
 local delay1, delay2 = 0, 0
-caelStats.eventFrame:HookScript("OnUpdate", function(self, elapsed)
+caelStats.sysFrame:HookScript("OnUpdate", function(self, elapsed)
 	delay1 = delay1 - elapsed
 	delay2 = delay2 - elapsed
 
@@ -69,7 +69,7 @@ caelStats.eventFrame:HookScript("OnUpdate", function(self, elapsed)
 	end
 end)
 
-caelStats.eventFrame:HookScript("OnEnter", function(self)
+caelStats.sysFrame:HookScript("OnEnter", function(self)
 	if IsShiftKeyDown() then
 		GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
@@ -96,7 +96,7 @@ caelStats.eventFrame:HookScript("OnEnter", function(self)
 	end
 end)
 
-caelStats.eventFrame:HookScript("OnMouseDown", function(self, button)
+caelStats.sysFrame:HookScript("OnMouseDown", function(self, button)
 	if button == "LeftButton" then
 		local collected = collectgarbage("count")
 		collectgarbage("collect")
