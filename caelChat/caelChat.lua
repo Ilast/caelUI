@@ -18,6 +18,14 @@ local _G = getfenv(0)
 local playerName = UnitName("player")
 local _, playerClass = UnitClass("player")
 
+local charList = {
+	["Bonewraith"] = true,
+	["Caellian"] = true,
+	["Callysto"] = true,
+	["Cowdiak"] = true,
+	["Pimiko"] = true,
+}
+
 CHAT_TELL_ALERT_TIME = 0 -- sound on every whisper
 DEFAULT_CHATFRAME_ALPHA = 0 -- remove mouseover background
 
@@ -230,8 +238,10 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 
 				dockHighlight:Hide()
 
-				ChatFrame_RemoveAllChannels(frame)
-				ChatFrame_RemoveAllMessageGroups(frame)
+				if charList[playerName] then
+					ChatFrame_RemoveAllChannels(frame)
+					ChatFrame_RemoveAllMessageGroups(frame)
+				end
 
 				if(i == 1) then
 					FCF_SetWindowName(frame, "• Gen •")
@@ -240,12 +250,14 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 					frame:SetPoint("BOTTOMRIGHT", caelPanel1, "BOTTOMRIGHT", -5, 10)
 					frame:SetMaxLines(1000)
 					frame.SetPoint = function() end
-					for i = 0, 28 do
-						if i < 16 then -- Everything up to 15
-							ToggleChatColorNamesByClassGroup(true, mergedTable[i])
-						end
-						if i > 0 then -- Everything except index 0
-							ChatFrame_AddMessageGroup(frame, mergedTable[i])
+					if charList[playerName] then
+						for i = 0, 28 do
+							if i < 16 then -- Everything up to 15
+								ToggleChatColorNamesByClassGroup(true, mergedTable[i])
+							end
+							if i > 0 then -- Everything except index 0
+								ChatFrame_AddMessageGroup(frame, mergedTable[i])
+							end
 						end
 					end
 				elseif(i == 2) then
@@ -440,10 +452,12 @@ local caelChat_OnUpdate = function(self, elapsed)
 			ChangeChatColor("CHANNEL5", 0.84, 0.75, 0.65)
 			ChangeChatColor("WHISPER", 0.3, 0.6, 0.9)
 			ChangeChatColor("WHISPER_INFORM", 0.3, 0.6, 0.9)
-			if playerClass == "HUNTER" and playerName == "Caellian" then
-				JoinTemporaryChannel("GICaster")
-				ChatFrame_AddChannel(_G.ChatFrame1, "GICaster")
-				ChangeChatColor("CHANNEL5", 0.67, 0.83, 0.45)
+			if charList[playerName] then
+				if playerClass == "HUNTER" then
+					JoinTemporaryChannel("GICaster")
+					ChatFrame_AddChannel(_G.ChatFrame1, "GICaster")
+					ChangeChatColor("CHANNEL5", 0.67, 0.83, 0.45)
+				end
 			end
 			print("|cffD7BEA5cael|rChat: Chatframes setup complete")
 			self:SetScript("OnUpdate", nil) -- Done now, nil the OnUpdate completely.
