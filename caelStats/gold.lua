@@ -6,16 +6,16 @@ caelStats.gold = caelPanel8:CreateFontString(nil, "OVERLAY")
 caelStats.gold:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 10)
 caelStats.gold:SetPoint("CENTER", caelPanel8, "CENTER", -300, 1) 
 
-caelStats.eventFrame = CreateFrame("Frame", nil, UIParent)
-caelStats.eventFrame:SetAllPoints(caelStats.gold)
-caelStats.eventFrame:EnableMouse(true)
-caelStats.eventFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
-caelStats.eventFrame:RegisterEvent("PLAYER_MONEY")
-caelStats.eventFrame:RegisterEvent("PLAYER_TRADE_MONEY")
-caelStats.eventFrame:RegisterEvent("TRADE_MONEY_CHANGED")
-caelStats.eventFrame:RegisterEvent("SEND_MAIL_COD_CHANGED")
-caelStats.eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-caelStats.eventFrame:RegisterEvent("SEND_MAIL_MONEY_CHANGED")
+caelStats.goldFrame = CreateFrame("Frame", nil, UIParent)
+caelStats.goldFrame:SetAllPoints(caelStats.gold)
+caelStats.goldFrame:EnableMouse(true)
+caelStats.goldFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
+caelStats.goldFrame:RegisterEvent("PLAYER_MONEY")
+caelStats.goldFrame:RegisterEvent("PLAYER_TRADE_MONEY")
+caelStats.goldFrame:RegisterEvent("TRADE_MONEY_CHANGED")
+caelStats.goldFrame:RegisterEvent("SEND_MAIL_COD_CHANGED")
+caelStats.goldFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+caelStats.goldFrame:RegisterEvent("SEND_MAIL_MONEY_CHANGED")
 
 local Profit	= 0
 local Spent		= 0
@@ -35,7 +35,7 @@ local function formatMoney(money)
 	end
 end
 
-caelStats.eventFrame:HookScript("OnEvent", function(self, event)
+caelStats.goldFrame:HookScript("OnEvent", function(self, event)
 	if event == "PLAYER_ENTERING_WORLD" then
 		OldMoney = GetMoney()
 	end
@@ -53,7 +53,7 @@ caelStats.eventFrame:HookScript("OnEvent", function(self, event)
 	OldMoney = NewMoney
 end)
 
-caelStats.eventFrame:HookScript("OnEnter", function(self)
+caelStats.goldFrame:HookScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
 	GameTooltip:AddDoubleLine("|cffD7BEA5Earned|r", formatMoney(Profit), 0.84, 0.75, 0.65, 1, 1, 1)
