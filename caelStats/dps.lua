@@ -7,12 +7,12 @@ caelStats.dps:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=
 caelStats.dps:SetPoint("CENTER", caelPanel8, "CENTER", 125, 1)
 caelStats.dps:SetText("|cffD7BEA5DPS|r 0")
 
-caelStats.eventFrame = CreateFrame("Frame", nil, UIParent)
-caelStats.eventFrame:SetAllPoints(caelStats.dps)
-caelStats.eventFrame:EnableMouse(true)
-caelStats.eventFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
-caelStats.eventFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
-caelStats.eventFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
+caelStats.dpsFrame = CreateFrame("Frame", nil, UIParent)
+caelStats.dpsFrame:SetAllPoints(caelStats.dps)
+caelStats.dpsFrame:EnableMouse(true)
+caelStats.dpsFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
+caelStats.dpsFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
+caelStats.dpsFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
 
 local playerName, petName = UnitName("player"), UnitName("pet")
 local combStart, combTime, dmgTotal, prefix, suffix
@@ -35,7 +35,7 @@ local updateDps = function()
 	end
 end
 
-caelStats.eventFrame:HookScript("OnEvent", function(self, event, _, type, _, sourceName, _, _, destName, _, ...)
+caelStats.dpsFrame:HookScript("OnEvent", function(self, event, _, type, _, sourceName, _, _, destName, _, ...)
 	if event == "PLAYER_REGEN_ENABLED" then
 		self:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 		combTime = (GetTime() - combStart)
@@ -57,7 +57,7 @@ caelStats.eventFrame:HookScript("OnEvent", function(self, event, _, type, _, sou
 	end
 end)
 
-caelStats.eventFrame:HookScript("OnEnter", function(self)
+caelStats.dpsFrame:HookScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
 	if dmgTotal then
