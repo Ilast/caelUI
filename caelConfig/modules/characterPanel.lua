@@ -71,7 +71,7 @@ local nacked = CreateFrame("CheckButton", nil, PaperDollFrame, "OptionsCheckButt
 nacked:SetPoint("LEFT", CharacterHeadSlot, "RIGHT", 7, -36)
 nacked:SetToplevel(true)
 nacked:SetChecked(true)
-nacked:SetScript("OnClick", onClick)
+nacked:SetScript("OnClick", function(self) if not InCombatLockdown() then onClick(self) end end)
 nacked:SetScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 	GameTooltip:SetText("Naked !")
