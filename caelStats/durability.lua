@@ -6,11 +6,11 @@ caelStats.durability = caelPanel8:CreateFontString(nil, "OVERLAY")
 caelStats.durability:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 10)
 caelStats.durability:SetPoint("CENTER", caelPanel8, "CENTER", 225, 1) 
 
-caelStats.eventFrame = CreateFrame("Frame", nil, UIParent)
-caelStats.eventFrame:EnableMouse(true)
-caelStats.eventFrame:SetAllPoints(caelStats.durability)
-caelStats.eventFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
-caelStats.eventFrame:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
+caelStats.duraFrame = CreateFrame("Frame", nil, UIParent)
+caelStats.duraFrame:EnableMouse(true)
+caelStats.duraFrame:SetAllPoints(caelStats.durability)
+caelStats.duraFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
+caelStats.duraFrame:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
 
 local Total = 0
 local current, max
@@ -28,7 +28,7 @@ local Slots = {
     [11] = {18, "Ranged", 1000}
 }
 
-caelStats.eventFrame:HookScript("OnEvent", function(self, event)
+caelStats.duraFrame:HookScript("OnEvent", function(self, event)
 	if event == "UPDATE_INVENTORY_DURABILITY" then
 		for i = 1, 11 do
 			if GetInventoryItemLink("player", Slots[i][1]) ~= nil then
@@ -49,7 +49,7 @@ caelStats.eventFrame:HookScript("OnEvent", function(self, event)
 	end
 end)
 
-caelStats.eventFrame:HookScript("OnEnter", function(self)
+caelStats.duraFrame:HookScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
 	for i = 1, 11 do
