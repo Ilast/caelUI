@@ -16,7 +16,7 @@ local backdrop = {
 
 local select = select
 
-local IsValidFrame = function(frame)
+local isValidFrame = function(frame)
 	if frame:GetName() then
 		return
 	end
@@ -26,7 +26,7 @@ local IsValidFrame = function(frame)
 	return overlayRegion and overlayRegion:GetObjectType() == "Texture" and overlayRegion:GetTexture() == overlayTexture
 end
 
-local UpdateTime = function(self, curValue)
+local updateTime = function(self, curValue)
 	local minValue, maxValue = self:GetMinMaxValues()
 	if self.channeling then
 		self.time:SetFormattedText("%.1f ", curValue)
@@ -35,7 +35,7 @@ local UpdateTime = function(self, curValue)
 	end
 end
 
-local ThreatUpdate = function(self, elapsed)
+local threatUpdate = function(self, elapsed)
 	self.elapsed = self.elapsed + elapsed
 	if self.elapsed >= 0.2 then
 		if not self.oldglow:IsShown() then
@@ -56,7 +56,7 @@ local ThreatUpdate = function(self, elapsed)
 	end
 end
 
-local UpdateFrame = function(self)
+local updatePlate = function(self)
 	local r, g, b = self.healthBar:GetStatusBarColor()
 	local newr, newg, newb
 	if g + b == 0 then
@@ -116,7 +116,7 @@ local UpdateFrame = function(self)
 	end
 end
 
-local FixCastbar = function(self)
+local fixCastbar = function(self)
 	self.castbarOverlay:Hide()
 
 	self:SetHeight(5)
@@ -124,7 +124,7 @@ local FixCastbar = function(self)
 	self:SetPoint("TOP", self.healthBar, "BOTTOM", 0, -4)
 end
 
-local ColorCastBar = function(self, shielded)
+local colorCastBar = function(self, shielded)
 	if shielded then
 		self:SetStatusBarColor(0.8, 0.05, 0)
 		self.cbGlow:SetBackdropBorderColor(0.75, 0.75, 0.75)
@@ -135,38 +135,38 @@ local ColorCastBar = function(self, shielded)
 	end
 end
 
-local OnSizeChanged = function(self)
+local onSizeChanged = function(self)
 	self.needFix = true
 end
 
-local OnValueChanged = function(self, curValue)
-	UpdateTime(self, curValue)
+local onValueChanged = function(self, curValue)
+	updateTime(self, curValue)
 	if self.needFix then
-		FixCastbar(self)
+		fixCastbar(self)
 		self.needFix = nil
 	end
 end
 
-local OnShow = function(self)
+local onShow = function(self)
 	self.channeling  = UnitChannelInfo("target")
-	FixCastbar(self)
-	ColorCastBar(self, self.shieldedRegion:IsShown())
+	fixCastbar(self)
+	colorCastBar(self, self.shieldedRegion:IsShown())
 end
 
-local OnHide = function(self)
+local onHide = function(self)
 	self.highlight:Hide()
 	self.healthBar.hpGlow:SetBackdropBorderColor(0, 0, 0)
 end
 
-local OnEvent = function(self, event, unit)
+local onEvent = function(self, event, unit)
 	if unit == "target" then
 		if self:IsShown() then
-			ColorCastBar(self, event == "UNIT_SPELLCAST_NOT_INTERRUPTIBLE")
+			colorCastBar(self, event == "UNIT_SPELLCAST_NOT_INTERRUPTIBLE")
 		end
 	end
 end
 
-local CreateFrame = function(frame)
+local createPlate = function(frame)
 	if frame.done then
 		return
 	end
@@ -213,10 +213,10 @@ local CreateFrame = function(frame)
 	castBar.shieldedRegion = shieldedRegion
 	castBar:SetStatusBarTexture(barTexture)
 
-	castBar:HookScript("OnShow", OnShow)
-	castBar:HookScript("OnSizeChanged", OnSizeChanged)
-	castBar:HookScript("OnValueChanged", OnValueChanged)
-	castBar:HookScript("OnEvent", OnEvent)
+	castBar:HookScript("OnShow", onShow)
+	castBar:HookScript("OnSizeChanged", onSizeChanged)
+	castBar:HookScript("OnValueChanged", onValueChanged)
+	castBar:HookScript("OnEvent", onEvent)
 	castBar:RegisterEvent("UNIT_SPELLCAST_INTERRUPTIBLE")
 	castBar:RegisterEvent("UNIT_SPELLCAST_NOT_INTERRUPTIBLE")
 
@@ -288,12 +288,12 @@ local CreateFrame = function(frame)
 	stateIconRegion:SetTexture(nil)
 	bossIconRegion:SetTexture(nil)
 
-	UpdateFrame(frame)
-	frame:SetScript("OnShow", UpdateFrame)
-	frame:SetScript("OnHide", OnHide)
+	updatePlate(frame)
+	frame:SetScript("OnShow", updatePlate)
+	frame:SetScript("OnHide", onHide)
 
 	frame.elapsed = 0
-	frame:SetScript("OnUpdate", ThreatUpdate)
+	frame:SetScript("OnUpdate", threatUpdate)
 end
 
 local numKids = 0
@@ -309,8 +309,8 @@ caelNameplates.eventFrame:SetScript("OnUpdate", function(self, elapsed)
 			for i = numKids + 1, newNumKids do
 				frame = select(i, WorldFrame:GetChildren())
 
-				if IsValidFrame(frame) then
-					CreateFrame(frame)
+				if isValidFrame(frame) then
+					createPlate(frame)
 				end
 			end
 			numKids = newNumKids
