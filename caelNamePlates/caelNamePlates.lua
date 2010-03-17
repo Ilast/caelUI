@@ -84,7 +84,7 @@ local UpdateFrame = function(self)
 
 	self.healthBar:ClearAllPoints()
 	self.healthBar:SetPoint("CENTER", self.healthBar:GetParent())
-	self.healthBar:SetHeight(6)
+	self.healthBar:SetHeight(5)
 	self.healthBar:SetWidth(100)
 
 	self.castBar:ClearAllPoints()
@@ -298,7 +298,7 @@ end
 
 local numKids = 0
 local lastUpdate = 0
-caelNameplates.eventFrame:SetScript("OnUPdate", function(self, elapsed)
+caelNameplates.eventFrame:SetScript("OnUpdate", function(self, elapsed)
 	lastUpdate = lastUpdate + elapsed
 
 	if lastUpdate > 0.1 then
@@ -306,7 +306,7 @@ caelNameplates.eventFrame:SetScript("OnUPdate", function(self, elapsed)
 
 		local newNumKids = WorldFrame:GetNumChildren()
 		if newNumKids ~= numKids then
-			for i = numKids+1, newNumKids do
+			for i = numKids + 1, newNumKids do
 				frame = select(i, WorldFrame:GetChildren())
 
 				if IsValidFrame(frame) then
