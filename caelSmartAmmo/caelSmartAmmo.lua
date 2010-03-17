@@ -32,7 +32,9 @@ local EquipAmmo = function(primary, secondary, tertiary, fallback)
 	end
 end
 
-local AmmosSwitch = function(self)
+caelSmartAmmo.eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+caelSmartAmmo.eventFrame:RegisterEvent("UNIT_INVENTORY_CHANGED")
+caelSmartAmmo.eventFrame:SetScript("OnEvent", function(self, event)
 --	if not UnitCanAttack("player", "target") or UnitIsDead("target") then return end
 
 	local rangedWeapon = GetInventoryItemLink("player", GetInventorySlotInfo("RangedSlot"))
@@ -65,7 +67,3 @@ local AmmosSwitch = function(self)
 		end
 	end
 end
-
-caelSmartAmmo.eventFrame:RegisterEvent("UNIT_INVENTORY_CHANGED")
-caelSmartAmmo.eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-caelSmartAmmo.eventFrame:SetScript("OnEvent", AmmosSwitch)
