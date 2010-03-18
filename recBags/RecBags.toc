@@ -1,0 +1,7 @@
+## Interface: 30300
+## Title: recBags
+## Notes: recBags
+## Author: Recluse
+## Version: $Id$
+
+recBags.lua
