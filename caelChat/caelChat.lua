@@ -454,8 +454,8 @@ local caelChat_OnUpdate = function(self, elapsed)
 			ChangeChatColor("WHISPER_INFORM", 0.3, 0.6, 0.9)
 			if charList[playerName] then
 				if playerClass == "HUNTER" then
-					JoinTemporaryChannel("GICaster")
-					ChatFrame_AddChannel(_G.ChatFrame1, "GICaster")
+					JoinTemporaryChannel("WeDidCaC")
+					ChatFrame_AddChannel(_G.ChatFrame1, "WeDidCaC")
 					ChangeChatColor("CHANNEL5", 0.67, 0.83, 0.45)
 				end
 			end
