@@ -1,0 +1,7 @@
+## Interface: 30300
+## Title: recBags
+## Notes: recBags
+## Author: Recluse
+## Version: $Id: RecBags.toc 669 2010-03-18 13:20:41Z sdkyron@gmail.com $
+
+recBags.lua
