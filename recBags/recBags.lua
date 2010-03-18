@@ -1,6 +1,6 @@
---[[	$Id: RecBags.lua 669 2010-03-18 13:20:41Z sdkyron@gmail.com $	]]
+--[[	$Id$	]]
 
-local backdrop = { bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
+	local backdrop = { bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
 	edgeFile = [=[Interface\Addons\caelMedia\Miscellaneous\glowtex]=],
 	edgeSize = 2, insets = {left = 2, right = 2, top = 2, bottom = 2}
 }
