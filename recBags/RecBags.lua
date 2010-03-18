@@ -1,6 +1,6 @@
 --[[	$Id$	]]
 
-local backdrop = { bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
+	local backdrop = { bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
 	edgeFile = [=[Interface\Addons\caelMedia\Miscellaneous\glowtex]=],
 	edgeSize = 2, insets = {left = 2, right = 2, top = 2, bottom = 2}
 }
