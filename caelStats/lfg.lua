@@ -20,7 +20,7 @@ caelStats.lfgFrame:RegisterEvent("LFG_QUEUE_STATUS_UPDATE")
 
 local red, green = "AF5050", "559655"
 
-caelStats.lfgFrame:HookScript("OnEvent", function(self, event)
+caelStats.lfgFrame:SetScript("OnEvent", function(self, event)
 	MiniMapLFGFrame:UnregisterAllEvents()
 	MiniMapLFGFrame:Hide()
 	MiniMapLFGFrame.Show = function() end
@@ -52,7 +52,7 @@ caelStats.lfgFrame:HookScript("OnEvent", function(self, event)
 	)
 end)
 
-caelStats.lfgFrame:HookScript("OnMouseDown", function(self, button)
+caelStats.lfgFrame:SetScript("OnMouseDown", function(self, button)
 	local mode, _ = GetLFGMode()
 	if button == "LeftButton" then
 		if mode == "listed" then
@@ -68,8 +68,8 @@ caelStats.lfgFrame:HookScript("OnMouseDown", function(self, button)
 			end
 		end
 
-		MiniMapLFGFrameDropDown.point = "BOTTOMLEFT"
-		MiniMapLFGFrameDropDown.relativePoint = "TOPRIGHT"
-		ToggleDropDownMenu(1, nil, MiniMapLFGFrameDropDown, Holder, 0, 0)
+		MiniMapLFGFrameDropDown.point = "BOTTOM"
+		MiniMapLFGFrameDropDown.relativePoint = "TOP"
+		ToggleDropDownMenu(1, nil, MiniMapLFGFrameDropDown, caelStats.lfgFrame, 0, 0)
 	end
 end)
