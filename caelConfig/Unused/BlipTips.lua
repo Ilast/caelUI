@@ -1,4 +1,4 @@
---[[	$Id: BlipTips.lua 515 2010-03-06 16:33:44Z sdkyron@gmail.com $	]]
+--[[	$Id$	]]
 
 --| Optional deps |--
 LoadAddOn("GPS")  -- I heard there was a problem with optdeps not working. Let"s force it. 

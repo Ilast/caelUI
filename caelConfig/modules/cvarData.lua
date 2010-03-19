@@ -1,4 +1,4 @@
-﻿--[[	$Id: cvarData.lua 614 2010-03-12 21:52:14Z sdkyron@gmail.com $	]]
+﻿--[[	$Id$	]]
 
 local _, caelConfig = ...
 

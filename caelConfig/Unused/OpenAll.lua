@@ -1,4 +1,4 @@
---[[	$Id: OpenAll.lua 515 2010-03-06 16:33:44Z sdkyron@gmail.com $	]]
+--[[	$Id$	]]
 
 local deletedelay, t = 0.5, 0
 local takingOnlyCash = false

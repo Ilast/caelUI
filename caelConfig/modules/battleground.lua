@@ -1,4 +1,4 @@
---[[	$Id: battleground.lua 598 2010-03-09 19:04:14Z sdkyron@gmail.com $	]]
+--[[	$Id$	]]
 
 local _, caelConfig = ...
 

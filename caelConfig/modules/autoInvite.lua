@@ -1,4 +1,4 @@
-﻿--[[	$Id: autoInvite.lua 677 2010-03-19 00:56:12Z sdkyron@gmail.com $	]]
+﻿--[[	$Id$	]]
 
 local _, caelConfig = ...
 

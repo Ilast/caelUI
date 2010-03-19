@@ -1,4 +1,4 @@
-﻿--[[	$Id: characterPanel.lua 662 2010-03-16 18:24:20Z sdkyron@gmail.com $	]]
+﻿--[[	$Id$	]]
 
 CharacterModelFrameRotateLeftButton:ClearAllPoints()
 CharacterModelFrameRotateLeftButton:SetPoint("LEFT", PaperDollFrame, "LEFT", 70, 5)

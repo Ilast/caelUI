@@ -1,4 +1,4 @@
-﻿--[[	$Id: repair_sell.lua 603 2010-03-09 20:17:34Z sdkyron@gmail.com $	]]
+﻿--[[	$Id$	]]
 
 local _, caelConfig = ...
 

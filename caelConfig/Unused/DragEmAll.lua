@@ -1,4 +1,4 @@
---[[	$Id: DragEmAll.lua 515 2010-03-06 16:33:44Z sdkyron@gmail.com $	]]
+--[[	$Id$	]]
 
 local addon = CreateFrame("Frame")
 

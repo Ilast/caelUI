@@ -3,7 +3,7 @@
 ## Title: |cffD7BEA5cael|rConfig
 ## Notes: Various UI Settings
 ## Dependencies: caelPanels
-## X-Revision: $Id: caelConfig.toc 515 2010-03-06 16:33:44Z sdkyron@gmail.com $
+## X-Revision: $Id$
 ## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
 ## X-Category: Interface Enhancements
 

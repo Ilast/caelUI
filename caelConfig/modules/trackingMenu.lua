@@ -1,4 +1,4 @@
---[[	$Id: trackingMenu.lua 515 2010-03-06 16:33:44Z sdkyron@gmail.com $	]]
+--[[	$Id$	]]
 
 --	Rawr! GTFO POI tracking!  Default _Init, with filter for only find/track/quest entries.
 function MiniMapTrackingDropDown_Initialize()
