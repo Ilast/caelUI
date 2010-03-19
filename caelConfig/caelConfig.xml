@@ -8,7 +8,7 @@
 	<Script file="modules\cvarData.lua"/>
 	<Script file="modules\keyBinding.lua"/>
 	<Script file="modules\gmFrame.lua"/>
-	<Script file="modules\Loot.lua"/>
+	<Script file="modules\loot.lua"/>
 	<Script file="modules\readyCheck.lua"/>
 	<Script file="modules\repair_sell.lua"/>
 	<Script file="modules\slashCommand.lua"/>
