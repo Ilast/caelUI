@@ -275,6 +275,7 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 					FCF_SetWindowName(frame, "• w <-> •")
 					FCF_DockFrame(frame, 2)
 					ChatFrame_AddMessageGroup(frame, "WHISPER")
+					ChatFrame_AddMessageGroup(frame, "WHISPER_INFORM")
 				elseif(i == 4) then
 					FCF_SetWindowName(frame, "• Loot •")
 					FCF_DockFrame(frame, 3)
