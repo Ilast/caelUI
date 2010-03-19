@@ -13,6 +13,7 @@ local playerList = {
 	["Callysto"] = true,
 	["Cowdiak"] = true,
 	["Pimiko"] = true,
+	["Dens"] = true,
 }
 
 local function IsFriend(name)
