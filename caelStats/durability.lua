@@ -28,7 +28,7 @@ local Slots = {
     [11] = {18, "Ranged", 1000}
 }
 
-caelStats.duraFrame:HookScript("OnEvent", function(self, event)
+caelStats.duraFrame:SetScript("OnEvent", function(self, event)
 	if event == "UPDATE_INVENTORY_DURABILITY" then
 		for i = 1, 11 do
 			if GetInventoryItemLink("player", Slots[i][1]) ~= nil then
@@ -49,7 +49,7 @@ caelStats.duraFrame:HookScript("OnEvent", function(self, event)
 	end
 end)
 
-caelStats.duraFrame:HookScript("OnEnter", function(self)
+caelStats.duraFrame:SetScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
 	for i = 1, 11 do

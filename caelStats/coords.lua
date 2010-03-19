@@ -26,14 +26,14 @@ local ColorizePVPType = function(pvpType)
 	end
 end
 
-caelStats.coordsFrame:HookScript("OnEvent", function(self, event)
+caelStats.coordsFrame:SetScript("OnEvent", function(self, event)
 	if event == "ZONE_CHANGED_NEW_AREA" then
 		SetMapToCurrentZone()
 	end
 end)
 
 local delay = 0
-caelStats.coordsFrame:HookScript("OnUpdate", function(self, elapsed)
+caelStats.coordsFrame:SetScript("OnUpdate", function(self, elapsed)
 	delay = delay - elapsed
 	if delay <= 0 then
 	local x, y = GetPlayerMapPosition("player")
@@ -48,7 +48,7 @@ caelStats.coordsFrame:HookScript("OnUpdate", function(self, elapsed)
 end)
 
 local zoneName, zoneColor, subzoneName
-caelStats.coordsFrame:HookScript("OnEnter", function(self)
+caelStats.coordsFrame:SetScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
 	zoneName = GetZoneText()
@@ -63,7 +63,7 @@ caelStats.coordsFrame:HookScript("OnEnter", function(self)
 	GameTooltip:Show()
 end)
 
-caelStats.coordsFrame:HookScript("OnMouseDown", function(self, button)
+caelStats.coordsFrame:SetScript("OnMouseDown", function(self, button)
 	if not InCombatLockdown() then
 		if (button == "LeftButton") then
 			ToggleFrame(WorldMapFrame)

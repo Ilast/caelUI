@@ -35,7 +35,7 @@ local function formatMoney(money)
 	end
 end
 
-caelStats.goldFrame:HookScript("OnEvent", function(self, event)
+caelStats.goldFrame:SetScript("OnEvent", function(self, event)
 	if event == "PLAYER_ENTERING_WORLD" then
 		OldMoney = GetMoney()
 	end
@@ -53,7 +53,7 @@ caelStats.goldFrame:HookScript("OnEvent", function(self, event)
 	OldMoney = NewMoney
 end)
 
-caelStats.goldFrame:HookScript("OnEnter", function(self)
+caelStats.goldFrame:SetScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
 	GameTooltip:AddDoubleLine("|cffD7BEA5Earned|r", formatMoney(Profit), 0.84, 0.75, 0.65, 1, 1, 1)

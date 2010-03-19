@@ -51,7 +51,7 @@ local function UpdateMemory(self)
 end
 
 local delay1, delay2 = 0, 0
-caelStats.sysFrame:HookScript("OnUpdate", function(self, elapsed)
+caelStats.sysFrame:SetScript("OnUpdate", function(self, elapsed)
 	delay1 = delay1 - elapsed
 	delay2 = delay2 - elapsed
 
@@ -69,7 +69,7 @@ caelStats.sysFrame:HookScript("OnUpdate", function(self, elapsed)
 	end
 end)
 
-caelStats.sysFrame:HookScript("OnEnter", function(self)
+caelStats.sysFrame:SetScript("OnEnter", function(self)
 	if IsShiftKeyDown() then
 		GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
@@ -96,7 +96,7 @@ caelStats.sysFrame:HookScript("OnEnter", function(self)
 	end
 end)
 
-caelStats.sysFrame:HookScript("OnMouseDown", function(self, button)
+caelStats.sysFrame:SetScript("OnMouseDown", function(self, button)
 	if button == "LeftButton" then
 		local collected = collectgarbage("count")
 		collectgarbage("collect")

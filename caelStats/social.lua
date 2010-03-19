@@ -33,7 +33,7 @@ caelStats.socialFrame:SetScript("OnUpdate", function(self, elapsed)
 	end
 end)
 
-caelStats.socialFrame:HookScript("OnEnter", function(self)
+caelStats.socialFrame:SetScript("OnEnter", function(self)
 	numGuildMembers = GetNumGuildMembers()
 	numFriends = GetNumFriends() 
 
@@ -76,7 +76,7 @@ caelStats.socialFrame:HookScript("OnEnter", function(self)
 	GameTooltip:Show()
 end)
 
-caelStats.socialFrame:HookScript("OnMouseDown", function(self, button)
+caelStats.socialFrame:SetScript("OnMouseDown", function(self, button)
 	if button == "LeftButton" then
 		if GuildFrame:IsShown() then
 			FriendsFrame:Hide()
@@ -97,7 +97,7 @@ caelStats.socialFrame:HookScript("OnMouseDown", function(self, button)
 end)
 
 local Text
-caelStats.socialFrame:HookScript("OnEvent", function(self, event)
+caelStats.socialFrame:SetScript("OnEvent", function(self, event)
 	if event == "GUILD_ROSTER_UPDATE" then
 		if IsInGuild("player") then
 			numOnlineGuildMembers = 0

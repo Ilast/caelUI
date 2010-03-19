@@ -13,7 +13,7 @@ caelStats.clockFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
 caelStats.clockFrame:RegisterEvent("CALENDAR_UPDATE_PENDING_INVITES")
 
 local delay = 0
-caelStats.clockFrame:HookScript("OnUpdate", function(self, elapsed)
+caelStats.clockFrame:SetScript("OnUpdate", function(self, elapsed)
 	delay = delay - elapsed
 	if delay < 0 then
 		caelStats.clock:SetText(date("%H:%M:%S"))
@@ -21,7 +21,7 @@ caelStats.clockFrame:HookScript("OnUpdate", function(self, elapsed)
 	end
 end)
 
-caelStats.clockFrame:HookScript("OnEvent", function(self, event)
+caelStats.clockFrame:SetScript("OnEvent", function(self, event)
 	if event == "CALENDAR_UPDATE_PENDING_INVITES" then
 		if _G.CalendarGetNumPendingInvites() > 0 then
 			caelStats.clock:SetTextColor(0.33, 0.59, 0.33)
@@ -31,7 +31,7 @@ caelStats.clockFrame:HookScript("OnEvent", function(self, event)
 	end
 end)
 
-caelStats.clockFrame:HookScript("OnMouseDown", function(self, button)
+caelStats.clockFrame:SetScript("OnMouseDown", function(self, button)
 	if (button == "LeftButton") then
 		ToggleTimeManager()
 	else
@@ -39,7 +39,7 @@ caelStats.clockFrame:HookScript("OnMouseDown", function(self, button)
 	end
 end)
 
-caelStats.clockFrame:HookScript("OnEnter", function(self)
+caelStats.clockFrame:SetScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 	GameTooltip:AddLine(date("%B, %A %d %Y"), 0.84, 0.75, 0.65)
 	GameTooltip:Show()

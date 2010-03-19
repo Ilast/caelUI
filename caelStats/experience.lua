@@ -51,9 +51,9 @@ local OnEvent = function(retval, self, event, ...)
 	end
 end
 
-caelStats.expFrame:HookScript("OnEvent", function(...) OnEvent(false, ...) end)
+caelStats.expFrame:SetScript("OnEvent", function(...) OnEvent(false, ...) end)
 
-caelStats.expFrame:HookScript("OnEnter", function(self)
+caelStats.expFrame:SetScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 	local playerXp, petXp = OnEvent(true)
 	GameTooltip:AddLine(playerXp)

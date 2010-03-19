@@ -13,7 +13,7 @@ caelStats.mailFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
 caelStats.mailFrame:RegisterEvent("UPDATE_PENDING_MAIL")
 caelStats.mailFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 
-caelStats.mailFrame:HookScript("OnEvent", function(self, event)
+caelStats.mailFrame:SetScript("OnEvent", function(self, event)
 	if event == "UPDATE_PENDING_MAIL" then
 		if HasNewMail() then
 			caelStats.mail:SetText("New mail", 1, 1, 1)
@@ -23,7 +23,7 @@ caelStats.mailFrame:HookScript("OnEvent", function(self, event)
 	end
 end)
 
-caelStats.mailFrame:HookScript("OnEnter", function(self)
+caelStats.mailFrame:SetScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
 	local sender1, sender2, sender3 = GetLatestThreeSenders()

@@ -35,7 +35,7 @@ local updateDps = function()
 	end
 end
 
-caelStats.dpsFrame:HookScript("OnEvent", function(self, event, _, type, _, sourceName, _, _, destName, _, ...)
+caelStats.dpsFrame:SetScript("OnEvent", function(self, event, _, type, _, sourceName, _, _, destName, _, ...)
 	if event == "PLAYER_REGEN_ENABLED" then
 		self:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 		combTime = (GetTime() - combStart)
@@ -57,7 +57,7 @@ caelStats.dpsFrame:HookScript("OnEvent", function(self, event, _, type, _, sourc
 	end
 end)
 
-caelStats.dpsFrame:HookScript("OnEnter", function(self)
+caelStats.dpsFrame:SetScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
 	if dmgTotal then
