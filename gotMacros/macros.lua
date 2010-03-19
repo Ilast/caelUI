@@ -290,12 +290,21 @@ elseif GetLocale() == "frFR" then
 				char = "Dens",
 				show = "Attaque Auto",
 				body = [=[/click [noexists][noharm][dead] gotMacros_T2
-					/castsequence [harm, nodead] reset=target/combat Toucher de glace, Frappe de peste, Frappe de sang, Frappe de sang, Frappe du fléau, Voile mortel]=],
+					/castsequence [harm, nodead] reset=target/combat Toucher de glace, Frappe de peste, Frappe de sang, Frappe du fléau, Frappe de sang, Voile mortel]=],
+				blizzmacro = true,
+				perChar = true,
+			},
+			["TANK"] = {
+				char = "Dens",
+				show = "Attaque Auto",
+				body = [=[/click [noexists][noharm][dead] gotMacros_T2
+					/castsequence [harm, nodead] reset=target/combat Toucher de glace, Frappe de peste, Frappe au coeur, Frappe au coeur, Frappe de mort, Voile mortel]=],
 				blizzmacro = true,
 				perChar = true,
 			},
 			["BUFF"] = {
 				char = "Dens",
+				show = "",
 				body = [=[/castsequence Cor de l'hiver, Bouclier d'os]=],
 				blizzmacro = true,
 				perChar = true,
