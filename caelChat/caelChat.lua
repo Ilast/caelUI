@@ -15,15 +15,23 @@ local backdrop = {
 
 local _G = getfenv(0)
 
+local realmName = GetRealmName()
 local playerName = UnitName("player")
 local _, playerClass = UnitClass("player")
 
 local charList = {
-	["Bonewraith"] = true,
-	["Caellian"] = true,
-	["Callysto"] = true,
-	["Cowdiak"] = true,
-	["Pimiko"] = true,
+	["Temple noir"] = { 
+		["HUNTER"] = {
+			["Caellian"] = true,
+			["Callysto"] = true
+		},
+		["DRUID"] = {
+			["Cowdiak"] = true
+		},
+		["DEATHKNIGHT"] = {
+			["Dens"] = true
+		}
+	}
 }
 
 CHAT_TELL_ALERT_TIME = 0 -- sound on every whisper
@@ -238,7 +246,7 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 
 				dockHighlight:Hide()
 
-				if charList[playerName] then
+				if charList[realmName] and charList[realmName][playerClass] and charList[realmName][playerClass][playerName] then
 					ChatFrame_RemoveAllChannels(frame)
 					ChatFrame_RemoveAllMessageGroups(frame)
 				end
@@ -250,7 +258,7 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 					frame:SetPoint("BOTTOMRIGHT", caelPanel1, "BOTTOMRIGHT", -5, 10)
 					frame:SetMaxLines(1000)
 					frame.SetPoint = function() end
-					if charList[playerName] then
+					if charList[realmName] and charList[realmName][playerClass] and charList[realmName][playerClass][playerName] then
 						for i = 0, 28 do
 							if i < 16 then -- Everything up to 15
 								ToggleChatColorNamesByClassGroup(true, mergedTable[i])
@@ -453,12 +461,10 @@ local caelChat_OnUpdate = function(self, elapsed)
 			ChangeChatColor("CHANNEL5", 0.84, 0.75, 0.65)
 			ChangeChatColor("WHISPER", 0.3, 0.6, 0.9)
 			ChangeChatColor("WHISPER_INFORM", 0.3, 0.6, 0.9)
-			if charList[playerName] then
-				if playerClass == "HUNTER" then
-					JoinTemporaryChannel("WeDidCaC")
-					ChatFrame_AddChannel(_G.ChatFrame1, "WeDidCaC")
-					ChangeChatColor("CHANNEL5", 0.67, 0.83, 0.45)
-				end
+			if charList[realmName] and charList[realmName][playerClass] and charList[realmName][playerClass][playerName] then
+				JoinTemporaryChannel("WeDidCaC")
+				ChatFrame_AddChannel(_G.ChatFrame1, "WeDidCaC")
+				ChangeChatColor("CHANNEL5", 0.67, 0.83, 0.45)
 			end
 			print("|cffD7BEA5cael|rChat: Chatframes setup complete")
 			self:SetScript("OnUpdate", nil) -- Done now, nil the OnUpdate completely.
