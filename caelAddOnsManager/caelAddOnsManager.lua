@@ -5,7 +5,7 @@ local addons = {
 								   -=( Base Addons )=-
 		---------------------------------------------------------------------------
 		These addons will load for every user, always.								--]]
-	["base"] = {"!recBug", "BadBoy", "BadBoy_Levels",
+	["base"] = {"!recBug", "BadBoy",
 		"caelActionBars", "caelAddOnsManager", "caelBuffet", "caelCCBreak", "caelChat", "caelCombatLog", "caelConfig", "caelEmote", "caelFactions", "caelInterrupt",
 		"caelMinimap", "caelNamePlates", "caelCooldowns", "caelMap", "caelMedia", "caelPanels", "caelQuests", "caelStats", "caelTooltips",
 		"gotChat", "gotMacros",
