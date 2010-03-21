@@ -11,9 +11,9 @@ local max_bag_size = 36				-- Maximum size of each bag (32 normally, 36 with som
 local sort_from = "bottom"
 
 -- Frames to hold our stuff (later)
-local recBags, recBagsBag, recBagsBank, recBagsBagBar, recBagsBankBagBar, recBagsBagBarToggle, recBagsBankBagBarToggle
-local recBagsBankBagPurchase, recBagsBankBagPurchaseCost, recBagsMoney, recBagsAmmoBag, recBagsAmmoBagToggle
-local recBagsBagRestack, recBagsBagSort, recBagsBankBagSort, recBagsBankBagRestack
+local recBags, backpackBag, bankBag, bagBar, bankBagBar, bagsButton, bankBagsButton
+local buySlotButton, buySlotCost, recBagsMoney, ammoBag, ammoButton
+local bagRestackButton, bagSortButton, bankSortButton, bankRestackButton
 
 -- A frame for events/updates.
 recBags = CreateFrame("Frame", "recBags", UIParent, nil)
@@ -22,7 +22,7 @@ recBags = CreateFrame("Frame", "recBags", UIParent, nil)
 local bank_shown
 
 -- A container to hold our bag data.
-bag_map = {}
+local bag_map = {}
 
 -- Create a container to hold the slots.  Note: This is the visible container, there is also a hidden container created later.
 local function CreateContainerFrame(name)
@@ -34,24 +34,24 @@ local function CreateContainerFrame(name)
 	return f
 end
 
-recBagsBag = CreateContainerFrame("recBagsBag")
-recBagsBag:SetPoint("RIGHT", UIParent, -15, 0)
+backpackBag = CreateContainerFrame("backpackBag")
+backpackBag:SetPoint("RIGHT", UIParent, -15, 0)
 
-recBagsBank = CreateContainerFrame("recBagsBank")
-recBagsBank:SetPoint("BOTTOMRIGHT", recBagsBag, "BOTTOMLEFT", 0, 0)
+bankBag = CreateContainerFrame("bankBag")
+bankBag:SetPoint("BOTTOMRIGHT", backpackBag, "BOTTOMLEFT", 0, 0)
 
-recBagsBank:SetScript("OnHide", function() CloseBankFrame() end)
+bankBag:SetScript("OnHide", function() CloseBankFrame() end)
 
-recBagsAmmoBag = CreateContainerFrame("recBagsAmmoBag")
-recBagsAmmoBag:SetPoint("BOTTOMRIGHT", recBagsBag, "TOPRIGHT", 0, 0)
+ammoBag = CreateContainerFrame("ammoBag")
+ammoBag:SetPoint("BOTTOMRIGHT", backpackBag, "TOPRIGHT", 0, 0)
 
-recBagsBagBar = CreateContainerFrame("recBagsBagBar")
-recBagsBagBar:SetPoint("TOPLEFT", recBagsBag, "BOTTOMLEFT", 0, 0)
-recBagsBagBar:SetPoint("BOTTOMRIGHT", recBagsBag, "BOTTOMRIGHT", 0, -45)
+bagBar = CreateContainerFrame("bagBar")
+bagBar:SetPoint("TOPLEFT", backpackBag, "BOTTOMLEFT", 0, 0)
+bagBar:SetPoint("BOTTOMRIGHT", backpackBag, "BOTTOMRIGHT", 0, -45)
 
-recBagsBankBagBar = CreateContainerFrame("recBagsBankBagBar")
-recBagsBankBagBar:SetPoint("TOPLEFT", recBagsBank, "BOTTOMLEFT", 0, 0)
-recBagsBankBagBar:SetPoint("BOTTOMRIGHT", recBagsBank, "BOTTOMRIGHT", 0, -45)
+bankBagBar = CreateContainerFrame("bankBagBar")
+bankBagBar:SetPoint("TOPLEFT", bankBag, "BOTTOMLEFT", 0, 0)
+bankBagBar:SetPoint("BOTTOMRIGHT", bankBag, "BOTTOMRIGHT", 0, -45)
 
 -- Flags as to whether things have been processed or not (so we don't re-process them)
 local bank_bar
@@ -80,14 +80,14 @@ local function CreateBagBar(bank)
 	for bag = start_bag,end_bag do
 		local name
 		if not bank then
-			name = string.format("recBagsBagBarBag%d", bag_index)
+			name = string.format("bagBarBag%d", bag_index)
 		else
-			name = string.format("recBagsBankBagBarBag%d", bag_index)
+			name = string.format("bankBagBarBag%d", bag_index)
 		end
-		local b = CreateFrame("CheckButton", name, bank and recBagsBankBagBar or recBagsBagBar, "ItemButtonTemplate")
+		local b = CreateFrame("CheckButton", name, bank and bankBagBar or bagBar, "ItemButtonTemplate")
 		b:SetWidth(28)
 		b:SetHeight(28)
-		b.Bar = bank and recBagsBankBagBar or recBagsBagBar
+		b.Bar = bank and bankBagBar or bagBar
 		b.id = bank and bag_index or bag_index == 0 and 0 or bag_index+19
 		b.isBag = 1
 		b.bagID = bank and b.id or bag_index == 0 and 0 or b.id
@@ -107,7 +107,7 @@ local function CreateBagBar(bank)
 		b.NormalTexture:SetWidth(28)
 		b.NormalTexture:SetHeight(28)
 		b.NormalTexture:SetVertexColor(0.5, 0.5, 0.5, 1)
-		b:SetPoint("RIGHT", bank and recBagsBankBagBar or recBagsBagBar, "RIGHT", ((((bag_index < 5 and bag_index or bag_index - 5) * 28) * -1) - (5*2) - (2.5*(bag_index < 5 and bag_index or bag_index - 5))), 0)
+		b:SetPoint("RIGHT", bank and bankBagBar or bagBar, "RIGHT", ((((bag_index < 5 and bag_index or bag_index - 5) * 28) * -1) - (5*2) - (2.5*(bag_index < 5 and bag_index or bag_index - 5))), 0)
 
 		if bank then
 			b:SetScript("OnEnter", function(self)
@@ -141,9 +141,9 @@ local function CreateBagBar(bank)
 		b.Icon:SetTexture((bag_index > 0 and GetInventoryItemTexture("player", bank and b.id+63 or b.id)) or (bag_index == 0 and [=[Interface\Buttons\Button-Backpack-Up]=]) or empty_slot_texture)
 
 		if bank then
-			recBagsBankBagBar[BagString(bag_index)] = b
+			bankBagBar[BagString(bag_index)] = b
 		else
-			recBagsBagBar[BagString(bag_index)] = b
+			bagBar[BagString(bag_index)] = b
 		end
 
 		bag_index = bag_index + 1
@@ -157,7 +157,7 @@ end
 
 local function UpdateBagBar()
 	for i = 0, 4 do
-		local bag = recBagsBagBar[BagString(i)]
+		local bag = bagBar[BagString(i)]
 		bag.Icon:SetTexture((i > 0 and GetInventoryItemTexture("player", bag.id)) or (i == 0 and [=[Interface\Buttons\Button-Backpack-Up]=]) or [=[interface\paperdoll\UI-PaperDoll-Slot-Bag]=])
 	end
 end
@@ -177,33 +177,33 @@ local CreateToggleButton = function (name, caption, parent)
 	return b
 end
 
-recBagsBankBagPurchase = CreateToggleButton("recBagsBankBagPurchase", "Purchase", recBagsBankBagBar)
-recBagsBankBagPurchase:SetWidth(70)
-recBagsBankBagPurchase:SetText(BANKSLOTPURCHASE)
-recBagsBankBagPurchase:SetPoint("BOTTOMLEFT", recBagsBankBagBar, "BOTTOMLEFT", 5, 5*2)
-recBagsBankBagPurchase:SetScript("OnClick", function()
+buySlotButton = CreateToggleButton("buySlotButton", "Purchase", bankBagBar)
+buySlotButton:SetWidth(70)
+buySlotButton:SetText(BANKSLOTPURCHASE)
+buySlotButton:SetPoint("BOTTOMLEFT", bankBagBar, "BOTTOMLEFT", 5, 5*2)
+buySlotButton:SetScript("OnClick", function()
 	PlaySound("igMainMenuOption")
 	StaticPopup_Show("CONFIRM_BUY_BANK_SLOT")
 end)
 
-recBagsBankBagPurchaseCost = CreateFrame("Frame", "recBagsBankBagPurchaseCost", recBagsBankBagBar, "SmallMoneyFrameTemplate")
-recBagsBankBagPurchaseCost.hidden = false
-recBagsBankBagPurchaseCost:SetPoint("LEFT", recBagsBankBagPurchase, "RIGHT", 0, 0)
-SmallMoneyFrame_OnLoad(recBagsBankBagPurchaseCost)
-MoneyFrame_SetType(recBagsBankBagPurchaseCost, "STATIC")
+buySlotCost = CreateFrame("Frame", "buySlotCost", bankBagBar, "SmallMoneyFrameTemplate")
+buySlotCost.hidden = false
+buySlotCost:SetPoint("LEFT", buySlotButton, "RIGHT", 0, 0)
+SmallMoneyFrame_OnLoad(buySlotCost)
+MoneyFrame_SetType(buySlotCost, "STATIC")
 
 local function UpdateBankBagBarPurchase()
 	local numSlots,full = GetNumBankSlots()
 	if not full then
 		local cost = GetBankSlotCost(numSlots)
 		BankFrame.nextSlotCost = cost
-		SetMoneyFrameColor("recBagsBankBagPurchaseCost", "white")
-		MoneyFrame_Update("recBagsBankBagPurchaseCost", cost)
-		recBagsBankBagPurchase:Show()
-		recBagsBankBagPurchaseCost:Show()
+		SetMoneyFrameColor("buySlotCost", "white")
+		MoneyFrame_Update("buySlotCost", cost)
+		buySlotButton:Show()
+		buySlotCost:Show()
 	else
-		recBagsBankBagPurchase:Hide()
-		recBagsBankBagPurchaseCost:Hide()
+		buySlotButton:Hide()
+		buySlotCost:Hide()
 	end
 end
 
@@ -373,7 +373,7 @@ local function UpdateBankBagBar()
 	local numSlots,full = GetNumBankSlots()
 	local button
 	for i=5,11 do
-		button = _G[string.format("recBagsBankBagBarBag%d", i)]
+		button = _G[string.format("bankBagBarBag%d", i)]
 		button.Icon:SetTexture((button.id and GetInventoryItemTexture("player", button.id+63)) or (i == 0 and [=[Interface\Buttons\Button-Backpack-Up]=]) or [=[interface\paperdoll\UI-PaperDoll-Slot-Bag]=])
 		if (i - 4) <= numSlots then
 			SetItemButtonTextureVertexColor(button, 0.84,0.75,0.65)
@@ -391,29 +391,29 @@ local function DisplayBar(frame)
 	local is_bank = string.find(frame:GetName(), "Bank") and true or false
 
 	if is_bank then
-		recBagsBankBagBar:Show()
+		bankBagBar:Show()
 	else
-		recBagsBagBar:Show()
+		bagBar:Show()
 	end
 end
 
-recBagsBagBarToggle = CreateToggleButton("recBagsBagBarToggle", "Bag Bar", recBagsBag)
-recBagsBagBarToggle:SetPoint("BOTTOMRIGHT", recBagsBag, "BOTTOMRIGHT", -5, 10)
-recBagsBagBarToggle:SetScript("OnClick", function()
-	if recBagsBagBar:IsShown() then
-		recBagsBagBar:Hide()
+bagsButton = CreateToggleButton("bagsButton", "Bag Bar", backpackBag)
+bagsButton:SetPoint("BOTTOMRIGHT", backpackBag, "BOTTOMRIGHT", -5, 10)
+bagsButton:SetScript("OnClick", function()
+	if bagBar:IsShown() then
+		bagBar:Hide()
 	else
-		DisplayBar(recBagsBagBar)
+		DisplayBar(bagBar)
 	end
 end)
 
-recBagsBankBagBarToggle = CreateToggleButton("recBagsBankBagBarToggle", "Bag Bar", recBagsBank)
-recBagsBankBagBarToggle:SetPoint("BOTTOMRIGHT", recBagsBank, "BOTTOMRIGHT", -5, 10)
-recBagsBankBagBarToggle:SetScript("OnClick", function()
-	if recBagsBankBagBar:IsShown() then
-		recBagsBankBagBar:Hide()
+bankBagsButton = CreateToggleButton("bankBagsButton", "Bag Bar", bankBag)
+bankBagsButton:SetPoint("BOTTOMRIGHT", bankBag, "BOTTOMRIGHT", -5, 10)
+bankBagsButton:SetScript("OnClick", function()
+	if bankBagBar:IsShown() then
+		bankBagBar:Hide()
 	else
-		DisplayBar(recBagsBankBagBar)
+		DisplayBar(bankBagBar)
 	end
 end)
 
@@ -490,12 +490,12 @@ local function DisplayContainer(frame)
 	frame:Show()
 end
 
-recBagsKeyringBag = CreateContainerFrame("recBagsKeyringBag")
-recBagsKeyringBag:SetPoint("BOTTOMLEFT", recBagsBag, "TOPLEFT", 0, 0)
+keyringBag = CreateContainerFrame("keyringBag")
+keyringBag:SetPoint("BOTTOMLEFT", backpackBag, "TOPLEFT", 0, 0)
 
 local function DisplayKeys()
 	local slots = GetContainerNumSlots(-2)
-	local rows_needed = ResizeContainer(recBagsKeyringBag, slots)
+	local rows_needed = ResizeContainer(keyringBag, slots)
 
 	-- Place the slots in the correct location.
 	local slots_remaining = bag_map[-2].frame.slots -- Always valid to start
@@ -512,8 +512,8 @@ local function DisplayKeys()
 				local new_y = ((2.5 * row) + (28 * (row - 1)) + 5) * -1
 
 				slot:ClearAllPoints()
-				slot:SetPoint("TOPLEFT", recBagsKeyringBag, "TOPLEFT", new_x, new_y)
-				slot:SetPoint("BOTTOMRIGHT", recBagsKeyringBag, "TOPLEFT", new_x + 28, new_y - 28)
+				slot:SetPoint("TOPLEFT", keyringBag, "TOPLEFT", new_x, new_y)
+				slot:SetPoint("BOTTOMRIGHT", keyringBag, "TOPLEFT", new_x + 28, new_y - 28)
 				slot:Show()
 
 				slots_remaining = slots_remaining - 1
@@ -525,21 +525,21 @@ local function DisplayKeys()
 	PopulateSlots(false, true) --is_bank, is_keys
 
 	-- Show the frame
-	recBagsKeyringBag:Show()
+	keyringBag:Show()
 end
 
-recBagsKeyringToggle = CreateToggleButton("recBagsKeyringToggle", "Keys", recBagsBagBar)
-recBagsKeyringToggle:SetPoint("BOTTOMLEFT", recBagsBagBar, "BOTTOMLEFT", 5, 10)
-recBagsKeyringToggle:SetScript("OnClick", function()
-	if recBagsKeyringBag:IsShown() then
+keyringButton = CreateToggleButton("keyringButton", "Keys", bagBar)
+keyringButton:SetPoint("BOTTOMLEFT", bagBar, "BOTTOMLEFT", 5, 10)
+keyringButton:SetScript("OnClick", function()
+	if keyringBag:IsShown() then
 		PlaySound("KeyRingClose")
-		recBagsKeyringBag:Hide()
+		keyringBag:Hide()
 	else
 		PlaySound("KeyRingOpen")
-		if recBagsAmmoBag:IsShown() then
-			recBagsKeyringBag:SetPoint("BOTTOMLEFT", recBagsBag, "TOPLEFT", 0, (recBagsAmmoBag:GetHeight()))
+		if ammoBag:IsShown() then
+			keyringBag:SetPoint("BOTTOMLEFT", backpackBag, "TOPLEFT", 0, (ammoBag:GetHeight()))
 		else
-			recBagsKeyringBag:SetPoint("BOTTOMLEFT", recBagsBag, "TOPLEFT", 0, 0)
+			keyringBag:SetPoint("BOTTOMLEFT", backpackBag, "TOPLEFT", 0, 0)
 		end
 		DisplayKeys()
 	end
@@ -611,9 +611,9 @@ Restack = function()
 	collectgarbage("collect")
 	return true
 end
-recBagsBagRestack = CreateToggleButton("recBagsBagRestack", "Restack", recBagsBag)
-recBagsBagRestack:SetPoint("BOTTOMLEFT", recBagsBag, "BOTTOMLEFT", 5, 10)
-recBagsBagRestack:SetScript("OnClick", Restack)
+bagRestackButton = CreateToggleButton("bagRestackButton", "Restack", backpackBag)
+bagRestackButton:SetPoint("BOTTOMLEFT", backpackBag, "BOTTOMLEFT", 5, 10)
+bagRestackButton:SetScript("OnClick", Restack)
 
 local RestackBank
 local bank_restack_threads = {}
@@ -682,9 +682,9 @@ RestackBank = function()
 	return true
 end
 
-recBagsBankBagRestack = CreateToggleButton("recBagsBankBagRestack", "Restack", recBagsBank)
-recBagsBankBagRestack:SetPoint("BOTTOMLEFT", recBagsBank, "BOTTOMLEFT", 5, 10)
-recBagsBankBagRestack:SetScript("OnClick", RestackBank)
+bankRestackButton = CreateToggleButton("bankRestackButton", "Restack", bankBag)
+bankRestackButton:SetPoint("BOTTOMLEFT", bankBag, "BOTTOMLEFT", 5, 10)
+bankRestackButton:SetScript("OnClick", RestackBank)
 
 -----------------------------------------------------------------------------------------
 --									BAG SORTING
@@ -973,12 +973,12 @@ local function ShowSortTooltip(self)
 end
 
 -- Our button to click to start the sort
-recBagsBagSort = CreateToggleButton("recBagsBagSort", "Sort", recBagsBag)
-recBagsBagSort:SetPoint("LEFT", recBagsBagRestack, "RIGHT", 5, 0)
-recBagsBagSort:RegisterForClicks("LeftButtonUp", "RightButtonUp")
-recBagsBagSort:SetScript("OnEnter", ShowSortTooltip)
-recBagsBagSort:SetScript("OnLeave", function() GameTooltip:Hide() end)
-recBagsBagSort:SetScript("OnClick", function(self, button)
+bagSortButton = CreateToggleButton("bagSortButton", "Sort", backpackBag)
+bagSortButton:SetPoint("LEFT", bagRestackButton, "RIGHT", 5, 0)
+bagSortButton:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+bagSortButton:SetScript("OnEnter", ShowSortTooltip)
+bagSortButton:SetScript("OnLeave", function() GameTooltip:Hide() end)
+bagSortButton:SetScript("OnClick", function(self, button)
 	GameTooltip:Hide()
 	if button == "LeftButton" then
 		-- Grey on bottom
@@ -990,12 +990,12 @@ recBagsBagSort:SetScript("OnClick", function(self, button)
 end)
 
 -- Our button to click to start the bank sort
-recBagsBankBagSort = CreateToggleButton("recBagsBankBagSort", "Sort", recBagsBank)
-recBagsBankBagSort:SetPoint("LEFT", recBagsBankBagRestack, "RIGHT", 5, 0)
-recBagsBankBagSort:RegisterForClicks("LeftButtonUp", "RightButtonUp")
-recBagsBankBagSort:SetScript("OnEnter", ShowSortTooltip)
-recBagsBankBagSort:SetScript("OnLeave", function() GameTooltip:Hide() end)
-recBagsBankBagSort:SetScript("OnClick", function(self, button)
+bankSortButton = CreateToggleButton("bankSortButton", "Sort", bankBag)
+bankSortButton:SetPoint("LEFT", bankRestackButton, "RIGHT", 5, 0)
+bankSortButton:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+bankSortButton:SetScript("OnEnter", ShowSortTooltip)
+bankSortButton:SetScript("OnLeave", function() GameTooltip:Hide() end)
+bankSortButton:SetScript("OnClick", function(self, button)
 	GameTooltip:Hide()
 	if button == "LeftButton" then
 		-- Grey on bottom
@@ -1010,23 +1010,23 @@ end)
 --
 -----------------------------------------------------------------------------------------
 
-recBagsAmmoBagToggle = CreateToggleButton("recBagsAmmoBagToggle", "A / S", recBagsBag)
-recBagsAmmoBagToggle:SetPoint("RIGHT", recBagsBagBarToggle, "LEFT", -5, 0)
-recBagsAmmoBagToggle:SetScript("OnClick", function()
-	if recBagsAmmoBag:IsShown() then
-		if recBagsKeyringBag:IsShown() then
-			recBagsKeyringBag:SetPoint("BOTTOMLEFT", recBagsBag, "TOPLEFT", 0, 0)
+ammoButton = CreateToggleButton("ammoButton", "A / S", backpackBag)
+ammoButton:SetPoint("RIGHT", bagsButton, "LEFT", -5, 0)
+ammoButton:SetScript("OnClick", function()
+	if ammoBag:IsShown() then
+		if keyringBag:IsShown() then
+			keyringBag:SetPoint("BOTTOMLEFT", backpackBag, "TOPLEFT", 0, 0)
 		else
-			recBagsKeyringBag:SetPoint("BOTTOMLEFT", recBagsBag, "TOPLEFT", 0, (recBagsAmmoBag:GetHeight()))
+			keyringBag:SetPoint("BOTTOMLEFT", backpackBag, "TOPLEFT", 0, (ammoBag:GetHeight()))
 		end
-		recBagsAmmoBag:Hide()
+		ammoBag:Hide()
 	else
-		if recBagsKeyringBag:IsShown() then
-			recBagsKeyringBag:SetPoint("BOTTOMLEFT", recBagsBag, "TOPLEFT", 0, (recBagsAmmoBag:GetHeight()))
+		if keyringBag:IsShown() then
+			keyringBag:SetPoint("BOTTOMLEFT", backpackBag, "TOPLEFT", 0, (ammoBag:GetHeight()))
 		else
-			recBagsKeyringBag:SetPoint("BOTTOMLEFT", recBagsBag, "TOPLEFT", 0, 0)
+			keyringBag:SetPoint("BOTTOMLEFT", backpackBag, "TOPLEFT", 0, 0)
 		end
-		DisplayContainer(recBagsAmmoBag)
+		DisplayContainer(ammoBag)
 	end
 end)
 
@@ -1037,17 +1037,17 @@ local function CreateBagFrame(bag_id)
 
 	local parent
 	if bag_id == -2 then
-		parent = "recBagsKeyringBag"
+		parent = "keyringBag"
 	elseif bag_id == -1 or bag_id > 4 then
-		parent = "recBagsBank"
+		parent = "bankBag"
 	elseif GetBagType(bag_id) == "ammo" then
-		parent = "recBagsAmmoBag"
+		parent = "ammoBag"
 	else
-		parent = "recBagsBag"
+		parent = "backpackBag"
 	end
 
 	-- Create 'bag link' frame.
-	local f = CreateFrame("Frame", string.format("recBagsBag%dFrame", bag_id), _G[parent], nil)
+	local f = CreateFrame("Frame", string.format("backpackBag%dFrame", bag_id), _G[parent], nil)
 
 	f.bag_type = GetBagType(bag_id)
 
@@ -1066,7 +1066,7 @@ local function CreateBagSlot(bag_id, slot_id)
 	if bag_map[bag_id].slots[slot_id] then return end
 
 	-- Determine name to use
-	local name = string.format("recBagsBag%dSlot%d", bag_id, slot_id)
+	local name = string.format("backpackBag%dSlot%d", bag_id, slot_id)
 
 	-- Determine button template
 	local template
@@ -1077,20 +1077,18 @@ local function CreateBagSlot(bag_id, slot_id)
 	end
 
 	-- Create slot button
-	local b = CreateFrame("Button", name, _G[string.format("recBagsBag%dFrame", bag_id)], template)
+	local b = CreateFrame("Button", name, _G[string.format("backpackBag%dFrame", bag_id)], template)
 
-	b:SetBackdrop({
-		bgFile = nil,
+	b:SetBackdrop({ bgFile = nil,
 		edgeFile = nil,
-		edgeSize = nil,
-		insets = { left = nil, right = nil, top = nil, bottom = nil }
+		edgeSize = nil, insets = { left = nil, right = nil, top = nil, bottom = nil }
 	})
-	b:SetBackdropColor(0,0,0,0)
+	b:SetBackdropColor(1, 1, 1, 1)
 
 	-- Assign count attributes
 	b.Count = _G[string.format("%sCount", name)]
-	b.Count:SetFont("Fonts\\ARIALN.TTF", 14, "OUTLINE")
-	b.Count:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", 0, 3)
+	b.Count:SetFont("Fonts\\ARIALN.TTF", 12, "OUTLINE")
+	b.Count:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", -3, 4)
 
 	-- Assign icon attributes
 	b.Icon = _G[string.format("%sIconTexture", name)]
@@ -1187,20 +1185,20 @@ local function LoginTimer(self, elapsed)
 end
 
 local function OpenBags()
-	DisplayContainer(recBagsBag)
+	DisplayContainer(backpackBag)
 	PopulateSlots(false)
 end
 local function CloseBags()
-	recBagsBag:Hide()
-	recBagsBagBar:Hide()
-	recBagsBank:Hide()
-	recBagsBankBagBar:Hide()
-	recBagsAmmoBag:Hide()
-	recBagsKeyringBag:Hide()
+	backpackBag:Hide()
+	bagBar:Hide()
+	bankBag:Hide()
+	bankBagBar:Hide()
+	ammoBag:Hide()
+	keyringBag:Hide()
 end
 
 local function ToggleBags()
-	if recBagsBag:IsShown() then
+	if backpackBag:IsShown() then
 		CloseBags()
 	else
 		OpenBags()
@@ -1222,16 +1220,16 @@ local function OnEvent(self, event, ...)
 			UpdateBankBagBarPurchase()
 			bank_bar = true
 		end
-		DisplayContainer(recBagsBag)
-		if recBagsBagBar:IsShown() then
-			DisplayBar(recBagsBagBar)
+		DisplayContainer(backpackBag)
+		if bagBar:IsShown() then
+			DisplayBar(bagBar)
 		end
-		DisplayContainer(recBagsBank)
+		DisplayContainer(bankBag)
 		UpdateBankBagBar()
-		if recBagsAmmoBag:IsShown() then
-			DisplayContainer(recBagsAmmoBag)
+		if ammoBag:IsShown() then
+			DisplayContainer(ammoBag)
 		end
-		if recBagsKeyringBag:IsShown() then
+		if keyringBag:IsShown() then
 			DisplayKeys()
 		end
 
@@ -1242,19 +1240,19 @@ local function OnEvent(self, event, ...)
 
 	elseif event == "BAG_UPDATE" then
 		if not bags_ready then return end
-		if recBagsBag:IsShown() then
+		if backpackBag:IsShown() then
 			UpdateBagMap()
-			DisplayContainer(recBagsBag)
+			DisplayContainer(backpackBag)
 			UpdateBagBar()
 		end
-		if recBagsBank:IsShown() then
-			DisplayContainer(recBagsBank)
+		if bankBag:IsShown() then
+			DisplayContainer(bankBag)
 		end
-		if recBagsAmmoBag:IsShown() then
-			DisplayContainer(recBagsAmmoBag)
+		if ammoBag:IsShown() then
+			DisplayContainer(ammoBag)
 		end
-		if recBagsKeyringBag:IsShown() then
-			DisplayKeys(recBagsKeyringBag)
+		if keyringBag:IsShown() then
+			DisplayKeys(keyringBag)
 		end
 		PopulateSlots(false)
 	elseif event == "BAG_CLOSED" then
@@ -1263,8 +1261,8 @@ local function OnEvent(self, event, ...)
 		if arg1 > NUM_BANKGENERIC_SLOTS then
 			UpdateBankBagBar()
 			if bank_shown then
-				if recBagsBankBagBar:IsShown() then
-					DisplayBar(recBagsBankBagBar)
+				if bankBagBar:IsShown() then
+					DisplayBar(bankBagBar)
 				end
 			end
 		else
@@ -1274,29 +1272,29 @@ local function OnEvent(self, event, ...)
 	elseif event == "PLAYERBANKBAGSLOTS_CHANGED" then
 		UpdateBankBagBar()
 		UpdateBankBagBarPurchase()
-		if recBagsBankBagBar:IsShown() then
-			DisplayBar(recBagsBankBagBar)
+		if bankBagBar:IsShown() then
+			DisplayBar(bankBagBar)
 		end
 	elseif event == "BAG_UPDATE_COOLDOWN" or event == "ITEM_LOCK_CHANGED" then
-		if recBagsBank:IsShown() then
-			DisplayContainer(recBagsBank)
-			if recBagsBankBagBar:IsShown() then
-				DisplayBar(recBagsBankBagBar)
+		if bankBag:IsShown() then
+			DisplayContainer(bankBag)
+			if bankBagBar:IsShown() then
+				DisplayBar(bankBagBar)
 			end
 			PopulateSlots(true)
 		end
-		if recBagsBag:IsShown() then
-			DisplayContainer(recBagsBag)
-			if recBagsBagBar:IsShown() then
-				DisplayBar(recBagsBagBar)
+		if backpackBag:IsShown() then
+			DisplayContainer(backpackBag)
+			if bagBar:IsShown() then
+				DisplayBar(bagBar)
 			end
-			if recBagsKeyringBag:IsShown() then
-				DisplayKeys(recBagsKeyringBag)
+			if keyringBag:IsShown() then
+				DisplayKeys(keyringBag)
 			end
 			PopulateSlots(false)
 		end
-		if recBagsAmmoBag:IsShown() then
-			DisplayContainer(recBagsAmmoBag)
+		if ammoBag:IsShown() then
+			DisplayContainer(ammoBag)
 			PopulateSlots()
 		end
 	end
@@ -1324,9 +1322,9 @@ BankFrame:UnregisterAllEvents()
 
 CloseBags()
 
-tinsert(UISpecialFrames,"recBagsBag")
-tinsert(UISpecialFrames,"recBagsBank")
-tinsert(UISpecialFrames,"recBagsBagBar")
-tinsert(UISpecialFrames,"recBagsBankBagBar")
-tinsert(UISpecialFrames,"recBagsAmmoBag")
-tinsert(UISpecialFrames,"recBagsKeyringBag")
+tinsert(UISpecialFrames,"backpackBag")
+tinsert(UISpecialFrames,"bankBag")
+tinsert(UISpecialFrames,"bagBar")
+tinsert(UISpecialFrames,"bankBagBar")
+tinsert(UISpecialFrames,"ammoBag")
+tinsert(UISpecialFrames,"keyringBag")
