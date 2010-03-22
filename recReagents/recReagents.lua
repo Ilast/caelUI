@@ -13,7 +13,7 @@ local reagents = {
 		["Caellian"] = {[31737] = 18000, [33445] = 40, [35953] = 40},
 		["Callysto"] = {[41586] = 18000, [33445] = 40, [35953] = 40},
 		["Pimiko"] = {[33445] = 40}
-	},
+	}
 }
 
 -- Internal settings, local globals.
@@ -59,7 +59,7 @@ end
 	asked for.
 --]]
 local function BuyReagents()
-	for i=1, GetMerchantNumItems() do
+	for i = 1, GetMerchantNumItems() do
 		local link, id = GetMerchantItemLink(i)
 		if link then id = tonumber(select(3, string.find(link, itemid_pattern))) end
 		if id and my_reagents[id] then
