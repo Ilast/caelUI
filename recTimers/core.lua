@@ -13,6 +13,7 @@ local font_outline = ""
 local texture      = [=[Interface\AddOns\caelMedia\StatusBars\normtexa.tga]=]
 local edge_file    = [=[Interface\AddOns\caelMedia\Miscellaneous\glowtex.tga]=]
 local bg_file      = [=[Interface\ChatFrame\ChatFrameBackground]=]
+--[[
 local aura_colors  = {
 	["Magic"]   = {r = 0.00, g = 0.25, b = 0.45}, 
 	["Disease"] = {r = 0.40, g = 0.30, b = 0.10}, 
@@ -20,15 +21,10 @@ local aura_colors  = {
 	["Curse"]   = {r = 0.40, g = 0.00, b = 0.40},
 	["None"]    = {r = 0.69, g = 0.31, b = 0.31}
 }
-
-if recMedia then
-	font_face, font_size, font_outline = recMedia.fontFace.SMALL, 8, "THINOUTLINE"
-end
-
+--]]
 local bars = {}
 
 local function pretty_time(s)
-	-- Caellian's version
 	local day, hour, minute = 86400, 3600, 60
 	if s >= day then
 		return format("%dd", floor(s/day + 0.5)), s % day
@@ -183,9 +179,9 @@ local function check_buffs()
 			
 			-- If we need to color the bar automatically, do so.
 			if bar.auto_color then
-				bar.tx:SetVertexColor(aura_colors[aura_type or "None"].r, aura_colors[aura_type or "None"].g, aura_colors[aura_type or "None"].b, 1)
+--				bar.tx:SetVertexColor(aura_colors[aura_type or "None"].r, aura_colors[aura_type or "None"].g, aura_colors[aura_type or "None"].b, 1)
+				bar.tx:SetVertexColor(DebuffTypeColor[aura_type or "none"].r, DebuffTypeColor[aura_type or "none"].g, DebuffTypeColor[aura_type or "none"].b, 1)
 			end
---			print(aura_type)
 			
 			bar:Show()
 		end
