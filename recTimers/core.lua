@@ -76,6 +76,7 @@ end
 t.make_bar = function(self, spell_name, unit, buff_type, only_self, r, g, b, width, height, attach_point1, parent_frame1, relative_point1, x_offset1, y_offset1, attach_point2, parent_frame2, relative_point2, x_offset2, y_offset2, hide_name)
 	local new_id = (#bars or 0) + 1
 	bars[new_id] = CreateFrame("StatusBar", format("recTimers_Bar_%d", new_id), parent_frame)
+	t.SmoothBar(bars[new_id])
 	bars[new_id]:SetHeight(height)
 	bars[new_id]:SetWidth(width)
 	bars[new_id].spell_name = spell_name

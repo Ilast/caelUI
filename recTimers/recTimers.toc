@@ -4,5 +4,6 @@
 ## Version: $Id$
 ## Dependencies: caelMedia
 
+smooth.lua
 core.lua
 bars.lua
