@@ -220,9 +220,9 @@ for i = 1, 12 do
 	_G["MultiBarLeftButton"..i]:SetScale(0.68625)
 end
 
-MultiBarLeft:SetParent(bar45Holder)
+MultiBarLeft:SetParent(UIParent)
 MultiBarLeftButton1:ClearAllPoints()
-MultiBarLeftButton1:SetPoint("TOPLEFT", bar45Holder, 4.5, -4.5)
+MultiBarLeftButton1:SetPoint("RIGHT", UIParent, "RIGHT", -15, 0)
 
 ShapeshiftBarFrame:SetParent(shiftBarHolder)
 ShapeshiftBarFrame:SetWidth(0.01)
