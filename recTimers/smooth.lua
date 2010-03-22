@@ -25,7 +25,7 @@ smoothFrame:SetScript("OnUpdate", function()
 			new = value
 		end
 		bar:SetValue_(new)
-		if cur == value or abs(new - value) < 2 then
+		if cur == value then --or abs(new - value) < 2 then --This 'or' prevents scaling on deplete.
 			bar:SetValue_(value)
 			smoothBars[bar] = nil
 		end
