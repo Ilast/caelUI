@@ -1,5 +1,9 @@
 --[[	$Id$	]]
 
+local _, recReagents = ...
+
+recReagents.eventFrame = CreateFrame("Frame", nil, UIParent)
+
 --[[
 	This is where you will add your characters, their realm, and the stock levels
 	of each item they will want auto-stocked.
@@ -13,7 +17,7 @@ local reagents = {
 }
 
 -- Internal settings, local globals.
-local name, realm, my_reagents
+local my_reagents
 local itemid_pattern		= "item:(%d+)"
 local GetContainerNumSlots	= _G.GetContainerNumSlots
 local GetContainerItemLink	= _G.GetContainerItemLink
@@ -27,15 +31,6 @@ local GetRealmName			= _G.GetRealmName
 local GetItemInfo			= _G.GetItemInfo
 local GetMoney				= _G.GetMoney
 local select				= select
-local print					= print
-local math_max				= math.max
-local math_min				= math.min
-local math_floor			= math.floor
-local tonumber				= tonumber
-local string_find			= string.find
-
--- Our frame, for events.
-local f = CreateFrame("Frame", "recReagents", UIParent)
 
 --[[
 	Returns the amount of checkid which would be needed to stock the item to the preset level.
@@ -49,13 +44,13 @@ local function HowMany(checkid)
 		for slot = 1, GetContainerNumSlots(bag) do
 			local link = GetContainerItemLink(bag, slot)
 			if link then
-				local id = tonumber(select(3, string_find(link, itemid_pattern)))
+				local id = tonumber(select(3, string.find(link, itemid_pattern)))
 				local stack = select(2, GetContainerItemInfo(bag, slot))
 				if id == checkid then total = total + stack end
 			end
 		end
 	end
-	return math_max(0, (my_reagents[checkid] - total))
+	return math.max(0, (my_reagents[checkid] - total))
 end
 
 --[[
@@ -66,21 +61,21 @@ end
 local function BuyReagents()
 	for i=1, GetMerchantNumItems() do
 		local link, id = GetMerchantItemLink(i)
-		if link then id = tonumber(select(3, string_find(link, itemid_pattern))) end
+		if link then id = tonumber(select(3, string.find(link, itemid_pattern))) end
 		if id and my_reagents[id] then
 			local price, stack, stock = select(3, GetMerchantItemInfo(i))
 			local quantity = HowMany(id)
 			if quantity > 0 then
-				if stock ~= -1 then quantity = math_min(quantity, stock) end
+				if stock ~= -1 then quantity = math.min(quantity, stock) end
 				subtotal = price * (quantity/stack)
 				if subtotal > GetMoney() then print("|cffD7BEA5cael|rReagents: Not enough money to purchase reagents."); return end
 				local fullstack = select(8, GetItemInfo(id))
 				while quantity > fullstack do
-					BuyMerchantItem(i, math_floor(fullstack/stack))
+					BuyMerchantItem(i, math.floor(fullstack/stack))
 					quantity = quantity - fullstack
 				end
 				if quantity >= stack then
-					BuyMerchantItem(i, math_floor(quantity/stack))
+					BuyMerchantItem(i, math.floor(quantity/stack))
 				end
 			end
 		end
@@ -91,19 +86,16 @@ end
 	Ensures that we have the player's name, their realm, and that a table actually exists for
 	that particular character before scanning the vendor for purchases.
 --]]
-local function OnMerchantShow()
+recReagents.eventFrame:RegisterEvent("MERCHANT_SHOW")
+recReagents.eventFrame:SetScript("OnEvent", function()
 	if my_reagents then
 		BuyReagents()
 	end
-end
+end)
 
-name = UnitName("player")
-realm = GetRealmName()
-if reagents[realm] and reagents[realm][name] then
-	my_reagents = reagents[realm][name]
+local playerName = UnitName("player")
+local realmName = GetRealmName()
+if reagents[realmName] and reagents[realmName][playerName] then
+	my_reagents = reagents[realmName][playerName]
 	reagents = nil
 end
-
--- Frame events.
-f:SetScript("OnEvent", OnMerchantShow)
-f:RegisterEvent("MERCHANT_SHOW")
