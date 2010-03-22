@@ -336,7 +336,7 @@ local function PopulateSlots(bank, keys)
 end
 
 local function ResizeContainer(frame, slots)
-	local is_bank = string.find(frame:GetName(), "Bank") and true or false
+	local is_bank = string.find(frame:GetName(), "bank") and true or false
 	local bag_columns = is_bank and 20 or 10
 	local rows_needed = floor(slots/bag_columns) + ((slots % bag_columns > 0) and 1 or 0)
 	frame:SetHeight(((rows_needed + 1) * 2.5) + (rows_needed * 28) + 20 + (5 * 2))
@@ -388,7 +388,7 @@ end
 local function DisplayBar(frame)
 	if not bags_ready then return end
 
-	local is_bank = string.find(frame:GetName(), "Bank") and true or false
+	local is_bank = string.find(frame:GetName(), "bank") and true or false
 
 	if is_bank then
 		bankBagBar:Show()
@@ -420,8 +420,8 @@ end)
 local function DisplayContainer(frame)
 	if not bags_ready then return end
 	-- Flag for if this is the bank frame or ammo frame.
-	local is_bank = string.find(frame:GetName(), "Bank") and true or false
-	local is_ammo = string.find(frame:GetName(), "Ammo") and true or false
+	local is_bank = string.find(frame:GetName(), "bank") and true or false
+	local is_ammo = string.find(frame:GetName(), "ammo") and true or false
 
 	-- Find out how many slots will be in this frame
 	local slots = TotalSlots(is_bank, is_ammo)
