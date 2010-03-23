@@ -6,8 +6,8 @@ local bgTexture = [=[Interface\ChatFrame\ChatFrameBackground]=]
 local glowTexture = [=[Interface\Addons\caelMedia\Miscellaneous\glowtex]=]
 local backdrop = {
 	bgFile = bgTexture,
-	edgeFile = glowTexture, edgeSize = 3,
-	insets = {left = 3, right = 3, top = 3, bottom = 3}
+	edgeFile = glowTexture, edgeSize = 2,
+	insets = {left = 2, right = 2, top = 2, bottom = 2}
 }
 
 local dummy = function() end
@@ -19,7 +19,7 @@ local NumBankBags = 7
 local BankColumns = 20
 
 local _G = getfenv(0)
-local bu, con, col, row
+local bu, container, col, row
 local buttons, bankbuttons = {}, {}
 local firstopened, firstbankopened = 1, 1
 
@@ -31,7 +31,7 @@ local MoveButtons = function(table, frame, columns)
 		bu:ClearAllPoints()
 		bu:SetPoint("TOPLEFT", frame, "TOPLEFT", col * (37 + Spacing) + 2, -1 * row * (37 + Spacing) - 1)
 		bu.SetPoint = dummy
-		bu:SetNormalTexture([=[Interface\Addons\caelMedia\Buttons\buttonborder3.tga]=])
+--		bu:SetNormalTexture([=[Interface\Addons\caelMedia\Buttons\buttonborder3.tga]=])
 		if(col > (columns - 2)) then
 			col = 0
 			row = row + 1
@@ -55,17 +55,17 @@ caelBags.bags:SetBackdropColor(0, 0, 0, 0.7)
 local ReanchorButtons = function()
 	if firstopened == 1  then
 		for f = 1, NumBags do
-			con = "ContainerFrame"..f
-			_G[con]:EnableMouse(false)
-			_G[con.."CloseButton"]:Hide()
-			_G[con.."PortraitButton"]:EnableMouse(false)
+			container = "ContainerFrame"..f
+			_G[container]:EnableMouse(false)
+			_G[container.."CloseButton"]:Hide()
+			_G[container.."PortraitButton"]:EnableMouse(false)
 
 			for i = 1, 7 do
-				select(i, _G[con]:GetRegions()):SetAlpha(0)
+				select(i, _G[container]:GetRegions()):SetAlpha(0)
 			end
 
 			for i = GetContainerNumSlots(f-1), 1, -1  do
-				bu = _G[con.."Item"..i]
+				bu = _G[container.."Item"..i]
 				bu:SetFrameStrata("HIGH")
 				tinsert(buttons, bu)
 			end
@@ -104,17 +104,17 @@ local ReanchorBankButtons = function()
 		end
 
 		for f = NumBags + 1, NumBags + NumBankBags, 1 do
-			con = "ContainerFrame"..f
-			_G[con]:EnableMouse(false)
-			_G[con.."CloseButton"]:Hide()
-			_G[con.."PortraitButton"]:EnableMouse(false)
+			container = "ContainerFrame"..f
+			_G[container]:EnableMouse(false)
+			_G[container.."CloseButton"]:Hide()
+			_G[container.."PortraitButton"]:EnableMouse(false)
 
 			for i = 1, 7 do
-				select(i, _G[con]:GetRegions()):SetAlpha(0)
+				select(i, _G[container]:GetRegions()):SetAlpha(0)
 			end
 
 			for i = GetContainerNumSlots(f-1), 1, -1  do
-				bu = _G[con.."Item"..i]
+				bu = _G[container.."Item"..i]
 				bu:SetFrameStrata("HIGH")
 				tinsert(bankbuttons, bu)
 			end
