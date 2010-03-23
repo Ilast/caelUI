@@ -1,5 +1,9 @@
 --[[	$Id$	]]
 
+local _, gotMacros = ...
+
+gotMacros.eventFrame = CreateFrame("Frame", nil, UIParent)
+
 LoadAddOn("Blizzard_MacroUI")
 local macros = gM_Macros
 local playername = UnitName("player")
@@ -83,22 +87,21 @@ local function CreateBlizzardMacro(name, perChar, icon)
 	end
 end
 
-local f = CreateFrame("Frame")
-f:RegisterEvent("PLAYER_ENTERING_WORLD")
-f:SetScript("OnEvent", function(self, event, ...)
+gotMacros.eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+gotMacros.eventFrame:SetScript("OnEvent", function(self, event, ...)
 	if InCombatLockdown() then
 		return self:RegisterEvent("PLAYER_REGEN_ENABLED")
 	end
 	
 	local NumMacros, NumMacrosPerChar = GetNumMacros()
-	for i=NumMacros, 1, -1 do
+	for i = NumMacros, 1, -1 do
 		local name = GetMacroInfo(i):match("^gM_(.+)")
 		if name and not macros[name] then
 			DeleteMacro(i)
 		end
 	end
 	
-	for i=37+(NumMacrosPerChar-1 or 0), 37, -1 do
+	for i = 37 + (NumMacrosPerChar - 1 or 0), 37, -1 do
 		local name = GetMacroInfo(i):match("^gM_(.+)")
 		if name and not macros[name] then
 			DeleteMacro(i)
