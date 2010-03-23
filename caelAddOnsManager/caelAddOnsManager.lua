@@ -33,20 +33,20 @@ local addons = {
 	["dev"] = {},
 }
 
-local EnableSet = function(set)
+local enableSet = function(set)
 	if not addons[set] then return end		-- If the set does not exist, then bail.
 	for k, v in pairs(addons[set]) do EnableAddOn(v) end		-- Load all addons in set
 end
 
-local HandleSlash = function(set)
+local handleSlash = function(set)
 	for i = 1, GetNumAddOns() do DisableAddOn(i) end	-- Disable all addons (to ensure only what we want gets loaded)
 
-	EnableSet("base")							-- Enable base addons
-	if set then EnableSet(set) end				-- Enable requested set addons
-	EnableSet(select(2, UnitClass("player")))	-- Enable all class-related addons
+	enableSet("base")							-- Enable base addons
+	if set then enableSet(set) end				-- Enable requested set addons
+	enableSet(select(2, UnitClass("player")))	-- Enable all class-related addons
 
 	ReloadUI()			-- Reload the UI for changes to take effect
 end
 
 SLASH_CAELADDONSMANAGER1 = '/addonset'
-SlashCmdList.CAELADDONSMANAGER = HandleSlash
+SlashCmdList.CAELADDONSMANAGER = handleSlash
