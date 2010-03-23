@@ -45,12 +45,12 @@ local MoveButtons = function(table, frame, columns)
 end
 
 --[[ Bags ]]
-local holder = CreateFrame("Button", "caelBagsHolder", UIParent)
-holder:SetPoint("TOPLEFT", UIParent, "CENTER", -50, 50)
-holder:SetFrameStrata("HIGH")
-holder:Hide()
-holder:SetBackdrop(backdrop)
-holder:SetBackdropColor(0, 0, 0, 0.7)
+caelBags.bags = CreateFrame("Button", nil, UIParent)
+caelBags.bags:SetPoint("TOPRIGHT", UIParent, "RIGHT", -15, 0)
+caelBags.bags:SetFrameStrata("HIGH")
+caelBags.bags:Hide()
+caelBags.bags:SetBackdrop(backdrop)
+caelBags.bags:SetBackdropColor(0, 0, 0, 0.7)
 
 local ReanchorButtons = function()
 	if firstopened == 1  then
@@ -70,24 +70,24 @@ local ReanchorButtons = function()
 				tinsert(buttons, bu)
 			end
 		end
-		MoveButtons(buttons, holder, Columns)
+		MoveButtons(buttons, caelBags.bags, Columns)
 		firstopened = 0
 	end
-	holder:Show()
+	caelBags.bags:Show()
 end
 
 local money = _G["ContainerFrame1MoneyFrame"]
 money:SetFrameStrata("DIALOG")
-money:SetParent(holder)
+money:SetParent(caelBags.bags)
 money:ClearAllPoints()
-money:SetPoint("BOTTOMRIGHT", holder, "BOTTOMRIGHT", 12, 2)
+money:SetPoint("BOTTOMRIGHT", caelBags.bags, "BOTTOMRIGHT", 12, 2)
 
 --[[ Bank ]]
-local bankholder = CreateFrame("Button", "caelBagsBankHolder", UIParent)
-bankholder:SetFrameStrata("HIGH")
-bankholder:Hide()
-bankholder:SetBackdrop(backdrop)
-bankholder:SetBackdropColor(0, 0, 0, 0.7)
+caelBags.bank = CreateFrame("Button", nil, UIParent)
+caelBags.bank:SetFrameStrata("HIGH")
+caelBags.bank:Hide()
+caelBags.bank:SetBackdrop(backdrop)
+caelBags.bank:SetBackdropColor(0, 0, 0, 0.7)
 
 local ReanchorBankButtons = function()
 	if firstbankopened == 1 then
@@ -119,17 +119,17 @@ local ReanchorBankButtons = function()
 				tinsert(bankbuttons, bu)
 			end
 		end
-		MoveButtons(bankbuttons, bankholder, BankColumns)
-		bankholder:SetPoint("BOTTOMRIGHT", "caelBagsHolder", "BOTTOMLEFT", -10 , 0)
+		MoveButtons(bankbuttons, caelBags.bank, BankColumns)
+		caelBags.bank:SetPoint("BOTTOMRIGHT", caelBags.bags, "BOTTOMLEFT", -15 , 0)
 		firstbankopened = 0
 	end
-	bankholder:Show()
+	caelBags.bank:Show()
 end
 
 local money = _G["BankFrameMoneyFrame"]
 money:SetFrameStrata("DIALOG")
 money:ClearAllPoints()
-money:SetPoint("BOTTOMRIGHT", bankholder, "BOTTOMRIGHT", 12, 2)
+money:SetPoint("BOTTOMRIGHT", caelBags.bank, "BOTTOMRIGHT", 12, 2)
 
 --[[ Hiding misc. frames ]]
 _G["BankFramePurchaseInfo"]:Hide()
@@ -138,12 +138,12 @@ _G["BankFramePurchaseInfo"].Show = dummy
 for f = 1, 7 do _G["BankFrameBag"..f]:Hide() end
 
 --[[ Show & Hide functions etc ]]
-tinsert(UISpecialFrames, bankholder)
-tinsert(UISpecialFrames, holder)
+tinsert(UISpecialFrames, caelBags.bank)
+tinsert(UISpecialFrames, caelBags.bags)
 
 local CloseBags = function()
-	bankholder:Hide()
-	holder:Hide()
+	caelBags.bank:Hide()
+	caelBags.bags:Hide()
 	for i = 0, 11 do
 		CloseBag(i)
 	end
