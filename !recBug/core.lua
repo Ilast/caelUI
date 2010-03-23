@@ -6,10 +6,8 @@
 ----------------------------------------
 -- local font = CreateFont("Oceania")
 -- font:SetFont([[Interface\AddOns\Media\Fonts\SomeFont.ttf]], 11, nil)
- local edge_file = [[Interface\Addons\caelMedia\Miscellaneous\glowtex]]
 
 local errors = {}
-local error_text
 
 local function make_backdrop(frame)
 	frame.bg = CreateFrame("Frame", nil, frame)
@@ -17,7 +15,7 @@ local function make_backdrop(frame)
 	frame.bg:SetPoint("BOTTOMRIGHT")
 	frame.bg:SetBackdrop({
 		bgFile = [[Interface\ChatFrame\ChatFrameBackground]],
-		edgeFile = edge_file, edgeSize = 4,
+		edgeFile = [=[Interface\Addons\caelMedia\Miscellaneous\glowtex]=], edgeSize = 4,
 		insets = {left = 3, right = 3, top = 3, bottom = 3}
 	})
 	frame.bg:SetFrameStrata("BACKGROUND")
