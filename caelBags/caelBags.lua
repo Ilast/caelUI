@@ -12,11 +12,12 @@ local backdrop = {
 
 local dummy = function() end
 
-local Spacing = 2
-local Columns = 10
-local NumBags = 5
-local NumBankBags = 7
-local BankColumns = 20
+local buttonSpacing = 2
+local columns = 10
+local numBags = 5
+local numBankBags = 7
+local bankColumns = 20
+local buttonSize = 37
 
 local _G = getfenv(0)
 local bu, container, col, row
@@ -29,7 +30,7 @@ local MoveButtons = function(table, frame, columns)
 	for i = 1, #table do
 		bu = table[i]
 		bu:ClearAllPoints()
-		bu:SetPoint("TOPLEFT", frame, "TOPLEFT", col * (37 + Spacing) + 2, -1 * row * (37 + Spacing) - 1)
+		bu:SetPoint("TOPLEFT", frame, "TOPLEFT", col * (buttonSize + buttonSpacing) + 2, -1 * row * (buttonSize + buttonSpacing) - 1)
 		bu.SetPoint = dummy
 --		bu:SetNormalTexture([=[Interface\Addons\caelMedia\Buttons\buttonborder3.tga]=])
 		if(col > (columns - 2)) then
@@ -40,8 +41,8 @@ local MoveButtons = function(table, frame, columns)
 		end
 	end
 
-	frame:SetHeight((row + (col==0 and 0 or 1)) * (37 + Spacing) + 16 + 3)
-	frame:SetWidth(columns * 37 + Spacing * (columns - 1) + 3)
+	frame:SetHeight((row + (col == 0 and 0 or 1)) * (buttonSize + buttonSpacing) + 16 + 3)
+	frame:SetWidth(columns * buttonSize + buttonSpacing * (columns - 1) + 3)
 end
 
 --[[ Bags ]]
@@ -54,7 +55,7 @@ caelBags.bags:SetBackdropColor(0, 0, 0, 0.7)
 
 local ReanchorButtons = function()
 	if firstopened == 1  then
-		for f = 1, NumBags do
+		for f = 1, numBags do
 			container = "ContainerFrame"..f
 			_G[container]:EnableMouse(false)
 			_G[container.."CloseButton"]:Hide()
@@ -70,7 +71,7 @@ local ReanchorButtons = function()
 				tinsert(buttons, bu)
 			end
 		end
-		MoveButtons(buttons, caelBags.bags, Columns)
+		MoveButtons(buttons, caelBags.bags, columns)
 		firstopened = 0
 	end
 	caelBags.bags:Show()
@@ -103,7 +104,7 @@ local ReanchorBankButtons = function()
 			select(f, _G["BankFrame"]:GetRegions()):SetAlpha(0)
 		end
 
-		for f = NumBags + 1, NumBags + NumBankBags, 1 do
+		for f = numBags + 1, numBags + numBankBags, 1 do
 			container = "ContainerFrame"..f
 			_G[container]:EnableMouse(false)
 			_G[container.."CloseButton"]:Hide()
@@ -119,7 +120,7 @@ local ReanchorBankButtons = function()
 				tinsert(bankbuttons, bu)
 			end
 		end
-		MoveButtons(bankbuttons, caelBags.bank, BankColumns)
+		MoveButtons(bankbuttons, caelBags.bank, bankColumns)
 		caelBags.bank:SetPoint("BOTTOMRIGHT", caelBags.bags, "BOTTOMLEFT", -15 , 0)
 		firstbankopened = 0
 	end
@@ -164,8 +165,8 @@ local ToggleBags = function()
 	end
 end
 
-hooksecurefunc(_G["ContainerFrame"..NumBags], "Show", ReanchorButtons)
-hooksecurefunc(_G["ContainerFrame"..NumBags], "Hide", CloseBags)
+hooksecurefunc(_G["ContainerFrame"..numBags], "Show", ReanchorButtons)
+hooksecurefunc(_G["ContainerFrame"..numBags], "Hide", CloseBags)
 hooksecurefunc(BankFrame, "Show", function()
 	OpenBags()
 	ReanchorBankButtons()
