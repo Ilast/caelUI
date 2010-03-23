@@ -319,7 +319,7 @@ caelNameplates.eventFrame:SetScript("OnUpdate", function(self, elapsed)
 end)
 
 caelNameplates.eventFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
-caelNameplates.eventFrame:HookScript("OnEvent", function()
+caelNameplates.eventFrame:SetScript("OnEvent", function()
 	if event == "PLAYER_REGEN_ENABLED" then
 		SetCVar("nameplateShowEnemies", 0)
 	end
