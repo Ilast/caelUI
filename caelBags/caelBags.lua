@@ -35,9 +35,9 @@ local MoveButtons = function(table, frame, columns)
 		local ic = _G[na.."IconTexture"]
 
 		-- Replace textures
-		bu:SetNormalTexture([=[Interface\Addons\caelMedia\Buttons\buttonborder3.tga]=])
-		bu:SetPushedTexture([=[Interface\Addons\caelMedia\Buttons\buttonborder3.tga]=])
-		bu:SetHighlightTexture([=[Interface\Addons\caelMedia\Buttons\buttonborder3.tga]=])
+		bu:SetNormalTexture([=[Interface\AddOns\caelMedia\Buttons\buttonborder1]=])
+		bu:SetPushedTexture([=[Interface\AddOns\caelMedia\Buttons\buttonborder1]=])
+		bu:SetHighlightTexture([=[Interface\AddOns\caelMedia\Buttons\buttonborder1]=])
 
 		bu:SetWidth(buttonSize)
 		bu:SetHeight(buttonSize)
@@ -50,6 +50,7 @@ local MoveButtons = function(table, frame, columns)
 		nt:SetWidth(buttonSize)
 		nt:ClearAllPoints()
 		nt:SetPoint("CENTER")
+		nt:SetVertexColor(0.84, 0.75, 0.65)
 		
 		-- Offset the icon image a little to remove 'round' edges
 		ic:SetTexCoord(.08, .92, .08, .92)
