@@ -131,7 +131,7 @@ if GetLocale() == "enUS" then
 			},
 			["BlkA"] = {
 				char = "Caellian, Callysto, Dynames",
-				body = [=[/castsequence reset=23.3 Black Arrow, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+				body = [=[/castsequence reset=29.3 Black Arrow, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 			},
 			["SrSa"] = {
 				char = "Caellian, Callysto, Dynames",
@@ -139,7 +139,7 @@ if GetLocale() == "enUS" then
 			},
 			["SrSb"] = {
 				char = "Caellian, Callysto, Dynames",
-				body = [=[/castsequence reset=target Serpent Sting, Null]=],
+				body = [=[/castsequence reset=target Serpent Sting, null]=],
 			},
 			["ExpS"] = {
 				char = "Caellian, Callysto, Dynames",
@@ -170,7 +170,7 @@ if GetLocale() == "enUS" then
 				show = "Explosive Shot",
 				body = [=[/click [noexists][noharm][dead] gotMacros_T1
 					/click [combat, harm, nodead] gotMacros_CDs1
-					/castsequence reset=3 Explosive Shot, Steady Shot, Explosive Shot, Steady Shot]=],
+					/castsequence reset=3 Steady Shot, Explosive Shot, Steady Shot, Explosive Shot]=],
 				nosound = true,
 				blizzmacro = true,
 				perChar = true,
