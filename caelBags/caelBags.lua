@@ -17,22 +17,55 @@ local columns = 10
 local numBags = 5
 local numBankBags = 7
 local bankColumns = 20
-local buttonSize = 37
+local buttonSize = 30
 
 local _G = getfenv(0)
 local bu, container, col, row
 local buttons, bankbuttons = {}, {}
-local firstopened, firstbankopened = 1, 1
+local firstOpened, firstbankopened = 1, 1
 
 --[[ Function to move buttons ]]
 local MoveButtons = function(table, frame, columns)
 	col, row = 0, 0
 	for i = 1, #table do
 		bu = table[i]
+		local na = bu:GetName()
+		local nt = _G[na.."NormalTexture"]
+		local co = _G[na.."Count"]
+		local ic = _G[na.."IconTexture"]
+
+		-- Replace textures
+		bu:SetNormalTexture([=[Interface\Addons\caelMedia\Buttons\buttonborder3.tga]=])
+		bu:SetPushedTexture([=[Interface\Addons\caelMedia\Buttons\buttonborder3.tga]=])
+		bu:SetHighlightTexture([=[Interface\Addons\caelMedia\Buttons\buttonborder3.tga]=])
+
+		bu:SetWidth(buttonSize)
+		bu:SetHeight(buttonSize)
 		bu:ClearAllPoints()
 		bu:SetPoint("TOPLEFT", frame, "TOPLEFT", col * (buttonSize + buttonSpacing) + 2, -1 * row * (buttonSize + buttonSpacing) - 1)
 		bu.SetPoint = dummy
---		bu:SetNormalTexture([=[Interface\Addons\caelMedia\Buttons\buttonborder3.tga]=])
+
+		-- Size and position the NormalTexture (the "frame" around the button)
+		nt:SetHeight(buttonSize)
+		nt:SetWidth(buttonSize)
+		nt:ClearAllPoints()
+		nt:SetPoint("CENTER")
+		
+		-- Offset the icon image a little to remove 'round' edges
+		ic:SetTexCoord(.08, .92, .08, .92)
+		-- Position icon using SetPoint relative to the button.
+		ic:ClearAllPoints()
+		ic:SetPoint("TOPLEFT", bu, 4, -3)
+		ic:SetPoint("BOTTOMRIGHT", bu, -3, 4)
+		
+		-- Move item count text into a readable position
+		-- TODO: Perhaps there is some magic formula to figure this out?  I had to change it depending on button size.
+		--     -1, 3 looked good at 30x30 buttons
+		--     -5, 7 looked good at 60x60 buttons
+		co:ClearAllPoints()
+		co:SetPoint("BOTTOMRIGHT", bu, -3, 3)
+		co:SetFont([=[Interface\Addons\caelMedia\Fonts\xenara rg.ttf]=], 10, "OUTLINE")
+
 		if(col > (columns - 2)) then
 			col = 0
 			row = row + 1
@@ -52,9 +85,10 @@ caelBags.bags:SetFrameStrata("HIGH")
 caelBags.bags:Hide()
 caelBags.bags:SetBackdrop(backdrop)
 caelBags.bags:SetBackdropColor(0, 0, 0, 0.7)
+caelBags.bags:SetBackdropBorderColor(0, 0, 0, 1)
 
 local ReanchorButtons = function()
-	if firstopened == 1  then
+	if firstOpened == 1  then
 		for f = 1, numBags do
 			container = "ContainerFrame"..f
 			_G[container]:EnableMouse(false)
@@ -72,7 +106,7 @@ local ReanchorButtons = function()
 			end
 		end
 		MoveButtons(buttons, caelBags.bags, columns)
-		firstopened = 0
+		firstOpened = 0
 	end
 	caelBags.bags:Show()
 end
