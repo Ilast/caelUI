@@ -36,8 +36,8 @@ local MoveButtons = function(table, frame, columns)
 
 		-- Replace textures
 		bu:SetNormalTexture([=[Interface\AddOns\caelMedia\Buttons\buttonborder1]=])
-		bu:SetPushedTexture([=[Interface\AddOns\caelMedia\Buttons\buttonborder1]=])
-		bu:SetHighlightTexture([=[Interface\AddOns\caelMedia\Buttons\buttonborder1]=])
+		bu:SetPushedTexture([=[Interface\AddOns\caelMedia\Buttons\buttonborder1pushed]=])
+		bu:SetHighlightTexture([=[Interface\AddOns\caelMedia\Buttons\buttonborder1highlight]=])
 
 		bu:SetWidth(buttonSize)
 		bu:SetHeight(buttonSize)
