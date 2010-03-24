@@ -12,24 +12,32 @@ local backdrop = {
 
 local dummy = function() end
 
-local buttonSpacing = 2
-local columns = 10
-local numBags = 5
-local numBankBags = 7
-local bankColumns = 20
+-- Bag counts
+local numBags = NUM_BAG_FRAMES + 1 -- slots + backpack
+local numBankBags = NUM_CONTAINER_FRAMES - numBags
+
+-- Sizing
+local numBagColumns = 10
+local numBankColumns = 20
 local buttonSize = 30
+local buttonSpacing = -2
+
+-- Margins
+local bottomMargin = -4
+local sideMargin   = 10
+local topMargin    = 10
 
 local _G = getfenv(0)
 local format = string.format
 local bu, con, col, row
-local buttons, bankbuttons = {}, {}
-local firstOpened, firstbankopened = 1, 1
+local backpackButtons, bankbuttons = {}, {}
+local firstOpening, firstBankOpening = true, true
 
 --[[ Function to move buttons ]]
-local MoveButtons = function(table, frame, columns)
+local MoveButtons = function(buttonTable, bagFrame, containerColumns)
 	col, row = 0, 0
-	for i = 1, #table do
-		bu = table[i]
+	for i = 1, #buttonTable do
+		bu = buttonTable[i]
 		local na = bu:GetName()
 		local nt = _G[format("%sNormalTexture", na)]
 		local co = _G[format("%sCount", na)]
@@ -40,13 +48,15 @@ local MoveButtons = function(table, frame, columns)
 		bu:SetPushedTexture([=[Interface\AddOns\caelMedia\Buttons\buttonborder1pushed]=])
 		bu:SetHighlightTexture([=[Interface\AddOns\caelMedia\Buttons\buttonborder1highlight]=])
 
+		-- Set size and position of the button itself
 		bu:SetWidth(buttonSize)
 		bu:SetHeight(buttonSize)
 		bu:ClearAllPoints()
-		bu:SetPoint("TOPLEFT", frame, "TOPLEFT", col * (buttonSize + buttonSpacing) + 2, -1 * row * (buttonSize + buttonSpacing) - 1)
+		bu:SetPoint("TOPLEFT", bagFrame, "TOPLEFT", col * (buttonSize + buttonSpacing) + 2, -1 * row * (buttonSize + buttonSpacing) - 2)
+		-- Do not let others move the button
 		bu.SetPoint = dummy
 
-		-- Size and position the NormalTexture (the "frame" around the button)
+		-- Size and position the NormalTexture (the "bagFrame" around the button)
 		nt:SetHeight(buttonSize)
 		nt:SetWidth(buttonSize)
 		nt:ClearAllPoints()
@@ -62,13 +72,13 @@ local MoveButtons = function(table, frame, columns)
 		
 		-- Move item count text into a readable position
 		-- TODO: Perhaps there is some magic formula to figure this out?  I had to change it depending on button size.
-		--     -1, 3 looked good at 30x30 buttons
-		--     -5, 7 looked good at 60x60 buttons
+		--     -1, 3 looked good at 30x30 backpackButtons
+		--     -5, 7 looked good at 60x60 backpackButtons
 		co:ClearAllPoints()
 		co:SetPoint("BOTTOMRIGHT", bu, -3, 3)
 		co:SetFont([=[Interface\Addons\caelMedia\Fonts\xenara rg.ttf]=], 10, "OUTLINE")
 
-		if(col > (columns - 2)) then
+		if(col > (containerColumns - 2)) then
 			col = 0
 			row = row + 1
 		else
@@ -76,8 +86,9 @@ local MoveButtons = function(table, frame, columns)
 		end
 	end
 
-	frame:SetHeight((row + (col == 0 and 0 or 1)) * (buttonSize + buttonSpacing) + 16 + 3)
-	frame:SetWidth(columns * buttonSize + buttonSpacing * (columns - 1) + 3)
+	bagFrame:SetHeight((row + (col == 0 and 0 or 1)) * (buttonSize + buttonSpacing) + bottomMargin + topMargin)
+--	bagFrame:SetWidth(containerColumns * buttonSize + buttonSpacing * (containerColumns - 1) + (2 * sideMargin))
+	bagFrame:SetWidth(containerColumns * buttonSize + buttonSpacing * (containerColumns - 1) + 4)
 end
 
 --[[ Bags ]]
@@ -87,10 +98,10 @@ caelBags.bags:SetFrameStrata("HIGH")
 caelBags.bags:Hide()
 caelBags.bags:SetBackdrop(backdrop)
 caelBags.bags:SetBackdropColor(0, 0, 0, 0.7)
-caelBags.bags:SetBackdropBorderColor(0, 0, 0, 1)
+caelBags.bags:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
 
-local ReanchorButtons = function()
-	if firstOpened == 1  then
+local reanchorButtons = function()
+	if firstOpening  then
 		for f = 1, numBags do
 			con = "ContainerFrame"..f
 			_G[con]:EnableMouse(false)
@@ -104,11 +115,11 @@ local ReanchorButtons = function()
 			for i = GetContainerNumSlots(f-1), 1, -1  do
 				bu = _G[format("%sItem%s", con, i)]
 				bu:SetFrameStrata("HIGH")
-				tinsert(buttons, bu)
+				tinsert(backpackButtons, bu)
 			end
 		end
-		MoveButtons(buttons, caelBags.bags, columns)
-		firstOpened = 0
+		MoveButtons(backpackButtons, caelBags.bags, numBagColumns)
+		firstOpening = false
 	end
 	caelBags.bags:Show()
 end
@@ -122,11 +133,11 @@ caelBags.bank = CreateFrame("Button", nil, UIParent)
 caelBags.bank:SetFrameStrata("HIGH")
 caelBags.bank:Hide()
 caelBags.bank:SetBackdrop(backdrop)
-caelBags.bank:SetBackdropColor(0.15, 0.15, 0.15, 1)
+caelBags.bank:SetBackdropColor(0, 0, 0, 0.5)
 caelBags.bank:SetBackdropBorderColor(0, 0, 0, 1)
 
-local ReanchorBankButtons = function()
-	if firstbankopened == 1 then
+local reanchorBankButtons = function()
+	if firstBankOpening then
 		for f = 1, 28 do
 			bu = _G[format("BankFrameItem%s", f)]
 			bu:SetFrameStrata("HIGH")
@@ -155,9 +166,9 @@ local ReanchorBankButtons = function()
 				tinsert(bankbuttons, bu)
 			end
 		end
-		MoveButtons(bankbuttons, caelBags.bank, bankColumns)
+		MoveButtons(bankbuttons, caelBags.bank, numBankColumns)
 		caelBags.bank:SetPoint("BOTTOMRIGHT", caelBags.bags, "BOTTOMLEFT", -15 , 0)
-		firstbankopened = 0
+		firstBankOpening = false
 	end
 	caelBags.bank:Show()
 end
@@ -170,13 +181,13 @@ money.show = dummy
 _G["BankFramePurchaseInfo"]:Hide()
 _G["BankFramePurchaseInfo"].Show = dummy
 
-for f = 1, 7 do _G["BankFrameBag"..f]:Hide() end
+for f = 1, 7 do _G[format("BankFrameBag%s", f)]:Hide() end
 
 --[[ Show & Hide functions etc ]]
 tinsert(UISpecialFrames, caelBags.bank)
 tinsert(UISpecialFrames, caelBags.bags)
 
-local CloseBags = function()
+local closeBags = function()
 	caelBags.bank:Hide()
 	caelBags.bags:Hide()
 	for i = 0, 11 do
@@ -184,33 +195,31 @@ local CloseBags = function()
 	end
 end
 
-local OpenBags = function()
+local openBags = function()
 	for i = 0, 11 do
 		OpenBag(i)
 	end
 end
 
-local ToggleBags = function()
+local toggleBags = function()
 	if(IsBagOpen(0)) then
 		CloseBankFrame()
-		CloseBags()
+		closeBags()
 	else
-		OpenBags()
+		openBags()
 	end
 end
 
-hooksecurefunc(_G["ContainerFrame"..numBags], "Show", ReanchorButtons)
-hooksecurefunc(_G["ContainerFrame"..numBags], "Hide", CloseBags)
---hooksecurefunc(_G[format("ContainerFrame%s", NumBags)], "Show", ReanchorButtons)
---hooksecurefunc(_G[format("ContainerFrame%s", NumBags)], "Hide", CloseBags)
+hooksecurefunc(_G[format("ContainerFrame%s", numBags)], "Show", reanchorButtons)
+hooksecurefunc(_G[format("ContainerFrame%s", numBags)], "Hide", closeBags)
 hooksecurefunc(BankFrame, "Show", function()
-	OpenBags()
-	ReanchorBankButtons()
+	openBags()
+	reanchorBankButtons()
 end)
-hooksecurefunc(BankFrame, "Hide", CloseBags)
+hooksecurefunc(BankFrame, "Hide", closeBags)
 
-ToggleBackpack = ToggleBags
-OpenAllBags = ToggleBags
-OpenBackpack = OpenBags
-CloseBackpack = CloseBags
-CloseAllBags = CloseBags
+ToggleBackpack = toggleBags
+OpenAllBags = toggleBags
+OpenBackpack = openBags
+CloseBackpack = closeBags
+CloseAllBags = closeBags
