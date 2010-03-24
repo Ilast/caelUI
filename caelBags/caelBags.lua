@@ -20,7 +20,8 @@ local bankColumns = 20
 local buttonSize = 30
 
 local _G = getfenv(0)
-local bu, container, col, row
+local format = string.format
+local bu, con, col, row
 local buttons, bankbuttons = {}, {}
 local firstOpened, firstbankopened = 1, 1
 
@@ -30,9 +31,9 @@ local MoveButtons = function(table, frame, columns)
 	for i = 1, #table do
 		bu = table[i]
 		local na = bu:GetName()
-		local nt = _G[na.."NormalTexture"]
-		local co = _G[na.."Count"]
-		local ic = _G[na.."IconTexture"]
+		local nt = _G[format("%sNormalTexture", na)]
+		local co = _G[format("%sCount", na)]
+		local ic = _G[format("%sIconTexture", na)]
 
 		-- Replace textures
 		bu:SetNormalTexture([=[Interface\AddOns\caelMedia\Buttons\buttonborder1]=])
@@ -91,17 +92,17 @@ caelBags.bags:SetBackdropBorderColor(0, 0, 0, 1)
 local ReanchorButtons = function()
 	if firstOpened == 1  then
 		for f = 1, numBags do
-			container = "ContainerFrame"..f
-			_G[container]:EnableMouse(false)
-			_G[container.."CloseButton"]:Hide()
-			_G[container.."PortraitButton"]:EnableMouse(false)
+			con = "ContainerFrame"..f
+			_G[con]:EnableMouse(false)
+			_G[format("%sCloseButton", con)]:Hide()
+			_G[format("%sPortraitButton", con)]:EnableMouse(false)
 
 			for i = 1, 7 do
-				select(i, _G[container]:GetRegions()):SetAlpha(0)
+				select(i, _G[con]:GetRegions()):SetAlpha(0)
 			end
 
 			for i = GetContainerNumSlots(f-1), 1, -1  do
-				bu = _G[container.."Item"..i]
+				bu = _G[format("%sItem%s", con, i)]
 				bu:SetFrameStrata("HIGH")
 				tinsert(buttons, bu)
 			end
@@ -113,22 +114,21 @@ local ReanchorButtons = function()
 end
 
 local money = _G["ContainerFrame1MoneyFrame"]
-money:SetFrameStrata("DIALOG")
-money:SetParent(caelBags.bags)
-money:ClearAllPoints()
-money:SetPoint("BOTTOMRIGHT", caelBags.bags, "BOTTOMRIGHT", 12, 2)
+money:Hide()
+money.Show = dummy
 
 --[[ Bank ]]
 caelBags.bank = CreateFrame("Button", nil, UIParent)
 caelBags.bank:SetFrameStrata("HIGH")
 caelBags.bank:Hide()
 caelBags.bank:SetBackdrop(backdrop)
-caelBags.bank:SetBackdropColor(0, 0, 0, 0.7)
+caelBags.bank:SetBackdropColor(0.15, 0.15, 0.15, 1)
+caelBags.bank:SetBackdropBorderColor(0, 0, 0, 1)
 
 local ReanchorBankButtons = function()
 	if firstbankopened == 1 then
 		for f = 1, 28 do
-			bu = _G["BankFrameItem"..f]
+			bu = _G[format("BankFrameItem%s", f)]
 			bu:SetFrameStrata("HIGH")
 			tinsert(bankbuttons, bu)
 		end
@@ -140,17 +140,17 @@ local ReanchorBankButtons = function()
 		end
 
 		for f = numBags + 1, numBags + numBankBags, 1 do
-			container = "ContainerFrame"..f
-			_G[container]:EnableMouse(false)
-			_G[container.."CloseButton"]:Hide()
-			_G[container.."PortraitButton"]:EnableMouse(false)
+			con = "ContainerFrame"..f
+			_G[con]:EnableMouse(false)
+			_G[format("%sCloseButton", con)]:Hide()
+			_G[format("%sPortraitButton", con)]:EnableMouse(false)
 
 			for i = 1, 7 do
-				select(i, _G[container]:GetRegions()):SetAlpha(0)
+				select(i, _G[con]:GetRegions()):SetAlpha(0)
 			end
 
 			for i = GetContainerNumSlots(f-1), 1, -1  do
-				bu = _G[container.."Item"..i]
+				bu = _G[format("%sItem%s", con, i)]
 				bu:SetFrameStrata("HIGH")
 				tinsert(bankbuttons, bu)
 			end
@@ -163,9 +163,8 @@ local ReanchorBankButtons = function()
 end
 
 local money = _G["BankFrameMoneyFrame"]
-money:SetFrameStrata("DIALOG")
-money:ClearAllPoints()
-money:SetPoint("BOTTOMRIGHT", caelBags.bank, "BOTTOMRIGHT", 12, 2)
+money:Hide()
+money.show = dummy
 
 --[[ Hiding misc. frames ]]
 _G["BankFramePurchaseInfo"]:Hide()
@@ -202,6 +201,8 @@ end
 
 hooksecurefunc(_G["ContainerFrame"..numBags], "Show", ReanchorButtons)
 hooksecurefunc(_G["ContainerFrame"..numBags], "Hide", CloseBags)
+--hooksecurefunc(_G[format("ContainerFrame%s", NumBags)], "Show", ReanchorButtons)
+--hooksecurefunc(_G[format("ContainerFrame%s", NumBags)], "Hide", CloseBags)
 hooksecurefunc(BankFrame, "Show", function()
 	OpenBags()
 	ReanchorBankButtons()
