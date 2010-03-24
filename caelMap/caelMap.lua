@@ -28,6 +28,8 @@ local caelMap_OnUpdate = function(self)
 end
 
 local function setupMap(self)
+	WORLDMAP_QUESTLIST_SIZE = 0.7
+
 	if WORLDMAP_SETTINGS.size == WORLDMAP_WINDOWED_SIZE then
 		ToggleFrame(WorldMapFrame)
 		WorldMapFrame_ToggleWindowSize()
