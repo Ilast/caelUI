@@ -1,0 +1,10 @@
+## Interface: 30300
+## Author: Caellian
+## Title: |cffD7BEA5cael|r Threat
+## Notes: Threat visual and audio warnings
+## X-Revision: $Id: caelThreat.toc 540 2010-03-06 17:48:05Z sdkyron@gmail.com $
+## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
+## X-Category:
+## RequiredDeps:
+
+caelThreat.lua
