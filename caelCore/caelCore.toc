@@ -3,7 +3,7 @@
 ## Title: |cffD7BEA5cael|rCore
 ## Notes: Various UI Settings
 ## Dependencies: caelPanels
-## X-Revision: $Id: caelCore.toc 686 2010-03-19 09:47:09Z sdkyron@gmail.com $
+## X-Revision: $Id$
 ## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
 ## X-Category: Interface Enhancements
 
