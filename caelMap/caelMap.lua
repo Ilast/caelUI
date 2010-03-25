@@ -147,8 +147,8 @@ local function setupMap(self)
 
 		local CenterX, CenterY = WorldMapDetailFrame:GetCenter()
 		local CursorX, CursorY = GetCursorPosition()
-		CursorX = ((CursorX / WorldMapFrame:GetScale()) - (CenterX - (WorldMapDetailFrame:GetWidth() / 2))) / 10
-		CursorY = (((CenterY + (WorldMapDetailFrame:GetHeight() / 2)) - (CursorY / WorldMapFrame:GetScale())) / WorldMapDetailFrame:GetHeight()) * 100
+		CursorX = ((CursorX / WORLDMAP_QUESTLIST_SIZE) - (CenterX - (WorldMapDetailFrame:GetWidth() / 2))) / 10
+		CursorY = (((CenterY + (WorldMapDetailFrame:GetHeight() / 2)) - (CursorY / WORLDMAP_QUESTLIST_SIZE)) / WorldMapDetailFrame:GetHeight()) * 100
 
 		if CursorX >= 100 or CursorY >= 100 or CursorX <= 0 or CursorY <= 0 then
 			Cursor:SetText("Cursor X, Y • |cffAF5050Out of bounds.|r")
