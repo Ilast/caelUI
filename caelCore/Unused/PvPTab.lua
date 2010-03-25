@@ -1,4 +1,4 @@
---[[	$Id: PvPTab.lua 686 2010-03-19 09:47:09Z sdkyron@gmail.com $	]]
+--[[	$Id$	]]
 
 CharacterFrameTab3:SetWidth(57)
 CharacterFrameTab3Middle:SetWidth(17)
