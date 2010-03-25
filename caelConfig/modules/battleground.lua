@@ -1,11 +1,11 @@
 --[[	$Id$	]]
 
-local _, caelConfig = ...
+local _, caelCore = ...
 
 --[[	Auto release in battleground	]]
 
-caelConfig.events:RegisterEvent("PLAYER_DEAD")
-caelConfig.events:HookScript("OnEvent", function(self, event)
+caelCore.events:RegisterEvent("PLAYER_DEAD")
+caelCore.events:HookScript("OnEvent", function(self, event)
 	if event == "PLAYER_DEAD" then
 		if (tostring(GetZoneText()) == "Wintergrasp") then
 			RepopMe()

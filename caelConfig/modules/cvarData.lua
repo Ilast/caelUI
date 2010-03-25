@@ -1,6 +1,6 @@
 ﻿--[[	$Id$	]]
 
-local _, caelConfig = ...
+local _, caelCore = ...
 
 local ZoneChange = function(zone)
 	local _, instanceType = IsInInstance()
@@ -32,9 +32,9 @@ local ZoneChange = function(zone)
 	end
 end
 
-caelConfig.events:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-caelConfig.events:RegisterEvent("WORLD_MAP_UPDATE")
-caelConfig.events:RegisterEvent("PLAYER_ENTERING_WORLD")
+caelCore.events:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+caelCore.events:RegisterEvent("WORLD_MAP_UPDATE")
+caelCore.events:RegisterEvent("PLAYER_ENTERING_WORLD")
 local mapUpdate = function(self, event)
 	if event == "ZONE_CHANGED_NEW_AREA" or event == "WORLD_MAP_UPDATE" or event == "PLAYER_ENTERING_WORLD" then
 		local zone = GetRealZoneText()
@@ -44,7 +44,7 @@ local mapUpdate = function(self, event)
 		end
 	end
 end
-caelConfig.events:HookScript("OnEvent", mapUpdate)
+caelCore.events:HookScript("OnEvent", mapUpdate)
 
 --[[
 Scales = {
@@ -72,8 +72,8 @@ local Scales = {
 	["1920"] = { ["1200"] = 0.84, ["1080"] = 0.93},
 }
 
-caelConfig.events:RegisterEvent("PLAYER_ENTERING_WORLD")
-caelConfig.events:HookScript("OnEvent", function(self, event)
+caelCore.events:RegisterEvent("PLAYER_ENTERING_WORLD")
+caelCore.events:HookScript("OnEvent", function(self, event)
 	if event == "PLAYER_ENTERING_WORLD" then
 		local width, height = string.match((({GetScreenResolutions()})[GetCurrentResolution()] or ""), "(%d+).-(%d+)")
 		if Scales[width] and Scales[width][height] then

@@ -1,5 +1,5 @@
 ﻿<Ui xmlns="http://www.blizzard.com/wow/ui/">
-	<Script file="caelConfig.lua"/>
+	<Script file="caelCore.lua"/>
 
 	<Script file="modules\autoGreed.lua"/>
 	<Script file="modules\autoInvite.lua"/>

@@ -1,6 +1,6 @@
 ﻿--[[	$Id$	]]
 
-local _, caelConfig = ...
+local _, caelCore = ...
 
 --[[	Auto accept some invites	]]
 
@@ -38,8 +38,8 @@ local function IsFriend(name)
 	end
 end
 
-caelConfig.events:RegisterEvent("PARTY_INVITE_REQUEST")
-caelConfig.events:HookScript("OnEvent", function(self, event, name)
+caelCore.events:RegisterEvent("PARTY_INVITE_REQUEST")
+caelCore.events:HookScript("OnEvent", function(self, event, name)
 	if event == "PARTY_INVITE_REQUEST" then
 		if IsFriend(name) then
 			for i = 1, STATICPOPUP_NUMDIALOGS do
@@ -61,8 +61,8 @@ StaticPopupDialogs["LOOT_BIND"].OnCancel = function(self, slot)
 end
 
 --[[
-caelConfig.events:RegisterEvent("PARTY_INVITE_REQUEST")
-caelConfig.events:HookScript("OnEvent", function(self, event, name)
+caelCore.events:RegisterEvent("PARTY_INVITE_REQUEST")
+caelCore.events:HookScript("OnEvent", function(self, event, name)
 	if event == "PARTY_INVITE_REQUEST" then
 		if IsFriend(name) then
 			AcceptGroup()

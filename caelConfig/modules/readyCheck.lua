@@ -1,12 +1,12 @@
 ﻿--[[	$Id$	]]
 
-local _, caelConfig = ...
+local _, caelCore = ...
 
 --[[	Force readycheck warning	]]
 
 ReadyCheckListenerFrame:SetScript("OnShow", nil) -- Stop the default
-caelConfig.events:RegisterEvent("READY_CHECK")
-caelConfig.events:HookScript("OnEvent", function(self, event)
+caelCore.events:RegisterEvent("READY_CHECK")
+caelCore.events:HookScript("OnEvent", function(self, event)
 	if event == "READY_CHECK" then
 		PlaySoundFile([=[Sound\Interface\ReadyCheck.wav]=])
 	end

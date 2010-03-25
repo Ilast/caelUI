@@ -1,6 +1,6 @@
 ﻿--[[	$Id$	]]
 
-local _, caelConfig = ...
+local _, caelCore = ...
 
 --[[	Auto sell junk & auto repair	]]
 
@@ -18,8 +18,8 @@ end
 
 local oldMoney
 local itemCount = 0
-caelConfig.events:RegisterEvent("MERCHANT_SHOW")
-caelConfig.events:HookScript("OnEvent", function(self, event)
+caelCore.events:RegisterEvent("MERCHANT_SHOW")
+caelCore.events:HookScript("OnEvent", function(self, event)
 	if event == "MERCHANT_SHOW" then
 		oldMoney = GetMoney()
 		for bag = 0, 4 do

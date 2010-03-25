@@ -1,11 +1,11 @@
 ﻿--[[	$Id$	]]
 
-local _, caelConfig = ...
+local _, caelCore = ...
 
 --[[	Custom whisper sound	]]
 
-caelConfig.events:RegisterEvent("CHAT_MSG_WHISPER")
-caelConfig.events:HookScript("OnEvent", function(self, event)
+caelCore.events:RegisterEvent("CHAT_MSG_WHISPER")
+caelCore.events:HookScript("OnEvent", function(self, event)
 	if event == "CHAT_MSG_WHISPER" then
 		PlaySoundFile([=[Interface\Addons\caelMedia\Sounds\whisper.mp3]=])
 	end
