@@ -1,4 +1,4 @@
---[[	$Id: loot.lua 686 2010-03-19 09:47:09Z sdkyron@gmail.com $	]]
+--[[	$Id$	]]
 
 	for i = 1, NUM_GROUP_LOOT_FRAMES do
 	local frame = _G["GroupLootFrame"..i]
