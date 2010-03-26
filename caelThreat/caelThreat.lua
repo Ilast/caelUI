@@ -9,7 +9,6 @@ caelThreat.eventFrame = CreateFrame("Frame", nil, self)
 
 local warningSounds = true
 
-caelThreat.eventFrame:RegisterEvent("UNIT_THREAT_LIST_UPDATE")
 caelThreat.eventFrame:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE")
 caelThreat.eventFrame:SetScript("OnEvent", function(self, event, unit)
 	if unit ~= "player" then return end
