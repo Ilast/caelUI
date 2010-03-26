@@ -25,12 +25,12 @@ local FormatMemoryNumber = function(number)
 end
 
 local ColorizeLatency = function(number)
-	if number <= 100 then
-		return {r = 0, g = 1, b = 0}
-	elseif number <= 200 then
-		return {r = 1, g = 1, b = 0}
+	if number <= 25 then
+		return {r = 0.33, g = 0.59, b = 0.99}
+	elseif number <= 75 then
+		return {r = 0.65, g = 0.63, b = 0.35}
 	else
-		return {r = 1, g = 0, b = 0}
+		return {r = 0.69, g = 0.31, b = 0.31}
 	end
 end
 
@@ -55,10 +55,14 @@ caelStats.sysFrame:SetScript("OnUpdate", function(self, elapsed)
 	delay1 = delay1 - elapsed
 	delay2 = delay2 - elapsed
 
+	latency = select(3, GetNetStats())
+	latencyColor = ColorizeLatency(latency)
+
 	if delay1 < 0 then
 		UpdateMemory(self)
 		memText = FormatMemoryNumber(totalMemory)
-		lagText = string.format("%d |cffD7BEA5ms|r", select(3, GetNetStats()))
+
+		lagText = string.format("|cff%02x%02x%02x%s|r |cffD7BEA5ms|r", latencyColor.r * 255, latencyColor.g * 255, latencyColor.b * 255, latency)
 		delay1 = 5
 	end
 
