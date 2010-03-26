@@ -4,7 +4,7 @@
 ## Notes: Threat visual and audio warnings
 ## X-Revision: $Id$
 ## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
-## X-Category:
-## RequiredDeps: caelMedia
+## X-Category: Combat
+## RequiredDeps: caelMedia, caelPanels
 
 caelThreat.lua
