@@ -3,7 +3,7 @@
 ## Title: |cffD7BEA5cael|rDataFeeds
 ## Notes: Infos bar
 ## Dependencies: caelMedia
-## X-Revision: $Id: caelDataFeeds.toc 529 2010-03-06 16:57:36Z sdkyron@gmail.com $
+## X-Revision: $Id$
 ## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
 ## X-Category: Miscellaneous, Infos bar
 
