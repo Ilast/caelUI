@@ -18,8 +18,6 @@ assert(oUF, "oUF not loaded")
 local lastWarning
 local abs = math.abs
 
-local warningSounds = true -- false to disable audio warnings
-
 local Update = function(self, event, unit)
 	if (self.unit ~= unit) then return end
 	if(self.PreUpdateThreat) then self:PreUpdateThreat(event, unit) end
@@ -54,7 +52,6 @@ local Enable = function(self)
 		self.ThreatFeedbackFrame = ThreatFeedbackFrame
 	end
 	table.insert(self.__elements, Update)
-	self:RegisterEvent("UNIT_THREAT_LIST_UPDATE", Update)
 	self:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE", Update)
 
 	if (self.Threat) then
@@ -68,7 +65,6 @@ end
 
 local Disable = function(self)
 	if (self.ThreatFeedbackFrame) then
-		self:UnregisterEvent("UNIT_THREAT_LIST_UPDATE", Update)
 		self:UnregisterEvent("UNIT_THREAT_SITUATION_UPDATE", Update)
 	end
 end
