@@ -6,6 +6,6 @@
 ## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
 ## X-Category: UnitFrame
 ## RequiredDeps: oUF
-## OptionalDeps: oUF_CombatFeedback, oUF_ReadyCheck, oUF_SpellRange, oUF_ThreatFeedback, oUF_TotemBar, oUF_WeaponEnchant
+## OptionalDeps: oUF_CombatFeedback, oUF_ReadyCheck, oUF_SpellRange, oUF_TotemBar, oUF_WeaponEnchant
 
 oUF_Caellian.xml
