@@ -4,7 +4,7 @@ local _, caelPanels = ...
 
 caelPanels.eventFrame = CreateFrame("frame", nil, UIParent)
 
-local panels, n = {}, 1
+panels, n = {}, 1
 --	local fadePanels = {}
 local bgTexture = [=[Interface\ChatFrame\ChatFrameBackground]=]
 
@@ -21,6 +21,7 @@ caelPanels.createPanel = function(name, x, y, width, height, point, rpoint, anch
 		insets = {left = 2, right = 2, top = 2, bottom = 2}
 	})
 	panels[n]:SetBackdropColor(0, 0, 0, 0.5)
+	panels[n]:SetBackdropBorderColor(0, 0, 0)
 	panels[n]:Show()
 	n = n + 1
 end
@@ -36,7 +37,6 @@ caelPanels.createPanel("caelPanel7", 153, 20, 172, 60, "BOTTOM", "BOTTOM", UIPar
 caelPanels.createPanel("caelPanel8", 0, 2, 1124, 18, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- DataFeeds bar
 
 caelPanels.eventFrame:RegisterEvent("PLAYER_LOGIN")
-caelPanels.eventFrame:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE")
 caelPanels.eventFrame:SetScript("OnEvent", function(self, event)
 	if event == "PLAYER_LOGIN" then
 		if recDamageMeter then
@@ -69,20 +69,6 @@ caelPanels.eventFrame:SetScript("OnEvent", function(self, event)
 				gradientBottom:SetPoint("BOTTOMRIGHT", -2, 2)
 				gradientBottom:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.75, 0, 0, 0, 0)
 			end
-		end
-	elseif event == "UNIT_THREAT_SITUATION_UPDATE" then
-		local r, g, b
-		local status = UnitThreatSituation("player")
-
-		if (status and status > 0) then
-			r, g, b = GetThreatStatusColor(status)
-		else
-			r, g, b = 0, 0, 0
-		end
-
-		for i = 1, 11 do
-			local panel = panels[i]
-			if panel then panel:SetBackdropBorderColor(r, g, b) end
 		end
 	end
 --	for i = 4, 7 do
