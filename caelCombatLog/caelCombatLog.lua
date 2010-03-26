@@ -407,6 +407,7 @@ cCL:HookScript("OnEvent", function(self, event, timestamp, subEvent, sourceGUID,
 end)
 
 --		Output(scrollFrame, rsaFrame, color, text, rsaText, crit, isPet, prefix, suffix, tooltipMsg, throttle, noccl)
+--[[
 local oldstate = nil
 cCL:RegisterEvent("UNIT_AURA")
 cCL:HookScript("OnEvent", function(self, event)
@@ -420,7 +421,7 @@ cCL:HookScript("OnEvent", function(self, event)
 		oldstate = newstate
 	end
 end)
-
+--]]
 local UpdateThrottle = function(v, unit, spellName, elapsed)
 	if v.elapsed then
 		v.elapsed = v.elapsed + elapsed
