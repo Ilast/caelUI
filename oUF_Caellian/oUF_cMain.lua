@@ -507,10 +507,15 @@ local HidePortrait = function(self, unit)
 	end
 end
 
-local PostUpdateThreat = function(self, event, unit, status)
-	if not status or status == 0 then
-		self.ThreatFeedbackFrame:SetBackdropBorderColor(0, 0, 0)
-		self.ThreatFeedbackFrame:Show()
+local OverrideUpdateThreat = function(self, event, unit, status)
+	if (self.unit ~= unit) then return end
+
+	local status = UnitThreatSituation(unit)
+	if (status and status > 0) then
+		r, g, b = GetThreatStatusColor(status)
+		self.FrameBackdrop:SetBackdropBorderColor(r, g, b)
+	else
+		self.FrameBackdrop:SetBackdropBorderColor(0, 0, 0)
 	end
 end
 
@@ -547,7 +552,7 @@ local SetStyle = function(self, unit)
 	else
 		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, 4, -4)
 	end
-	self.ThreatFeedbackFrame = self.FrameBackdrop
+	self:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE", OverrideUpdateThreat)
 
 	self.Health = CreateFrame("StatusBar", self:GetName().."_Health", self)
 	self.Health:SetHeight((unit == "player" or unit == "target" or self:GetParent():GetName():match("oUF_Raid")) and 22 or self:GetAttribute("unitsuffix") == "pet" and 10 or 16)
@@ -1013,7 +1018,7 @@ local SetStyle = function(self, unit)
 	self.PostCreateEnchantIcon = CreateAura
 	self.PostUpdateAuraIcon = UpdateAura
 	self.PostUpdateEnchantIcons = CreateEnchantTimer
-	self.PostUpdateThreat = PostUpdateThreat
+	self.OverrideUpdateThreat = OverrideUpdateThreat
 
 	self:SetScale(settings.scale)
 	if self.Auras then self.Auras:SetScale(settings.scale) end
