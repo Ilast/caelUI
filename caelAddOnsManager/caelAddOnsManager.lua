@@ -9,7 +9,7 @@ local addons = {
 		"caelActionBars", "caelAddOnsManager", "caelBags", "caelBuffet", "caelCCBreak", "caelChat", "caelCombatLog", "caelCore", "caelEmote", "caelFactions", "caelInterrupt",
 		"caelMinimap", "caelNamePlates", "caelCooldowns", "caelMap", "caelMedia", "caelPanels", "caelQuests", "caelStats", "caelThreat", "caelTooltips",
 		"gotChat", "gotMacros",
-		"oUF", "oUF_Caellian", "oUF_CombatFeedback", "oUF_ReadyCheck", "oUF_SpellRange", "oUF_ThreatFeedback",
+		"oUF", "oUF_Caellian", "oUF_CombatFeedback", "oUF_ReadyCheck", "oUF_SpellRange",
 		"recReagents", "recScrollAreas", "recTimers", "Snoopy"
 	},
 	--[[---------------------------------------------------------------------------
