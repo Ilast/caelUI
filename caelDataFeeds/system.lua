@@ -24,18 +24,25 @@ local FormatMemoryNumber = function(number)
 	end
 end
 
+local latencyColor = {}
 local ColorizeLatency = function(number)
 	if number <= 25 then
-		return {r = 0.33, g = 0.59, b = 0.99}
+		latencyColor.r = 0.33
+		latencyColor.g = 0.59
+		latencyColor.b = 0.33
 	elseif number <= 75 then
-		return {r = 0.65, g = 0.63, b = 0.35}
+		latencyColor.r = 0.65
+		latencyColor.g = 0.63
+		latencyColor.b = 0.35
 	else
-		return {r = 0.69, g = 0.31, b = 0.31}
+		latencyColor.r = 0.69
+		latencyColor.g = 0.31
+		latencyColor.b = 0.31
 	end
 end
 
 local memory, addon, i
-local latency, latencyColor, totalMemory
+local latency, totalMemory
 local memText, lagText, fpsText
 local function UpdateMemory(self)
 	totalMemory = 0
@@ -56,7 +63,7 @@ caelDataFeeds.sysFrame:SetScript("OnUpdate", function(self, elapsed)
 	delay2 = delay2 - elapsed
 
 	latency = select(3, GetNetStats())
-	latencyColor = ColorizeLatency(latency)
+	ColorizeLatency(latency)
 
 	if delay1 < 0 then
 		UpdateMemory(self)
