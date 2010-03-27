@@ -510,7 +510,7 @@ end
 local OverrideUpdateThreat = function(self, event, unit, status)
 	if (self.unit ~= unit) then return end
 
-	local status = UnitThreatSituation(unit)
+	local status = UnitIsFriend("player", unit) and UnitThreatSituation(unit) or UnitThreatSituation("player", unit)
 	if (status and status > 0) then
 		r, g, b = GetThreatStatusColor(status)
 		self.FrameBackdrop:SetBackdropBorderColor(r, g, b)
@@ -552,6 +552,7 @@ local SetStyle = function(self, unit)
 	else
 		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, 4, -4)
 	end
+	self:RegisterEvent("UNIT_THREAT_LIST_UPDATE", OverrideUpdateThreat)
 	self:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE", OverrideUpdateThreat)
 
 	self.Health = CreateFrame("StatusBar", self:GetName().."_Health", self)
@@ -559,6 +560,7 @@ local SetStyle = function(self, unit)
 	self.Health:SetPoint("TOPLEFT")
 	self.Health:SetPoint("TOPRIGHT")
 	self.Health:SetStatusBarTexture(normtexa)
+	self.Health:GetStatusBarTexture():SetHorizTile(false)
 
 	self.Health.colorTapping = true
 	self.Health.colorDisconnected = true
@@ -599,6 +601,7 @@ local SetStyle = function(self, unit)
 		self.Power:SetPoint("BOTTOMLEFT")
 		self.Power:SetPoint("BOTTOMRIGHT")
 		self.Power:SetStatusBarTexture(normtexa)
+		self.Power:GetStatusBarTexture():SetHorizTile(false)
 
 		self.Power.colorTapping = true
 		self.Power.colorDisconnected = true
@@ -668,6 +671,7 @@ local SetStyle = function(self, unit)
 			for i = 1, 6 do
 				self.Runes[i] = CreateFrame("StatusBar", self:GetName().."_Runes"..i, self)
 				self.Runes[i]:SetStatusBarTexture(normtexa)
+				self.Runes[i]:GetStatusBarTexture():SetHorizTile(false)
 				self.Runes[i]:SetStatusBarColor(unpack(runeloadcolors[i]))
 
 				self.Runes[i].bd = self.Runes[i]:CreateTexture(nil, "BORDER")
@@ -690,6 +694,7 @@ local SetStyle = function(self, unit)
 					self.TotemBar[i]:SetPoint("TOPLEFT", self.TotemBar[i-1], "TOPRIGHT", 1, 0)
 				end
 				self.TotemBar[i]:SetStatusBarTexture(normtexa)
+				self.TotemBar[i]:GetStatusBarTexture():SetHorizTile(false)
 				self.TotemBar[i]:SetMinMaxValues(0, 1)
 
 				self.TotemBar[i].bg = self.TotemBar[i]:CreateTexture(nil, "BORDER")
@@ -805,6 +810,7 @@ local SetStyle = function(self, unit)
 			self.PortraitOverlay:SetPoint("TOPLEFT", self, 0, -23)
 			self.PortraitOverlay:SetPoint("BOTTOMRIGHT", self, 0, 8)
 			self.PortraitOverlay:SetStatusBarTexture(normtexa)
+			self.PortraitOverlay:GetStatusBarTexture():SetHorizTile(false)
 			self.PortraitOverlay:SetStatusBarColor(0.25, 0.25, 0.25, 0.5)
 
 			self.ThinLine1 = self.PortraitOverlay:CreateTexture(nil, "BORDER")
@@ -872,6 +878,7 @@ local SetStyle = function(self, unit)
 	if not (self:GetParent():GetName():match("oUF_Raid") or self:GetAttribute("unitsuffix") == "pet") then
 		self.Castbar = CreateFrame("StatusBar", self:GetName().."_Castbar", (unit == "player" or unit == "target") and self.Portrait or self.Power)
 		self.Castbar:SetStatusBarTexture(normtexa)
+		self.Castbar:GetStatusBarTexture():SetHorizTile(false)
 		self.Castbar:SetStatusBarColor(0.55, 0.57, 0.61, 0.75)
 
 		self.Castbar.bg = self.Castbar:CreateTexture(nil, "BORDER")
