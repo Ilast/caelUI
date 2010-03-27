@@ -26,8 +26,8 @@ caelDataFeeds.socialFrame:SetScript("OnUpdate", function(self, elapsed)
 	if delay < 0 then
 		if IsInGuild("player") then
 			GuildRoster()
-		else
-			self:SetScript("OnUpdate", nil)
+--		else
+--			self:SetScript("OnUpdate", nil)
 		end
 		delay = 15
 	end
@@ -109,8 +109,8 @@ caelDataFeeds.socialFrame:SetScript("OnEvent", function(self, event)
 				end
 			end
 			numOnlineGuildMembers = numOnlineGuildMembers - 1
-		else
-			self:SetScript("OnUpdate", nil)
+--		else
+--			self:SetScript("OnUpdate", nil)
 		end
 	elseif event == "FRIENDLIST_UPDATE" then
 		numOnlineFriends = 0
