@@ -331,6 +331,10 @@ local multiLocales = {
 }
 
 if playerClass ~= "HUNTER" then
+	if not gM_Macros then
+		gM_Macros = {}
+	end
+
 	for k, v in pairs(multiLocales) do
 		gM_Macros[k] = v
 	end
