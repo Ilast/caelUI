@@ -22,12 +22,10 @@ caelDataFeeds.clockFrame:SetScript("OnUpdate", function(self, elapsed)
 end)
 
 caelDataFeeds.clockFrame:SetScript("OnEvent", function(self, event)
-	if event == "CALENDAR_UPDATE_PENDING_INVITES" then
-		if _G.CalendarGetNumPendingInvites() > 0 then
-			caelDataFeeds.clock:SetTextColor(0.33, 0.59, 0.33)
-		else
-			caelDataFeeds.clock:SetTextColor(1, 1, 1)
-		end
+	if _G.CalendarGetNumPendingInvites() > 0 then
+		caelDataFeeds.clock:SetTextColor(0.33, 0.59, 0.33)
+	else
+		caelDataFeeds.clock:SetTextColor(1, 1, 1)
 	end
 end)
 

@@ -14,12 +14,10 @@ caelDataFeeds.mailFrame:RegisterEvent("UPDATE_PENDING_MAIL")
 caelDataFeeds.mailFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 caelDataFeeds.mailFrame:SetScript("OnEvent", function(self, event)
-	if event == "UPDATE_PENDING_MAIL" then
-		if HasNewMail() then
-			caelDataFeeds.mail:SetText("New mail", 1, 1, 1)
-		else
-			caelDataFeeds.mail:SetText("")
-		end
+	if HasNewMail() then
+		caelDataFeeds.mail:SetText("New mail", 1, 1, 1)
+	else
+		caelDataFeeds.mail:SetText("")
 	end
 end)
 

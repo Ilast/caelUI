@@ -12,15 +12,18 @@ caelDataFeeds.sysFrame:EnableMouse(true)
 caelDataFeeds.sysFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
 
 local Addons = {}
+
+local format = string.format
+
 local AddonsMemoryCompare = function(a, b)
 	return Addons[a] > Addons[b]
 end
 
 local FormatMemoryNumber = function(number)
 	if number > 1000 then
-		return string.format("%.2f |cffD7BEA5mb|r", number / 1000)
+		return format("%.2f |cffD7BEA5mb|r", number / 1000)
 	else
-		return string.format("%.1f |cffD7BEA5kb|r", number)
+		return format("%.1f |cffD7BEA5kb|r", number)
 	end
 end
 
@@ -69,12 +72,12 @@ caelDataFeeds.sysFrame:SetScript("OnUpdate", function(self, elapsed)
 		UpdateMemory(self)
 		memText = FormatMemoryNumber(totalMemory)
 
-		lagText = string.format("|cff%02x%02x%02x%s|r |cffD7BEA5ms|r", latencyColor.r * 255, latencyColor.g * 255, latencyColor.b * 255, latency)
+		lagText = format("|cff%02x%02x%02x%s|r |cffD7BEA5ms|r", latencyColor.r * 255, latencyColor.g * 255, latencyColor.b * 255, latency)
 		delay1 = 5
 	end
 
 	if delay2 < 0 then
-		fpsText = string.format("%.1f |cffD7BEA5fps|r", GetFramerate())
+		fpsText = format("%.1f |cffD7BEA5fps|r", GetFramerate())
 		caelDataFeeds.system:SetFormattedText("%s - %s - %s", memText, lagText, fpsText)
 		delay2 = 1
 	end

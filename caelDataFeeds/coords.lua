@@ -27,9 +27,7 @@ local ColorizePVPType = function(pvpType)
 end
 
 caelDataFeeds.coordsFrame:SetScript("OnEvent", function(self, event)
-	if event == "ZONE_CHANGED_NEW_AREA" then
-		SetMapToCurrentZone()
-	end
+	SetMapToCurrentZone()
 end)
 
 local delay = 0

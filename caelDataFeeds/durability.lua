@@ -29,23 +29,21 @@ local Slots = {
 }
 
 caelDataFeeds.duraFrame:SetScript("OnEvent", function(self, event)
-	if event == "UPDATE_INVENTORY_DURABILITY" then
-		for i = 1, 11 do
-			if GetInventoryItemLink("player", Slots[i][1]) ~= nil then
-				current, max = GetInventoryItemDurability(Slots[i][1])
-				if current then 
-					Slots[i][3] = current/max
-					Total = Total + 1
-				end
+	for i = 1, 11 do
+		if GetInventoryItemLink("player", Slots[i][1]) ~= nil then
+			current, max = GetInventoryItemDurability(Slots[i][1])
+			if current then 
+				Slots[i][3] = current/max
+				Total = Total + 1
 			end
 		end
-		table.sort(Slots, function(a, b) return a[3] < b[3] end)
-		
-		if Total > 0 then
-			caelDataFeeds.durability:SetFormattedText("|cffD7BEA5Dur|r %d%s", floor(Slots[1][3] * 100), "%")
-		else
-			caelDataFeeds.durability:SetText("100% |cffD7BEA5Armor|r")
-		end
+	end
+	table.sort(Slots, function(a, b) return a[3] < b[3] end)
+	
+	if Total > 0 then
+		caelDataFeeds.durability:SetFormattedText("|cffD7BEA5Dur|r %d%s", floor(Slots[1][3] * 100), "%")
+	else
+		caelDataFeeds.durability:SetText("100% |cffD7BEA5Armor|r")
 	end
 end)
 
