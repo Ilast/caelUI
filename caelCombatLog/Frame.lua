@@ -69,7 +69,7 @@ caelCombatLog.frame.collumns = {}
 for i = 1, 3 do
    local smf = CreateFrame("ScrollingMessageFrame", nil, caelCombatLog.frame)
     smf:SetMaxLines(1000)
-    smf:SetFont([=[Interface\Addons\caelMedia\Fonts\xenara rg.ttf]=], 9)
+    smf:SetFont([=[Interface\Addons\caelMedia\fonts\xenara rg.ttf]=], 9)
     smf:SetSpacing(2)
     smf:SetFading(true)
 	smf:SetFadeDuration(5)
