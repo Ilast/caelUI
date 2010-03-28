@@ -23,11 +23,11 @@ caelFonts.eventFrame:SetScript("OnEvent", function(self, event, addon)
 
 	if addon ~= "caelMedia" then return end
 
-	local NORMAL     = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=]
-	local BOLD       = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd bd.ttf]=]
-	local BOLDITALIC = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd bd it.ttf]=]
-	local ITALIC     = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg it.ttf]=]
-	local NUMBER     = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd bd.ttf]=]
+	local NORMAL     = [=[Interface\Addons\caelMedia\fonts\neuropol x cd rg.ttf]=]
+	local BOLD       = [=[Interface\Addons\caelMedia\fonts\neuropol x cd bd.ttf]=]
+	local BOLDITALIC = [=[Interface\Addons\caelMedia\fonts\neuropol x cd bd it.ttf]=]
+	local ITALIC     = [=[Interface\Addons\caelMedia\fonts\neuropol x cd rg it.ttf]=]
+	local NUMBER     = [=[Interface\Addons\caelMedia\fonts\neuropol x cd bd.ttf]=]
 
 	UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT = 12
 	CHAT_FONT_HEIGHTS = {7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24}
@@ -84,7 +84,7 @@ caelFonts.eventFrame:SetScript("OnEvent", function(self, event, addon)
 	for i = 1, NUM_CHAT_WINDOWS do
 		local frame =_G[format("ChatFrame%s", i)]
 		local _, size = frame:GetFont()
-		frame:SetFont([=[Interface\Addons\caelMedia\Fonts\xenara rg.ttf]=], size)
+		frame:SetFont([=[Interface\Addons\caelMedia\fonts\xenara rg.ttf]=], size)
 	end
 
 	hooksecurefunc("PlayerTitleFrame_UpdateTitles", FixTitleFont)
