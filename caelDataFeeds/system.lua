@@ -29,11 +29,11 @@ end
 
 local latencyColor = {}
 local ColorizeLatency = function(number)
-	if number <= 25 then
+	if number <= 50 then
 		latencyColor.r = 0.33
 		latencyColor.g = 0.59
 		latencyColor.b = 0.33
-	elseif number <= 75 then
+	elseif number <= 100 then
 		latencyColor.r = 0.65
 		latencyColor.g = 0.63
 		latencyColor.b = 0.35
