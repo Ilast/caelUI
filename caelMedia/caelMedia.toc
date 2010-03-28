@@ -1,9 +1,0 @@
-## Interface: 30300
-## Author: Caellian
-## Title: |cffD7BEA5cael|rMedia
-## Notes: Medias used in various addons
-## X-Revision: $Id$
-## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
-## X-Category: Miscellaneous
-
-caelFonts.lua
