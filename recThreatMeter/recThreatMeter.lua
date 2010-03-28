@@ -14,10 +14,10 @@ local need_reset = true
 local in_raid, in_party, warning_played, i_am_tank, target_okay
 local top_threat, overtake_threat, my_threat = 0, -1, -1
 local HIDDEN, TANKING, BLANK = "* %s", ">>> %s <<<", " "
-local WARNING		= [=[Interface\Addons\caelMedia\Sounds\warning.mp3]=]
-local AGGRO			= [=[Interface\Addons\caelMedia\Sounds\aggro.mp3]=]
-local bar_texture	= [=[Interface\Addons\caelMedia\StatusBars\normtexa]=]
-local fontName = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=]
+local WARNING		= [=[Interface\Addons\caelMedia\sounds\warning.mp3]=]
+local AGGRO			= [=[Interface\Addons\caelMedia\sounds\aggro.mp3]=]
+local bar_texture	= [=[Interface\Addons\caelMedia\statusbars\normtexa]=]
+local fontName = [=[Interface\Addons\caelMedia\fonts\neuropol x cd rg.ttf]=]
 
 local recycle_bin = {}
 local function Recycler(trash_table)
