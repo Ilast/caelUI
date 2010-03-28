@@ -513,3 +513,15 @@ cCL:HookScript("OnEvent", function(self, event)
 		end
 	end
 end)
+
+cCL:RegisterEvent("UNIT_COMBO_POINTS")
+cCL:HookScript("OnEvent", function(self, event)
+	if event == "UNIT_COMBO_POINTS" then
+		local comboPoints = GetComboPoints("player", "target")
+		if comboPoints > 0 and comboPoints ~= MAX_COMBO_POINTS then
+			PlaySoundFile([=[Interface\Addons\caelMedia\sounds\combo.mp3]=])
+		elseif comboPoints == MAX_COMBO_POINTS then
+			PlaySoundFile([=[Interface\Addons\caelMedia\sounds\finish.mp3]=])
+		end
+	end
+end)
