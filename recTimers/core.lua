@@ -7,11 +7,11 @@ local mod = mod
 local format = string.format
 local pairs = pairs
 local UnitBuff, UnitDebuff = UnitBuff, UnitDebuff
-local font_face    = [=[Interface\AddOns\caelMedia\Fonts\neuropol x cd rg.ttf]=]
+local font_face    = [=[Interface\AddOns\caelMedia\fonts\neuropol x cd rg.ttf]=]
 local font_size    = 8
 local font_outline = ""
-local texture      = [=[Interface\AddOns\caelMedia\StatusBars\normtexa.tga]=]
-local edge_file    = [=[Interface\AddOns\caelMedia\Miscellaneous\glowtex.tga]=]
+local texture      = [=[Interface\AddOns\caelMedia\statusbars\normtexa.tga]=]
+local edge_file    = [=[Interface\AddOns\caelMedia\borders\glowtex.tga]=]
 local bg_file      = [=[Interface\ChatFrame\ChatFrameBackground]=]
 --[[
 local aura_colors  = {
