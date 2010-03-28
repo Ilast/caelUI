@@ -3,7 +3,7 @@
 local _, caelDataFeeds = ...
 
 caelDataFeeds.lfg = caelPanel8:CreateFontString(nil, "OVERLAY")
-caelDataFeeds.lfg:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 10)
+caelDataFeeds.lfg:SetFont([=[Interface\Addons\caelMedia\fonts\neuropol x cd rg.ttf]=], 10)
 caelDataFeeds.lfg:SetPoint("CENTER", caelPanel8, "CENTER", -150, 1) 
 
 caelDataFeeds.lfgFrame = CreateFrame("Frame", nil, UIParent)

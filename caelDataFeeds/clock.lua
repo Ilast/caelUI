@@ -3,7 +3,7 @@
 local _, caelDataFeeds = ...
 
 caelDataFeeds.clock = caelPanel8:CreateFontString(nil, "OVERLAY")
-caelDataFeeds.clock:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 10)
+caelDataFeeds.clock:SetFont([=[Interface\Addons\caelMedia\fonts\neuropol x cd rg.ttf]=], 10)
 caelDataFeeds.clock:SetPoint("RIGHT", caelPanel8, "RIGHT", -10, 1) 
 
 caelDataFeeds.clockFrame = CreateFrame("Frame", nil, UIParent)

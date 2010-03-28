@@ -5,7 +5,7 @@ if UnitLevel("player") == 80 then return end
 local _, caelDataFeeds = ...
 
 caelDataFeeds.experience = caelPanel3:CreateFontString(nil, "OVERLAY")
-caelDataFeeds.experience:SetFont([=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 10)
+caelDataFeeds.experience:SetFont([=[Interface\Addons\caelMedia\fonts\neuropol x cd rg.ttf]=], 10)
 caelDataFeeds.experience:SetPoint("BOTTOM", caelPanel3, "BOTTOM", 0, 5)
 
 caelDataFeeds.expFrame = CreateFrame("Frame", nil, UIParent)
