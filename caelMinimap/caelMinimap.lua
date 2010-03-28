@@ -46,7 +46,7 @@ Minimap:SetScript("OnEvent", function(self, event, ...)
 }
 	self:SetBackdropColor(0, 0, 0, 1)
 	self:SetMaskTexture([=[Interface\ChatFrame\ChatFrameBackground]=])
-	self:SetBlipTexture([=[Interface\Addons\caelMedia\Miscellaneous\charmed.tga]=])
+	self:SetBlipTexture([=[Interface\Addons\caelMedia\miscellaneous\charmed.tga]=])
 
 	MinimapCluster:EnableMouse(false)
 
