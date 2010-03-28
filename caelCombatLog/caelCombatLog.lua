@@ -288,6 +288,7 @@ cCL:HookScript("OnEvent", function(self, event, timestamp, subEvent, sourceGUID,
 
 			if spellName == "Lock and Load" then
 				rsaFrame = "Notification"
+				PlaySoundFile([=[Interface\Addons\caelMedia\sounds\lnl.mp3]=])
 			end
 
 			if not (throttledSpells[spellName] and throttledSpells[spellName][unitDirection]) then
