@@ -10,7 +10,7 @@ local Kill = function(object)
 	object:Hide()
 end
 
-local fontName = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=]
+local fontName = [=[Interface\Addons\caelMedia\fonts\neuropol x cd rg.ttf]=]
 
 local Player = WorldMapButton:CreateFontString(nil, "ARTWORK")
 Player:SetPoint("TOPLEFT", WorldMapButton, 0, 40)
@@ -124,7 +124,7 @@ local function setupMap(self)
 	WorldMapDetailFrame.bg:SetPoint("BOTTOMRIGHT", 10, -10)
 	WorldMapDetailFrame.bg:SetBackdrop({
 		bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
-		edgeFile = [=[Interface\Addons\caelMedia\Miscellaneous\glowtex]=], edgeSize = 4,
+		edgeFile = [=[Interface\Addons\caelMedia\borders\glowtex]=], edgeSize = 4,
 		insets = {left = 3, right = 3, top = 3, bottom = 3}
 	})
 	WorldMapDetailFrame.bg:SetFrameStrata("BACKGROUND")
@@ -168,15 +168,15 @@ caelMap.eventFrame:SetScript("OnEvent", function(self, event, ...)
 	if event == "RAID_ROSTER_UPDATE" or event == "PARTY_MEMBERS_CHANGED" then
 		for r = 1, 40 do
 			if UnitInParty(_G["WorldMapRaid"..r].unit) then
-				_G["WorldMapRaid"..r].icon:SetTexture([=[Interface\Addons\caelMedia\Miscellaneous\partyicon]=])
+				_G["WorldMapRaid"..r].icon:SetTexture([=[Interface\Addons\caelMedia\miscellaneous\partyicon]=])
 			else
-				_G["WorldMapRaid"..r].icon:SetTexture([=[Interface\Addons\caelMedia\Miscellaneous\raidicon]=])
+				_G["WorldMapRaid"..r].icon:SetTexture([=[Interface\Addons\caelMedia\miscellaneous\raidicon]=])
 			end
 			_G["WorldMapRaid"..r]:SetScript("OnUpdate", caelMap_OnUpdate)
 		end
 
 		for p = 1, 4 do
-			_G["WorldMapParty"..p].icon:SetTexture([=[Interface\Addons\caelMedia\Miscellaneous\partyicon]=])
+			_G["WorldMapParty"..p].icon:SetTexture([=[Interface\Addons\caelMedia\miscellaneous\partyicon]=])
 			_G["WorldMapParty"..p]:SetScript("OnUpdate", caelMap_OnUpdate)
 		end
 	elseif event == "PLAYER_ENTERING_WORLD" then
