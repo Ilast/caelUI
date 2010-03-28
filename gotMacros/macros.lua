@@ -63,7 +63,8 @@ if GetLocale() == "enUS" then
 				body = [=[/cast [target=pettarget, exists] Kill Command
 					/cast [target=pettarget, exists] Bestial Wrath
 					/cast Blood Fury
-					/cast Berserking]=],
+					/cast Berserking
+					/use 10]=],
 				nosound = true,
 			},
 			["Foc"] = {
