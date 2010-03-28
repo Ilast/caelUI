@@ -2,7 +2,7 @@
 
 local _, caelCooldowns = ...
 
-local font, fontSize, fontOutline = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=], 12, "OUTLINE"
+local font, fontSize, fontOutline = [=[Interface\Addons\caelMedia\fonts\neuropol x cd rg.ttf]=], 12, "OUTLINE"
 local minScale = 0.5
 local minDuration = 1.5
 
