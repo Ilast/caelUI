@@ -49,7 +49,7 @@ caelThreat.eventFrame:SetScript("OnEvent", function(self, event, unit)
 		if (abs(threatpct - 80) <= 5) then
 			if (lastWarning ~= 85) then
 				if warningSounds then
-					PlaySoundFile([=[Interface\Addons\caelMedia\Sounds\warning.mp3]=])
+					PlaySoundFile([=[Interface\Addons\caelMedia\sounds\warning.mp3]=])
 				end
 				RaidNotice_AddMessage(RaidWarningFrame, "|cffB46E46".."WARNING THREAT: "..tostring(threatpct).."%|r", ChatTypeInfo["RAID_WARNING"]) -- Orange
 				UIFrameFlash(LowHealthFrame, 0.2, 0.2, 0.4, false)
@@ -58,7 +58,7 @@ caelThreat.eventFrame:SetScript("OnEvent", function(self, event, unit)
 		end
 	elseif (status and status > 2 and unit == "player") then
 		if warningSounds then
-			PlaySoundFile([=[Interface\Addons\caelMedia\Sounds\aggro.mp3]=])
+			PlaySoundFile([=[Interface\Addons\caelMedia\sounds\aggro.mp3]=])
 		end
 		RaidNotice_AddMessage(RaidWarningFrame, "|cffAF5050AGGRO|r", ChatTypeInfo["RAID_WARNING"]) -- Red
 		UIFrameFlash(LowHealthFrame, 0.2, 0.2, 0.8, false)
