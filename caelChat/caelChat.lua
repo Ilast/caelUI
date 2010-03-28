@@ -1,15 +1,15 @@
-﻿--[[	$Id: caelChat.lua 576 2010-03-07 19:37:00Z sdkyron@gmail.com $	]]
+﻿--[[	$Id$	]]
 
 local _, caelChat = ...
 
 caelChat.eventFrame = CreateFrame("Frame", nil, UIParent)
 
 local bgTexture = [=[Interface\ChatFrame\ChatFrameBackground]=]
-local fontName = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=]
+local fontName = [=[Interface\Addons\caelMedia\fonts\neuropol x cd rg.ttf]=]
 
 local backdrop = {
 	bgFile = bgTexture,
-	edgeFile = [=[Interface\Addons\caelMedia\Miscellaneous\glowtex]=], edgeSize = 2,
+	edgeFile = [=[Interface\Addons\caelMedia\borders\glowtex]=], edgeSize = 2,
 	insets = {left = 2, right = 2, top = 2, bottom = 2}
 }
 
