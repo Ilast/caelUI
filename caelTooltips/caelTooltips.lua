@@ -7,7 +7,7 @@ caelTooltips = CreateFrame("Frame", nil, UIParent)
 local _G = getfenv(0)
 local orig1, orig2 = {}, {}
 local height
-local fontName = [=[Interface\Addons\caelMedia\Fonts\neuropol x cd rg.ttf]=]
+local fontName = [=[Interface\Addons\caelMedia\fonts\neuropol x cd rg.ttf]=]
 local bgTexture = [=[Interface\ChatFrame\ChatFrameBackground]=]
 
 --local theOneScale = (768/tonumber(GetCVar("gxResolution"):match("%d+x(%d+)")))/GetCVar("uiScale")
@@ -32,7 +32,7 @@ local classification = {
 
 local backdrop = {
 	bgFile = bgTexture,
-	edgeFile = [=[Interface\Addons\caelMedia\Miscellaneous\glowtex]=], edgeSize = 2,
+	edgeFile = [=[Interface\Addons\caelMedia\borders\glowtex]=], edgeSize = 2,
 	insets = {left = 2, right = 2, top = 2, bottom = 2}
 }
 
