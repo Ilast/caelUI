@@ -48,6 +48,7 @@ local bindings = {
 	["M"] = "TOGGLEWORLDMAP",
 	["X"] = "SITORSTAND",
 	["Y"] = "TOGGLEACHIEVEMENT",
+	["H"] = "TOGGLECHARACTER4",
 	["²"] = "INSPECT",
 	["*"] = "TOGGLERUN",
 	[":"] = "TOGGLELFGPARENT",
@@ -59,6 +60,8 @@ local bindings = {
 	["MOUSEWHEELUP"] = "CAMERAZOOMIN",
 	["MOUSEWHEELDOWN"] = "CAMERAZOOMOUT",
 }
+
+PVPParentFrame:HookScript("OnShow", function() PVPParentFrameTab2:Click() end)
 
 local event_frame = CreateFrame("Frame")
 event_frame:RegisterEvent("PLAYER_ENTERING_WORLD")
