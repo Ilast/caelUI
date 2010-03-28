@@ -1,4 +1,4 @@
-﻿--[[	$Id: caelFonts.lua 631 2010-03-14 23:29:33Z sdkyron@gmail.com $	]]
+﻿--[[	$Id$	]]
 
 local _, caelFonts = ...
 
