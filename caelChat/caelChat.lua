@@ -341,14 +341,14 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 				btn.t:SetTextColor(1, 1, 1)
 				btn.t:SetText(txt)
 
-				btn:SetBackdrop(caelMedia.files.backdropTable)
+				btn:SetBackdrop(caelMedia.backdropTable)
 				btn:SetBackdropColor(0, 0, 0, 0.15)
 				btn:SetBackdropBorderColor(0, 0, 0)
 
 --				Create the flash frame
 				btn.flash = CreateFrame("Frame", format("ChatButton%sFlash", id), btn)
 				btn.flash:SetAllPoints()
-				btn.flash:SetBackdrop(caelMedia.files.backdropTable)
+				btn.flash:SetBackdrop(caelMedia.backdropTable)
 				btn.flash:SetBackdropColor(0.69, 0.31, 0.31, 0.5)
 				btn.flash:SetBackdropBorderColor(0, 0, 0)
 				btn.flash.frequency = .025
