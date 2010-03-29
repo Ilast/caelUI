@@ -3,7 +3,7 @@
 local _, caelDataFeeds = ...
 
 caelDataFeeds.durability = caelPanel8:CreateFontString(nil, "OVERLAY")
-caelDataFeeds.durability:SetFont([=[Interface\Addons\caelMedia\fonts\neuropol x cd rg.ttf]=], 10)
+caelDataFeeds.durability:SetFont(caelMedia.files.fontRg, 10)
 caelDataFeeds.durability:SetPoint("CENTER", caelPanel8, "CENTER", 225, 1) 
 
 caelDataFeeds.duraFrame = CreateFrame("Frame", nil, UIParent)
