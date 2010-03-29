@@ -253,7 +253,7 @@ caelTooltips:SetScript("OnEvent", function(self)
 	for _, v in ipairs(Tooltips) do
 		v:HookScript("OnShow", ApplyGradient)
 
-		v:SetBackdrop(caelMedia.files.backdropTable)
+		v:SetBackdrop(caelMedia.backdropTable)
 --		v:SetScale(theOneScale)
 	end
 
