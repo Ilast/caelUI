@@ -2,7 +2,7 @@
 
 local _, caelDataFeeds = ...
 
-function Create()
+function createModule()
     local fontString = caelPanel8:CreateFontString(nil, "OVERLAY")
     fontString:SetFont(caelMedia.files.fontRg, 10)
 
