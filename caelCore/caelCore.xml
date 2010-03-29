@@ -16,5 +16,4 @@
 	<Script file="modules\UIerrorsFrame.lua"/>
 	<Script file="modules\vehicle.lua"/>
 	<Script file="modules\watchFrame.lua"/>
-	<Script file="modules\whisper.lua"/>
 </Ui>
