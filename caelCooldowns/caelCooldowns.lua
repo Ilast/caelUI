@@ -2,7 +2,6 @@
 
 local _, caelCooldowns = ...
 
-local font, fontSize, fontOutline = [=[Interface\Addons\caelMedia\fonts\neuropol x cd rg.ttf]=], 12, "OUTLINE"
 local minScale = 0.5
 local minDuration = 1.5
 
@@ -60,7 +59,7 @@ local timerCreate = function(self)
 	else
 		local text = self:CreateFontString(nil, "OVERLAY")
 		text:SetPoint("CENTER", 0, 1)
-		text:SetFont(font, fontSize * scale, fontOutline)
+		text:SetFont(caelMedia.files.fontRg, 12 * scale, "OUTLINE")
 		text:SetTextColor(0.84, 0.75, 0.65)
 		
 		self.text = text
