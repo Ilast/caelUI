@@ -1,15 +1,11 @@
---[[	$Id$	]]
+--[[	$Id: clock.lua 818 2010-03-29 06:52:53Z sdkyron@gmail.com $	]]
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.clock = caelPanel8:CreateFontString(nil, "OVERLAY")
-caelDataFeeds.clock:SetFont(caelMedia.files.fontRg, 10)
-caelDataFeeds.clock:SetPoint("RIGHT", caelPanel8, "RIGHT", -10, 1) 
+caelDataFeeds.clock, caelDataFeeds.clockFrame = Create()
 
-caelDataFeeds.clockFrame = CreateFrame("Frame", nil, UIParent)
-caelDataFeeds.clockFrame:SetAllPoints(caelDataFeeds.clock)
-caelDataFeeds.clockFrame:EnableMouse(true)
-caelDataFeeds.clockFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
+caelDataFeeds.clock:SetPoint("RIGHT", caelPanel8, "RIGHT", -10, 1)
+
 caelDataFeeds.clockFrame:RegisterEvent("CALENDAR_UPDATE_PENDING_INVITES")
 
 local delay = 0

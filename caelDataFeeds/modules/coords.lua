@@ -1,15 +1,11 @@
---[[	$Id$	]]
+--[[	$Id: coords.lua 818 2010-03-29 06:52:53Z sdkyron@gmail.com $	]]
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.coords = caelPanel8:CreateFontString(nil, "OVERLAY")
-caelDataFeeds.coords:SetFont(caelMedia.files.fontRg, 10)
-caelDataFeeds.coords:SetPoint("CENTER", caelPanel8, "CENTER", 425, 1) 
+caelDataFeeds.coords, caelDataFeeds.coordsFrame = Create()
 
-caelDataFeeds.coordsFrame = CreateFrame("Frame", nil, UIParent)
-caelDataFeeds.coordsFrame:SetAllPoints(caelDataFeeds.coords)
-caelDataFeeds.coordsFrame:EnableMouse(true)
-caelDataFeeds.coordsFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
+caelDataFeeds.coords:SetPoint("CENTER", caelPanel8, "CENTER", 425, 1)
+
 caelDataFeeds.coordsFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 
 local ColorizePVPType = function(pvpType)
@@ -36,7 +32,7 @@ caelDataFeeds.coordsFrame:SetScript("OnUpdate", function(self, elapsed)
 	if delay <= 0 then
 	local x, y = GetPlayerMapPosition("player")
 		if x == 0 and y == 0 then
-			caelDataFeeds.coords:SetText("")
+			coords:SetText("")
 		else
 --			caelDataFeeds.coords:SetFormattedText("|cffD7BEA5Loc|r %.0f, %.0f", x * 100, y * 100)
 			caelDataFeeds.coords:SetFormattedText("|cffD7BEA5x|r %0.1f |cffD7BEA5y|r %0.1f", x * 100, y * 100)

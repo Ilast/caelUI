@@ -1,16 +1,12 @@
---[[	$Id$	]]
+--[[	$Id: durability.lua 818 2010-03-29 06:52:53Z sdkyron@gmail.com $	]]
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.durability = caelPanel8:CreateFontString(nil, "OVERLAY")
-caelDataFeeds.durability:SetFont(caelMedia.files.fontRg, 10)
+caelDataFeeds.durability, caelDataFeeds.durabilityFrame = Create()
+
 caelDataFeeds.durability:SetPoint("CENTER", caelPanel8, "CENTER", 225, 1) 
 
-caelDataFeeds.duraFrame = CreateFrame("Frame", nil, UIParent)
-caelDataFeeds.duraFrame:EnableMouse(true)
-caelDataFeeds.duraFrame:SetAllPoints(caelDataFeeds.durability)
-caelDataFeeds.duraFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
-caelDataFeeds.duraFrame:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
+caelDataFeeds.durabilityFrame:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
 
 local Total = 0
 local current, max
@@ -28,7 +24,7 @@ local Slots = {
     [11] = {18, "Ranged", 1000}
 }
 
-caelDataFeeds.duraFrame:SetScript("OnEvent", function(self, event)
+caelDataFeeds.durabilityFrame:SetScript("OnEvent", function(self, event)
 	for i = 1, 11 do
 		if GetInventoryItemLink("player", Slots[i][1]) ~= nil then
 			current, max = GetInventoryItemDurability(Slots[i][1])
@@ -47,7 +43,7 @@ caelDataFeeds.duraFrame:SetScript("OnEvent", function(self, event)
 	end
 end)
 
-caelDataFeeds.duraFrame:SetScript("OnEnter", function(self)
+caelDataFeeds.durabilityFrame:SetScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
 	for i = 1, 11 do

@@ -1,15 +1,11 @@
-﻿--[[	$Id$	]]
+﻿--[[	$Id: social.lua 818 2010-03-29 06:52:53Z sdkyron@gmail.com $	]]
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.social = caelPanel8:CreateFontString(nil, "OVERLAY")
-caelDataFeeds.social:SetFont(caelMedia.files.fontRg, 10)
+caelDataFeeds.social, caelDataFeeds.socialFrame = Create()
+
 caelDataFeeds.social:SetPoint("CENTER", caelPanel8, "CENTER", 325, 1) 
 
-caelDataFeeds.socialFrame = CreateFrame("Frame", nil, UIParent)
-caelDataFeeds.socialFrame:SetAllPoints(caelDataFeeds.social)
-caelDataFeeds.socialFrame:EnableMouse(true)
-caelDataFeeds.socialFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
 caelDataFeeds.socialFrame:RegisterEvent("FRIENDLIST_UPDATE")
 caelDataFeeds.socialFrame:RegisterEvent("GUILD_ROSTER_UPDATE")
 

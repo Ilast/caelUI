@@ -1,15 +1,11 @@
---[[	$Id$	]]
+--[[	$Id: mail.lua 818 2010-03-29 06:52:53Z sdkyron@gmail.com $	]]
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.mail = caelPanel8:CreateFontString(nil, "OVERLAY")
-caelDataFeeds.mail:SetFont(caelMedia.files.fontRg, 10)
+caelDataFeeds.mail, caelDataFeeds.mailFrame = Create()
+
 caelDataFeeds.mail:SetPoint("CENTER", caelPanel8, "CENTER", 0, 1)
 
-caelDataFeeds.mailFrame = CreateFrame("Frame", nil, UIParent)
-caelDataFeeds.mailFrame:SetAllPoints(caelDataFeeds.mail)
-caelDataFeeds.mailFrame:EnableMouse(true)
-caelDataFeeds.mailFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
 caelDataFeeds.mailFrame:RegisterEvent("UPDATE_PENDING_MAIL")
 caelDataFeeds.mailFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 

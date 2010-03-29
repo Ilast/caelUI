@@ -1,15 +1,11 @@
---[[	$Id$	]]
+--[[	$Id: gold.lua 818 2010-03-29 06:52:53Z sdkyron@gmail.com $	]]
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.gold = caelPanel8:CreateFontString(nil, "OVERLAY")
-caelDataFeeds.gold:SetFont(caelMedia.files.fontRg, 10)
+caelDataFeeds.gold, caelDataFeeds.goldFrame = Create()
+
 caelDataFeeds.gold:SetPoint("CENTER", caelPanel8, "CENTER", -300, 1) 
 
-caelDataFeeds.goldFrame = CreateFrame("Frame", nil, UIParent)
-caelDataFeeds.goldFrame:SetAllPoints(caelDataFeeds.gold)
-caelDataFeeds.goldFrame:EnableMouse(true)
-caelDataFeeds.goldFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
 caelDataFeeds.goldFrame:RegisterEvent("PLAYER_MONEY")
 caelDataFeeds.goldFrame:RegisterEvent("PLAYER_TRADE_MONEY")
 caelDataFeeds.goldFrame:RegisterEvent("TRADE_MONEY_CHANGED")

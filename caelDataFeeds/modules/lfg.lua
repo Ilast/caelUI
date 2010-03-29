@@ -1,15 +1,11 @@
-﻿--[[	$Id$	]]
+﻿--[[	$Id: lfg.lua 818 2010-03-29 06:52:53Z sdkyron@gmail.com $	]]
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.lfg = caelPanel8:CreateFontString(nil, "OVERLAY")
-caelDataFeeds.lfg:SetFont(caelMedia.files.fontRg, 10)
+caelDataFeeds.lfg, caelDataFeeds.lfgFrame = Create()
+
 caelDataFeeds.lfg:SetPoint("CENTER", caelPanel8, "CENTER", -150, 1) 
 
-caelDataFeeds.lfgFrame = CreateFrame("Frame", nil, UIParent)
-caelDataFeeds.lfgFrame:SetAllPoints(caelDataFeeds.lfg)
-caelDataFeeds.lfgFrame:EnableMouse(true)
-caelDataFeeds.lfgFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
 caelDataFeeds.lfgFrame:RegisterEvent("LFG_UPDATE")
 caelDataFeeds.lfgFrame:RegisterEvent("UPDATE_LFG_LIST")
 caelDataFeeds.lfgFrame:RegisterEvent("LFG_PROPOSAL_UPDATE")
@@ -70,6 +66,6 @@ caelDataFeeds.lfgFrame:SetScript("OnMouseDown", function(self, button)
 
 		MiniMapLFGFrameDropDown.point = "BOTTOM"
 		MiniMapLFGFrameDropDown.relativePoint = "TOP"
-		ToggleDropDownMenu(1, nil, MiniMapLFGFrameDropDown, caelDataFeeds.lfgFrame, 0, 0)
+		ToggleDropDownMenu(1, nil, MiniMapLFGFrameDropDown, lfgFrame, 0, 0)
 	end
 end)

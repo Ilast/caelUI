@@ -1,17 +1,13 @@
---[[	$Id$	]]
+--[[	$Id: experience.lua 818 2010-03-29 06:52:53Z sdkyron@gmail.com $	]]
 
 if UnitLevel("player") == 80 then return end
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.experience = caelPanel3:CreateFontString(nil, "OVERLAY")
-caelDataFeeds.experience:SetFont(caelMedia.files.fontRg, 10)
+caelDataFeeds.experience, expFrame = Create()
+
 caelDataFeeds.experience:SetPoint("BOTTOM", caelPanel3, "BOTTOM", 0, 5)
 
-caelDataFeeds.expFrame = CreateFrame("Frame", nil, UIParent)
-caelDataFeeds.expFrame:SetAllPoints(caelDataFeeds.experience)
-caelDataFeeds.expFrame:EnableMouse(true)
-caelDataFeeds.expFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
 caelDataFeeds.expFrame:RegisterEvent("UNIT_PET")
 caelDataFeeds.expFrame:RegisterEvent("UNIT_LEVEL")
 caelDataFeeds.expFrame:RegisterEvent("UNIT_EXPERIENCE")

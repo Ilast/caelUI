@@ -1,15 +1,10 @@
---[[	$Id$	]]
+--[[	$Id: system.lua 818 2010-03-29 06:52:53Z sdkyron@gmail.com $	]]
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.system = caelPanel8:CreateFontString(nil, "OVERLAY")
-caelDataFeeds.system:SetFont(caelMedia.files.fontRg, 10)
-caelDataFeeds.system:SetPoint("LEFT", caelPanel8, "LEFT", 10, 1)
+caelDataFeeds.system, caelDataFeeds.sysFrame = Create()
 
-caelDataFeeds.sysFrame = CreateFrame("Frame", nil, UIParent)
-caelDataFeeds.sysFrame:SetAllPoints(caelDataFeeds.system)
-caelDataFeeds.sysFrame:EnableMouse(true)
-caelDataFeeds.sysFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
+caelDataFeeds.system:SetPoint("LEFT", caelPanel8, "LEFT", 10, 1)
 
 local Addons = {}
 

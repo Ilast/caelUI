@@ -1,16 +1,12 @@
---[[	$Id$	]]
+--[[	$Id: dps.lua 818 2010-03-29 06:52:53Z sdkyron@gmail.com $	]]
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.dps = caelPanel8:CreateFontString(nil, "OVERLAY")
-caelDataFeeds.dps:SetFont(caelMedia.files.fontRg, 10)
+caelDataFeeds.dps, caelDataFeeds.dpsFrame = Create()
+
 caelDataFeeds.dps:SetPoint("CENTER", caelPanel8, "CENTER", 125, 1)
 caelDataFeeds.dps:SetText("|cffD7BEA5DPS|r 0")
 
-caelDataFeeds.dpsFrame = CreateFrame("Frame", nil, UIParent)
-caelDataFeeds.dpsFrame:SetAllPoints(caelDataFeeds.dps)
-caelDataFeeds.dpsFrame:EnableMouse(true)
-caelDataFeeds.dpsFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
 caelDataFeeds.dpsFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
 caelDataFeeds.dpsFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
 
