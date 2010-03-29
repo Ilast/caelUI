@@ -7,17 +7,15 @@ caelTooltips = CreateFrame("Frame", nil, UIParent)
 local _G = getfenv(0)
 local orig1, orig2 = {}, {}
 local height
-local fontName = [=[Interface\Addons\caelMedia\fonts\neuropol x cd rg.ttf]=]
-local bgTexture = [=[Interface\ChatFrame\ChatFrameBackground]=]
 
 --local theOneScale = (768/tonumber(GetCVar("gxResolution"):match("%d+x(%d+)")))/GetCVar("uiScale")
 local GameTooltip, GameTooltipStatusBar = _G["GameTooltip"], _G["GameTooltipStatusBar"]
 
 local gsub, find, format = string.gsub, string.find, string.format
 
-_G["GameTooltipHeaderText"]:SetFont(fontName, 10)
-_G["GameTooltipText"]:SetFont(fontName, 10)
-_G["GameTooltipTextSmall"]:SetFont(fontName, 9)
+_G["GameTooltipHeaderText"]:SetFont(caelMedia.files.fontRg, 10)
+_G["GameTooltipText"]:SetFont(caelMedia.files.fontRg, 10)
+_G["GameTooltipTextSmall"]:SetFont(caelMedia.files.fontRg, 9)
 
 local Tooltips = {GameTooltip, ItemRefTooltip, ShoppingTooltip1, ShoppingTooltip2, ShoppingTooltip3, WorldMapTooltip}
 
@@ -28,12 +26,6 @@ local classification = {
 	eliterare = "|cffAF5050+ Rare|r",
 	elite = "|cffAF5050+|r",
 	rare = "|cffAF5050Rare|r",
-}
-
-local backdrop = {
-	bgFile = bgTexture,
-	edgeFile = [=[Interface\Addons\caelMedia\borders\glowtex]=], edgeSize = 2,
-	insets = {left = 2, right = 2, top = 2, bottom = 2}
 }
 
 local OnHyperlinkEnter = function(frame, link, ...)
@@ -230,11 +222,11 @@ local BorderColor = function(self)
 end
 
 local gradientTop = caelTooltips:CreateTexture(nil, "BORDER")
-gradientTop:SetTexture(bgTexture)
+gradientTop:SetTexture(caelMedia.files.bgFile)
 gradientTop:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.5)
 
 local gradientBottom = caelTooltips:CreateTexture(nil, "BORDER")
-gradientBottom:SetTexture(bgTexture)
+gradientBottom:SetTexture(caelMedia.files.bgFile)
 gradientBottom:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.75, 0, 0, 0, 0)
 
 local ApplyGradient = function(self)
@@ -261,7 +253,7 @@ caelTooltips:SetScript("OnEvent", function(self)
 	for _, v in ipairs(Tooltips) do
 		v:HookScript("OnShow", ApplyGradient)
 
-		v:SetBackdrop(backdrop)
+		v:SetBackdrop(caelMedia.files.backdropTable)
 --		v:SetScale(theOneScale)
 	end
 
