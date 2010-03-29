@@ -7,12 +7,6 @@ local mod = mod
 local format = string.format
 local pairs = pairs
 local UnitBuff, UnitDebuff = UnitBuff, UnitDebuff
-local font_face    = [=[Interface\AddOns\caelMedia\fonts\neuropol x cd rg.ttf]=]
-local font_size    = 8
-local font_outline = ""
-local texture      = [=[Interface\AddOns\caelMedia\statusbars\normtexa.tga]=]
-local edge_file    = [=[Interface\AddOns\caelMedia\borders\glowtex.tga]=]
-local bg_file      = [=[Interface\ChatFrame\ChatFrameBackground]=]
 --[[
 local aura_colors  = {
 	["Magic"]   = {r = 0.00, g = 0.25, b = 0.45}, 
@@ -112,7 +106,7 @@ t.make_bar = function(self, spell_name, unit, buff_type, only_self, r, g, b, wid
 	
 	bars[new_id].tx = bars[new_id]:CreateTexture(nil, "ARTWORK")
 	bars[new_id].tx:SetAllPoints()
-	bars[new_id].tx:SetTexture(texture)
+	bars[new_id].tx:SetTexture(caelMedia.files.statusBarB)
 	-- Color bar with user values unless they enter nil values.  If so, then we color bar based on aura type
 	if r and g and b then
 		bars[new_id].tx:SetVertexColor(r, g, b, 1)
@@ -125,8 +119,8 @@ t.make_bar = function(self, spell_name, unit, buff_type, only_self, r, g, b, wid
 	bars[new_id].soft_edge:SetPoint("TOPLEFT", -3.5, 3.5)
 	bars[new_id].soft_edge:SetPoint("BOTTOMRIGHT", 3.5, -3.5)
 	bars[new_id].soft_edge:SetBackdrop({
-		bgFile = bg_file,
-		edgeFile = edge_file, edgeSize = 3,
+		bgFile = caelMedia.files.bgFile,
+		edgeFile = caelMedia.files.edgeFile, edgeSize = 3,
 		insets = {left = 3, right = 3, top = 3, bottom = 3}
 	})
 	bars[new_id].soft_edge:SetFrameStrata("BACKGROUND")
@@ -136,7 +130,7 @@ t.make_bar = function(self, spell_name, unit, buff_type, only_self, r, g, b, wid
 	bars[new_id].bg = bars[new_id]:CreateTexture(nil, "BORDER")
 	bars[new_id].bg:SetPoint("TOPLEFT")
 	bars[new_id].bg:SetPoint("BOTTOMRIGHT")
-	bars[new_id].bg:SetTexture(texture)
+	bars[new_id].bg:SetTexture(caelMedia.files.statusBarB)
 	bars[new_id].bg:SetVertexColor(0.25, 0.25, 0.25, 1)
 
 	bars[new_id].icon = bars[new_id]:CreateTexture(nil, "BORDER")
@@ -146,7 +140,7 @@ t.make_bar = function(self, spell_name, unit, buff_type, only_self, r, g, b, wid
 	bars[new_id].icon:SetTexture(nil)
 	
 	bars[new_id].lbl = bars[new_id]:CreateFontString(format("recTimers_BarLabel_%d", new_id), "OVERLAY")
-	bars[new_id].lbl:SetFont(font_face, font_size, font_outline)
+	bars[new_id].lbl:SetFont(caelMedia.files.fontRg, 8)
 	bars[new_id].lbl:SetPoint("CENTER", bars[new_id], "CENTER", 0, 1)
 	
 	position_bar(bars[new_id])
