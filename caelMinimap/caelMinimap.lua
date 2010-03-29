@@ -41,11 +41,11 @@ Minimap:SetScript("OnEvent", function(self, event, ...)
 	self:SetScale(0.875)
 	self:SetPoint("BOTTOM", UIParent, 0, 27.25)
 	self:SetBackdrop{
-	bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
+	bgFile = caelMedia.files.bgFile,
 	insets = {left = -1, right = -0.5, top = -1.5, bottom = -0.5},
 }
 	self:SetBackdropColor(0, 0, 0, 1)
-	self:SetMaskTexture([=[Interface\ChatFrame\ChatFrameBackground]=])
+	self:SetMaskTexture(caelMedia.files.bgFile)
 	self:SetBlipTexture([=[Interface\Addons\caelMedia\miscellaneous\charmed.tga]=])
 
 	MinimapCluster:EnableMouse(false)
