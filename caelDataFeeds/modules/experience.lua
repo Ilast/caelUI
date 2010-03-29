@@ -4,7 +4,7 @@ if UnitLevel("player") == 80 then return end
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.experience, expFrame = Create()
+caelDataFeeds.experience, expFrame = createModule()
 
 caelDataFeeds.experience:SetPoint("BOTTOM", caelPanel3, "BOTTOM", 0, 5)
 

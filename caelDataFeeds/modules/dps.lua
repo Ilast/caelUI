@@ -2,7 +2,7 @@
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.dps, caelDataFeeds.dpsFrame = Create()
+caelDataFeeds.dps, caelDataFeeds.dpsFrame = createModule()
 
 caelDataFeeds.dps:SetPoint("CENTER", caelPanel8, "CENTER", 125, 1)
 caelDataFeeds.dps:SetText("|cffD7BEA5DPS|r 0")

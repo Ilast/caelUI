@@ -2,7 +2,7 @@
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.clock, caelDataFeeds.clockFrame = Create()
+caelDataFeeds.clock, caelDataFeeds.clockFrame = createModule()
 
 caelDataFeeds.clock:SetPoint("RIGHT", caelPanel8, "RIGHT", -10, 1)
 

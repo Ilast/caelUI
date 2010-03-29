@@ -2,7 +2,7 @@
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.mail, caelDataFeeds.mailFrame = Create()
+caelDataFeeds.mail, caelDataFeeds.mailFrame = createModule()
 
 caelDataFeeds.mail:SetPoint("CENTER", caelPanel8, "CENTER", 0, 1)
 

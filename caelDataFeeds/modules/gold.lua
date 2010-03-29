@@ -2,7 +2,7 @@
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.gold, caelDataFeeds.goldFrame = Create()
+caelDataFeeds.gold, caelDataFeeds.goldFrame = createModule()
 
 caelDataFeeds.gold:SetPoint("CENTER", caelPanel8, "CENTER", -300, 1) 
 

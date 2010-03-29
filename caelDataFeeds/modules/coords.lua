@@ -2,7 +2,7 @@
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.coords, caelDataFeeds.coordsFrame = Create()
+caelDataFeeds.coords, caelDataFeeds.coordsFrame = createModule()
 
 caelDataFeeds.coords:SetPoint("CENTER", caelPanel8, "CENTER", 425, 1)
 

@@ -2,7 +2,7 @@
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.system, caelDataFeeds.sysFrame = Create()
+caelDataFeeds.system, caelDataFeeds.sysFrame = createModule()
 
 caelDataFeeds.system:SetPoint("LEFT", caelPanel8, "LEFT", 10, 1)
 

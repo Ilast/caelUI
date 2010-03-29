@@ -2,7 +2,7 @@
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.lfg, caelDataFeeds.lfgFrame = Create()
+caelDataFeeds.lfg, caelDataFeeds.lfgFrame = createModule()
 
 caelDataFeeds.lfg:SetPoint("CENTER", caelPanel8, "CENTER", -150, 1) 
 

@@ -2,7 +2,7 @@
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.durability, caelDataFeeds.durabilityFrame = Create()
+caelDataFeeds.durability, caelDataFeeds.durabilityFrame = createModule()
 
 caelDataFeeds.durability:SetPoint("CENTER", caelPanel8, "CENTER", 225, 1) 
 

@@ -2,7 +2,7 @@
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.social, caelDataFeeds.socialFrame = Create()
+caelDataFeeds.social, caelDataFeeds.socialFrame = createModule()
 
 caelDataFeeds.social:SetPoint("CENTER", caelPanel8, "CENTER", 325, 1) 
 
