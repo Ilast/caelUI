@@ -41,7 +41,7 @@ caelMedia.backdropTable = {
     edgeSize = 2,
     insets   = caelMedia.insetTable
 }
-
+--[[
 caelMedia.borderTable = {
     bgFile   = nil,
     edgeFile = caelMedia.files.edgeFile,
@@ -55,3 +55,4 @@ caelMedia.buttonTable = {
     edgeSize = 0,
     insets = { left = 0, right = 0, top = 0, bottom = 0 }
 }
+--]]
