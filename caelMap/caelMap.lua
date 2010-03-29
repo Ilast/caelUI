@@ -10,16 +10,14 @@ local Kill = function(object)
 	object:Hide()
 end
 
-local fontName = [=[Interface\Addons\caelMedia\fonts\neuropol x cd rg.ttf]=]
-
 local Player = WorldMapButton:CreateFontString(nil, "ARTWORK")
 Player:SetPoint("TOPLEFT", WorldMapButton, 0, 40)
-Player:SetFont(fontName, 12)
+Player:SetFont(caelMedia.files.fontRg, 12)
 Player:SetTextColor(0.84, 0.75, 0.65)
 
 local Cursor = WorldMapButton:CreateFontString(nil, "ARTWORK")
 Cursor:SetPoint("TOPLEFT", WorldMapButton, 0, 20)
-Cursor:SetFont(fontName, 12)
+Cursor:SetFont(caelMedia.files.fontRg, 12)
 Cursor:SetTextColor(0.84, 0.75, 0.65)
 
 local caelMap_OnUpdate = function(self)
@@ -123,8 +121,8 @@ local function setupMap(self)
 	WorldMapDetailFrame.bg:SetPoint("TOPLEFT", -10, 50)
 	WorldMapDetailFrame.bg:SetPoint("BOTTOMRIGHT", 10, -10)
 	WorldMapDetailFrame.bg:SetBackdrop({
-		bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
-		edgeFile = [=[Interface\Addons\caelMedia\borders\glowtex]=], edgeSize = 4,
+		bgFile = caelMedia.files.bgFile,
+		edgeFile = caelMedia.files.edgeFile, edgeSize = 4,
 		insets = {left = 3, right = 3, top = 3, bottom = 3}
 	})
 	WorldMapDetailFrame.bg:SetFrameStrata("BACKGROUND")
@@ -133,7 +131,7 @@ local function setupMap(self)
 
 	WorldMapButton.cursor_coordinates = WorldMapButton:CreateFontString(nil, "ARTWORK")
 	WorldMapButton.cursor_coordinates:SetPoint("BOTTOMLEFT", WorldMapButton, "BOTTOMLEFT", 5, 5)
-	WorldMapButton.cursor_coordinates:SetFont(fontName, 12)
+	WorldMapButton.cursor_coordinates:SetFont(caelMedia.files.fontRg, 12)
 	WorldMapButton.cursor_coordinates:SetTextColor(0.84, 0.75, 0.65)
 	WorldMapButton.timer = 0.1
 
