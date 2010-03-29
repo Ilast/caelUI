@@ -14,8 +14,8 @@ local function make_backdrop(frame)
 	frame.bg:SetPoint("TOPLEFT")
 	frame.bg:SetPoint("BOTTOMRIGHT")
 	frame.bg:SetBackdrop({
-		bgFile = [[Interface\ChatFrame\ChatFrameBackground]],
-		edgeFile = [=[Interface\Addons\caelMedia\Miscellaneous\glowtex]=], edgeSize = 4,
+		bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
+		edgeFile = [=[Interface\Addons\caelMedia\borders\glowtex]=], edgeSize = 4,
 		insets = {left = 3, right = 3, top = 3, bottom = 3}
 	})
 	frame.bg:SetFrameStrata("BACKGROUND")
