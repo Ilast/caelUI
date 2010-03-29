@@ -4,15 +4,6 @@ local _, caelChat = ...
 
 caelChat.eventFrame = CreateFrame("Frame", nil, UIParent)
 
-local bgTexture = [=[Interface\ChatFrame\ChatFrameBackground]=]
-local fontName = [=[Interface\Addons\caelMedia\fonts\neuropol x cd rg.ttf]=]
-
-local backdrop = {
-	bgFile = bgTexture,
-	edgeFile = [=[Interface\Addons\caelMedia\borders\glowtex]=], edgeSize = 2,
-	insets = {left = 2, right = 2, top = 2, bottom = 2}
-}
-
 local _G = getfenv(0)
 
 local realmName = GetRealmName()
@@ -55,9 +46,9 @@ ChatFrameEditBox:ClearAllPoints()
 ChatFrameEditBox:SetHeight(20)
 ChatFrameEditBox:SetPoint("BOTTOMLEFT",  caelPanel1, "TOPLEFT", 0, 1)
 ChatFrameEditBox:SetPoint("BOTTOMRIGHT", caelPanel1, "TOPRIGHT", -90, 1)
-ChatFrameEditBox:SetFont(fontName, 12)
+ChatFrameEditBox:SetFont(caelMedia.files.fontRg, 12)
 ChatFrameEditBoxHeader:SetPoint("LEFT", caelPanel3a, 5, 1)
-ChatFrameEditBoxHeader:SetFont(fontName, 12)
+ChatFrameEditBoxHeader:SetFont(caelMedia.files.fontRg, 12)
 
 -- save original function to alternate name
 ChatFrameEditBox.oldSetTextInsets = ChatFrameEditBox.SetTextInsets
@@ -345,19 +336,19 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 					GameTooltip:Hide()
 				end)
 				btn.t = btn:CreateFontString(nil, "OVERLAY")
-				btn.t:SetFont(fontName, 9)
+				btn.t:SetFont(caelMedia.files.fontRg, 9)
 				btn.t:SetPoint("CENTER", 0, 1)
 				btn.t:SetTextColor(1, 1, 1)
 				btn.t:SetText(txt)
 
-				btn:SetBackdrop(backdrop)
+				btn:SetBackdrop(caelMedia.files.backdropTable)
 				btn:SetBackdropColor(0, 0, 0, 0.15)
 				btn:SetBackdropBorderColor(0, 0, 0)
 
 --				Create the flash frame
 				btn.flash = CreateFrame("Frame", format("ChatButton%sFlash", id), btn)
 				btn.flash:SetAllPoints()
-				btn.flash:SetBackdrop(backdrop)
+				btn.flash:SetBackdrop(caelMedia.files.backdropTable)
 				btn.flash:SetBackdropColor(0.69, 0.31, 0.31, 0.5)
 				btn.flash:SetBackdropBorderColor(0, 0, 0)
 				btn.flash.frequency = .025
@@ -389,14 +380,14 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 				btn.flash:Hide()
 
 				btn.skinTop = btn:CreateTexture(nil, "BORDER")
-				btn.skinTop:SetTexture(bgTexture)
+				btn.skinTop:SetTexture(caelMedia.files.bgFile)
 				btn.skinTop:SetHeight(4)
 				btn.skinTop:SetPoint("TOPLEFT", 2, -2)
 				btn.skinTop:SetPoint("TOPRIGHT", -2, -2)
 				btn.skinTop:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.5)
 
 				btn.skinBottom = btn:CreateTexture(nil, "BORDER")
-				btn.skinBottom:SetTexture(bgTexture)
+				btn.skinBottom:SetTexture(caelMedia.files.bgFile)
 				btn.skinBottom:SetHeight(4)
 				btn.skinBottom:SetPoint("TOPLEFT", 2, -12)
 				btn.skinBottom:SetPoint("BOTTOMRIGHT", -2, 2)
@@ -497,5 +488,12 @@ caelChat.eventFrame:HookScript("OnEvent", function(self, event)
 			caelChat.eventFrame:SetScript("OnUpdate", caelChat_OnUpdate)
 			first = nil
 		end
+	end
+end)
+
+caelChat.eventFrame:RegisterEvent("CHAT_MSG_WHISPER")
+caelChat.eventFrame:HookScript("OnEvent", function(self, event)
+	if event == "CHAT_MSG_WHISPER" then
+		PlaySoundFile(caelMedia.files.soundWhisper)
 	end
 end)
