@@ -2,14 +2,6 @@
 
 local _, caelBags = ...
 
-local bgTexture = [=[Interface\ChatFrame\ChatFrameBackground]=]
-local glowTexture = [=[Interface\Addons\caelMedia\borders\glowtex]=]
-local backdrop = {
-	bgFile = bgTexture,
-	edgeFile = glowTexture, edgeSize = 2,
-	insets = {left = 2, right = 2, top = 2, bottom = 2}
-}
-
 local dummy = function() end
 
 -- Sizing
@@ -40,7 +32,7 @@ BankFramePurchaseInfo:Hide()
 BankFramePurchaseInfo.Show = dummy
 
 -- Set up the backpack container
-backpack:SetBackdrop(backdrop)
+backpack:SetBackdrop(caelMedia.files.backdropTable)
 backpack:SetBackdropColor(0, 0, 0, 0.7)
 backpack:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
 --backpack:SetPoint("BOTTOMRIGHT", ChatTab3Panel, "TOPRIGHT", 0, 0)
@@ -51,7 +43,7 @@ backpack:Hide()
 -- Set up ammo container.
 ammo:SetFrameStrata("HIGH")
 ammo:Hide()
-ammo:SetBackdrop(backdrop)
+ammo:SetBackdrop(caelMedia.files.backdropTable)
 ammo:SetBackdropColor(0, 0, 0, 0.7)
 ammo:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
 ammo:SetPoint("BOTTOMRIGHT", backpack, "TOPRIGHT")
@@ -61,7 +53,7 @@ ammo:Hide()
 -- Set up bank container.
 bank:SetFrameStrata("HIGH")
 bank:Hide()
-bank:SetBackdrop(backdrop)
+bank:SetBackdrop(caelMedia.files.backdropTable)
 bank:SetBackdropColor(0, 0, 0, 0.7)
 bank:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
 bank:SetPoint("BOTTOMRIGHT", backpack, "BOTTOMLEFT")
@@ -75,7 +67,7 @@ local function CreateToggleButton(name, caption, parent)
 	bu:SetWidth(50)
 	bu:SetHeight(20)
 	bu:SetNormalFontObject(GameFontNormalSmall)
-	bu:SetBackdrop(backdrop)
+	bu:SetBackdrop(caelMedia.files.backdropTable)
 	bu:SetBackdropColor(0, 0, 0, 1)
 	bu:SetBackdropBorderColor(.5, .5, .5, 1)
 	return bu
