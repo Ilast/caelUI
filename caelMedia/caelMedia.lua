@@ -24,45 +24,32 @@ caelMedia.files = {
 	soundWarning		= [=[Interface\Addons\caelMedia\sounds\warning.mp3]=],
 	soundAggro			= [=[Interface\Addons\caelMedia\sounds\aggro.mp3]=],
 	soundWhisper		= [=[Interface\Addons\caelMedia\sounds\whisper.mp3]=],
-
-	iconBorder			= [=[Interface\Addons\caelMedia\texture\border]=],
-	iconHighlight		= [=[Interface\Addons\caelMedia\texture\highlight]=],
-
-	buttonNormal		= [=[Interface\AddOns\caelMedia\texture\button_normal]=],
-	buttonGloss			= [=[Interface\AddOns\caelMedia\texture\button_gloss]=],
-	buttonFlash			= [=[Interface\AddOns\caelMedia\texture\button_flash]=],
-	buttonHover			= [=[Interface\AddOns\caelMedia\texture\button_hover]=],
-	buttonPushed		= [=[Interface\AddOns\caelMedia\texture\button_pushed]=],
-	buttonChecked		= [=[Interface\AddOns\caelMedia\texture\button_checked]=],
-	buttonEquipped		= [=[Interface\AddOns\caelMedia\texture\button_gloss]=],
-	buttonBackdrop		= [=[Interface\AddOns\caelMedia\texture\button_backdrop]=],
-	buttonHighlight		= [=[Interface\AddOns\caelMedia\texture\button_highlight]=]
 }
 
---	caelMedia.files.fontObject = CreateFont("caelMediaFontObject")
---	caelMedia.files.fontObject:SetFont(caelMedia.files.fontRg, 10, nil)
+--	caelMedia.fontObject = CreateFont("caelMediaFontObject")
+--	caelMedia.fontObject:SetFont(caelMedia.files.fontRg, 10, nil)
 
-caelMedia.files.insetTable = {
+caelMedia.insetTable = {
     left = 2,
     right = 2,
     top = 2,
     bottom = 2
 }
-caelMedia.files.backdropTable = {
+caelMedia.backdropTable = {
     bgFile   = caelMedia.files.bgFile,
     edgeFile = caelMedia.files.edgeFile,
     edgeSize = 2,
-    insets   = caelMedia.files.insetTable
+    insets   = caelMedia.insetTable
 }
 
-caelMedia.files.borderTable = {
+caelMedia.borderTable = {
     bgFile   = nil,
     edgeFile = caelMedia.files.edgeFile,
     edgeSize = 4,
-    insets   = caelMedia.files.insetTable
+    insets   = caelMedia.insetTable
 }
 
-caelMedia.files.buttonTable = {
+caelMedia.buttonTable = {
     bgFile = caelMedia.files.buttonBackdrop,
     edgeFile = nil,
     edgeSize = 0,
