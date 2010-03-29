@@ -1,4 +1,4 @@
---[[	$Id: coords.lua 818 2010-03-29 06:52:53Z sdkyron@gmail.com $	]]
+--[[	$Id$	]]
 
 local _, caelDataFeeds = ...
 
