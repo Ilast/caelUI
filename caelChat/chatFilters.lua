@@ -134,7 +134,7 @@ RaidNotice_AddMessage = function(noticeFrame, textString, colorInfo, ...)
 		else
 			hooks.RaidNotice_AddMessage(noticeFrame, textString, colorInfo, ...)
 		end
-		PlaySoundFile([=[Interface\Addons\caelMedia\Sounds\alarm.mp3]=])
+		PlaySoundFile(caelMedia.files.soundAlarm)
 	end
 end
 
