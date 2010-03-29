@@ -288,7 +288,7 @@ cCL:HookScript("OnEvent", function(self, event, timestamp, subEvent, sourceGUID,
 
 			if spellName == "Lock and Load" then
 				rsaFrame = "Notification"
-				PlaySoundFile([=[Interface\Addons\caelMedia\sounds\lnl.mp3]=])
+				PlaySoundFile(caelMedia.files.soundLnLProc)
 			end
 
 			if not (throttledSpells[spellName] and throttledSpells[spellName][unitDirection]) then
@@ -468,7 +468,7 @@ cCL:RegisterEvent("PLAYER_REGEN_DISABLED")
 cCL:HookScript("OnEvent", function(self, event)
 	if event == "PLAYER_REGEN_DISABLED" then
 		Output(2, "Information", red, "++ Combat ++", nil, true)
-		PlaySoundFile([=[Interface\Addons\caelMedia\Sounds\combat+.mp3]=])
+		PlaySoundFile(caelMedia.files.soundEnteringCombat)
 
 		duration = GetTime()
 		clearSummary()
@@ -499,7 +499,7 @@ cCL:HookScript("OnEvent", function(self, event)
 		t[#t+1] = (data.healingIn) > 0 and green..ShortValue(data.healingIn).."|r" or nil
 
 		Output(2, "Information", green, "-- Combat --", nil, true)
-		PlaySoundFile([=[Interface\Addons\caelMedia\Sounds\combat-.mp3]=])
+		PlaySoundFile(caelMedia.files.soundLeavingCombat)
 
 		if #t > 0 then
 			tooltipMsg = format("%s%s%s%s%s",
@@ -519,9 +519,9 @@ cCL:HookScript("OnEvent", function(self, event)
 	if event == "UNIT_COMBO_POINTS" then
 		local comboPoints = GetComboPoints("player", "target")
 		if comboPoints > 0 and comboPoints ~= MAX_COMBO_POINTS then
-			PlaySoundFile([=[Interface\Addons\caelMedia\sounds\combo.mp3]=])
+			PlaySoundFile(caelMedia.files.soundCombo)
 		elseif comboPoints == MAX_COMBO_POINTS then
-			PlaySoundFile([=[Interface\Addons\caelMedia\sounds\finish.mp3]=])
+			PlaySoundFile(caelMedia.files.soundComboMax)
 		end
 	end
 end)
