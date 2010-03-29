@@ -14,10 +14,8 @@ local need_reset = true
 local in_raid, in_party, warning_played, i_am_tank, target_okay
 local top_threat, overtake_threat, my_threat = 0, -1, -1
 local HIDDEN, TANKING, BLANK = "* %s", ">>> %s <<<", " "
-local WARNING		= [=[Interface\Addons\caelMedia\sounds\warning.mp3]=]
-local AGGRO			= [=[Interface\Addons\caelMedia\sounds\aggro.mp3]=]
-local bar_texture	= [=[Interface\Addons\caelMedia\statusbars\normtexa]=]
-local fontName = [=[Interface\Addons\caelMedia\fonts\neuropol x cd rg.ttf]=]
+local WARNING		= caelMedia.files.soundWarning
+local AGGRO			= caelMedia.files.sounsAggro
 
 local recycle_bin = {}
 local function Recycler(trash_table)
@@ -281,7 +279,7 @@ local function MakeDisplay()
 	f.texture:SetDrawLayer("BACKGROUND")
 
 	f.titletext = f:CreateFontString(nil, "ARTWORK")
-	f.titletext:SetFont(fontName, 10)
+	f.titletext:SetFont(caelMedia.files.fontRg, 10)
 	f.titletext:SetText("Threat")
 	f.titletext:SetPoint("TOP", f, "TOP", 0, 0)
 
@@ -294,15 +292,15 @@ local function MakeDisplay()
 		f.bars[i]:SetMinMaxValues(0, 1)
 		f.bars[i]:SetOrientation("HORIZONTAL")
 		f.bars[i]:SetStatusBarColor(1, 1, 1, 0.8)
-		f.bars[i]:SetStatusBarTexture(bar_texture)
+		f.bars[i]:SetStatusBarTexture(caelMedia.files.statusBarB)
 		f.bars[i]:SetPoint("TOPLEFT", i == 1 and f or f.bars[i-1], i == 1 and "TOPLEFT" or "BOTTOMLEFT", i == 1 and 2 or 0, i == 1 and -15 or -1.5)
 		f.bars[i]:SetPoint("TOPRIGHT", i == 1 and f or f.bars[i-1], i == 1 and "TOPRIGHT" or "BOTTOMRIGHT", i == 1 and -2 or 0, i == 1 and -15 or -1.5)
 		f.bars[i].lefttext = f.bars[i]:CreateFontString(nil, "ARTWORK")
-		f.bars[i].lefttext:SetFont(fontName, 9)
+		f.bars[i].lefttext:SetFont(caelMedia.files.fontRg, 9)
 		f.bars[i].lefttext:SetPoint("LEFT", f.bars[i], "LEFT", 0, 2)
 		f.bars[i].lefttext:Show()
 		f.bars[i].righttext = f.bars[i]:CreateFontString(nil, "ARTWORK")
-		f.bars[i].righttext:SetFont(fontName, 9)
+		f.bars[i].righttext:SetFont(caelMedia.files.fontRg, 9)
 		f.bars[i].righttext:SetPoint("RIGHT", f.bars[i], "RIGHT", 0, 2)
 		SetBarValues(i)
 	end
