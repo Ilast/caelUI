@@ -2,14 +2,19 @@
 
 local _, caelDataFeeds = ...
 
-function createModule()
-    local fontString = caelPanel8:CreateFontString(nil, "OVERLAY")
-    fontString:SetFont(caelMedia.files.fontRg, 10)
+caelDataFeeds.createModule = function(name)
 
-	local frame = CreateFrame("Frame", nil, UIParent)
-	frame:SetAllPoints(fontString)
-	frame:EnableMouse(true)
-	frame:SetScript("OnLeave", function() GameTooltip:Hide() end)
+    -- Create module frame.
+    local module = CreateFrame("Frame", format("caelDataFeedsModule%s", name), UIParent)
+    
+    -- Create module text.
+    module.text = caelPanel8:CreateFontString(nil, "OVERLAY")
+    module.text:SetFont(caelMedia.files.fontRg, 10)
+    
+    -- Setup module.
+    module:SetAllPoints(module.text)
+    module:EnableMouse(true)
+    module:SetScript("OnLeave", function() GameTooltip:Hide() end)
 
-	return fontString, frame
+    return module
 end
