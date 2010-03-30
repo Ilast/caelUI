@@ -2,22 +2,24 @@
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.mail, caelDataFeeds.mailFrame = createModule()
+caelDataFeeds.mail = caelDataFeeds.createModule("Mail")
 
-caelDataFeeds.mail:SetPoint("CENTER", caelPanel8, "CENTER", 0, 1)
+local mail = caelDataFeeds.mail
 
-caelDataFeeds.mailFrame:RegisterEvent("UPDATE_PENDING_MAIL")
-caelDataFeeds.mailFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+mail.text:SetPoint("CENTER", caelPanel8, "CENTER", 0, 1)
 
-caelDataFeeds.mailFrame:SetScript("OnEvent", function(self, event)
+mail:RegisterEvent("UPDATE_PENDING_MAIL")
+mail:RegisterEvent("PLAYER_ENTERING_WORLD")
+
+mail:SetScript("OnEvent", function(self, event)
 	if HasNewMail() then
-		caelDataFeeds.mail:SetText("New mail", 1, 1, 1)
+		self.text:SetText("New mail", 1, 1, 1)
 	else
-		caelDataFeeds.mail:SetText("")
+		self.text:SetText("")
 	end
 end)
 
-caelDataFeeds.mailFrame:SetScript("OnEnter", function(self)
+mail:SetScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
 	local sender1, sender2, sender3 = GetLatestThreeSenders()

@@ -2,12 +2,14 @@
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.social, caelDataFeeds.socialFrame = createModule()
+caelDataFeeds.social = caelDataFeeds.createModule("Social")
 
-caelDataFeeds.social:SetPoint("CENTER", caelPanel8, "CENTER", 325, 1) 
+local social = caelDataFeeds.social
 
-caelDataFeeds.socialFrame:RegisterEvent("FRIENDLIST_UPDATE")
-caelDataFeeds.socialFrame:RegisterEvent("GUILD_ROSTER_UPDATE")
+social.text:SetPoint("CENTER", caelPanel8, "CENTER", 325, 1) 
+
+social:RegisterEvent("FRIENDLIST_UPDATE")
+social:RegisterEvent("GUILD_ROSTER_UPDATE")
 
 local numGuildMembers = 0
 local numOnlineGuildMembers = 0
@@ -17,7 +19,7 @@ local numOnlineFriends = 0
 local playerName = UnitName("player")
 
 local delay = 0
-caelDataFeeds.socialFrame:SetScript("OnUpdate", function(self, elapsed)
+social:SetScript("OnUpdate", function(self, elapsed)
 	delay = delay - elapsed
 	if delay < 0 then
 		if IsInGuild("player") then
@@ -29,7 +31,7 @@ caelDataFeeds.socialFrame:SetScript("OnUpdate", function(self, elapsed)
 	end
 end)
 
-caelDataFeeds.socialFrame:SetScript("OnEnter", function(self)
+social:SetScript("OnEnter", function(self)
 	numGuildMembers = GetNumGuildMembers()
 	numFriends = GetNumFriends() 
 
@@ -72,7 +74,7 @@ caelDataFeeds.socialFrame:SetScript("OnEnter", function(self)
 	GameTooltip:Show()
 end)
 
-caelDataFeeds.socialFrame:SetScript("OnMouseDown", function(self, button)
+social:SetScript("OnMouseDown", function(self, button)
 	if button == "LeftButton" then
 		if GuildFrame:IsShown() then
 			FriendsFrame:Hide()
@@ -93,7 +95,7 @@ caelDataFeeds.socialFrame:SetScript("OnMouseDown", function(self, button)
 end)
 
 local Text
-caelDataFeeds.socialFrame:SetScript("OnEvent", function(self, event)
+social:SetScript("OnEvent", function(self, event)
 	if event == "GUILD_ROSTER_UPDATE" then
 		if IsInGuild("player") then
 			numOnlineGuildMembers = 0
@@ -134,5 +136,5 @@ caelDataFeeds.socialFrame:SetScript("OnEvent", function(self, event)
 		Text = ""
 	end
 
-	caelDataFeeds.social:SetText(Text)
+	self.text:SetText(Text)
 end)

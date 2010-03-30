@@ -2,9 +2,11 @@
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.system, caelDataFeeds.sysFrame = createModule()
+caelDataFeeds.system = caelDataFeeds.createModule("System")
 
-caelDataFeeds.system:SetPoint("LEFT", caelPanel8, "LEFT", 10, 1)
+local system = caelDataFeeds.system
+
+system.text:SetPoint("LEFT", caelPanel8, "LEFT", 10, 1)
 
 local Addons = {}
 
@@ -56,7 +58,7 @@ local function UpdateMemory(self)
 end
 
 local delay1, delay2 = 0, 0
-caelDataFeeds.sysFrame:SetScript("OnUpdate", function(self, elapsed)
+system:SetScript("OnUpdate", function(self, elapsed)
 	delay1 = delay1 - elapsed
 	delay2 = delay2 - elapsed
 
@@ -73,12 +75,12 @@ caelDataFeeds.sysFrame:SetScript("OnUpdate", function(self, elapsed)
 
 	if delay2 < 0 then
 		fpsText = format("%.1f |cffD7BEA5fps|r", GetFramerate())
-		caelDataFeeds.system:SetFormattedText("%s - %s - %s", memText, lagText, fpsText)
+		self.text:SetFormattedText("%s - %s - %s", memText, lagText, fpsText)
 		delay2 = 1
 	end
 end)
 
-caelDataFeeds.sysFrame:SetScript("OnEnter", function(self)
+system:SetScript("OnEnter", function(self)
 	if IsShiftKeyDown() then
 		GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
@@ -105,7 +107,7 @@ caelDataFeeds.sysFrame:SetScript("OnEnter", function(self)
 	end
 end)
 
-caelDataFeeds.sysFrame:SetScript("OnMouseDown", function(self, button)
+system:SetScript("OnMouseDown", function(self, button)
 	if button == "LeftButton" then
 		local collected = collectgarbage("count")
 		collectgarbage("collect")

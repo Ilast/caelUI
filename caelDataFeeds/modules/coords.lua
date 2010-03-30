@@ -2,11 +2,13 @@
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.coords, caelDataFeeds.coordsFrame = createModule()
+caelDataFeeds.coords = caelDataFeeds.createModule("Coords")
 
-caelDataFeeds.coords:SetPoint("CENTER", caelPanel8, "CENTER", 425, 1)
+local coords = caelDataFeeds.coords
 
-caelDataFeeds.coordsFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+coords.text:SetPoint("CENTER", caelPanel8, "CENTER", 425, 1)
+
+coords:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 
 local ColorizePVPType = function(pvpType)
 	if pvpType == "sanctuary" then
@@ -22,27 +24,27 @@ local ColorizePVPType = function(pvpType)
 	end
 end
 
-caelDataFeeds.coordsFrame:SetScript("OnEvent", function(self, event)
+coords:SetScript("OnEvent", function(self, event)
 	SetMapToCurrentZone()
 end)
 
 local delay = 0
-caelDataFeeds.coordsFrame:SetScript("OnUpdate", function(self, elapsed)
+coords:SetScript("OnUpdate", function(self, elapsed)
 	delay = delay - elapsed
 	if delay <= 0 then
 	local x, y = GetPlayerMapPosition("player")
 		if x == 0 and y == 0 then
 			caelDataFeeds.coords:SetText("")
 		else
---			caelDataFeeds.coords:SetFormattedText("|cffD7BEA5Loc|r %.0f, %.0f", x * 100, y * 100)
-			caelDataFeeds.coords:SetFormattedText("|cffD7BEA5x|r %0.1f |cffD7BEA5y|r %0.1f", x * 100, y * 100)
+--			self.text:SetFormattedText("|cffD7BEA5Loc|r %.0f, %.0f", x * 100, y * 100)
+			self.text:SetFormattedText("|cffD7BEA5x|r %0.1f |cffD7BEA5y|r %0.1f", x * 100, y * 100)
 		end
 	delay = 0.2
 	end
 end)
 
 local zoneName, zoneColor, subzoneName
-caelDataFeeds.coordsFrame:SetScript("OnEnter", function(self)
+coords:SetScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
 	zoneName = GetZoneText()
@@ -57,7 +59,7 @@ caelDataFeeds.coordsFrame:SetScript("OnEnter", function(self)
 	GameTooltip:Show()
 end)
 
-caelDataFeeds.coordsFrame:SetScript("OnMouseDown", function(self, button)
+coords:SetScript("OnMouseDown", function(self, button)
 	if not InCombatLockdown() then
 		if (button == "LeftButton") then
 			ToggleFrame(WorldMapFrame)

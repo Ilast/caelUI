@@ -2,16 +2,18 @@
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.gold, caelDataFeeds.goldFrame = createModule()
+caelDataFeeds.gold = caelDataFeeds.createModule("Gold")
 
-caelDataFeeds.gold:SetPoint("CENTER", caelPanel8, "CENTER", -300, 1) 
+local gold = caelDataFeeds.gold
 
-caelDataFeeds.goldFrame:RegisterEvent("PLAYER_MONEY")
-caelDataFeeds.goldFrame:RegisterEvent("PLAYER_TRADE_MONEY")
-caelDataFeeds.goldFrame:RegisterEvent("TRADE_MONEY_CHANGED")
-caelDataFeeds.goldFrame:RegisterEvent("SEND_MAIL_COD_CHANGED")
-caelDataFeeds.goldFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-caelDataFeeds.goldFrame:RegisterEvent("SEND_MAIL_MONEY_CHANGED")
+gold.text:SetPoint("CENTER", caelPanel8, "CENTER", -300, 1) 
+
+gold:RegisterEvent("PLAYER_MONEY")
+gold:RegisterEvent("PLAYER_TRADE_MONEY")
+gold:RegisterEvent("TRADE_MONEY_CHANGED")
+gold:RegisterEvent("SEND_MAIL_COD_CHANGED")
+gold:RegisterEvent("PLAYER_ENTERING_WORLD")
+gold:RegisterEvent("SEND_MAIL_MONEY_CHANGED")
 
 local Profit	= 0
 local Spent		= 0
@@ -31,7 +33,7 @@ local function formatMoney(money)
 	end
 end
 
-caelDataFeeds.goldFrame:SetScript("OnEvent", function(self, event)
+gold:SetScript("OnEvent", function(self, event)
 	if event == "PLAYER_ENTERING_WORLD" then
 		OldMoney = GetMoney()
 	end
@@ -45,11 +47,11 @@ caelDataFeeds.goldFrame:SetScript("OnEvent", function(self, event)
 		Profit = Profit + Change
 	end
 	
-	caelDataFeeds.gold:SetText(formatMoney(NewMoney))
+	self.text:SetText(formatMoney(NewMoney))
 	OldMoney = NewMoney
 end)
 
-caelDataFeeds.goldFrame:SetScript("OnEnter", function(self)
+gold:SetScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
 	GameTooltip:AddDoubleLine("|cffD7BEA5Earned|r", formatMoney(Profit), 0.84, 0.75, 0.65, 1, 1, 1)

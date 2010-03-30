@@ -2,21 +2,23 @@
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.lfg, caelDataFeeds.lfgFrame = createModule()
+caelDataFeeds.lfg = caelDataFeeds.createModule("LFG")
 
-caelDataFeeds.lfg:SetPoint("CENTER", caelPanel8, "CENTER", -150, 1) 
+local lfg = caelDataFeeds.lfg
 
-caelDataFeeds.lfgFrame:RegisterEvent("LFG_UPDATE")
-caelDataFeeds.lfgFrame:RegisterEvent("UPDATE_LFG_LIST")
-caelDataFeeds.lfgFrame:RegisterEvent("LFG_PROPOSAL_UPDATE")
-caelDataFeeds.lfgFrame:RegisterEvent("PARTY_MEMBERS_CHANGED")
-caelDataFeeds.lfgFrame:RegisterEvent("LFG_ROLE_CHECK_UPDATE")
-caelDataFeeds.lfgFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-caelDataFeeds.lfgFrame:RegisterEvent("LFG_QUEUE_STATUS_UPDATE")
+lfg.text:SetPoint("CENTER", caelPanel8, "CENTER", -150, 1) 
+
+lfg:RegisterEvent("LFG_UPDATE")
+lfg:RegisterEvent("UPDATE_LFG_LIST")
+lfg:RegisterEvent("LFG_PROPOSAL_UPDATE")
+lfg:RegisterEvent("PARTY_MEMBERS_CHANGED")
+lfg:RegisterEvent("LFG_ROLE_CHECK_UPDATE")
+lfg:RegisterEvent("PLAYER_ENTERING_WORLD")
+lfg:RegisterEvent("LFG_QUEUE_STATUS_UPDATE")
 
 local red, green = "AF5050", "559655"
 
-caelDataFeeds.lfgFrame:SetScript("OnEvent", function(self, event)
+lfg:SetScript("OnEvent", function(self, event)
 	MiniMapLFGFrame:UnregisterAllEvents()
 	MiniMapLFGFrame:Hide()
 	MiniMapLFGFrame.Show = function() end
@@ -26,17 +28,17 @@ caelDataFeeds.lfgFrame:SetScript("OnEvent", function(self, event)
 	local mode, _ = GetLFGMode()
 
 	if mode == "listed" then
-		caelDataFeeds.lfg:SetText("|cffD7BEA5LFR|r")
+		self.text:SetText("|cffD7BEA5LFR|r")
 		return
 	elseif mode == "queued" and not hasData then
-		caelDataFeeds.lfg:SetText("|cffD7BEA5LFG|r Searching")
+		self.text:SetText("|cffD7BEA5LFG|r Searching")
 		return
 	elseif not hasData then
-		caelDataFeeds.lfg:SetText("|cffD7BEA5LFG|r Standby")
+		self.text:SetText("|cffD7BEA5LFG|r Standby")
 		return
 	end
 
-	caelDataFeeds.lfg:SetText(
+	self.text:SetText(
 		string.format("|cffD7BEA5LFG |r %s%s%s%s%s %s",
 			string.format("|cff%s%s|r", tankNeeds == 0 and green or red, "T"),
 			string.format("|cff%s%s|r", healerNeeds == 0 and green or red, "H"),
@@ -48,7 +50,7 @@ caelDataFeeds.lfgFrame:SetScript("OnEvent", function(self, event)
 	)
 end)
 
-caelDataFeeds.lfgFrame:SetScript("OnMouseDown", function(self, button)
+lfg:SetScript("OnMouseDown", function(self, button)
 	local mode, _ = GetLFGMode()
 	if button == "LeftButton" then
 		if mode == "listed" then

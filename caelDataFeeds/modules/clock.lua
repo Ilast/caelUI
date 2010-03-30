@@ -1,40 +1,53 @@
 --[[	$Id$	]]
 
+-- Get namespace.
 local _, caelDataFeeds = ...
 
-caelDataFeeds.clock, caelDataFeeds.clockFrame = createModule()
+-- Create Clock module.
+caelDataFeeds.clock = caelDataFeeds.createModule("Clock")
 
-caelDataFeeds.clock:SetPoint("RIGHT", caelPanel8, "RIGHT", -10, 1)
+-- Shorthand reference to make things easier to type.
+local clock = caelDataFeeds.clock
 
-caelDataFeeds.clockFrame:RegisterEvent("CALENDAR_UPDATE_PENDING_INVITES")
+-- Move text into position (frame is set to fontstring's position).
+clock.text:SetPoint("RIGHT", caelPanel8, "RIGHT", -10, 1)
 
+-- Register necessary events.
+clock:RegisterEvent("CALENDAR_UPDATE_PENDING_INVITES")
+
+-- Create an update script.
 local delay = 0
-caelDataFeeds.clockFrame:SetScript("OnUpdate", function(self, elapsed)
-	delay = delay - elapsed
-	if delay < 0 then
-		caelDataFeeds.clock:SetText(date("%H:%M:%S"))
-		delay = 1
-	end
+clock:SetScript("OnUpdate", function(self, elapsed)
+    delay = delay - elapsed
+    if delay < 0 then
+        -- Update the text.
+        self.text:SetText(date("%H:%M:%S"))
+        delay = 1
+    end
 end)
 
-caelDataFeeds.clockFrame:SetScript("OnEvent", function(self, event)
-	if _G.CalendarGetNumPendingInvites() > 0 then
-		caelDataFeeds.clock:SetTextColor(0.33, 0.59, 0.33)
-	else
-		caelDataFeeds.clock:SetTextColor(1, 1, 1)
-	end
+-- Handle registered events.
+clock:SetScript("OnEvent", function(self, event)
+    -- Color text based on calendar invite availability.
+    if _G.CalendarGetNumPendingInvites() > 0 then
+        self.text:SetTextColor(0.33, 0.59, 0.33)
+    else
+        self.text:SetTextColor(1, 1, 1)
+    end
 end)
 
-caelDataFeeds.clockFrame:SetScript("OnMouseDown", function(self, button)
-	if (button == "LeftButton") then
-		ToggleTimeManager()
-	else
-		GameTimeFrame:Click()
-	end
+-- Handle mouse clicks.
+clock:SetScript("OnMouseDown", function(_, button)
+    if (button == "LeftButton") then
+        ToggleTimeManager()
+    else
+        GameTimeFrame:Click()
+    end
 end)
 
-caelDataFeeds.clockFrame:SetScript("OnEnter", function(self)
-	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
-	GameTooltip:AddLine(date("%B, %A %d %Y"), 0.84, 0.75, 0.65)
-	GameTooltip:Show()
+-- Tooltip on hover.
+clock:SetScript("OnEnter", function(self)
+    GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
+    GameTooltip:AddLine(date("%B, %A %d %Y"), 0.84, 0.75, 0.65)
+    GameTooltip:Show()
 end)

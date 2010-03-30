@@ -2,13 +2,15 @@
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.dps, caelDataFeeds.dpsFrame = createModule()
+caelDataFeeds.dps = caelDataFeeds.createModule("DPS")
 
-caelDataFeeds.dps:SetPoint("CENTER", caelPanel8, "CENTER", 125, 1)
-caelDataFeeds.dps:SetText("|cffD7BEA5DPS|r 0")
+local dps = caelDataFeeds.dps
 
-caelDataFeeds.dpsFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
-caelDataFeeds.dpsFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
+dps.text:SetPoint("CENTER", caelPanel8, "CENTER", 125, 1)
+dps.text:SetText("|cffD7BEA5DPS|r 0")
+
+dps:RegisterEvent("PLAYER_REGEN_ENABLED")
+dps:RegisterEvent("PLAYER_REGEN_DISABLED")
 
 local playerName, petName = UnitName("player"), UnitName("pet")
 local combStart, combTime, dmgTotal, prefix, suffix
@@ -25,13 +27,13 @@ end
 
 local updateDps = function()
 	if combTime == 0 then
-		caelDataFeeds.dps:SetText("|cffD7BEA5DPS|r 0")
+		self.text:SetText("|cffD7BEA5DPS|r 0")
 	else
-		caelDataFeeds.dps:SetFormattedText("|cffD7BEA5DPS|r %.1f", dmgTotal / combTime)
+		self.text:SetFormattedText("|cffD7BEA5DPS|r %.1f", dmgTotal / combTime)
 	end
 end
 
-caelDataFeeds.dpsFrame:SetScript("OnEvent", function(self, event, _, type, _, sourceName, _, _, destName, _, ...)
+dps:SetScript("OnEvent", function(self, event, _, type, _, sourceName, _, _, destName, _, ...)
 	if event == "PLAYER_REGEN_ENABLED" then
 		self:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 		combTime = (GetTime() - combStart)
@@ -53,7 +55,7 @@ caelDataFeeds.dpsFrame:SetScript("OnEvent", function(self, event, _, type, _, so
 	end
 end)
 
-caelDataFeeds.dpsFrame:SetScript("OnEnter", function(self)
+dps:SetScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
 	if dmgTotal then

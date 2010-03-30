@@ -2,11 +2,13 @@
 
 local _, caelDataFeeds = ...
 
-caelDataFeeds.durability, caelDataFeeds.durabilityFrame = createModule()
+caelDataFeeds.durability = caelDataFeeds.createModule("Durability")
 
-caelDataFeeds.durability:SetPoint("CENTER", caelPanel8, "CENTER", 225, 1) 
+local durability = caelDataFeeds.durability
 
-caelDataFeeds.durabilityFrame:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
+durability.text:SetPoint("CENTER", caelPanel8, "CENTER", 225, 1) 
+
+durability:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
 
 local Total = 0
 local current, max
@@ -24,7 +26,7 @@ local Slots = {
     [11] = {18, "Ranged", 1000}
 }
 
-caelDataFeeds.durabilityFrame:SetScript("OnEvent", function(self, event)
+durability:SetScript("OnEvent", function(self, event)
 	for i = 1, 11 do
 		if GetInventoryItemLink("player", Slots[i][1]) ~= nil then
 			current, max = GetInventoryItemDurability(Slots[i][1])
@@ -37,13 +39,13 @@ caelDataFeeds.durabilityFrame:SetScript("OnEvent", function(self, event)
 	table.sort(Slots, function(a, b) return a[3] < b[3] end)
 	
 	if Total > 0 then
-		caelDataFeeds.durability:SetFormattedText("|cffD7BEA5Dur|r %d%s", floor(Slots[1][3] * 100), "%")
+		self.text:SetFormattedText("|cffD7BEA5Dur|r %d%s", floor(Slots[1][3] * 100), "%")
 	else
-		caelDataFeeds.durability:SetText("100% |cffD7BEA5Armor|r")
+		self.text:SetText("100% |cffD7BEA5Armor|r")
 	end
 end)
 
-caelDataFeeds.durabilityFrame:SetScript("OnEnter", function(self)
+durability:SetScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
 	for i = 1, 11 do
