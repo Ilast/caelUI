@@ -34,7 +34,7 @@ coords:SetScript("OnUpdate", function(self, elapsed)
 	if delay <= 0 then
 	local x, y = GetPlayerMapPosition("player")
 		if x == 0 and y == 0 then
-			caelDataFeeds.coords:SetText("")
+			self.text:SetText("")
 		else
 --			self.text:SetFormattedText("|cffD7BEA5Loc|r %.0f, %.0f", x * 100, y * 100)
 			self.text:SetFormattedText("|cffD7BEA5x|r %0.1f |cffD7BEA5y|r %0.1f", x * 100, y * 100)
