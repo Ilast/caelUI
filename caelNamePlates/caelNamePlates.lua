@@ -4,7 +4,7 @@ local _, caelNameplates = ...
 
 caelNameplates.eventFrame = CreateFrame("Frame", nil, UIParent)
 
-local barTexture = [=[Interface\Addons\caelNameplates\media\normtexa]=]
+local barTexture = [=[Interface\Addons\caelNameplates\media\normtexb]=]
 local overlayTexture = [=[Interface\Tooltips\Nameplate-Border]=]
 local glowTexture = [=[Interface\Addons\caelNameplates\media\glowtex]=]
 local iconTexture = [=[Interface\Addons\caelNameplates\media\icontex]=]
