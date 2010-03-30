@@ -25,7 +25,7 @@ local formatTime = function(s)
 	end
 end
 
-local updateDps = function()
+local updateDps = function(self)
 	if combTime == 0 then
 		self.text:SetText("|cffD7BEA5DPS|r 0")
 	else
@@ -37,7 +37,7 @@ dps:SetScript("OnEvent", function(self, event, _, type, _, sourceName, _, _, des
 	if event == "PLAYER_REGEN_ENABLED" then
 		self:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 		combTime = (GetTime() - combStart)
-		updateDps()
+		updateDps(self)
 	elseif event == "PLAYER_REGEN_DISABLED" then
 		combStart = GetTime()
 		combTime = 0
@@ -49,7 +49,7 @@ dps:SetScript("OnEvent", function(self, event, _, type, _, sourceName, _, _, des
 			if (suffix == "DAMAGE" or suffix == "PERIODIC_DAMAGE" or suffix == "SHIELD") then
 				dmgTotal = (dmgTotal + select(prefix == "SWING" and 1 or 4, ...))
 				combTime = (GetTime() - combStart)
-				updateDps()
+				updateDps(self)
 			end
 		end
 	end
