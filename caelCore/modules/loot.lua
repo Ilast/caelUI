@@ -6,7 +6,7 @@
 	frame:SetScale(0.75)
 	if i == 1 then
 		frame:ClearAllPoints()
-		frame:SetPoint("BOTTOM", caelPanel3, "BOTTOM", 0, 1)
+		frame:SetPoint("BOTTOM", caelPanel3, "TOP", 0, 5)
 	elseif i > 1 then
 		frame:SetPoint("BOTTOM", "GroupLootFrame"..(i-1), "TOP", 0, 5)
 	end

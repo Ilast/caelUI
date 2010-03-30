@@ -4,6 +4,10 @@ local _, caelCore = ...
 
 --[[	Blacklist some UIErrorsFrame messages	]]
 
+caelCore.uierrorsframe = caelCore.createModule("UIerrorsFrame")
+
+local uierrorsframe = caelCore.uierrorsframe
+
 local eventBlacklist = {
 	[ERR_NO_ATTACK_TARGET] = true,
 	[OUT_OF_ENERGY] = true,
@@ -13,12 +17,10 @@ local eventBlacklist = {
 	[ERR_SPELL_COOLDOWN] = true,
 }
 
-caelCore.events:RegisterEvent("UI_ERROR_MESSAGE")
-caelCore.events:HookScript("OnEvent", function(self, event, error)
-	if event == "UI_ERROR_MESSAGE" then
-		if(not eventBlacklist[error]) then
-			UIErrorsFrame:AddMessage(error, 0.69, 0.31, 0.31)
-		end
+uierrorsframe:RegisterEvent("UI_ERROR_MESSAGE")
+uierrorsframe:SetScript("OnEvent", function(self, event, error)
+	if(not eventBlacklist[error]) then
+		UIErrorsFrame:AddMessage(error, 0.69, 0.31, 0.31)
 	end
 end)
 

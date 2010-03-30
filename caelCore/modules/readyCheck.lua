@@ -4,10 +4,12 @@ local _, caelCore = ...
 
 --[[	Force readycheck warning	]]
 
+caelCore.readycheck = caelCore.createModule("ReadyCheck")
+
+local readycheck = caelCore.readycheck
+
 ReadyCheckListenerFrame:SetScript("OnShow", nil) -- Stop the default
-caelCore.events:RegisterEvent("READY_CHECK")
-caelCore.events:HookScript("OnEvent", function(self, event)
-	if event == "READY_CHECK" then
-		PlaySoundFile([=[Sound\Interface\ReadyCheck.wav]=])
-	end
+readycheck:RegisterEvent("READY_CHECK")
+readycheck:SetScript("OnEvent", function(self, event)
+	PlaySoundFile([=[Sound\Interface\ReadyCheck.wav]=])
 end)

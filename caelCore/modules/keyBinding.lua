@@ -1,8 +1,10 @@
 ﻿--[[	$Id$	]]
 
------------------------
----[[	Keybindings	]]---
------------------------
+local _, caelCore = ...
+
+caelCore.keybinding = caelCore.createModule("KeyBinding")
+
+local keybinding = caelCore.keybinding
 
 local bindings = {
 	["Z"] = "MOVEFORWARD",
@@ -63,9 +65,8 @@ local bindings = {
 
 PVPParentFrame:HookScript("OnShow", function() PVPParentFrameTab2:Click() end)
 
-local event_frame = CreateFrame("Frame")
-event_frame:RegisterEvent("PLAYER_ENTERING_WORLD")
-event_frame:SetScript("OnEvent", function(self)
+keybinding:RegisterEvent("PLAYER_ENTERING_WORLD")
+keybinding:SetScript("OnEvent", function(self)
 	-- Remove all keybinds
 	for i = 1, GetNumBindings() do
 		local command = GetBinding(i)
@@ -84,9 +85,9 @@ event_frame:SetScript("OnEvent", function(self)
 	SaveBindings(1)
 
 	-- All done, clean up a bit.
-	event_frame:UnregisterEvent("PLAYER_ENTERING_WORLD")
+	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	bindings = nil	-- Remove table
-	event_frame = nil -- Remove frame
+	self = nil -- Remove frame
 end)
 
 --------------------------

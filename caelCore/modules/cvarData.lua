@@ -2,6 +2,10 @@
 
 local _, caelCore = ...
 
+caelCore.cvardata = caelCore.createModule("cvarData")
+
+local cvardata = caelCore.cvardata
+
 local ZoneChange = function(zone)
 	local _, instanceType = IsInInstance()
 	if zone == "Dalaran" then
@@ -32,19 +36,17 @@ local ZoneChange = function(zone)
 	end
 end
 
-caelCore.events:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-caelCore.events:RegisterEvent("WORLD_MAP_UPDATE")
-caelCore.events:RegisterEvent("PLAYER_ENTERING_WORLD")
-local mapUpdate = function(self, event)
+cvardata:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+cvardata:RegisterEvent("WORLD_MAP_UPDATE")
+cvardata:RegisterEvent("PLAYER_ENTERING_WORLD")
+cvardata:SetScript("OnEvent", function(self, event)
 	if event == "ZONE_CHANGED_NEW_AREA" or event == "WORLD_MAP_UPDATE" or event == "PLAYER_ENTERING_WORLD" then
 		local zone = GetRealZoneText()
 		if zone and zone ~= "" then
-			mapUpdate = function() end
 			return ZoneChange(zone)
 		end
 	end
-end
-caelCore.events:HookScript("OnEvent", mapUpdate)
+end)
 
 --[[
 Scales = {
@@ -72,8 +74,8 @@ local Scales = {
 	["1920"] = { ["1200"] = 0.84, ["1080"] = 0.93},
 }
 
-caelCore.events:RegisterEvent("PLAYER_ENTERING_WORLD")
-caelCore.events:HookScript("OnEvent", function(self, event)
+cvardata:RegisterEvent("PLAYER_ENTERING_WORLD")
+cvardata:HookScript("OnEvent", function(self, event)
 	if event == "PLAYER_ENTERING_WORLD" then
 		local width, height = string.match((({GetScreenResolutions()})[GetCurrentResolution()] or ""), "(%d+).-(%d+)")
 		if Scales[width] and Scales[width][height] then

@@ -4,8 +4,12 @@ local _, caelCore = ...
 
 --[[	GM chat frame enhancement	]]
 
-caelCore.events:RegisterEvent("ADDON_LOADED")
-local enhanceGMFrame = function(self, event, name)
+caelCore.gmframe = caelCore.createModule("GMFrame")
+
+local gmframe = caelCore.gmframe
+
+gmframe:RegisterEvent("ADDON_LOADED")
+gmframe:SetScript("OnEvent", function(self, event, name)
 	if (event ~= "ADDON_LOADED") or (name ~= "Blizzard_GMChatUI") then return end
 
 	GMChatFrame:EnableMouseWheel()
@@ -22,5 +26,4 @@ local enhanceGMFrame = function(self, event, name)
 	GMChatTab:Hide()
 
 	enhanceGMFrame = caelCore.dummy
-end
-caelCore.events:HookScript("OnEvent", enhanceGMFrame)
+end)
