@@ -5,7 +5,7 @@ local mediaPath = [=[Interface\Addons\oUF_Caellian\media\]=]
 
 local floor, format = math.floor, string.format
 
-local normtexa = mediaPath..[=[textures\normtexa]=]
+local normtex = mediaPath..[=[textures\normtexb]=]
 local glowTex = mediaPath..[=[textures\glowtex]=]
 local bubbleTex = mediaPath..[=[textures\bubbletex]=]
 local buttonTex = mediaPath..[=[textures\buttontex]=]
@@ -559,7 +559,7 @@ local SetStyle = function(self, unit)
 	self.Health:SetHeight((unit == "player" or unit == "target" or self:GetParent():GetName():match("oUF_Raid")) and 22 or self:GetAttribute("unitsuffix") == "pet" and 10 or 16)
 	self.Health:SetPoint("TOPLEFT")
 	self.Health:SetPoint("TOPRIGHT")
-	self.Health:SetStatusBarTexture(normtexa)
+	self.Health:SetStatusBarTexture(normtex)
 	self.Health:GetStatusBarTexture():SetHorizTile(false)
 
 	self.Health.colorTapping = true
@@ -571,7 +571,7 @@ local SetStyle = function(self, unit)
 
 	self.Health.bg = self.Health:CreateTexture(nil, "BORDER")
 	self.Health.bg:SetAllPoints()
-	self.Health.bg:SetTexture(normtexa)
+	self.Health.bg:SetTexture(normtex)
 	self.Health.bg.multiplier = 0.33
 
 	self.Health.value = SetFontString(self.Health, font,(unit == "player" or unit == "target") and 11 or 9)
@@ -600,7 +600,7 @@ local SetStyle = function(self, unit)
 		self.Power:SetHeight((unit == "player" or unit == "target") and 7 or 5)
 		self.Power:SetPoint("BOTTOMLEFT")
 		self.Power:SetPoint("BOTTOMRIGHT")
-		self.Power:SetStatusBarTexture(normtexa)
+		self.Power:SetStatusBarTexture(normtex)
 		self.Power:GetStatusBarTexture():SetHorizTile(false)
 
 		self.Power.colorTapping = true
@@ -614,7 +614,7 @@ local SetStyle = function(self, unit)
 
 		self.Power.bg = self.Power:CreateTexture(nil, "BORDER")
 		self.Power.bg:SetAllPoints()
-		self.Power.bg:SetTexture(normtexa)
+		self.Power.bg:SetTexture(normtex)
 		self.Power.bg.multiplier = 0.33
 
 		self.Power.value = SetFontString(self.Health, font, (unit == "player" or unit == "target") and 11 or 9)
@@ -670,13 +670,13 @@ local SetStyle = function(self, unit)
 
 			for i = 1, 6 do
 				self.Runes[i] = CreateFrame("StatusBar", self:GetName().."_Runes"..i, self)
-				self.Runes[i]:SetStatusBarTexture(normtexa)
+				self.Runes[i]:SetStatusBarTexture(normtex)
 				self.Runes[i]:GetStatusBarTexture():SetHorizTile(false)
 				self.Runes[i]:SetStatusBarColor(unpack(runeloadcolors[i]))
 
 				self.Runes[i].bd = self.Runes[i]:CreateTexture(nil, "BORDER")
 				self.Runes[i].bd:SetAllPoints()
-				self.Runes[i].bd:SetTexture(normtexa)
+				self.Runes[i].bd:SetTexture(normtex)
 				self.Runes[i].bd:SetVertexColor(0.15, 0.15, 0.15)
 			end
 		end
@@ -693,13 +693,13 @@ local SetStyle = function(self, unit)
 				else
 					self.TotemBar[i]:SetPoint("TOPLEFT", self.TotemBar[i-1], "TOPRIGHT", 1, 0)
 				end
-				self.TotemBar[i]:SetStatusBarTexture(normtexa)
+				self.TotemBar[i]:SetStatusBarTexture(normtex)
 				self.TotemBar[i]:GetStatusBarTexture():SetHorizTile(false)
 				self.TotemBar[i]:SetMinMaxValues(0, 1)
 
 				self.TotemBar[i].bg = self.TotemBar[i]:CreateTexture(nil, "BORDER")
 				self.TotemBar[i].bg:SetAllPoints()
-				self.TotemBar[i].bg:SetTexture(normtexa)
+				self.TotemBar[i].bg:SetTexture(normtex)
 				self.TotemBar[i].bg:SetVertexColor(0.15, 0.15, 0.15)
 			end
 		end
@@ -809,7 +809,7 @@ local SetStyle = function(self, unit)
 			self.PortraitOverlay:SetFrameLevel(self.PortraitOverlay:GetFrameLevel() + 1)
 			self.PortraitOverlay:SetPoint("TOPLEFT", self, 0, -23)
 			self.PortraitOverlay:SetPoint("BOTTOMRIGHT", self, 0, 8)
-			self.PortraitOverlay:SetStatusBarTexture(normtexa)
+			self.PortraitOverlay:SetStatusBarTexture(normtex)
 			self.PortraitOverlay:GetStatusBarTexture():SetHorizTile(false)
 			self.PortraitOverlay:SetStatusBarColor(0.25, 0.25, 0.25, 0.5)
 
@@ -877,13 +877,13 @@ local SetStyle = function(self, unit)
 
 	if not (self:GetParent():GetName():match("oUF_Raid") or self:GetAttribute("unitsuffix") == "pet") then
 		self.Castbar = CreateFrame("StatusBar", self:GetName().."_Castbar", (unit == "player" or unit == "target") and self.Portrait or self.Power)
-		self.Castbar:SetStatusBarTexture(normtexa)
+		self.Castbar:SetStatusBarTexture(normtex)
 		self.Castbar:GetStatusBarTexture():SetHorizTile(false)
 		self.Castbar:SetStatusBarColor(0.55, 0.57, 0.61, 0.75)
 
 		self.Castbar.bg = self.Castbar:CreateTexture(nil, "BORDER")
 		self.Castbar.bg:SetAllPoints()
-		self.Castbar.bg:SetTexture(normtexa)
+		self.Castbar.bg:SetTexture(normtex)
 		self.Castbar.bg:SetVertexColor(0.15, 0.15, 0.15, 0.75)
 
 		if unit == "player" or unit == "target" then
@@ -938,7 +938,7 @@ local SetStyle = function(self, unit)
 
 		if unit == "player" then
 			self.Castbar.SafeZone = self.Castbar:CreateTexture(nil, "ARTWORK")
-			self.Castbar.SafeZone:SetTexture(normtexa)
+			self.Castbar.SafeZone:SetTexture(normtex)
 			self.Castbar.SafeZone:SetVertexColor(0.69, 0.31, 0.31, 0.75)
 		end
 	end
