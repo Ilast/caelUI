@@ -11,9 +11,9 @@ local buttonSize = 30
 local buttonSpacing = -2
 
 -- Margins
-local bottomMargin = 50
-local sideMargin   = 10
-local topMargin    = 10
+local bottomMargin = 30
+local sideMargin   = 5
+local topMargin    = 5
 
 -- Local copies of oft used vars.
 local _G = getfenv(0)
@@ -35,7 +35,6 @@ BankFramePurchaseInfo.Show = dummy
 backpack:SetBackdrop(caelMedia.backdropTable)
 backpack:SetBackdropColor(0, 0, 0, 0.7)
 backpack:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
---backpack:SetPoint("BOTTOMRIGHT", ChatTab3Panel, "TOPRIGHT", 0, 0)
 backpack:SetPoint("TOPRIGHT", UIParent, "RIGHT", -15, 0)
 backpack:SetFrameStrata("HIGH")
 backpack:Hide()
@@ -80,6 +79,7 @@ local function hideFrame(frame)
 		v:Hide()
 	end
 end
+
 local function showFrame(frame)
 	frame:Show()
 	for k,v in pairs(string.find(frame:GetName(), "Ammo") and ammoButtons or string.find(frame:GetName(), "Bank") and bankButtons or string.find(frame:GetName(), "Backpack") and backpackButtons) do
@@ -98,62 +98,7 @@ ammoButton:SetScript("OnClick", function()
 	end
 end)
 
--- Places each bag bar button relative to container.
-local lastbutton
-local function PositionBagBarButton(bu, container)
-	local co = _G[bu:GetName().."Count"]
-	local nt = _G[bu:GetName().."NormalTexture"]
-	local ic = _G[bu:GetName().."IconTexture"]
-	bu:SetParent(container)
-	bu:ClearAllPoints()
-	bu:SetWidth(buttonSize)
-	bu:SetHeight(buttonSize)
-
-	if lastbutton then
-		bu:SetPoint("RIGHT", lastbutton, "LEFT", -1 * buttonSpacing, 0)
-	else
-		bu:SetPoint("BOTTOMRIGHT", container, -1 * sideMargin, sideMargin)
-	end
-	
-	co.Show = function() end
-	co:Hide()
-	
-	nt:SetWidth(buttonSize)
-	nt:SetHeight(buttonSize)
-	nt:ClearAllPoints()
-	nt:SetPoint("CENTER")
-	
-	ic:SetPoint("TOPLEFT", bu, 3, -3)
-	ic:SetPoint("BOTTOMRIGHT", bu, -3, 3)
-	ic:SetTexCoord(.08, .92, .08, .92)
-	
-	bu:SetNormalTexture([=[Interface\AddOns\caelMedia\buttons\buttonborder1]=])
-	bu:SetPushedTexture([=[Interface\AddOns\caelMedia\buttons\buttonborder1pushed]=])
-	bu:SetHighlightTexture([=[Interface\AddOns\caelMedia\buttons\buttonborder1highlight]=])
-	
-	lastbutton = bu
-end
-
--- Position each of the bag bar buttons for the backpack.
-local bagbarbuttons = {
-	MainMenuBarBackpackButton,
-	CharacterBag0Slot,
-	CharacterBag1Slot,
-	CharacterBag2Slot,
-	CharacterBag3Slot,
-}
-for _, bu in pairs(bagbarbuttons) do
-	PositionBagBarButton(bu, backpack)
-end
--- This variable needs to be reset before we place the bank buttons.
-lastbutton = nil
--- Position each of the bag bar buttons for the bank.
-for f = 1, 7 do
-	PositionBagBarButton(_G[format("BankFrameBag%s", f)], bank)
-end
-
 -- Helper functions for nullifying frames/functions
-local dummy = function() end
 local Kill = function(object)
 	local object_reference = object
 	if type(object) == "string" then
@@ -173,6 +118,7 @@ end
 updateContainerFrameAnchors = dummy
 Kill(ContainerFrame1MoneyFrame)
 Kill(BankFrameMoneyFrame)
+
 local function DisableBlizzard(cf)
 	cf:ClearAllPoints()
 	cf:SetPoint("TOPRIGHT", 9001, 9001)
@@ -183,9 +129,11 @@ local function DisableBlizzard(cf)
 		select(regionIndex, cf:GetRegions()):SetAlpha(0)
 	end
 end
+
 for i = 1, NUM_CONTAINER_FRAMES do
 	DisableBlizzard(_G[format("ContainerFrame%d", i)])
 end
+
 do
 	BankFrame:ClearAllPoints()
 	BankFrame:SetPoint("TOPRIGHT", 9001, 9001)
@@ -228,9 +176,9 @@ local function PlaceButtons(buttonTable, bagFrame, containerColumns)
 		qt.Show = dummy
 		
 		-- Replace textures
-		bu:SetNormalTexture([=[Interface\AddOns\caelMedia\buttons\buttonborder1]=])
-		bu:SetPushedTexture([=[Interface\AddOns\caelMedia\buttons\buttonborder1pushed]=])
-		bu:SetHighlightTexture([=[Interface\AddOns\caelMedia\buttons\buttonborder1highlight]=])
+		bu:SetNormalTexture(caelMedia.files.buttonNormal)
+		bu:SetPushedTexture(caelMedia.files.buttonPushed)
+		bu:SetHighlightTexture(caelMedia.files.buttonHighlight)
 		
 		-- Set size and position of the button itself
 		bu:SetWidth(buttonSize)
@@ -364,11 +312,13 @@ local CloseBags = function()
 		CloseBankFrame()
 	end
 end
+
 local OpenBags = function()
 	for i = 0, 11 do
 		OpenBag(i)
 	end
 end
+
 local ToggleBags = function()
 	if(IsBagOpen(0)) then
 		CloseBankFrame()
@@ -389,10 +339,12 @@ for i = 1, NUM_CONTAINER_FRAMES do
 	end)
 	hooksecurefunc(_G[format("ContainerFrame%d", i)], "Hide", function() updateDone = false; CloseBags() end)
 end
+
 hooksecurefunc(BankFrame, "Show", function()
 	OpenBags()
 	updateFrame:SetScript("OnUpdate", UpdateBag)
 end)
+
 hooksecurefunc(BankFrame, "Hide", CloseBags)
 
 -- Remap Blizzard bag functions.
