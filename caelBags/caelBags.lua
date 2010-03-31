@@ -35,7 +35,7 @@ BankFramePurchaseInfo.Show = dummy
 backpack:SetBackdrop(caelMedia.backdropTable)
 backpack:SetBackdropColor(0, 0, 0, 0.7)
 backpack:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
-backpack:SetPoint("TOPRIGHT", UIParent, "RIGHT", -15, 0)
+backpack:SetPoint("BOTTOMRIGHT", UIParent, "RIGHT", -15, 0)
 backpack:SetFrameStrata("HIGH")
 backpack:Hide()
 
