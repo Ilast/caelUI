@@ -267,6 +267,7 @@ local function UpdateBag(self, elapsed)
 				end
 			end
 		end
+
 		if BankFrame and BankFrame:IsShown() then
 			local bagID = -1
 			local numSlots = GetContainerNumSlots(bagID)
