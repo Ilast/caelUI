@@ -13,6 +13,10 @@ caelMedia.files = {
 	fontRg				= [=[Interface\Addons\caelMedia\fonts\neuropol x cd rg.ttf]=],
 	fontBd				= [=[Interface\Addons\caelMedia\fonts\neuropol x cd bd.ttf]=],
 
+	buttonNormal		= [=[Interface\AddOns\caelMedia\buttons\buttonborder1]=],
+	buttonPushed		= [=[Interface\AddOns\caelMedia\buttons\buttonborder1pushed]=],
+	buttonHighlight		= [=[Interface\AddOns\caelMedia\buttons\buttonborder1highlight]=],
+
 	soundAlarm			= [=[Interface\Addons\caelMedia\sounds\alarm.mp3]=],
 	soundLeavingCombat	= [=[Interface\Addons\caelMedia\sounds\combat-.mp3]=],
 	soundEnteringCombat	= [=[Interface\Addons\caelMedia\sounds\combat+.mp3]=],
