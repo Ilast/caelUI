@@ -116,10 +116,10 @@ if GetLocale() == "enUS" then
 			["RotB"] = {
 				char = "Caellian, Callysto, Dynames",
 				body = [=[/cast !Auto Shot
-					/cast Silencing Shot
-					/click gotMacros_AimS
-					/click gotMacros_Mark
 					/click gotMacros_SrSb
+					/click gotMacros_Mark
+					/click gotMacros_AimS
+					/cast Silencing Shot
 					/click gotMacros_StdS]=],
 			},
 			["RotC"] = {
