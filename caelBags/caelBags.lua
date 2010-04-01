@@ -119,6 +119,11 @@ updateContainerFrameAnchors = dummy
 Kill(ContainerFrame1MoneyFrame)
 Kill(BankFrameMoneyFrame)
 
+-- Hide each of the bank bag bar buttons.
+for i = 1, 7 do
+    Kill(format("BankFrameBag%d", i))
+end
+
 local function DisableBlizzard(cf)
 	cf:ClearAllPoints()
 	cf:SetPoint("TOPRIGHT", 9001, 9001)
