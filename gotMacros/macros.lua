@@ -110,16 +110,16 @@ if GetLocale() == "enUS" then
 					/click gotMacros_ExpS
 					/click gotMacros_BlkA
 					/click gotMacros_SrSa
-					/click gotMacros_AimS
+					/click gotMacros_MulS
 					/click gotMacros_StdS]=],
 			},
 			["RotB"] = {
 				char = "Caellian, Callysto, Dynames",
 				body = [=[/cast !Auto Shot
-					/click gotMacros_SrSb
-					/click gotMacros_Mark
-					/click gotMacros_AimS
 					/cast Silencing Shot
+					/click gotMacros_AimS
+					/click gotMacros_Mark
+					/click gotMacros_SrSb
 					/click gotMacros_StdS]=],
 			},
 			["RotC"] = {
@@ -136,7 +136,7 @@ if GetLocale() == "enUS" then
 			},
 			["SrSa"] = {
 				char = "Caellian, Callysto, Dynames",
-				body = [=[/castsequence reset=20.4/target Serpent Sting, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+				body = [=[/castsequence reset=14.4/target Serpent Sting, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 			},
 			["SrSb"] = {
 				char = "Caellian, Callysto, Dynames",
