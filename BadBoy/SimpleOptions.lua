@@ -1,4 +1,3 @@
---[[	$Id$	]]
 
 do
 	--Slash handler
