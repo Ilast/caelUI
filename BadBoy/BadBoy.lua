@@ -1,11 +1,11 @@
---[[	$Id$	]]
-
 
 local triggers = {
 	--Phrases
 	"%d+eurfor%d%d%d+g",
 	"%d%d%d+g.?only.?%d%.?%d*eur",
 	"%d+%.?%d*eurfuer%d%d%d+g", -->>>>1 EUR fuer 1000G?<<<
+	"%d+%.?%d*eurf\195\188r%d%d%d+g", -->>>>>1 EUR fur 1000G?<<<<<
+	"%d+%.?%d*gbpfor%d%d%d+g", -->>>>> 1 GPB for 1000G <<<<<
 
 	"%d+%.?%d*pounds?[/\92=]?p?e?r?%d%d%d+g",
 	"%d+%.?%d*eur?o?s?[/\92=]?p?e?r?%d%d%d+",
@@ -59,6 +59,12 @@ local triggers = {
 	"you.*become.*blizzard.*gift.*add?res",
 	"mount.*server.*guys.*go.*app.*available",
 	"deliver.*buy.*gold.*fast",
+	"gold.*order.*free.*gold", --welcome to < www.4wowgold.c@m>,when you introduce friends to our site ordering with your character name,you can enjoy about 15% free gold according to your friends' order amount
+	--enUS :39.99 euro/10k,delivery within 15 mins, 24/7 service, more than 100.000 loyal customers,McAfee Secure ! Welcome at [www.storeingame.com]
+	"lieferung.*service.*secure", --frFR :39.99 euro/10k,lieferung innerhalb vor 15 mins, 24/7 service, mehr als 100.000 treuen Kunden,McAfee Secure ! Willkommen bei [www.storeingame.com]
+	"safe.*fast.*deliver.*bank", --Safely fast delivery 1000=$4 only Check our website [www.game1313.org] for more information Already got some in our bank can trade now in this sever All sever will delivery in one minute im sry for bother here
+	"promotion.*discount.*gold", --www.********** dot com invites u to join our crazy promotion, 7$=1000g,and " dear2010 " is ur diamond discount code, everyone can get the gold in short tiem if u visit www.********** dot com
+	"livraison.*service.*secure", --frFR 39.99 euro/10k, Livraison en 15 minutes, 24/7 service, plus de 100000 clients fideles, McAfee Secure ,Bienvenue *  [www.storeingame.com]
 	"gold.*stock.*sale", --[www.comewow.com] Coupon code "LOVE" 6$ per 1k gold, with thousands of stock on every server;Powerlevel 70-80 is only $89;Level 80 toons sells at $150;Go for the Best on-line Service on [www.comewow.com] with a great variety of armors for sale.
 	"gold.*cheap.*fast.*gold", --Happy to buy the gold!old brand provide the cheapest,fastest gold for you <WWW.VIPKINA.C0M> with the dis code:vipkinas,1.1k wow money only sell 7 dollars, come come come to : <WWW.VIPKINA.C0M>
 	"euro.*delivery.*service", --38.56 euro/10k, delivery in 15mins,24/7 service, more than 100000 faithful customers, McAfee Secure ,Welcome to www.storeingame.com
@@ -117,7 +123,7 @@ local triggers = {
 	"suspect.*trade.*gold.*login.*complain.*pos", --Becasuse you suspected of lllegal trade for gold, system will freeze your ID after one hour.If you have any questions, please login  [XYZ] to make a complaint .We will be processing as soon as possible.
 	"hello.*master.*warcraft.*acc.*temp.*suspend.*info", --hello! [Game Master]GM: Your world of warcraft account has been temporarily suspended. please go to XYZ for further information
 	"become.*lucky.*player.*mysterious.*gift.*[lr][oe]g", --Hi.You have become the lucky player, 2 days, you can get a mysterious gift, registered address:XYZ
-	"player.*network.*blizz.*compensation.*log", --Dear players, because the network of World of Warcraft had broken off, Blizzard decided to give each player certain compensation.Please log in: XYZ and receive compensation for goods.
+	"player.*network.*blizz.*compensation.*good", --Dear players, because the network of World of Warcraft had broken off, Blizzard decided to give each player certain compensation.Please log in: XYZ and receive compensation for goods.
 	"player.*blizz.*system.*scan.*acount", --Dear World of Warcraft players,Blizzard system scan to your account insecurity,please log the safety net , or else Blizzard will stop using your account's rights in one hour .Certification of Warcraft account information site " [XYZ]"
 	"free.*spec.*mount.*code.*site", --Giving away free Spectral Tiger Mount ! Just be first to Reedem code : XU2199UXAI2881HTYAXNNB910 , go add it on site :  [XYZ] im stoping with damt wow ! GL guys
 	"free.*spectr.*tiger.*claim.*first", --Giving away Free Spectral tiger, because i'm  stopping with wow forever, to get it, just go there  [XYZ] and claim it as first, code : LJA8-5PLH61-KAHFL-152HOA-UAKL
@@ -129,8 +135,12 @@ local triggers = {
 	"system.*pumping.*lucky.*player.*info", --Hello, you have been system Pumping To the lucky player ,For more informationplease log in: [XYZ]
 	"warcraft.*blizzard.*scan.*account.*safety", --Dear World of Warcraft players,Blizzard system scan to your account insecurity,please log the safety net , or else Blizzard will stop using your account's rights in one hour .Certification of Warcraft account information site " [XYZ]
 	"celebrate.*blizzard.*warcraft.*gift.*log", --Hello, To celebrate the Blizzard anniversary, World of Warcraft released gifts players can receive free of charge, please log in; [XYZ]
+	"enter.*offer.*free.*riding.*log", --Hi, Bizzard Enterainment offers you one time free rare riding chance. Now take it , please login:[XYZ]
+	"you.*obtain.*mount.*blizzard.*info", --Hello, you have obtained a rare mount from Blizzard, but you haven't yet receive it. For more information, please visit [XYZ]
+	"congrat.*present.*blizz.*gold.*please", --Hi! congratulations on being presented by Blizzard of 3500 gold, please log in to recieve: XYZ
 
 	--Lvl 1 whisperers
+	"server.*purchase.*gold.*deliv", --sorry to bother,currently we have 29200g on this server, wondering if you might purchase some gold today? 15mins delivery:)
 	".*%d+.*lfggameteam.*", --actually we have 10kg in stock from Lfggame team ,do you want some?
 	"gold.*stock.*%d+.*min.*delivery.*buy.*gold", --hey,sry to bother,we have gold in stock,10-30mins delivery time. u wanna buy some gold today ?:)
 	"gold.*server.*%d+.*stock.*buy", --Excuse me, i have sold 10k gold on this server, 22k left in stock right now, do you wanna buy some today?, 20-30mins delivery:)
@@ -168,6 +178,8 @@ local triggers = {
 	"price.*gold.*fast.*d[ei]liver", --Sorry to bother you .Do you want to buy gold today ?We give the best price and safest gold and fastest delivery .Only takes 5-10mins? ^^
 
 	--Advanced URL's
+	"^%W+osteraktionvonmmoggg%W+$", --temp
+	"^%W+wirschenkeneuch%d+%%mehrgold%W+$", --temp
 	"wow.*provider.*igs%.c.*po?we?rle?ve?l", --31 October 09
 	"happygolds.*gold.*gold", --31 October 09
 	"happygoldspointcom.*g", --31 October 09
@@ -267,3 +279,4 @@ ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", function(_, _, msg)
 		SetCVar("spamFilter", 1)
 	end
 end)
+
