@@ -71,6 +71,7 @@ function caelPetCare:ADDON_LOADED(addon)
 
 	if select(2, UnitClass("player")) ~= "HUNTER" then
 		self:UnregisterAllEvents()
+		print("|cffD7BEA5cael|rcaelPetCare: You are not a Hunter, caelPetCare will be disabled on next UI reload.")
 		return DisableAddOn("caelPetCare")
 	end
 
