@@ -1,5 +1,7 @@
 ﻿--[[	$Id$	]]
 
+if not isCharListA then return end
+
 local _, caelCore = ...
 
 caelCore.keybinding = caelCore.createModule("KeyBinding")
