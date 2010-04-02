@@ -20,60 +20,30 @@ local totalElapsed = 0
 local playerName = UnitName("player")
 
 local bannerTest = "^" .. dndBanner
-local is31 = GetNumTalentGroups and true or nil
-local outgoingFilter, incomingFilter
 
-if is31 then
-	outgoingFilter = function(self, event, msg, ...)
-		if msg:find(bannerTest) then return true end
-	end
-else
-	outgoingFilter = function()
-		if arg1:find(bannerTest) then return true end
-	end
+local outgoingFilter = function(self, event, msg, ...)
+	if msg:find(bannerTest) then return true end
 end
 
-if is31 then
-	incomingFilter = function(self, event, msg, ...)
-		if not boss then return end
-		local sender = ...
-		local gm = select(5, ...)
+local incomingFilter = function(self, event, msg, ...)
+	if not boss then return end
+	local sender = ...
+	local gm = select(5, ...)
 
-		if type(sender) ~= "string" or sender == playerName or
-		  (UnitExists("target") and UnitName("target") == sender) or UnitInRaid(sender) or
-		  (type(gm) == "string" and gm == "GM") then return false, msg, ... end
+	if type(sender) ~= "string" or sender == playerName or
+	  (UnitExists("target") and UnitName("target") == sender) or UnitInRaid(sender) or
+	  (type(gm) == "string" and gm == "GM") then return false, msg, ... end
 
-		if not whisperers[sender] or whisperers[sender] == 1 or msg == "status" then
-			-- Let him know we are fighting a boss
-			whisperers[sender] = 2
+	if not whisperers[sender] or whisperers[sender] == 1 or msg == "status" then
+		-- Let him know we are fighting a boss
+		whisperers[sender] = 2
 
-			local total = GetNumRaidMembers()
-			local alive = 0
-			for i = 1, total do
-				if not UnitIsDeadOrGhost(GetRaidRosterInfo(i)) then alive = alive + 1 end
-			end
-			SendChatMessage(dndString:format(boss, bossHp, alive, total), "WHISPER", nil, sender)
+		local total = GetNumRaidMembers()
+		local alive = 0
+		for i = 1, total do
+			if not UnitIsDeadOrGhost(GetRaidRosterInfo(i)) then alive = alive + 1 end
 		end
-	end
-else
-	incomingFilter = function()
-		if not boss then return end
-
-		if type(arg2) ~= "string" or arg2 == playerName or
-		  (UnitExists("target") and UnitName("target") == arg2) or UnitInRaid(arg2) or
-		  (type(arg6) == "string" and arg6 == "GM") then return end
-
-		if not whisperers[arg2] or whisperers[arg2] == 1 or arg1 == "status" then
-			-- Let him know we are fighting a boss
-			whisperers[arg2] = 2
-
-			local total = GetNumRaidMembers()
-			local alive = 0
-			for i = 1, total do
-				if not UnitIsDeadOrGhost(GetRaidRosterInfo(i)) then alive = alive + 1 end
-			end
-			SendChatMessage(dndString:format(boss, bossHp, alive, total), "WHISPER", nil, arg2)
-		end
+		SendChatMessage(dndString:format(boss, bossHp, alive, total), "WHISPER", nil, sender)
 	end
 end
 
