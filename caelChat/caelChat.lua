@@ -6,37 +6,6 @@ caelChat.eventFrame = CreateFrame("Frame", nil, UIParent)
 
 local _G = getfenv(0)
 
-local realmName = GetRealmName()
--- Remove playerName since we only use one time
--- local playerName = UnitName("player")
-local _, playerClass = UnitClass("player")
--- Flag for if this is your character - we'll use this instead of the big if charList.... statements later on.
-local isCharList
-
-local charList = {
-	["Temple noir"] = { 
-		["HUNTER"] = {
-			["Caellian"] = true,
-			["Callysto"] = true
-		},
-		["DRUID"] = {
-			["Cowdiak"] = true
-		},
-		["DEATHKNIGHT"] = {
-			["Dens"] = true
-		}
-	}
-}
--- Use UnitName("player") directly here, since it is only used once.
-if charList[realmName] and charList[realmName][playerClass] and charList[realmName][playerClass][UnitName("player")] then
-	-- Set isMe flag here.  Now you do not need to check charList anymore, and you can get rid of the table.
-	isCharList = true
-end
--- Remove table and the other 2 vars, since they are not needed anymore.
-charList = nil
-realmName = nil
-playerClass = nil
-
 CHAT_TELL_ALERT_TIME = 0 -- sound on every whisper
 DEFAULT_CHATFRAME_ALPHA = 0 -- remove mouseover background
 
@@ -248,9 +217,8 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 				frame:SetTimeVisible(20)
 
 				dockHighlight:Hide()
---				Don't need this anymore, we have isCharList flag now :)  We'll change the others below too
---				if charList[realmName] and charList[realmName][playerClass] and charList[realmName][playerClass][playerName] then
-				if isCharList then
+
+				if isCharListB then
 					ChatFrame_RemoveAllChannels(frame)
 					ChatFrame_RemoveAllMessageGroups(frame)
 				end
@@ -262,8 +230,8 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 					frame:SetPoint("BOTTOMRIGHT", caelPanel1, "BOTTOMRIGHT", -5, 10)
 					frame:SetMaxLines(1000)
 					frame.SetPoint = function() end
---					if charList[realmName] and charList[realmName][playerClass] and charList[realmName][playerClass][playerName] then
-					if isCharList then
+
+					if isCharListB then
 						for i = 0, 28 do
 							if i < 16 then -- Everything up to 15
 								ToggleChatColorNamesByClassGroup(true, mergedTable[i])
@@ -466,8 +434,8 @@ local caelChat_OnUpdate = function(self, elapsed)
 			ChangeChatColor("CHANNEL5", 0.84, 0.75, 0.65)
 			ChangeChatColor("WHISPER", 0.3, 0.6, 0.9)
 			ChangeChatColor("WHISPER_INFORM", 0.3, 0.6, 0.9)
---			if charList[realmName] and charList[realmName][playerClass] and charList[realmName][playerClass][playerName] then
-			if isCharList then
+
+			if isCharListB then
 				JoinTemporaryChannel("WeDidCaC")
 				ChatFrame_AddChannel(_G.ChatFrame1, "WeDidCaC")
 				ChangeChatColor("CHANNEL5", 0.67, 0.83, 0.45)
