@@ -3,7 +3,7 @@
 local settings = Caellian.oUF
 local mediaPath = [=[Interface\Addons\oUF_Caellian\media\]=]
 
-local floor, format = math.floor, string.format
+local floor, format, insert = math.floor, string.format, table.insert
 
 local normtex = mediaPath..[=[textures\normtexb]=]
 local glowTex = mediaPath..[=[textures\glowtex]=]
@@ -554,6 +554,7 @@ local SetStyle = function(self, unit)
 	end
 	self:RegisterEvent("UNIT_THREAT_LIST_UPDATE", OverrideUpdateThreat)
 	self:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE", OverrideUpdateThreat)
+	insert(self.__elements,  OverrideUpdateThreat)
 
 	self.Health = CreateFrame("StatusBar", self:GetName().."_Health", self)
 	self.Health:SetHeight((unit == "player" or unit == "target" or self:GetParent():GetName():match("oUF_Raid")) and 22 or self:GetAttribute("unitsuffix") == "pet" and 10 or 16)
@@ -803,7 +804,7 @@ local SetStyle = function(self, unit)
 			}
 			self.Portrait:SetBackdropColor(0.15, 0.15, 0.15)
 
-			table.insert(self.__elements, HidePortrait)
+			insert(self.__elements, HidePortrait)
 	
 			self.PortraitOverlay = CreateFrame("StatusBar", self:GetName().."_PortraitOverlay", self.Portrait)
 			self.PortraitOverlay:SetFrameLevel(self.PortraitOverlay:GetFrameLevel() + 1)
@@ -1087,7 +1088,7 @@ for i = 1, NUM_RAID_GROUPS do
 	raidgroup:SetAttribute("groupFilter", tostring(i))
 	raidgroup:SetAttribute("showRaid", true)
 	raidgroup:SetAttribute("yOffSet", -7.5)
-	table.insert(raid, raidgroup)
+	insert(raid, raidgroup)
 	if i == 1 then
 		raidgroup:SetPoint("TOPLEFT", UIParent, cfg.raidX, cfg.raidY)
 	else
