@@ -55,7 +55,7 @@ local MoveButtons = function(buttonTable, bagFrame, containerColumns)
 		local nt = _G[format("%sNormalTexture", na)]
 		local co = _G[format("%sCount", na)]
 		local ic = _G[format("%sIconTexture", na)]
-		local qt = _G[na.."IconQuestTexture"]
+		local qt = _G[format("IconQuestTexture", na)]
 
 		-- Hide that ugly new quest border
 		qt:Hide()
