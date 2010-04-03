@@ -5,7 +5,7 @@ local _, caelDataFeeds = ...
 caelDataFeeds.createModule = function(name)
 
     -- Create module frame.
-    local module = CreateFrame("Frame", format("caelDataFeedsModule%s", name), UIParent)
+    local module = CreateFrame("Frame", format("caelDataFeedsModule%s", name), caelPanel8)
     
     -- Create module text.
     module.text = caelPanel8:CreateFontString(nil, "OVERLAY")
