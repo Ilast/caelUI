@@ -71,6 +71,7 @@ local MoveButtons = function(buttonTable, bagFrame, containerColumns)
 		bu:SetHeight(buttonSize)
 		bu:ClearAllPoints()
 		bu:SetPoint("TOPLEFT", bagFrame, "TOPLEFT", (col * (buttonSize + buttonSpacing)) + sideMargin, -1 * row * (buttonSize + buttonSpacing) - topMargin)
+--		bu:SetPoint("TOPLEFT", bagFrame, "TOPLEFT", col * (buttonSize + buttonSpacing) + 2, -1 * row * (buttonSize + buttonSpacing) - 2)
 		-- Do not let others move the button
 		bu.SetPoint = dummy
 

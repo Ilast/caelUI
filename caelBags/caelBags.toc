@@ -3,7 +3,7 @@
 ## Title: |cffD7BEA5cael|rBags
 ## Notes: Reskinning of bags and bank
 ## Dependencies: caelMedia
-## X-Revision: $Id: caelBags.toc 720 2010-03-24 00:35:56Z sdkyron@gmail.com $
+## X-Revision: $Id$
 ## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
 ## X-Category: UI Tweaks
 
