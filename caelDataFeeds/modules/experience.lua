@@ -9,6 +9,7 @@ caelDataFeeds.experience = caelDataFeeds.createModule("Experience")
 local experience = caelDataFeeds.experience
 
 experience.text:SetPoint("BOTTOM", caelPanel3, "BOTTOM", 0, 5)
+experience.text:SetParent(caelPanel3)
 
 experience:RegisterEvent("UNIT_PET")
 experience:RegisterEvent("UNIT_LEVEL")
@@ -42,7 +43,7 @@ local OnEvent = function(retval, self, event, ...)
 		xpString = string.format("|cffD7BEA5XP|r %.1f%% |cffD7BEA5Pet|r %.0f%%", ((xp/maxXp)*100), ((petXp/petMaxXp)*100))
 	end
 
-	self.text:SetText(xpString)
+	experience.text:SetText(xpString)
 
 	if retval then
 		return string.format("|cffD7BEA5Player|r %s / %s", xp, maxXp), (petMaxXp and petMaxXp > 0) and string.format("|cffD7BEA5Pet|r %s / %s", petXp, petMaxXp) or nil
