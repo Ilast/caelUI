@@ -55,7 +55,7 @@ local MoveButtons = function(buttonTable, bagFrame, containerColumns)
 		local nt = _G[format("%sNormalTexture", na)]
 		local co = _G[format("%sCount", na)]
 		local ic = _G[format("%sIconTexture", na)]
-		local qt = _G[format("IconQuestTexture", na)]
+		local qt = _G[format("%sIconQuestTexture", na)]
 
 		-- Hide that ugly new quest border
 		qt:Hide()
@@ -126,7 +126,7 @@ caelBags.ammo:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
 local reanchorButtons = function()
 	if firstOpening  then
 		for b = 1, numBags do
-			con = "ContainerFrame"..b
+			con = format("ContainerFrame%d", b)
 			_G[con]:EnableMouse(false)
 			_G[format("%sCloseButton", con)]:Hide()
 			_G[format("%sPortraitButton", con)]:EnableMouse(false)
@@ -188,7 +188,7 @@ local reanchorBankButtons = function()
 		end
 
 		for f = numBags + 1, numBags + numBankBags, 1 do
-			con = "ContainerFrame"..f
+			con = format("ContainerFrame%d", f)
 			_G[con]:EnableMouse(false)
 			_G[format("%sCloseButton", con)]:Hide()
 			_G[format("%sPortraitButton", con)]:EnableMouse(false)
