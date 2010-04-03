@@ -25,8 +25,8 @@ local buttonSpacing = -2
 
 -- Margins
 local bottomMargin = 30
-local sideMargin   = 10
-local topMargin    = 10
+local sideMargin   = 5
+local topMargin    = 5
 
 local _G = getfenv(0)
 local format = string.format
@@ -42,7 +42,7 @@ local function CreateToggleButton(name, caption, parent)
 	bu:SetNormalFontObject(GameFontNormalSmall)
 	bu:SetBackdrop(caelMedia.backdropTable)
 	bu:SetBackdropColor(0, 0, 0, 1)
-	bu:SetBackdropBorderColor(.5, .5, .5, 1)
+	bu:SetBackdropBorderColor(0.5, 0.5, 0.5, 1)
 	return bu
 end
 
@@ -70,7 +70,7 @@ local MoveButtons = function(buttonTable, bagFrame, containerColumns)
 		bu:SetWidth(buttonSize)
 		bu:SetHeight(buttonSize)
 		bu:ClearAllPoints()
-		bu:SetPoint("TOPLEFT", bagFrame, "TOPLEFT", col * (buttonSize + buttonSpacing) + 2, -1 * row * (buttonSize + buttonSpacing) - 2)
+		bu:SetPoint("TOPLEFT", bagFrame, "TOPLEFT", (col * (buttonSize + buttonSpacing)) + sideMargin, -1 * row * (buttonSize + buttonSpacing) - topMargin)
 		-- Do not let others move the button
 		bu.SetPoint = dummy
 
@@ -102,8 +102,8 @@ local MoveButtons = function(buttonTable, bagFrame, containerColumns)
 	end
 
 	bagFrame:SetHeight((row + (col == 0 and 0 or 1)) * (buttonSize + buttonSpacing) + bottomMargin + topMargin)
---	bagFrame:SetWidth(containerColumns * buttonSize + buttonSpacing * (containerColumns - 1) + (2 * sideMargin))
-	bagFrame:SetWidth(containerColumns * buttonSize + buttonSpacing * (containerColumns - 1) + 4)
+	bagFrame:SetWidth(containerColumns * buttonSize + buttonSpacing * (containerColumns - 1) + (2 * sideMargin))
+--	bagFrame:SetWidth(containerColumns * buttonSize + buttonSpacing * (containerColumns - 1) + 4)
 end
 
 --[[ Bags ]]
@@ -171,7 +171,7 @@ caelBags.bank:SetFrameStrata("HIGH")
 caelBags.bank:Hide()
 caelBags.bank:SetBackdrop(caelMedia.backdropTable)
 caelBags.bank:SetBackdropColor(0, 0, 0, 0.5)
-caelBags.bank:SetBackdropBorderColor(0, 0, 0, 1)
+caelBags.bank:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
 
 local reanchorBankButtons = function()
 	if firstBankOpening then
