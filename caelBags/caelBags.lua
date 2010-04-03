@@ -180,11 +180,11 @@ local reanchorBankButtons = function()
 			bu:SetFrameStrata("HIGH")
 			tinsert(bankbuttons, bu)
 		end
-		_G["BankFrame"]:EnableMouse(false)
-		_G["BankCloseButton"]:Hide()
+		BankFrame:EnableMouse(false)
+		BankCloseButton:Hide()
 
 		for f = 1, 5 do
-			select(f, _G["BankFrame"]:GetRegions()):SetAlpha(0)
+			select(f, BankFrame:GetRegions()):SetAlpha(0)
 		end
 
 		for f = numBags + 1, numBags + numBankBags, 1 do
