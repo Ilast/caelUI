@@ -2,14 +2,6 @@
 
 local _, caelBags = ...
 
-local bgTexture = [=[Interface\ChatFrame\ChatFrameBackground]=]
-local glowTexture = [=[Interface\Addons\caelMedia\Miscellaneous\glowtex]=]
-local backdrop = {
-	bgFile = bgTexture,
-	edgeFile = glowTexture, edgeSize = 2,
-	insets = {left = 2, right = 2, top = 2, bottom = 2}
-}
-
 local dummy = function() end
 
 local function IsAmmoBag(bagSlot)
@@ -32,7 +24,7 @@ local buttonSize = 30
 local buttonSpacing = -2
 
 -- Margins
-local bottomMargin = -4
+local bottomMargin = 30
 local sideMargin   = 10
 local topMargin    = 10
 
@@ -41,6 +33,18 @@ local format = string.format
 local bu, con, col, row
 local backpackButtons, bankbuttons, ammoButtons = {}, {}, {}
 local firstOpening, firstBankOpening = true, true
+
+local function CreateToggleButton(name, caption, parent)
+	local bu = CreateFrame("Button", name, parent, nil)
+	bu:SetText(caption)
+	bu:SetWidth(50)
+	bu:SetHeight(20)
+	bu:SetNormalFontObject(GameFontNormalSmall)
+	bu:SetBackdrop(caelMedia.backdropTable)
+	bu:SetBackdropColor(0, 0, 0, 1)
+	bu:SetBackdropBorderColor(.5, .5, .5, 1)
+	return bu
+end
 
 --[[ Function to move buttons ]]
 local MoveButtons = function(buttonTable, bagFrame, containerColumns)
@@ -51,11 +55,16 @@ local MoveButtons = function(buttonTable, bagFrame, containerColumns)
 		local nt = _G[format("%sNormalTexture", na)]
 		local co = _G[format("%sCount", na)]
 		local ic = _G[format("%sIconTexture", na)]
+		local qt = _G[na.."IconQuestTexture"]
+
+		-- Hide that ugly new quest border
+		qt:Hide()
+		qt.Show = dummy
 
 		-- Replace textures
-		bu:SetNormalTexture([=[Interface\AddOns\caelMedia\Buttons\buttonborder1]=])
-		bu:SetPushedTexture([=[Interface\AddOns\caelMedia\Buttons\buttonborder1pushed]=])
-		bu:SetHighlightTexture([=[Interface\AddOns\caelMedia\Buttons\buttonborder1highlight]=])
+		bu:SetNormalTexture(caelMedia.files.buttonNormal)
+		bu:SetPushedTexture(caelMedia.files.buttonPushed)
+		bu:SetHighlightTexture(caelMedia.files.buttonHighlight)
 
 		-- Set size and position of the button itself
 		bu:SetWidth(buttonSize)
@@ -80,9 +89,6 @@ local MoveButtons = function(buttonTable, bagFrame, containerColumns)
 		ic:SetPoint("BOTTOMRIGHT", bu, -3, 4)
 		
 		-- Move item count text into a readable position
-		-- TODO: Perhaps there is some magic formula to figure this out?  I had to change it depending on button size.
-		--     -1, 3 looked good at 30x30 backpackButtons
-		--     -5, 7 looked good at 60x60 backpackButtons
 		co:ClearAllPoints()
 		co:SetPoint("BOTTOMRIGHT", bu, -3, 3)
 		co:SetFont([=[Interface\Addons\caelMedia\Fonts\xenara rg.ttf]=], 10, "OUTLINE")
@@ -105,7 +111,7 @@ caelBags.bags = CreateFrame("Button", nil, UIParent)
 caelBags.bags:SetPoint("TOPRIGHT", UIParent, "RIGHT", -15, 0)
 caelBags.bags:SetFrameStrata("HIGH")
 caelBags.bags:Hide()
-caelBags.bags:SetBackdrop(backdrop)
+caelBags.bags:SetBackdrop(caelMedia.backdropTable)
 caelBags.bags:SetBackdropColor(0, 0, 0, 0.7)
 caelBags.bags:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
 
@@ -113,7 +119,7 @@ caelBags.ammo = CreateFrame("Button", nil, UIParent)
 caelBags.ammo:SetPoint("BOTTOM", caelBags.bags, "TOP", 0, 5)
 caelBags.ammo:SetFrameStrata("HIGH")
 caelBags.ammo:Hide()
-caelBags.ammo:SetBackdrop(backdrop)
+caelBags.ammo:SetBackdrop(caelMedia.backdropTable)
 caelBags.ammo:SetBackdropColor(0, 0, 0, 0.7)
 caelBags.ammo:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
 
@@ -144,6 +150,17 @@ local reanchorButtons = function()
 	caelBags.bags:Show()
 end
 
+-- Create A/S toggle button.
+local ammoButton = CreateToggleButton("ammoButton", "A / S", caelBags.bags)
+ammoButton:SetPoint("BOTTOMLEFT", caelBags.bags, "BOTTOMLEFT", 5, 5)
+ammoButton:SetScript("OnClick", function()
+	if caelBags.ammo:IsShown() then
+		CloseAmmo()
+	else
+		OpenAmmo()
+	end
+end)
+
 local money = _G["ContainerFrame1MoneyFrame"]
 money:Hide()
 money.Show = dummy
@@ -152,7 +169,7 @@ money.Show = dummy
 caelBags.bank = CreateFrame("Button", nil, UIParent)
 caelBags.bank:SetFrameStrata("HIGH")
 caelBags.bank:Hide()
-caelBags.bank:SetBackdrop(backdrop)
+caelBags.bank:SetBackdrop(caelMedia.backdropTable)
 caelBags.bank:SetBackdropColor(0, 0, 0, 0.5)
 caelBags.bank:SetBackdropBorderColor(0, 0, 0, 1)
 
@@ -235,9 +252,18 @@ end
 
 function OpenAmmo()
 	caelBags.ammo:Show()
-	for b=0, 11 do
+	for b = 0, 11 do
 		if IsAmmoBag(b) then
 			OpenBag(b)
+		end
+	end
+end
+
+function CloseAmmo()
+	caelBags.ammo:Hide()
+	for b = 0, 11 do
+		if IsAmmoBag(b) then
+			CloseBag(b)
 		end
 	end
 end
