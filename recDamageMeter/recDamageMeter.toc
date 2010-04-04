@@ -3,6 +3,7 @@
 ## Notes: Minimalistic Damage Meter
 ## Author: Recluse
 ## X-Revision: $Id$
+## RequiredDeps: caelMedia
 
 default_settings.lua
 recDamageMeter.lua
