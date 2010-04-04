@@ -62,7 +62,7 @@ social:SetScript("OnEnter", function(self)
 			local name, level, class, zone, isOnline, status = GetFriendInfo(i)
 			class = string.upper(class)
 			if class:find(" ") then
-				class = "DEATHKNIGHT"
+				Getlocale() == "frFR" and class = "Chevalier de la mort" or class = "DEATHKNIGHT"
 			end
 			local color = RAID_CLASS_COLORS[class]
 			if isOnline then
