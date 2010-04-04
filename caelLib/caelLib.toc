@@ -1,0 +1,9 @@
+## Interface: 30300
+## Author: Caellian
+## Title: |cffD7BEA5cael|rLib
+## Notes: Various things to make my life easier
+## X-Revision: $Id: caelLib.toc 731 2010-03-25 16:16:58Z sdkyron@gmail.com $
+## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
+## X-Category: Library
+
+caelLib.lua
