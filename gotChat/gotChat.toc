@@ -1,7 +1,9 @@
 ## Interface: 30300
-## Title: gotChat
 ## Author: Gotai
+## Title: |cffD7BEA5got|rChat
 ## Notes: Yet another chat mod.
-## Version: $Id$
+## X-Revision: $Id$
+## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
+## X-Category: Communication
 
 gotChat.lua
