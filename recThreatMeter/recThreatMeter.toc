@@ -3,6 +3,6 @@
 ## Notes: Threat Meter
 ## Author: Recluse
 ## X-Revision: $Id$
-## Dependencies: caelMedia
+## RequiredDeps: caelMedia
 
 recThreatMeter.lua
