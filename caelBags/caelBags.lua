@@ -2,8 +2,6 @@
 
 local _, caelBags = ...
 
-local dummy = function() end
-
 local function IsAmmoBag(bagSlot)
 	if not bagSlot then return end
 	
@@ -59,7 +57,7 @@ local MoveButtons = function(buttonTable, bagFrame, containerColumns)
 
 		-- Hide that ugly new quest border
 		qt:Hide()
-		qt.Show = dummy
+		qt.Show = caelLib.dummy
 
 		-- Replace textures
 		bu:SetNormalTexture(caelMedia.files.buttonNormal)
@@ -73,7 +71,7 @@ local MoveButtons = function(buttonTable, bagFrame, containerColumns)
 		bu:SetPoint("TOPLEFT", bagFrame, "TOPLEFT", (col * (buttonSize + buttonSpacing)) + sideMargin, -1 * row * (buttonSize + buttonSpacing) - topMargin)
 --		bu:SetPoint("TOPLEFT", bagFrame, "TOPLEFT", col * (buttonSize + buttonSpacing) + 2, -1 * row * (buttonSize + buttonSpacing) - 2)
 		-- Do not let others move the button
-		bu.SetPoint = dummy
+		bu.SetPoint = caelLib.dummy
 
 		-- Size and position the NormalTexture (the "bagFrame" around the button)
 		nt:SetHeight(buttonSize)
@@ -164,7 +162,7 @@ end)
 
 local money = _G["ContainerFrame1MoneyFrame"]
 money:Hide()
-money.Show = dummy
+money.Show = caelLib.dummy
 
 --[[ Bank ]]
 caelBags.bank = CreateFrame("Button", nil, UIParent)
@@ -213,11 +211,11 @@ end
 
 local money = _G["BankFrameMoneyFrame"]
 money:Hide()
-money.show = dummy
+money.show = caelLib.dummy
 
 --[[ Hiding misc. frames ]]
 _G["BankFramePurchaseInfo"]:Hide()
-_G["BankFramePurchaseInfo"].Show = dummy
+_G["BankFramePurchaseInfo"].Show = caelLib.dummy
 
 for f = 1, 7 do _G[format("BankFrameBag%s", f)]:Hide() end
 
