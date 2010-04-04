@@ -61,7 +61,7 @@ social:SetScript("OnEnter", function(self)
 		for i = 1, numFriends do
 			local name, level, class, zone, isOnline, status = GetFriendInfo(i)
 			class = string.upper(class)
-			class = (class:find(" ")) and (GetLocale == "frFR" and "Chevalier de la mort" or "DEATHKNIGHT") or class
+			class = (class:find(" ")) and (caelLib.locale == "frFR" and "Chevalier de la mort" or "DEATHKNIGHT") or class
 			local color = RAID_CLASS_COLORS[class]
 			if isOnline then
 				GameTooltip:AddDoubleLine("|cffD7BEA5"..level.." |r"..name.." "..status, zone, color.r, color.g, color.b, 0.65, 0.63, 0.35)
