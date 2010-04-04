@@ -291,7 +291,8 @@ elseif GetLocale() == "frFR" then
 				char = "Dens",
 				show = "Attaque Auto",
 				body = [=[/click [noexists][noharm][dead] gotMacros_T2
-					/castsequence [harm, nodead] reset=target/combat Toucher de glace, Frappe de peste, Frappe de sang, Frappe du fléau, Frappe de sang, Voile mortel]=],
+					/click [combat, harm, nodead] gotMacros_CDs2
+					/castsequence [harm, nodead] reset=target/combat Frappe de peste, Toucher de glace, Frappe de sang, Frappe du fléau, Frappe de sang, Voile mortel, Cor de l'hiver, Frappe du fléau, Frappe de sang, Frappe du fléau, Frappe de sang, Voile mortel, Voile mortel]=],
 				blizzmacro = true,
 				perChar = true,
 			},
@@ -299,6 +300,7 @@ elseif GetLocale() == "frFR" then
 				char = "Dens",
 				show = "Attaque Auto",
 				body = [=[/click [noexists][noharm][dead] gotMacros_T2
+					/click [combat, harm, nodead] gotMacros_CDs2
 					/castsequence [harm, nodead] reset=target/combat Toucher de glace, Frappe de peste, Frappe au coeur, Frappe au coeur, Frappe de mort, Voile mortel]=],
 				blizzmacro = true,
 				perChar = true,
@@ -308,6 +310,198 @@ elseif GetLocale() == "frFR" then
 				show = "",
 				body = [=[/castsequence Cor de l'hiver, Bouclier d'os]=],
 				blizzmacro = true,
+				perChar = true,
+			}
+		}
+	elseif playerClass == "HUNTER" then
+		gM_Macros = {
+			["TGT"] = {
+				char = "Caellian, Callysto, Dynames, Eling, Heria",
+				show = "Marque du chasseur",
+				body = [=[/targetenemy [noexists][noharm][dead]
+					/cast [nopet]Appel du familier
+					/castsequence [harm]reset=target Marque du chasseur, null
+					/petpassive [target=pettarget,exists] 
+					/stopmacro [target=pettarget,exists] 
+					/petdefensive
+					/petattack]=],
+				nosound = true,
+				blizzmacro = true,
+				perChar = true,
+			},
+			["T1"] = {
+				char = "Caellian, Callysto, Dynames, Eling, Heria",
+				icon = [=[Interface\Icons\Ability_Hunter_MasterMarksman]=],
+				body = [=[/cleartarget [exists]
+					/assist [target=pet, exists]Pet
+					/stopmacro [target=pettarget, exists]
+					/targetenemy [target=pet, dead][target=pet, noexists]]=],
+			},
+			["CDs1"] = {
+				char = "Caellian, Callysto, Dynames, Eling, Heria",
+				icon = [=[Interface\Icons\Spell_Shadow_LastingAfflictions]=],
+				body = [=[/cast [target=pettarget, exists] Kill Command
+					/cast Berserker]=],
+				nosound = true,
+			},
+			["Foc"] = {
+				char = "Caellian, Callysto, Dynames, Eling, Heria",
+				icon = [=[Interface\Icons\Ability_Hunter_MasterMarksman]=],
+				body = [=[/castsequence [harm] reset=0 Hunter's Mark, null
+					/focus [help, nodead]]=],
+				blizzmacro = true,
+			},
+			["SvR"] = {
+				char = "Caellian, Callysto, Dynames, Eling, Heria",
+				show = "Auto Shot",
+				body = [=[/click [noexists][noharm][dead] gotMacros_T1
+					/click [combat, harm, nodead] gotMacros_CDs1
+					/click [modifier, combat, harm, nodead] gotMacros_RfRd
+					/click [harm, nodead] gotMacros_RotA]=],
+				blizzmacro = true,
+				perChar = true,
+			},
+			["MmR"] = {
+				char = "Caellian, Callysto, Dynames, Eling, Heria",
+				show = "Auto Shot",
+				body = [=[/click [noexists][noharm][dead] gotMacros_T1
+					/click [combat, harm, nodead] gotMacros_CDs1
+					/click [modifier, combat, harm, nodead] gotMacros_RfRd
+					/click [harm, nodead] gotMacros_RotB]=],
+				blizzmacro = true,
+				perChar = true,
+			},
+			["BmR"] = {
+				char = "Caellian, Callysto, Dynames, Eling, Heria",
+				show = "Tir Automatique",
+				body = [=[/click [noexists][noharm][dead] gotMacros_T1
+					/click [combat, harm, nodead] gotMacros_CDs1
+					/click [modifier, combat, harm, nodead] gotMacros_RfRd
+					/click [harm, nodead] gotMacros_RotC]=],
+				blizzmacro = true,
+				perChar = true,
+			},
+			["RotA"] = {
+				char = "Caellian, Callysto, Dynames, Eling, Heria",
+				show = "Tir assuré",
+				body = [=[/cast !Tir automatique
+					/click gotMacros_ExpS
+					/click gotMacros_BlkA
+					/click gotMacros_SrSa
+					/click gotMacros_AimS
+					/click gotMacros_StdS]=],
+				nosound = true,
+				perChar = true,
+			},
+			["RotB"] = {
+				char = "Caellian, Callysto, Dynames, Eling, Heria",
+				show = "Tir assuré",
+				body = [=[/cast !Tir automatique
+					/click gotMacros_SrSb
+					/click gotMacros_Mark
+					/click gotMacros_AimS
+					/cast Silencing Shot
+					/click gotMacros_StdS]=],
+				nosound = true,
+				perChar = true,
+			},
+			["RotC"] = {
+				char = "Caellian, Callysto, Dynames, Eling, Heria",
+				show = "Tir assuré",
+				body = [=[/cast !Tir automatique
+					/click gotMacros_SrSa
+					/click gotMacros_AimS
+					/click gotMacros_ArcS
+					/click gotMacros_StdS]=],
+				nosound = true,
+				perChar = true,
+			},
+			["BlkA"] = {
+				char = "Caellian, Callysto, Dynames, Eling, Heria",
+				show = "Flèche noir",
+				body = [=[/castsequence reset=23.3 Black Arrow, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique]=],
+				nosound = true,
+				perChar = true,
+			},
+			["SrSa"] = {
+				char = "Caellian, Callysto, Dynames, Eling, Heria",
+				show = "Morsure de serpent",
+				body = [=[/castsequence reset=20.4/target Morsure de serpent, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique]=],
+				nosound = true,
+				perChar = true,
+			},
+			["SrSb"] = {
+				char = "Caellian, Callysto, Dynames, Eling, Heria",
+				show = "Morsure de serpent",
+				body = [=[/castsequence reset=target Morsure de serpent, Null]=],
+				nosound = true,
+				perChar = true,
+			},
+			["ExpS"] = {
+				char = "Caellian, Callysto, Dynames, Eling, Heria",
+				show = "Tir explosif",
+				body = [=[/castsequence reset=5.6 Tir explosif, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique]=],
+				nosound = true,
+				perChar = true,
+			},
+			["Mark"] = {
+				char = "Caellian, Callysto, Dynames, Eling, Heria",
+				show = "Tir de la chimère",
+				body = [=[/castsequence reset=9.3 Tir de la chimère, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique]=],
+				nosound = true,
+				perChar = true,
+			},
+			["AimS"] = {
+				char = "Caellian, Callysto, Dynames, Eling, Heria",
+				show = "Visée",
+				body = [=[/castsequence reset=9.7 Visée, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique]=],
+				nosound = true,
+				perChar = true,
+			},
+			["MulS"] = {
+				char = "Caellian, Callysto, Dynames, Eling, Heria",
+				show = "Flèches multiples",
+				body = [=[/castsequence reset=9.7 Flèches multiples, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique]=],
+				nosound = true,
+				perChar = true,
+			},
+			["ArcS"] = {
+				char = "Caellian, Callysto, Dynames, Eling, Heria",
+				show = "Tir des arcanes",
+				body = [=[/castsequence reset=5.8 Tir des arcanes, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique, !Tir automatique]=],
+				nosound = true,
+				perChar = true,
+			},
+			["StdS"] = {
+				char = "Caellian, Callysto, Dynames, Eling, Heria",
+				show = "Tir assuré",
+				body = [=[/cast Tir assuré]=],
+				nosound = true,
+				perChar = true,
+			},
+			["LnL"] = {
+				char = "Caellian, Callysto, Dynames, Eling, Heria",
+				show = "Tir explosif",
+				body = [=[/click [noexists][noharm][dead] gotMacros_T1
+					/click [combat, harm, nodead] gotMacros_CDs1
+					/castsequence reset=3 Explosive Shot, Tir assuré, Explosive Shot, Tir assuré]=],
+				nosound = true,
+				blizzmacro = true,
+				perChar = true,
+			},
+			["MisD"] = {
+				char = "Caellian, Callysto, Dynames, Eling, Heria",
+				show = "Détournement",
+				body = [=[/cast [help][target=focus, help][target=pet, exists, nodead] Détournement]=],
+				nosound = true,
+				blizzmacro = true,
+				perChar = true,
+			},
+			["RfRd"] = {
+				char = "Caellian, Callysto, Dynames, Eling, Heria",
+				show = "Tir rapide",
+				body = [=[/castsequence reset=3 Tir rapide, Promptitude, null]=],
+				nosound = true,
 				perChar = true,
 			}
 		}
@@ -326,7 +520,9 @@ local multiLocales = {
 		icon = [=[Interface\Icons\Spell_Shadow_LastingAfflictions]=],
 		body = [=[/use Battlemaster's Determination
 			/use Bloodlust Brooch
-			/cast Tiger's Fury]=],
+			/cast Tiger's Fury
+			/cast Fureur sanguinaire
+			/use 14]=],
 		nosound = true,
 	}
 }
