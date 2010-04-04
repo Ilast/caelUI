@@ -218,7 +218,7 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 
 				dockHighlight:Hide()
 
-				if isCharListB then
+				if caelLib.isCharListB then
 					ChatFrame_RemoveAllChannels(frame)
 					ChatFrame_RemoveAllMessageGroups(frame)
 				end
@@ -231,7 +231,7 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 					frame:SetMaxLines(1000)
 					frame.SetPoint = function() end
 
-					if isCharListB then
+					if caelLib.isCharListB then
 						for i = 0, 28 do
 							if i < 16 then -- Everything up to 15
 								ToggleChatColorNamesByClassGroup(true, mergedTable[i])
@@ -435,7 +435,7 @@ local caelChat_OnUpdate = function(self, elapsed)
 			ChangeChatColor("WHISPER", 0.3, 0.6, 0.9)
 			ChangeChatColor("WHISPER_INFORM", 0.3, 0.6, 0.9)
 
-			if isCharListB then
+			if caelLib.isCharListB then
 				JoinTemporaryChannel("WeDidCaC")
 				ChatFrame_AddChannel(_G.ChatFrame1, "WeDidCaC")
 				ChangeChatColor("CHANNEL5", 0.67, 0.83, 0.45)
