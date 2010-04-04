@@ -17,7 +17,7 @@ CharacterModelFrameRotateRightButton:ClearAllPoints()
 CharacterModelFrameRotateRightButton:SetPoint("RIGHT", PaperDollFrame, "RIGHT", -90, 5)
 
 local ShowCloak, ShowHelm = ShowCloak, ShowHelm
-_G.ShowCloak, _G.ShowHelm = caelCore.dummy, caelCore.dummy
+_G.ShowCloak, _G.ShowHelm = caelLib.dummy, caelLib.dummy
 
 for k, v in next, {InterfaceOptionsDisplayPanelShowCloak, InterfaceOptionsDisplayPanelShowHelm} do
 	v:SetButtonState("DISABLED", true)
