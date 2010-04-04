@@ -1,4 +1,4 @@
-﻿--[[	$Id: caelLib.lua 871 2010-04-02 16:34:14Z sdkyron@gmail.com $	]]
+﻿--[[	$Id$	]]
 
 caelLib = {}
 
