@@ -2,9 +2,9 @@
 ## Author: Caellian
 ## Title: |cffD7BEA5cael|rThreat
 ## Notes: Threat visual and audio warnings
+## RequiredDeps: caelMedia, caelPanels
 ## X-Revision: $Id$
 ## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
 ## X-Category: Combat
-## RequiredDeps: caelMedia, caelPanels
 
 caelThreat.lua
