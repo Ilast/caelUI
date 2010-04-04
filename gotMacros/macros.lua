@@ -33,7 +33,7 @@
 
 local _, playerClass = UnitClass("player")
 
-if GetLocale() == "enUS" then
+if caelLib.locale == "enUS" then
 	if playerClass == "HUNTER" then
 		gM_Macros = {
 			["TGT"] = {
@@ -284,7 +284,7 @@ if GetLocale() == "enUS" then
 			}
 		}
 	end
-elseif GetLocale() == "frFR" then
+elseif caelLib.locale == "frFR" then
 	if playerClass == "DEATHKNIGHT" then
 		gM_Macros = {
 			["DPS"] = {

@@ -1,8 +1,11 @@
 ## Interface: 30300
-## Author: Gotai
-## Title: gotMacros?
-## Notes: Silly!
-## Version: $Id$
+## Author: Gotai, Caellian
+## Title: |cffD7BEA5got|rMacros
+## Notes: Macros management
+## RequiredDeps: caelLib
+## X-Revision: $Id$
+## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
+## X-Category: Macros
 
 macros.lua
 gotMacros.lua
