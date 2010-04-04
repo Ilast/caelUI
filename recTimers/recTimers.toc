@@ -2,7 +2,7 @@
 ## Title: recTimers
 ## Author: Recluse
 ## Version: $Id$
-## Dependencies: caelMedia
+## RequiredDeps: caelLib, caelMedia
 
 smooth.lua
 core.lua

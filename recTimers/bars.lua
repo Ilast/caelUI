@@ -36,7 +36,7 @@ if playerLevel == 80 then
 end
 --]]
 
-if GetLocale() == "enUS" then
+if caelLib.locale == "enUS" then
 	if playerClass == "HUNTER" then
 		recTimers:make_bar("Aimed Shot", "target", "debuff", false, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 286)
 
@@ -49,7 +49,7 @@ if GetLocale() == "enUS" then
 		recTimers:make_bar("Serpent Sting", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 241)
 		recTimers:make_bar("Hunter's Mark", "target", "debuff", false, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 226)
 	end
-elseif GetLocale() == "frFR" then
+elseif caelLib.locale == "frFR" then
 	if playerClass == "DEATHKNIGHT" then
 		t:make_bar("Fièvre de givre", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 286)
 		t:make_bar("Peste d'ébène", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 271)
