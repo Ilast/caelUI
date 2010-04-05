@@ -2,8 +2,6 @@
 
 local _, caelCore = ...
 
-caelCore.dummy = function() end
-
 caelCore.createModule = function(name)
 
     -- Create module frame.
