@@ -31,10 +31,8 @@
 	}
 ]==]--
 
-local _, playerClass = UnitClass("player")
-
 if caelLib.locale == "enUS" then
-	if playerClass == "HUNTER" then
+	if caelLib.playerClass == "HUNTER" then
 		gM_Macros = {
 			["TGT"] = {
 				char = "Caellian, Callysto, Dynames",
@@ -188,7 +186,7 @@ if caelLib.locale == "enUS" then
 				body = [=[/castsequence reset=3 Rapid Fire, Readiness, null]=],
 			}
 		}
-	elseif playerClass == "DRUID" then
+	elseif caelLib.playerClass == "DRUID" then
 		gM_Macros = {
 			["Cat"] = {
 				char = "Cowdiak",
@@ -228,7 +226,7 @@ if caelLib.locale == "enUS" then
 				nosound = true,
 			}
 		}
-	elseif playerClass == "ROGUE" then
+	elseif caelLib.playerClass == "ROGUE" then
 		gM_Macros = {
 			["SinS"] = {
 				char = "Bonewraith",
@@ -285,7 +283,7 @@ if caelLib.locale == "enUS" then
 		}
 	end
 elseif caelLib.locale == "frFR" then
-	if playerClass == "DEATHKNIGHT" then
+	if caelLib.playerClass == "DEATHKNIGHT" then
 		gM_Macros = {
 			["DPS"] = {
 				char = "Dens",
@@ -313,7 +311,7 @@ elseif caelLib.locale == "frFR" then
 				perChar = true,
 			}
 		}
-	elseif playerClass == "HUNTER" then
+	elseif caelLib.playerClass == "HUNTER" then
 		gM_Macros = {
 			["TGT"] = {
 				char = "Caellian, Callysto, Dynames, Eling, Heria",
@@ -527,7 +525,7 @@ local multiLocales = {
 	}
 }
 
-if playerClass ~= "HUNTER" then
+if caelLib.playerClass ~= "HUNTER" then
 	if not gM_Macros then
 		gM_Macros = {}
 	end

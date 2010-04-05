@@ -6,7 +6,6 @@ gotMacros.eventFrame = CreateFrame("Frame", nil, UIParent)
 
 LoadAddOn("Blizzard_MacroUI")
 local macros = gM_Macros
-local playername = UnitName("player")
 
 local buttons = {}
 local prefix = "gotMacros_"
@@ -109,7 +108,7 @@ gotMacros.eventFrame:SetScript("OnEvent", function(self, event, ...)
 	end
 
 	for k,v in pairs(macros) do
-		if not v.char or v.char:find(playername) then
+		if not v.char or v.char:find(caelLib.playerName) then
 			SetUpMacro(k, v.body:gsub("\n\t*", "\n"), v.nosound)
 			if v.blizzmacro then
 				CreateBlizzardMacro(k, v.perChar, v.icon)
