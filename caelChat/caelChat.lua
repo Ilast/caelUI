@@ -88,11 +88,6 @@ local mergedTable = {
 	[28] = "CHANNEL",
 }
 
-local Kill = function(obj)
-	obj.Show = function() end
-	obj:Hide()
-end
-
 -- Container frame for tab buttons
 local cftbb = CreateFrame("Frame", "ChatButtonBar", UIParent)
 
@@ -193,7 +188,7 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 				local frame = _G[format("ChatFrame%s", i)]
 				local dockHighlight = _G[format("ChatFrame%sTabDockRegionHighlight", i)]
 				
---				Kill chat tabs
+--				kill chat tabs
 				local cft = _G[format("ChatFrame%sTab", i)]
 				local cftf = _G[format("ChatFrame%sTabFlash", i)]
 
@@ -207,10 +202,10 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 				cftf:SetScript("OnHide", nil)
 				cftf:GetRegions():SetTexture(nil)
 
-				Kill(_G[format("ChatFrame%sTabLeft", i)])
-				Kill(_G[format("ChatFrame%sTabMiddle", i)])
-				Kill(_G[format("ChatFrame%sTabRight", i)])
-				Kill(_G[format("ChatFrame%sTabText", i)])
+				caelLib.kill(_G[format("ChatFrame%sTabLeft", i)])
+				caelLib.kill(_G[format("ChatFrame%sTabMiddle", i)])
+				caelLib.kill(_G[format("ChatFrame%sTabRight", i)])
+				caelLib.kill(_G[format("ChatFrame%sTabText", i)])
 
 				frame:SetFading(true)
 				frame:SetFadeDuration(5)

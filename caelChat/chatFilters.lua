@@ -1,7 +1,5 @@
 ﻿--[[	$Id$	]]
 
-local playerName = UnitName("player")
-
 local gsub, find, match, lower = string.gsub, string.find, string.match, string.lower
 
 --[[	Filter npc spam	]]
@@ -15,7 +13,7 @@ local npcChannels = {
 local isNpcChat = function(self, event, ...)
 	local msg = ...
 	local isResting = IsResting()
-	if isResting and not msg:find(playerName) then
+	if isResting and not msg:find(caelLib.playerName) then
 		return true, ...
 	end
 	return false, ...
