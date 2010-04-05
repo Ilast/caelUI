@@ -22,6 +22,7 @@ end
 
 local oldMoney
 local itemCount = 0
+merchant:RegisterEvent("PLAYER_MONEY")
 merchant:RegisterEvent("MERCHANT_SHOW")
 merchant:SetScript("OnEvent", function(self, event)
 	if event == "MERCHANT_SHOW" then
@@ -38,15 +39,17 @@ merchant:SetScript("OnEvent", function(self, event)
 		end
 
 		if CanMerchantRepair() then
-			local cost, afford = GetRepairAllCost()
-			if afford then
+			local cost, needed = GetRepairAllCost()
+			if needed then
 				local GuildWealth = CanGuildBankRepair() and GetGuildBankWithdrawMoney() > cost
 				if GuildWealth then
 					RepairAllItems(1)
 					print(format("Guild bank repaired for %s.", formatMoney(cost)))
-				else
+				elseif cost < GetMoney() then
 					RepairAllItems()
 					print(format("Repaired for %s.", formatMoney(cost)))
+				else
+					print("Repairs were unaffordable.")
 				end
 			end
 		end
