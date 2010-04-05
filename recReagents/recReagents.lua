@@ -2,6 +2,9 @@
 
 local _, recReagents = ...
 
+local playerName = caelLib.playerName
+local playerRealm = caelLib.playerRealm
+
 recReagents.eventFrame = CreateFrame("Frame", nil, UIParent)
 
 --[[
@@ -91,7 +94,7 @@ recReagents.eventFrame:SetScript("OnEvent", function()
 	end
 end)
 
-if reagents[caelLib.playerRealm] and reagents[caelLib.playerRealm][caelLib.playerName] then
-	my_reagents = reagents[caelLib.playerRealm][caelLib.playerName]
+if reagents[playerRealm] and reagents[playerRealm][playerName] then
+	my_reagents = reagents[playerRealm][playerName]
 	reagents = nil
 end
