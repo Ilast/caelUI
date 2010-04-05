@@ -62,5 +62,5 @@ end
 
 charListA = nil
 charListB = nil
---realmName = nil
---playerClass = nil
+--caelLib.playerRealm = nil
+--caelLib.playerClass = nil
