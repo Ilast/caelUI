@@ -17,8 +17,6 @@ local boss = nil
 local bossHp = nil
 local totalElapsed = 0
 
-local playerName = UnitName("player")
-
 local bannerTest = "^" .. dndBanner
 
 local outgoingFilter = function(self, event, msg, ...)
@@ -30,7 +28,7 @@ local incomingFilter = function(self, event, msg, ...)
 	local sender = ...
 	local gm = select(5, ...)
 
-	if type(sender) ~= "string" or sender == playerName or
+	if type(sender) ~= "string" or sender == caelLib.playerName or
 	  (UnitExists("target") and UnitName("target") == sender) or UnitInRaid(sender) or
 	  (type(gm) == "string" and gm == "GM") then return false, msg, ... end
 
