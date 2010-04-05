@@ -16,7 +16,6 @@ local numOnlineGuildMembers = 0
 
 local numFriends = 0
 local numOnlineFriends = 0
-local playerName = UnitName("player")
 
 local delay = 0
 social:SetScript("OnUpdate", function(self, elapsed)
@@ -45,7 +44,7 @@ social:SetScript("OnEnter", function(self)
 			local name, _, _, level, _, zone, _, _, isOnline, status, classFileName = GetGuildRosterInfo(i)
 			local color = RAID_CLASS_COLORS[classFileName]
 
-			if isOnline and name ~= playerName then
+			if isOnline and name ~= caelLib.playerName then
 				GameTooltip:AddDoubleLine("|cffD7BEA5"..level.." |r"..name.." "..status, zone, color.r, color.g, color.b, 0.65, 0.63, 0.35)
 			end
 		end

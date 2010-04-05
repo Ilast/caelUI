@@ -12,7 +12,7 @@ dps.text:SetText("|cffD7BEA5DPS|r 0")
 dps:RegisterEvent("PLAYER_REGEN_ENABLED")
 dps:RegisterEvent("PLAYER_REGEN_DISABLED")
 
-local playerName, petName = UnitName("player"), UnitName("pet")
+local petName = UnitName("pet")
 local combStart, combTime, dmgTotal, prefix, suffix
 
 local formatTime = function(s)
@@ -44,7 +44,7 @@ dps:SetScript("OnEvent", function(self, event, _, type, _, sourceName, _, _, des
 		dmgTotal = 0
 		self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 	elseif event == "COMBAT_LOG_EVENT_UNFILTERED" then
-		if (sourceName == playerName or sourceName == petName) and destName ~= playerName then
+		if (sourceName == caelLib.playerName or sourceName == petName) and destName ~= caelLib.playerName then
 			prefix, suffix = type:match("(.-)_(.+)")
 			if (suffix == "DAMAGE" or suffix == "PERIODIC_DAMAGE" or suffix == "SHIELD") then
 				dmgTotal = (dmgTotal + select(prefix == "SWING" and 1 or 4, ...))
