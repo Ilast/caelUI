@@ -4,7 +4,6 @@ local _, caelEmote = ...
 
 caelEmote.eventFrame = CreateFrame("Frame", nil, UIParent)
 
-local playerName = UnitName("player")
 local playerFaction
 local targets = {}
 
@@ -25,7 +24,7 @@ caelEmote.eventFrame:HookScript("OnEvent", function(self, event, timestamp, sube
 				destName = destName:sub(0, dashPos - 1)
 			end
 			if targets[destName] then
-				if sourceName == playerName then
+				if sourceName == caelLib.playerName then
 					DoEmote("GLOAT", destName)
 					PlaySoundFile(caelMedia.files.soundGodlike)
 				end
