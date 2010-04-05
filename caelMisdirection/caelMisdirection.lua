@@ -9,8 +9,6 @@ local _, caelMisdirection = ...
 
 caelMisdirection.eventFrame = CreateFrame("Frame", nil, UIParent)
 
-local playerName = UnitName("player")
-
 local textColor = {r = 0.84, g = 0.75, b = 0.65}
 
 caelMisdirection.eventFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
@@ -18,7 +16,7 @@ caelMisdirection.eventFrame:SetScript("OnEvent", function(_, _, _, subEvent, _, 
 	if subEvent == "SPELL_CAST_SUCCESS" then
 		if  spellName == "Misdirection" then
 			if sourceName and UnitIsPlayer(destName) then
-				if sourceName == playerName and not UnitIsUnit(destName, "pet") then
+				if sourceName == caelLib.playerName and not UnitIsUnit(destName, "pet") then
 					SendChatMessage(("Détourné"), "WHISPER", GetDefaultLanguage("player"), destName)
 					RaidNotice_AddMessage(RaidWarningFrame, "Misdirection on "..destName, textColor)
 
