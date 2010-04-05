@@ -2,11 +2,27 @@
 
 caelLib = {}
 
-caelLib.dummy = function() end
+caelLib.playerClass = select(2, UnitClass("player"))
+caelLib.playerName = UnitName("player")
+caelLib.playerRealm = GetRealmName()
 caelLib.locale = GetLocale()
 
-local realmName = GetRealmName()
-local _, playerClass = UnitClass("player")
+caelLib.dummy = function() end
+
+caelLib.kill = function(object)
+    local objectReference = object
+    if type(object) == "string" then
+        objectReference = _G[object]
+    else
+        objectReference = object
+    end
+    if not objectReference then return end
+    if type(objectReference) == "frame" then
+        objectReference:UnregisterAllEvents()
+    end
+    objectReference.Show = caelLib.dummy
+    objectReference:Hide()
+end
 
 local charListA = {
 	["Temple noir"] = { 
@@ -36,15 +52,15 @@ local charListB = {
 	}
 }
 
-if charListA[realmName] and charListA[realmName][playerClass] and charListA[realmName][playerClass][UnitName("player")] then
+if charListA[caelLib.playerRealm] and charListA[caelLib.playerRealm][caelLib.playerClass] and charListA[caelLib.playerRealm][caelLib.playerClass][UnitName("player")] then
 	caelLib.isCharListA = true
 end
 
-if charListB[realmName] and charListB[realmName][playerClass] and charListB[realmName][playerClass][UnitName("player")] then
+if charListB[caelLib.playerRealm] and charListB[caelLib.playerRealm][caelLib.playerClass] and charListB[caelLib.playerRealm][caelLib.playerClass][UnitName("player")] then
 	caelLib.isCharListB = true
 end
 
 charListA = nil
 charListB = nil
-realmName = nil
-playerClass = nil
+--realmName = nil
+--playerClass = nil
