@@ -2,6 +2,8 @@
 
 -- At some point in the past, this was idChat.
 
+local kill = caelLib.kill
+
 -- Stuff you can change without things blowing up.
 local SCROLLDOWNDELAY = 20	-- Time in seconds before the chatframe auto-scrolls down.
 
@@ -114,9 +116,9 @@ end
 
 -- Hide EditBox artwork.
 local a, b, c = select(6, ChatFrameEditBox:GetRegions())
-caelLib.kill(a)
-caelLib.kill(b)
-caelLib.kill(c)
+kill(a)
+kill(b)
+kill(c)
 
 -- Auto scroll to bottom after SCROLLDOWNDELAY seconds of no activity.
 local AutoScrollQueue = {}
@@ -162,7 +164,7 @@ local function ScrollChat(self, delta)
 end
 
 -- Hide the last remaining button.
-caelLib.kill(ChatFrameMenuButton)
+kill(ChatFrameMenuButton)
 
 -- Stickies! You know, those things we haven't got on the EU Interface forums.
 ChatTypeInfo.SAY.sticky = 1
@@ -262,9 +264,9 @@ for i=1,7 do
 	frame:EnableMouseWheel(true)
 	frame:SetScript("OnMouseWheel", ScrollChat)
 	
-	caelLib.kill(_G["ChatFrame"..i.."UpButton"])
-	caelLib.kill(_G["ChatFrame"..i.."DownButton"])
-	caelLib.kill(_G["ChatFrame"..i.."BottomButton"])
+	kill(_G["ChatFrame"..i.."UpButton"])
+	kill(_G["ChatFrame"..i.."DownButton"])
+	kill(_G["ChatFrame"..i.."BottomButton"])
 	
 	if not blacklist[frame] then
 		frame:SetScript("OnHyperlinkClick", OnHyperlinkClickHook)
