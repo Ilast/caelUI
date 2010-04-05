@@ -16,7 +16,7 @@ local UnitName = UnitName
 local GetNumRaidMembers = GetNumRaidMembers
 local GetNumPartyMembers = GetNumPartyMembers
 local need_reset = true
-local player_name = UnitName("player")
+local player_name = caelLib.playerName
 local whisper_name = player_name
 
 local recycle_bin = {}
