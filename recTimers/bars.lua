@@ -2,8 +2,6 @@
 
 local _, recTimers = ...
 
-local _, playerClass = UnitClass("player")
-local playerLevel = UnitLevel("player")
 --[[
 Bar creation reference.
 
@@ -31,13 +29,13 @@ EVERYONE
 	--recTimers:make_bar("Toasty Fire",	"player", "buff",	false, .4, .4, .4,	200, 10, "CENTER", UIParent, "CENTER", 0, 0)
 	
 LEVELBASED
-if playerLevel == 80 then
+if caelLib.playerLevel == 80 then
 	--recTimers:make_bar("Well Fed", "player", "buff",	false, .4, .4, .4,	200, 10, "CENTER", UIParent, "CENTER", 0, 0)
 end
 --]]
 
 if caelLib.locale == "enUS" then
-	if playerClass == "HUNTER" then
+	if caelLib.playerClass == "HUNTER" then
 		recTimers:make_bar("Aimed Shot", "target", "debuff", false, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 286)
 
 		recTimers:make_bar("Silencing Shot", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 271)
@@ -50,13 +48,13 @@ if caelLib.locale == "enUS" then
 		recTimers:make_bar("Hunter's Mark", "target", "debuff", false, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 226)
 	end
 elseif caelLib.locale == "frFR" then
-	if playerClass == "DEATHKNIGHT" then
+	if caelLib.playerClass == "DEATHKNIGHT" then
 		t:make_bar("Fièvre de givre", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 286)
 		t:make_bar("Peste d'ébène", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 271)
 		t:make_bar("Peste de sang", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 256)
 		t:make_bar("Cor de l'hiver", "player", "buff", false, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 241)
 		t:make_bar("Bouclier d'os", "player", "buff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 226)
-	elseif playerClass == "HUNTER" then
+	elseif caelLib.playerClass == "HUNTER" then
 		t:make_bar("Visée",	"target", "debuff", false, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 286)
 		t:make_bar("Flèche-bâillon","target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 271)
 		t:make_bar("Tirs perforants", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 256)
@@ -64,7 +62,7 @@ elseif caelLib.locale == "frFR" then
 		t:make_bar("Flèche noire", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 256)
 		t:make_bar("Morsure de serpent", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 241)
 		t:make_bar("Marque du chasseur", "target", "debuff", false, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 226)
-	elseif playerClass == "MAGE" then
+	elseif caelLib.playerClass == "MAGE" then
 		t:make_bar("Brûlure", "target", "debuff", false, 1.0, 0.0, 0.0, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 301)
 		t:make_bar("barrieres de glace", "player", "buff", false, 0.0, 0.5, 0.5, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 286)
 		
