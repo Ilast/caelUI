@@ -26,8 +26,6 @@ local GetMerchantNumItems	= _G.GetMerchantNumItems
 local GetMerchantItemInfo	= _G.GetMerchantItemInfo
 local GetMerchantItemLink	= _G.GetMerchantItemLink
 local BuyMerchantItem		= _G.BuyMerchantItem
-local UnitName				= _G.UnitName
-local GetRealmName			= _G.GetRealmName
 local GetItemInfo			= _G.GetItemInfo
 local GetMoney				= _G.GetMoney
 local select				= select
@@ -93,9 +91,7 @@ recReagents.eventFrame:SetScript("OnEvent", function()
 	end
 end)
 
-local playerName = UnitName("player")
-local realmName = GetRealmName()
-if reagents[realmName] and reagents[realmName][playerName] then
-	my_reagents = reagents[realmName][playerName]
+if reagents[caelLib.playerRealm] and reagents[caelLib.playerRealm][caelLib.playerName] then
+	my_reagents = reagents[caelLib.playerRealm][caelLib.playerName]
 	reagents = nil
 end

@@ -1,7 +1,8 @@
 ## Interface: 30300
+## Author: Recluse
 ## Title: recReagents
 ## Notes: Restocks your reagents.
-## Author: Recluse
+## RequiredDeps: caelLib
 ## X-Revision: $Id$
 
 recReagents.lua
