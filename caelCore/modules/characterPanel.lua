@@ -2,6 +2,8 @@
 
 local _, caelCore = ...
 
+local dummy = caelLib.dummy
+
 caelCore.characterpanel = caelCore.createModule("CharacterPanel")
 
 local characterpanel = caelCore.characterpanel
@@ -17,7 +19,7 @@ CharacterModelFrameRotateRightButton:ClearAllPoints()
 CharacterModelFrameRotateRightButton:SetPoint("RIGHT", PaperDollFrame, "RIGHT", -90, 5)
 
 local ShowCloak, ShowHelm = ShowCloak, ShowHelm
-_G.ShowCloak, _G.ShowHelm = caelLib.dummy, caelLib.dummy
+_G.ShowCloak, _G.ShowHelm = dummy, dummy
 
 for k, v in next, {InterfaceOptionsDisplayPanelShowCloak, InterfaceOptionsDisplayPanelShowHelm} do
 	v:SetButtonState("DISABLED", true)

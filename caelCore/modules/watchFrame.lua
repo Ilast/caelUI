@@ -1,6 +1,6 @@
 ﻿--[[	$Id$	]]
 
-local dummy = function() end
+local dummy = caelLib.dummy
 
 WatchFrame:ClearAllPoints()
 WatchFrame:SetHeight(600)
