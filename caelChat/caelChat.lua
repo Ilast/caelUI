@@ -6,6 +6,9 @@ caelChat.eventFrame = CreateFrame("Frame", nil, UIParent)
 
 local _G = getfenv(0)
 
+local kill = caelLib.kill
+local isCharListB = caelLib.isCharListB
+
 CHAT_TELL_ALERT_TIME = 0 -- sound on every whisper
 DEFAULT_CHATFRAME_ALPHA = 0 -- remove mouseover background
 
@@ -202,10 +205,10 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 				cftf:SetScript("OnHide", nil)
 				cftf:GetRegions():SetTexture(nil)
 
-				caelLib.kill(_G[format("ChatFrame%sTabLeft", i)])
-				caelLib.kill(_G[format("ChatFrame%sTabMiddle", i)])
-				caelLib.kill(_G[format("ChatFrame%sTabRight", i)])
-				caelLib.kill(_G[format("ChatFrame%sTabText", i)])
+				kill(_G[format("ChatFrame%sTabLeft", i)])
+				kill(_G[format("ChatFrame%sTabMiddle", i)])
+				kill(_G[format("ChatFrame%sTabRight", i)])
+				kill(_G[format("ChatFrame%sTabText", i)])
 
 				frame:SetFading(true)
 				frame:SetFadeDuration(5)
@@ -213,7 +216,7 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 
 				dockHighlight:Hide()
 
-				if caelLib.isCharListB then
+				if isCharListB then
 					ChatFrame_RemoveAllChannels(frame)
 					ChatFrame_RemoveAllMessageGroups(frame)
 				end
@@ -226,7 +229,7 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 					frame:SetMaxLines(1000)
 					frame.SetPoint = function() end
 
-					if caelLib.isCharListB then
+					if isCharListB then
 						for i = 0, 28 do
 							if i < 16 then -- Everything up to 15
 								ToggleChatColorNamesByClassGroup(true, mergedTable[i])
@@ -430,7 +433,7 @@ local caelChat_OnUpdate = function(self, elapsed)
 			ChangeChatColor("WHISPER", 0.3, 0.6, 0.9)
 			ChangeChatColor("WHISPER_INFORM", 0.3, 0.6, 0.9)
 
-			if caelLib.isCharListB then
+			if isCharListB then
 				JoinTemporaryChannel("WeDidCaC")
 				ChatFrame_AddChannel(_G.ChatFrame1, "WeDidCaC")
 				ChangeChatColor("CHANNEL5", 0.67, 0.83, 0.45)
