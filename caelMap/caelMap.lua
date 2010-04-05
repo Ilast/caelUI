@@ -4,6 +4,9 @@ local _, caelMap = ...
 
 caelMap.eventFrame = CreateFrame("Frame")
 
+local kill = caelLib.kill
+local dummy = caelLib.dummy
+
 local Player = WorldMapButton:CreateFontString(nil, "ARTWORK")
 Player:SetPoint("TOPLEFT", WorldMapButton, 0, 40)
 Player:SetFont(caelMedia.files.fontRg, 12)
@@ -28,8 +31,8 @@ local function setupMap(self)
 		ToggleFrame(WorldMapFrame)
 	end
 
-	WorldMap_ToggleSizeDown = caelLib.dummy
-	WorldMap_ToggleSizeUp = caelLib.dummy
+	WorldMap_ToggleSizeDown = dummy
+	WorldMap_ToggleSizeUp = dummy
 
 	WorldMapFrame.oArrow = PositionWorldMapArrowFrame
 	PositionWorldMapArrowFrame = function(point, frame, anchor, x, y)
@@ -48,47 +51,47 @@ local function setupMap(self)
 
 	UIPanelWindows["WorldMapFrame"] = { area = "center", pushable = 9, whileDead = 1 };
 
-	caelLib.kill(BlackoutWorld)
-	caelLib.kill(WorldMapQuestDetailScrollFrame)
-	caelLib.kill(WorldMapQuestRewardScrollFrame)
-	caelLib.kill(WorldMapQuestScrollFrame)
-	caelLib.kill(WorldMapBlobFrame)
-	caelLib.kill(WorldMapQuestShowObjectives)
-	caelLib.kill(WorldMapFrameSizeDownButton)
-	caelLib.kill(WorldMapFrameSizeUpButton)
-	caelLib.kill(WorldMapFrameCloseButton)
-	caelLib.kill(WorldMapZoneMinimapDropDown)
-	caelLib.kill(WorldMapZoomOutButton)
-	caelLib.kill(WorldMapLevelDropDown)
-	caelLib.kill(WorldMapFrameTitle)
-	caelLib.kill(WorldMapContinentDropDown)
-	caelLib.kill(WorldMapZoneDropDown)
-	caelLib.kill(WorldMapLevelUpButton)
-	caelLib.kill(WorldMapLevelDownButton)
-	caelLib.kill(WorldMapTrackQuest)
+	kill(BlackoutWorld)
+	kill(WorldMapQuestDetailScrollFrame)
+	kill(WorldMapQuestRewardScrollFrame)
+	kill(WorldMapQuestScrollFrame)
+	kill(WorldMapBlobFrame)
+	kill(WorldMapQuestShowObjectives)
+	kill(WorldMapFrameSizeDownButton)
+	kill(WorldMapFrameSizeUpButton)
+	kill(WorldMapFrameCloseButton)
+	kill(WorldMapZoneMinimapDropDown)
+	kill(WorldMapZoomOutButton)
+	kill(WorldMapLevelDropDown)
+	kill(WorldMapFrameTitle)
+	kill(WorldMapContinentDropDown)
+	kill(WorldMapZoneDropDown)
+	kill(WorldMapLevelUpButton)
+	kill(WorldMapLevelDownButton)
+	kill(WorldMapTrackQuest)
 
 	WorldMapFrame:EnableKeyboard(false)
 	WorldMapFrame:EnableMouse(false)
-	WorldMapFrame.EnableKeyboard = caelLib.dummy
-	WorldMapFrame.EnableMouse = caelLib.dummy
+	WorldMapFrame.EnableKeyboard = dummy
+	WorldMapFrame.EnableMouse = dummy
 
-	WorldMap_LoadTextures = caelLib.dummy
+	WorldMap_LoadTextures = dummy
 
 	WorldMapPositioningGuide:ClearAllPoints()
 	WorldMapPositioningGuide:SetPoint("CENTER")
-	WorldMapPositioningGuide.ClearAllPoints = caelLib.dummy
-	WorldMapPositioningGuide.SetPoint = caelLib.dummy
+	WorldMapPositioningGuide.ClearAllPoints = dummy
+	WorldMapPositioningGuide.SetPoint = dummy
 
 	WorldMapDetailFrame:SetPoint("TOPLEFT", WorldMapPositioningGuide, "TOP", -502, -69)
 
 	local function StopMessingWithMyShitBlizzard(frame)
 		frame:SetScale(WORLDMAP_QUESTLIST_SIZE)
-		frame.ClearAllPoints = caelLib.dummy
-		frame.SetPoint = caelLib.dummy
-		frame.SetScale = caelLib.dummy
-		frame.SetWidth = caelLib.dummy
-		frame.SetHeight = caelLib.dummy
-		frame.SetSize = caelLib.dummy
+		frame.ClearAllPoints = dummy
+		frame.SetPoint = dummy
+		frame.SetScale = dummy
+		frame.SetWidth = dummy
+		frame.SetHeight = dummy
+		frame.SetSize = dummy
 	end
 
 	StopMessingWithMyShitBlizzard(WorldMapPositioningGuide)
@@ -109,7 +112,7 @@ local function setupMap(self)
 	end
 
 	WorldMapFrame:SetAlpha(0.75)
-	WorldMapFrame.SetAlpha = caelLib.dummy
+	WorldMapFrame.SetAlpha = dummy
 
 	WorldMapDetailFrame.bg = CreateFrame("Frame", nil, WorldMapDetailFrame)
 	WorldMapDetailFrame.bg:SetPoint("TOPLEFT", -10, 50)
