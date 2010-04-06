@@ -1,6 +1,6 @@
 --[[	$Id$	]]
 
-	for i = 1, NUM_GROUP_LOOT_FRAMES do
+for i = 1, NUM_GROUP_LOOT_FRAMES do
 	local frame = _G["GroupLootFrame"..i]
 	frame:ClearAllPoints()
 	frame:SetScale(0.75)
