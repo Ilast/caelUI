@@ -132,7 +132,7 @@ caelBags.ammo = ammo
 
 local bank = Container:New("bank", numBankColumns)
 bank:SetPoint("BOTTOMRIGHT", bags, "BOTTOMLEFT", -15, 0)
-bank:SetBackdropColor(0, 0, 0, 0.5)
+bank:SetBackdropColor(0, 0, 0, 0.7)
 bank:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
 caelBags.bank = bank
 
@@ -250,7 +250,7 @@ function ContainerFrame_GenerateFrame(frame, size, id)
 	container:UpdateSize()
 	
 	-- Hide the unused buttons.
-	for i=size + 1, MAX_CONTAINER_ITEMS, 1 do
+	for i = size + 1, MAX_CONTAINER_ITEMS, 1 do
 		_G[name.."Item"..i]:Hide();
 	end
 
@@ -336,12 +336,12 @@ local function ContainerFrameOnHide(self)
 	container:Refresh()
 end
 
-for i=1, NUM_CONTAINER_FRAMES do
+for i = 1, NUM_CONTAINER_FRAMES do
 	_G["ContainerFrame"..i]:HookScript("OnHide", ContainerFrameOnHide)
 end
 
 BankFrame:HookScript("OnShow", function()
-	for i=1, NUM_BANKITEM_SLOTS do
+	for i = 1, NUM_BANKITEM_SLOTS do
 		caelBags.bank:AddButton(_G["BankFrameItem"..i])
 	end
 	
