@@ -192,8 +192,9 @@ local function ApplyButtonLayout(button)
 	local questTexture = _G[format("%sIconQuestTexture", name)]
 
 	-- Hide that ugly new quest border
-	questTexture:Hide()
-	questTexture.Show = dummy
+--	questTexture:Hide()
+--	questTexture.Show = dummy
+	hooksecurefunc(questTexture, "Show", questTexture.Hide)
 
 	-- Replace textures.
 	button:SetNormalTexture(caelMedia.files.buttonNormal)
