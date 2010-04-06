@@ -52,32 +52,32 @@ if locale == "enUS" then
 	end
 elseif locale == "frFR" then
 	if playerClass == "DEATHKNIGHT" then
-		t:make_bar("Fièvre de givre", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 286)
-		t:make_bar("Peste d'ébène", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 271)
-		t:make_bar("Peste de sang", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 256)
-		t:make_bar("Cor de l'hiver", "player", "buff", false, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 241)
-		t:make_bar("Bouclier d'os", "player", "buff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 226)
+		recTimers:make_bar("Fièvre de givre", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 286)
+		recTimers:make_bar("Peste d'ébène", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 271)
+		recTimers:make_bar("Peste de sang", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 256)
+		recTimers:make_bar("Cor de l'hiver", "player", "buff", false, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 241)
+		recTimers:make_bar("Bouclier d'os", "player", "buff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 226)
 	elseif playerClass == "HUNTER" then
-		t:make_bar("Visée",	"target", "debuff", false, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 286)
-		t:make_bar("Flèche-bâillon","target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 271)
-		t:make_bar("Tirs perforants", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 256)
-		t:make_bar("Tir explosif", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 271)
-		t:make_bar("Flèche noire", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 256)
-		t:make_bar("Morsure de serpent", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 241)
-		t:make_bar("Marque du chasseur", "target", "debuff", false, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 226)
+		recTimers:make_bar("Visée",	"target", "debuff", false, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 286)
+		recTimers:make_bar("Flèche-bâillon","target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 271)
+		recTimers:make_bar("Tirs perforants", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 256)
+		recTimers:make_bar("Tir explosif", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 271)
+		recTimers:make_bar("Flèche noire", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 256)
+		recTimers:make_bar("Morsure de serpent", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 241)
+		recTimers:make_bar("Marque du chasseur", "target", "debuff", false, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 226)
 	elseif playerClass == "MAGE" then
-		t:make_bar("Brûlure", "target", "debuff", false, 1.0, 0.0, 0.0, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 301)
-		t:make_bar("barrieres de glace", "player", "buff", false, 0.0, 0.5, 0.5, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 286)
+		recTimers:make_bar("Brûlure", "target", "debuff", false, 1.0, 0.0, 0.0, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 301)
+		recTimers:make_bar("barrieres de glace", "player", "buff", false, 0.0, 0.5, 0.5, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 286)
 		
-		t:make_bar("Barrage de projectiles", "player", "buff",	false, 1.0, 0.0, 0.0, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 271)
-		t:make_bar("Atténuation de la magie", "player", "buff",	false, 1.0, 0.0, 0.0, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 256)
+		recTimers:make_bar("Barrage de projectiles", "player", "buff",	false, 1.0, 0.0, 0.0, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 271)
+		recTimers:make_bar("Atténuation de la magie", "player", "buff",	false, 1.0, 0.0, 0.0, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 256)
 		
-		t:make_bar("Intelligence de Dalaran", "player", "buff",	false, 0.0, 0.0, 0.5, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 241)
-		t:make_bar("Lumiere de Dalaran", "player", "buff",	false, 0.0, 0.0, 0.5, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 241)
-		t:make_bar("Intelligence des arcanes", "player", "buff", false, 0.0, 0.0, 0.5, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 241)
-		t:make_bar("Lumiere des arcanes", "player", "buff",	false, 0.0, 0.0, 0.5, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 241)
+		recTimers:make_bar("Intelligence de Dalaran", "player", "buff",	false, 0.0, 0.0, 0.5, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 241)
+		recTimers:make_bar("Lumiere de Dalaran", "player", "buff",	false, 0.0, 0.0, 0.5, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 241)
+		recTimers:make_bar("Intelligence des arcanes", "player", "buff", false, 0.0, 0.0, 0.5, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 241)
+		recTimers:make_bar("Lumiere des arcanes", "player", "buff",	false, 0.0, 0.0, 0.5, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 241)
 		
-		t:make_bar("Armure de givre", "player", "buff",	false, 0.5, 0.2, 0.0, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 226)
-		t:make_bar("Armure de la fournaise", "player", "buff",	false, 0.5, 0.2, 0.0, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 226)
+		recTimers:make_bar("Armure de givre", "player", "buff",	false, 0.5, 0.2, 0.0, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 226)
+		recTimers:make_bar("Armure de la fournaise", "player", "buff",	false, 0.5, 0.2, 0.0, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 226)
 	end
 end
