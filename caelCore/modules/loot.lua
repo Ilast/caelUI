@@ -11,15 +11,15 @@ local function onShow(self, ...)
     end
     self:SetScale(.75)
 
-    if self.onShow then
-        self:onShow(...)
+    if self.oldOnShow then
+        self:oldOnShow(...)
     end
 end
 
 -- Hook our override function into each loot frame.
 for i = 1, NUM_GROUP_LOOT_FRAMES do
     local frame = _G["GroupLootFrame"..i]
-    frame.onShow = frame:GetScript("OnShow")
+    frame.oldOnShow = frame:GetScript("OnShow")
     frame:SetScript("OnShow", onShow)
 end
 
