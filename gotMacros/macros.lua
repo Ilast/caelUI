@@ -187,6 +187,15 @@ if locale == "enUS" then
 			["RfRd"] = {
 				char = "Caellian, Callysto, Dynames",
 				body = [=[/castsequence reset=3 Rapid Fire, Readiness, null]=],
+			},
+			["KillS"] = {
+				char = "Caellian, Callysto, Dynames",
+				show = "Kill Shot",
+				body = [=[/Stopattack
+					/Stopcasting
+					/cast Kill Shot]=],
+				blizzmacro = true,
+				perChar = true,
 			}
 		}
 	elseif playerClass == "DRUID" then
