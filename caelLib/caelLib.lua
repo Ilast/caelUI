@@ -47,7 +47,7 @@ local charListB = {
 			["Cowdiak"] = true
 		},
 		["DEATHKNIGHT"] = {
-			["Dens"] = true
+			["Dkdens"] = true
 		}
 	}
 }
