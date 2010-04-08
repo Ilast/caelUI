@@ -25,7 +25,7 @@ caelLib.kill = function(object)
 end
 
 local charListA = {
-	["Temple noir"] = { 
+	["Illidan"] = { 
 		["HUNTER"] = {
 			["Caellian"] = true,
 			["Callysto"] = true
@@ -37,7 +37,7 @@ local charListA = {
 }
 
 local charListB = {
-	["Temple noir"] = { 
+	["Illidan"] = { 
 		["HUNTER"] = {
 			["Caellian"] = true,
 			["Callysto"] = true,
