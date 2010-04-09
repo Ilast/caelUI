@@ -85,7 +85,7 @@ local caelBossWhisperer_OnUpdate = function(self, elapsed)
 
 		local time = GetTime() - combatStart
 --		local msg = combatEndedString:format(math.floor(time / 60))
-		local msg = combatEndedString:format(boss, math.floor(time / 60), (alive and alive > 0) and "" or "with a wipe ")
+		local msg = combatEndedString:format(boss or "Unknown", math.floor(time / 60), (alive and alive > 0) and "" or "with a wipe ")
 		for k, v in pairs(whisperers) do
 			-- Notify people that combat has ended
 			SendChatMessage(msg, "WHISPER", nil, k)
