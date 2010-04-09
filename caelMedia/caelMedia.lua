@@ -39,12 +39,14 @@ caelMedia.insetTable = {
     top = 2,
     bottom = 2
 }
+
 caelMedia.backdropTable = {
     bgFile   = caelMedia.files.bgFile,
     edgeFile = caelMedia.files.edgeFile,
     edgeSize = 2,
     insets   = caelMedia.insetTable
 }
+
 --[[
 caelMedia.borderTable = {
     bgFile   = nil,

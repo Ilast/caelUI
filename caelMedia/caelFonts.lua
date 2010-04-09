@@ -89,7 +89,7 @@ caelFonts.eventFrame:SetScript("OnEvent", function(self, event, addon)
 
 	hooksecurefunc("PlayerTitleFrame_UpdateTitles", FixTitleFont)
 	FixTitleFont()
-	
+
 	SetFont = nil
 	self:SetScript("OnEvent", nil)
 	self:UnregisterAllEvents()
