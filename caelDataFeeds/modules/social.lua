@@ -59,8 +59,26 @@ social:SetScript("OnEnter", function(self)
 		GameTooltip:AddLine(" ")
 		for i = 1, numFriends do
 			local name, level, class, zone, isOnline, status = GetFriendInfo(i)
-			class = string.upper(class)
-			class = (class:find(" ")) and (caelLib.locale == "frFR" and "Chevalier de la mort" or "DEATHKNIGHT") or class
+
+			if not isOnline then break end
+
+			for k, v in pairs(LOCALIZED_CLASS_NAMES_MALE) do
+				if class == v then
+					class = k
+				end
+			end
+
+			if caelLib.Locale ~= "enUS" then -- feminine class localization
+				for k, v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do
+					if class == v then
+						class = k
+					end
+				end
+			end
+
+--			class = string.upper(class)
+--			class = (class:find(" ")) and (caelLib.locale == "frFR" and "Chevalier de la mort" or "DEATHKNIGHT") or class
+
 			local color = RAID_CLASS_COLORS[class]
 			if isOnline then
 				GameTooltip:AddDoubleLine("|cffD7BEA5"..level.." |r"..name.." "..status, zone, color.r, color.g, color.b, 0.65, 0.63, 0.35)
