@@ -81,22 +81,30 @@ local utf8sub = function(string, i, dots)
 	end
 end
 
+--[[
+-- Workaround for names starting with weird letters, german for example (only works with capital letters sadly)
+local newName = (string.len(origName) > 10) and string.gsub(origName, "%s?([\128-\196].)%S+%s", "%1. ") or origName
+newName = (string.len(newName) > 10) and string.gsub(newName, "(%s?)([^\128-\196])%S+%s", "%1%2. ") or newName
+--]]
+
 oUF.TagEvents['[NameShort]'] = 'UNIT_NAME_UPDATE'
 if (not oUF.Tags['[NameShort]']) then
 	oUF.Tags['[NameShort]'] = function(unit)
-		local name = UnitName(unit)
-		return utf8sub(name, 6, false)
+		local origName = UnitName(unit)
+		local newName = (string.len(origName) > 6) and string.gsub(origName, "%s?(.)%S+%s", "%1. ") or origName
+		return utf8sub(newName, 6, false)
 	end
 end
 
 oUF.TagEvents['[NameMedium]'] = 'UNIT_NAME_UPDATE'
 if (not oUF.Tags['[NameMedium]']) then
 	oUF.Tags['[NameMedium]'] = function(unit)
-		local name = UnitName(unit)
+		local origName = UnitName(unit)
+		local newName = (string.len(origName) > 12) and string.gsub(origName, "%s?(.)%S+%s", "%1. ") or origName
 		if (unit == 'pet' and name == 'Unknown') then
 			return 'Pet'
 		else
-			return utf8sub(name, 12, true)
+			return utf8sub(newName, 12, true)
 		end
 	end
 end
@@ -104,7 +112,8 @@ end
 oUF.TagEvents['[NameLong]'] = 'UNIT_NAME_UPDATE'
 if (not oUF.Tags['[NameLong]']) then
 	oUF.Tags['[NameLong]'] = function(unit)
-		local name = UnitName(unit)
-		return utf8sub(name, 18, true)
+		local origName = UnitName(unit)
+		local newName = (string.len(origName) > 18) and string.gsub(origName, "%s?(.)%S+%s", "%1. ") or origName
+		return utf8sub(newName, 18, true)
 	end
 end
