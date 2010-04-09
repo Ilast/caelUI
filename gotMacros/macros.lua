@@ -37,6 +37,16 @@ local playerClass = caelLib.playerClass
 if locale == "enUS" then
 	if playerClass == "HUNTER" then
 		gM_Macros = {
+			["WDI"] = {
+				char = "Caellian",
+				body = [=[/2 La guilde We Did It fraîchement migrée
+					/2 recrute afin de compléter son roster 25.
+					/2 Avancée PVE : ICC10HM: 4/12, ICC25: 10/12
+					/2 Objectifs: Down du LK25 afin d'entamer le HM25
+					/2 Rendez-vous sur: http://www.we-did-it.fr
+					/2 ou contactez moi directement. Bonne journée !]=],
+				blizzmacro = true,
+			},
 			["TGT"] = {
 				char = "Caellian, Callysto, Dynames",
 				show = "Hunter's Mark",
@@ -133,11 +143,11 @@ if locale == "enUS" then
 			},
 			["BlkA"] = {
 				char = "Caellian, Callysto, Dynames",
-				body = [=[/castsequence reset=29.3 Black Arrow, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+				body = [=[/castsequence reset=29.3 Black Arrow, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 			},
 			["SrSa"] = {
 				char = "Caellian, Callysto, Dynames",
-				body = [=[/castsequence reset=14.4/target Serpent Sting, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+				body = [=[/castsequence reset=14.4/target Serpent Sting, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 			},
 			["SrSb"] = {
 				char = "Caellian, Callysto, Dynames",
@@ -157,7 +167,7 @@ if locale == "enUS" then
 			},
 			["MulS"] = {
 				char = "Caellian, Callysto, Dynames",
-				body = [=[/castsequence reset=9.7 Multi-Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+				body = [=[/castsequence reset=9.7 Multi-Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 			},
 			["ArcS"] = {
 				char = "Caellian, Callysto, Dynames",
