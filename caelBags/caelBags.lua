@@ -4,6 +4,9 @@ local _, caelBags = ...
 
 _G.caelBags = caelBags
 
+-- Dummy func so we can trash some functions we can't avoid being called.
+local dummy = caelLib.dummy
+
 -- Constants
 local NUM_BAG_SLOTS = NUM_BAG_SLOTS			-- Amount of bag slots.
 local NUM_BANKBAGSLOTS = NUM_BANKBAGSLOTS		-- Amount of bankbag slots.
@@ -192,9 +195,9 @@ local function ApplyButtonLayout(button)
 	local questTexture = _G[format("%sIconQuestTexture", name)]
 
 	-- Hide that ugly new quest border
---	questTexture:Hide()
---	questTexture.Show = dummy
-	hooksecurefunc(questTexture, "Show", questTexture.Hide)
+	questTexture:Hide()
+	questTexture.Show = dummy
+--	hooksecurefunc(questTexture, "Show", questTexture.Hide)
 
 	-- Replace textures.
 	button:SetNormalTexture(caelMedia.files.buttonNormal)
@@ -258,9 +261,6 @@ function ContainerFrame_GenerateFrame(frame, size, id)
 	_G[frame:GetName().."PortraitButton"]:SetID(id);
 	frame:Show();
 end
-
--- Dummy func so we can trash some functions we can't avoid being called.
-local dummy = caelLib.dummy
 
 -- Init function. Removes a whole bunch of texture from the default frames.
 local function Init()
