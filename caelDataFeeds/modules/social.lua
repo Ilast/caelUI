@@ -30,6 +30,8 @@ social:SetScript("OnUpdate", function(self, elapsed)
 	end
 end)
 
+hooksecurefunc("SortGuildRoster", function(type) CURRENT_GUILD_SORTING = type end)
+
 social:SetScript("OnEnter", function(self)
 	numGuildMembers = GetNumGuildMembers()
 	numFriends = GetNumFriends() 
@@ -37,7 +39,7 @@ social:SetScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
 	if numGuildMembers > 0 then
-		hooksecurefunc("SortGuildRoster", function(type) CURRENT_GUILD_SORTING = type end)
+
 		local sortingOrder = CURRENT_GUILD_SORTING
 		if sortingOrder ~= "class" then
 			SortGuildRoster("class")
