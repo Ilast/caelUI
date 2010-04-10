@@ -1,4 +1,3 @@
-
 do
 	--Slash handler
 	_G["SlashCmdList"]["BADBOY_MAIN"] = function() InterfaceOptionsFrame_OpenToCategory("BadBoy") end
@@ -98,4 +97,3 @@ do
 	btnManualReportText:SetPoint("LEFT", btnManualReport, "RIGHT", 0, 1)
 	btnManualReportText:SetText(locManualReport)
 end
-
