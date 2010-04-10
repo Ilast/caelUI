@@ -37,7 +37,12 @@ social:SetScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
 
 	if numGuildMembers > 0 then
-		SortGuildRoster("class")
+		hooksecurefunc("SortGuildRoster", function(type) CURRENT_GUILD_SORTING = type end)
+		local sortingOrder = CURRENT_GUILD_SORTING
+		if sortingOrder ~= "class" then
+			SortGuildRoster("class")
+		end
+
 		GameTooltip:AddLine("Online Guild Members", 0.84, 0.75, 0.65)
 		GameTooltip:AddLine(" ")
 
