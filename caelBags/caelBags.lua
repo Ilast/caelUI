@@ -288,6 +288,10 @@ local function Init()
 		_G[format("%sCloseButton", name)]:Hide()
 		_G[format("%sPortraitButton", name)]:EnableMouse(false)
 	end
+
+	-- Fix token frame glitch
+	BackpackTokenFrame:Hide()
+	BackpackTokenFrame.Show = dummy
 	
 	-- Trash some BankFrame functionality.
 	BankFrame:EnableMouse(false)
