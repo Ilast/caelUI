@@ -157,7 +157,7 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"enableCombatText 0",
 			"hidePartyInRaid 1",
 			"showArenaEnemyFrames 0",
-			"autointeract 1",
+			caelLib.isCharListA and "autointeract 1" or "autointeract 0",
 			"previewTalents 1",
 			"showTutorials 0",
 			"UberTooltips 1",
