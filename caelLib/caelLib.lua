@@ -32,6 +32,9 @@ local charListA = {
 		},
 		["DRUID"] = {
 			["Cowdiak"] = true
+		},
+		["PALADIN"] = {
+			["Calyr"] = true
 		}
 	}
 }
@@ -45,6 +48,9 @@ local charListB = {
 		},
 		["DRUID"] = {
 			["Cowdiak"] = true
+		},
+		["PALADIN"] = {
+			["Calyr"] = true
 		},
 		["DEATHKNIGHT"] = {
 			["Dkdens"] = true
