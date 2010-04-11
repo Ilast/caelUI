@@ -41,7 +41,7 @@ if locale == "enUS" then
 				char = "Caellian",
 				body = [=[/2 La guilde We Did It fraîchement migrée
 					/2 recrute afin de compléter son roster 25.
-					/2 Avancée PVE : ICC10HM: 6/12, ICC25: 10/12
+					/2 Avancée PVE : ICC10-HM: 9/12, ICC25: 10/12
 					/2 Nous recherchons principalement:
 					/2 Mage, Démo, Chouette, Prêtre ombre
 					/2 Rendez-vous sur: http://www.we-did-it.fr
@@ -122,7 +122,7 @@ if locale == "enUS" then
 					/click gotMacros_ExpS
 					/click gotMacros_BlkA
 					/click gotMacros_SrSa
-					/click gotMacros_AimS
+					/click gotMacros_MulS
 					/click gotMacros_StdS]=],
 			},
 			["RotB"] = {
