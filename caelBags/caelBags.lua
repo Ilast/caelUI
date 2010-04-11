@@ -6,6 +6,7 @@ _G.caelBags = caelBags
 
 -- Dummy func so we can trash some functions we can't avoid being called.
 local dummy = caelLib.dummy
+local isCharListA = caelLib.isCharListA
 
 -- Constants
 local NUM_BAG_SLOTS = NUM_BAG_SLOTS			-- Amount of bag slots.
@@ -83,7 +84,8 @@ end
 
 -- Return a new container.
 function Container:New(name, maxColumns)
-	local c = CreateFrame("Button", nil, UIParent)
+--	local c = CreateFrame("Button", nil, UIParent)
+	local c = CreateFrame("Button", format("caelBags%s", name), UIParent)
 	c:SetFrameStrata("HIGH")
 	c:SetBackdrop(caelMedia.backdropTable)
 	c:Hide()
@@ -337,7 +339,12 @@ local function ContainerFrameOnHide(self)
 			container:RemoveButton(_G[("%sItem%d"):format(name, index)])
 		end
 	end
-	
+
+	if not isCharListA then
+		CloseAllBags()
+		BankFrame:Hide()
+	end
+
 	container:Refresh()
 end
 
