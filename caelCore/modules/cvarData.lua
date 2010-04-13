@@ -176,7 +176,7 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"gxFixLag 0",
 			"gxCursor 1",
 --			"gxRefresh 50",
-			"Maxfps 45",
+			"Maxfps 50",
 			"maxfpsbk 10",
 			"ffx 0",
 			"textureFilteringMode 0",
