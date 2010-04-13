@@ -304,6 +304,19 @@ if locale == "enUS" then
 				perChar = true,
 			}
 		}
+	elseif playerClass == "PALADIN" then
+		gM_Macros = {
+			["DPS"] = {
+				char = "Calyr",
+				show = "Auto Attack",
+				body = [=[/click [noexists][noharm][dead] gotMacros_T2
+					/click [combat, harm, nodead] gotMacros_CDs2
+					/cast Judgement of Wisdom
+					/startattack]=],
+				blizzmacro = true,
+				perChar = true,
+			}
+		}
 	end
 elseif locale == "frFR" then
 	if playerClass == "DEATHKNIGHT" then
@@ -531,7 +544,7 @@ end
 
 local multiLocales = {
 	["T2"] = {
-		char = "Bonewraith, Dens, Cowdiak, Pimiko",
+		char = "Bonewraith, Calyr, Dens, Cowdiak, Pimiko",
 		icon = [=[Interface\Icons\Ability_Hunter_MasterMarksman]=],
 		body = [=[/cleartarget [exists]
 			/targetenemy]=],
