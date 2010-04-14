@@ -59,13 +59,19 @@ lfg:SetScript("OnMouseDown", function(self, button)
 			ToggleLFDParentFrame()
 		end
 	elseif button == "RightButton" then
+		if (IsInLFGDungeon()) then
+			LFGTeleport(true)
+		else
+			LFGTeleport(false)
+		end
+--[[
 		if mode == "proposal" then
 			if not LFDDungeonReadyPopup:IsShown() then
 				StaticPopupSpecial_Show(LFDDungeonReadyPopup)
 				return
 			end
 		end
-
+--]]
 		MiniMapLFGFrameDropDown.point = "BOTTOM"
 		MiniMapLFGFrameDropDown.relativePoint = "TOP"
 		ToggleDropDownMenu(1, nil, MiniMapLFGFrameDropDown, lfgFrame, 0, 0)
