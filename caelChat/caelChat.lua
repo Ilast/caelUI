@@ -434,8 +434,8 @@ local caelChat_OnUpdate = function(self, elapsed)
 			ChangeChatColor("WHISPER_INFORM", 0.3, 0.6, 0.9)
 
 			if isCharListB then
-				JoinTemporaryChannel("WeDidCaC")
-				ChatFrame_AddChannel(_G.ChatFrame1, "WeDidCaC")
+				JoinTemporaryChannel("WeDidHunter")
+				ChatFrame_AddChannel(_G.ChatFrame1, "WeDidHunter")
 				ChangeChatColor("CHANNEL5", 0.67, 0.83, 0.45)
 			end
 			print("|cffD7BEA5cael|rChat: Chatframes setup complete")
