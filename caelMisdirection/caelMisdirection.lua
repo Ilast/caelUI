@@ -17,13 +17,18 @@ caelMisdirection.eventFrame:SetScript("OnEvent", function(_, _, _, subEvent, _, 
 		if  spellName == "Misdirection" then
 			if sourceName and UnitIsPlayer(destName) then
 				if sourceName == caelLib.playerName and not UnitIsUnit(destName, "pet") then
-					SendChatMessage(("Détourné"), "WHISPER", GetDefaultLanguage("player"), destName)
+					if caelLib.locale = "frFR" then
+						SendChatMessage(("Détourné"), "WHISPER", GetDefaultLanguage("player"), destName)
+					else
+						SendChatMessage(("Misdirected"), "WHISPER", GetDefaultLanguage("player"), destName)
+					end
+
 					RaidNotice_AddMessage(RaidWarningFrame, "Misdirection on "..destName, textColor)
 
---					local index = GetChannelName("RaidHunter")
---					if (index ~= nil) then 
---						SendChatMessage(("misdirected ".. destName) , "CHANNEL", nil, index)
---					end
+					local index = GetChannelName("WeDidHunter")
+					if (index ~= nil) then 
+						SendChatMessage(("misdirected ".. destName) , "CHANNEL", nil, index)
+					end
 				end
 			end
 		end
