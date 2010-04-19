@@ -46,10 +46,12 @@ local charListB = {
 	["Illidan"] = { 
 		["HUNTER"] = {
 			["Caellian"] = true,
-			["Callysto"] = true
+			["Callysto"] = true,
+			["Eling"] = true
 		},
 		["DRUID"] = {
-			["Cowdiak"] = true
+			["Cowdiak"] = true,
+			["Xelem"] = true
 		},
 		["PALADIN"] = {
 			["Calyr"] = true
