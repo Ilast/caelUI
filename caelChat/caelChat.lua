@@ -433,7 +433,7 @@ local caelChat_OnUpdate = function(self, elapsed)
 			ChangeChatColor("WHISPER", 0.3, 0.6, 0.9)
 			ChangeChatColor("WHISPER_INFORM", 0.3, 0.6, 0.9)
 
-			if isCharListB then
+			if isCharListB and caelLib.playerClass == "HUNTER" then
 				JoinTemporaryChannel("WeDidHunter")
 				ChatFrame_AddChannel(_G.ChatFrame1, "WeDidHunter")
 				ChangeChatColor("CHANNEL5", 0.67, 0.83, 0.45)
