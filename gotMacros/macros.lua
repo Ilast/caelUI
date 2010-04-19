@@ -38,7 +38,7 @@ if locale == "enUS" then
 	if playerClass == "HUNTER" then
 		gM_Macros = {
 			["WDI"] = {
-				char = "Caellian",
+				char = "Caellian, Callysto",
 				body = [=[/2 La guilde We Did It fraîchement migrée
 					/2 recrute afin de compléter son roster 25.
 					/2 Avancée PVE : ICC10-HM: 9/12, ICC25: 11/12
