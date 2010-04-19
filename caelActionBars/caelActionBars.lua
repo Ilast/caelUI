@@ -15,11 +15,10 @@ local actionBars = CreateFrame("Frame", nil, UIParent)
 actionBars:RegisterEvent("PLAYER_ENTERING_WORLD")
 actionBars:SetScript("OnEvent", function()
 	-- Force bottom left, bottom right and right bars to be shown.
-	SHOW_MULTI_ACTIONBAR_1 = true
-	SHOW_MULTI_ACTIONBAR_2 = true
-	SHOW_MULTI_ACTIONBAR_3 = true
-	SHOW_MULTI_ACTIONBAR_4 = false
-	InterfaceOptions_UpdateMultiActionBars()
+	SetActionBarToggles(true, true, true, false, ALWAYS_SHOW_MULTIBARS);
+	MultiActionBar_Update();
+	UIParent_ManageFramePositions();
+	
 	-- Force empty buttons to be shown.
 	ActionButton_HideGrid = function() end
 	for i = 1, 12 do
