@@ -17,7 +17,7 @@ caelMisdirection.eventFrame:SetScript("OnEvent", function(_, _, _, subEvent, _, 
 		if  spellName == "Misdirection" then
 			if sourceName and UnitIsPlayer(destName) then
 				if sourceName == caelLib.playerName and not UnitIsUnit(destName, "pet") then
-					if caelLib.locale = "frFR" then
+					if caelLib.locale == "frFR" then
 						SendChatMessage(("Détourné"), "WHISPER", GetDefaultLanguage("player"), destName)
 					else
 						SendChatMessage(("Misdirected"), "WHISPER", GetDefaultLanguage("player"), destName)
