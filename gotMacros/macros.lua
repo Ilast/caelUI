@@ -310,11 +310,28 @@ if locale == "enUS" then
 				char = "Calyr",
 				show = "Auto Attack",
 				body = [=[/click [noexists][noharm][dead] gotMacros_T2
-					/click [combat, harm, nodead] gotMacros_CDs2
-					/cast Judgement of Wisdom
+					/click gotMacros_RetR]=],
+				blizzmacro = true,
+				perChar = true,
+			},
+			["TANK"] = {
+				char = "Calyr",
+				show = "Auto Attack",
+				body = [=[/click [noexists][noharm][dead] gotMacros_T2
+					/click gotMacros_ProtR
 					/startattack]=],
 				blizzmacro = true,
 				perChar = true,
+			},
+			["RetR"] = {
+				char = "Calyr",
+				body = [=[/startattack
+					/castsequence Judgement of Wisdom, !Auto Attack]=],
+			},
+			["ProtR"] = {
+				char = "Calyr",
+				body = [=[/startattack
+					/castsequence Holy Shield, Judgement of Wisdom, !Auto Attack]=],
 			}
 		}
 	end
