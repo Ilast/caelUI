@@ -42,8 +42,8 @@ if locale == "enUS" then
 				body = [=[/2 La guilde We Did It fraîchement migrée
 					/2 recrute afin de compléter son roster 25.
 					/2 Avancée PVE : ICC10-HM: 9/12, ICC25: 11/12
-					/2 Nous recherchons principalement:
-					/2 Mage, Démo, Chouette, Prêtre ombre
+					/2 Toutes les candidatures seront étudiées
+					/2 Cinq soirs de présence requis
 					/2 Rendez-vous sur: http://www.we-did-it.fr
 					/2 ou contactez nous directement. Bonne journée !]=],
 				blizzmacro = true,
