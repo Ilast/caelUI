@@ -4,7 +4,7 @@ local _, caelPanels = ...
 
 caelPanels.eventFrame = CreateFrame("frame", nil, UIParent)
 
-panels, n = {}, 1
+local panels, n = {}, 1
 --	local fadePanels = {}
 local bgTexture = [=[Interface\ChatFrame\ChatFrameBackground]=]
 
