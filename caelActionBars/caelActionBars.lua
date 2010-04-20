@@ -15,12 +15,6 @@ local actionBars = CreateFrame("Frame", nil, UIParent)
 actionBars:RegisterEvent("PLAYER_ENTERING_WORLD")
 actionBars:SetScript("OnEvent", function()
 	-- Force bottom left, bottom right and right bars to be shown.
---	SHOW_MULTI_ACTIONBAR_1 = true
---	SHOW_MULTI_ACTIONBAR_2 = true
---	SHOW_MULTI_ACTIONBAR_3 = true
---	SHOW_MULTI_ACTIONBAR_4 = false
---	InterfaceOptions_UpdateMultiActionBars()
-
 	SetActionBarToggles(true, true, true, false, ALWAYS_SHOW_MULTIBARS)
 	MultiActionBar_Update()
 	UIParent_ManageFramePositions()
@@ -45,34 +39,22 @@ end)
 -- Frame to hold the ActionBar1 and the BonusActionBar
 local bar1Holder = CreateFrame("Frame", "Bar1Holder", caelPanel5)
 bar1Holder:SetFrameStrata("MEDIUM")
---bar1Holder:SetWidth(172)
---bar1Holder:SetHeight(60)
---bar1Holder:SetPoint("BOTTOM", UIParent, 153, 90)
 bar1Holder:SetAllPoints()
 
 -- Frame to hold the MultibarBottomLeft
 local bar2Holder = CreateFrame("Frame", "Bar2Holder", caelPanel6)
 bar2Holder:SetFrameStrata("MEDIUM")
---bar2Holder:SetWidth(172)
---bar2Holder:SetHeight(60)
---bar2Holder:SetPoint("BOTTOM", UIParent, -153, 20)  
 bar2Holder:SetAllPoints()
 
 
 -- Frame to hold the MultibarRight
 local bar3Holder = CreateFrame("Frame", "Bar3Holder", caelPanel7)
 bar3Holder:SetFrameStrata("MEDIUM")
---bar3Holder:SetWidth(172)
---bar3Holder:SetHeight(60)
---bar3Holder:SetPoint("BOTTOM", UIParent, 153, 20)
 bar3Holder:SetAllPoints()
 
 -- Frame to hold the right bars
 local bar45Holder = CreateFrame("Frame", "Bar45Holder", caelPanel4)
 bar45Holder:SetFrameStrata("MEDIUM")
---bar45Holder:SetWidth(172)
---bar45Holder:SetHeight(60)
---bar45Holder:SetPoint("BOTTOM", UIParent, -153, 90)
 bar45Holder:SetAllPoints()
 
 
@@ -233,10 +215,6 @@ ShapeshiftBarFrame:SetParent(shiftBarHolder)
 ShapeshiftBarFrame:SetWidth(0.01)
 ShapeshiftButton1:ClearAllPoints()
 ShapeshiftButton1:SetPoint("BOTTOMLEFT",shiftBarHolder, 10, 10)
-local function MoveShapeshift()
-	ShapeshiftButton1:SetPoint("BOTTOMLEFT",shiftBarHolder, 10, 10)
-end
-hooksecurefunc("ShapeshiftBar_Update", MoveShapeshift)  
 
 PossessBarFrame:SetParent(shiftBarHolder)
 PossessButton1:ClearAllPoints()
