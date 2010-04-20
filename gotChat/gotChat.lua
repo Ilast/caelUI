@@ -253,7 +253,7 @@ local function OnHyperlinkClickHook(self, link, text, button)
 end
 
 -- Skip the combat log!
-blacklist = {
+local blacklist = {
 	[ChatFrame2] = true,
 }
 

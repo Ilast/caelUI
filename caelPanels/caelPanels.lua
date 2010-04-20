@@ -134,3 +134,6 @@ end
 caelPanels:RegisterEvent("PLAYER_REGEN_DISABLED")
 caelPanels:RegisterEvent("PLAYER_REGEN_ENABLED")
 --]]
+
+-- Push panels table into global scope.
+_G["caelPanels"] = panels

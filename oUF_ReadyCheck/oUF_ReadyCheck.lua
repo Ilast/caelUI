@@ -18,7 +18,7 @@ local statusTexture = {
 	waiting = [=[Interface\RAIDFRAME\ReadyCheck-Waiting]=],
 }
 
-function onUpdate(self, elapsed)
+local function onUpdate(self, elapsed)
 	if(self.finish) then
 		self.finish = self.finish - elapsed
 		if(self.finish <= 0) then

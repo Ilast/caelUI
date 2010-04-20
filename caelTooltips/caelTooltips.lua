@@ -195,7 +195,7 @@ end
 GameTooltip:HookScript("OnTooltipSetUnit", OnTooltipSetUnit)
 
 local OnTooltipAddMoney = function(self, cost, maxcost)
-	r, g, b = 0.84, 0.75, 0.65
+	local r, g, b = 0.84, 0.75, 0.65
 	self:AddLine("Value: "..FormatMoney(cost), r, g, b)
 end
 

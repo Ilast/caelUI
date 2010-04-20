@@ -502,7 +502,7 @@ cCL:HookScript("OnEvent", function(self, event)
 		PlaySoundFile(caelMedia.files.soundLeavingCombat)
 
 		if #t > 0 then
-			tooltipMsg = format("%s%s%s%s%s",
+			local tooltipMsg = format("%s%s%s%s%s",
 				(floor(duration / 60) > 0) and (floor(duration / 60).."m "..(floor(duration) % 60).."s") or (floor(duration).."s").." in combat\n",
 				data.damageOut > 0 and "Damage done: "..(data.damageOut).."\n" or "",
 				data.damageIn > 0 and "Damage recieved: "..(data.damageIn).."\n" or "",

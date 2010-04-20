@@ -307,7 +307,7 @@ caelNameplates.eventFrame:SetScript("OnUpdate", function(self, elapsed)
 		local newNumKids = WorldFrame:GetNumChildren()
 		if newNumKids ~= numKids then
 			for i = numKids + 1, newNumKids do
-				frame = select(i, WorldFrame:GetChildren())
+				local frame = select(i, WorldFrame:GetChildren())
 
 				if isValidFrame(frame) then
 					createPlate(frame)

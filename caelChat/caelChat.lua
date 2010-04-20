@@ -252,12 +252,12 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 					frame:UnregisterEvent("COMBAT_LOG_EVENT")
 				elseif(i == 3) then
 					FCF_SetWindowName(frame, "• w <-> •")
-					FCF_DockFrame(frame, 2)
+					FCF_DockFrame(frame, frame:GetID()-1)
 					ChatFrame_AddMessageGroup(frame, "WHISPER")
 					ChatFrame_AddMessageGroup(frame, "WHISPER_INFORM")
 				elseif(i == 4) then
 					FCF_SetWindowName(frame, "• Loot •")
-					FCF_DockFrame(frame, 3)
+					FCF_DockFrame(frame, frame:GetID()-1)
 					ChatFrame_AddMessageGroup(frame, "LOOT")
 					ChatFrame_AddMessageGroup(frame, "MONEY")
 				else
@@ -386,7 +386,7 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 			end)
 
 --			Hook cf3's add message so we can flash.
-			oAddMessage = ChatFrame3.AddMessage
+			local oAddMessage = ChatFrame3.AddMessage
 			ChatFrame3.AddMessage = function(...)
 --				Flash if tab is not selected.
 				if ChatButtonBar.id ~= 3 then

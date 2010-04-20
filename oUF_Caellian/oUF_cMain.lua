@@ -512,7 +512,7 @@ local OverrideUpdateThreat = function(self, event, unit, status)
 
 	local status = UnitIsFriend("player", unit) and UnitThreatSituation(unit) or UnitThreatSituation("player", unit)
 	if (status and status > 0) then
-		r, g, b = GetThreatStatusColor(status)
+		local r, g, b = GetThreatStatusColor(status)
 		self.FrameBackdrop:SetBackdropBorderColor(r, g, b)
 	else
 		self.FrameBackdrop:SetBackdropBorderColor(0, 0, 0)

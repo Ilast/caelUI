@@ -55,6 +55,7 @@ merchant:SetScript("OnEvent", function(self, event)
 		end
 	elseif event == "PLAYER_MONEY" then
 		local newMoney = GetMoney()
+		local diffMoney
 		if oldMoney and oldMoney > 0 then
 			diffMoney = newMoney - oldMoney
 		else

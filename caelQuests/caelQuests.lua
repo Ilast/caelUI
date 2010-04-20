@@ -22,8 +22,8 @@ local function Recycler(trash_table)
 	end
 end
 
-old_data = Recycler()
-new_data = Recycler()
+local old_data = Recycler()
+local new_data = Recycler()
 
 local update_in_progress = false
 local update_pause = CreateFrame("Frame")

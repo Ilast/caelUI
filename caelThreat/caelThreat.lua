@@ -13,7 +13,7 @@ caelThreat.eventFrame:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE")
 caelThreat.eventFrame:SetScript("OnEvent", function(self, event, unit)
 	if unit ~= "player" then return end
 
-	for _, panel in pairs(panels) do
+	for _, panel in pairs(caelPanels) do
 		local status = UnitThreatSituation("player")
 		if (status and status > 0) then
 			local r, g, b = GetThreatStatusColor(status)
