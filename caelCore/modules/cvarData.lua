@@ -203,7 +203,7 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"Sound_EnableErrorSpeech 0",
 			"Sound_EnableMusic 0",
 			"Sound_EnableSoundWhenGameIsInBG 1",
-			"Sound_MasterVolume 0.20000000298023",
+			"Sound_MasterVolume 0.10000000149012",
 			"Sound_MusicVolume 0",
 			"Sound_SFXVolume 0.20000000298023",
 
