@@ -318,20 +318,19 @@ if locale == "enUS" then
 				char = "Calyr",
 				show = "Auto Attack",
 				body = [=[/click [noexists][noharm][dead] gotMacros_T2
-					/click gotMacros_ProtR
-					/startattack]=],
+					/click gotMacros_ProtR]=],
 				blizzmacro = true,
 				perChar = true,
 			},
 			["RetR"] = {
 				char = "Calyr",
-				body = [=[/startattack
-					/castsequence Judgement of Wisdom, !Auto Attack]=],
+				body = [=[/startattack [harm, nodead]
+					/castsequence [harm, nodead] Crusader Strike, Judgement of Wisdom, !Auto Attack]=],
 			},
 			["ProtR"] = {
 				char = "Calyr",
-				body = [=[/startattack
-					/castsequence Holy Shield, Judgement of Wisdom, !Auto Attack]=],
+				body = [=[/startattack [harm, nodead]
+					/castsequence [harm, nodead] Holy Shield, Judgement of Wisdom, !Auto Attack]=],
 			}
 		}
 	end
