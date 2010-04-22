@@ -11,17 +11,8 @@ local autoinvite = caelCore.autoinvite
 local AcceptFriends = false
 local AcceptGuild = true
 
-local playerList = {
-	["Bonewraith"] = true,
-	["Caellian"] = true,
-	["Callysto"] = true,
-	["Cowdiak"] = true,
-	["Pimiko"] = true,
-	["Dens"] = true,
-}
-
 local function IsFriend(name)
-	if playerList[name] then
+	if isChatListB then
 		return true
 	end
 
