@@ -2,6 +2,7 @@
 ## Author: Caellian
 ## Title: |cffD7BEA5cael|rSmartAmmo
 ## Notes: Smart ammunitions for Hunters
+## RequiredDeps: caelLib
 ## X-Revision: $Id$
 ## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
 ## X-Category: Hunters
