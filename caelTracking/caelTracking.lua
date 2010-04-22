@@ -1,6 +1,6 @@
 ﻿--[[	$Id$	]]
 
-if select(2, UnitClass("player")) ~= "HUNTER" then
+if caelLib.playerClass ~= "HUNTER" then
 	print("|cffD7BEA5cael|rTracking: You are not a Hunter, caelTracking will be disabled on next UI reload.")
 	return DisableAddOn("caelTracking")
 end
