@@ -44,12 +44,12 @@ merchant:SetScript("OnEvent", function(self, event)
 				local GuildWealth = CanGuildBankRepair() and GetGuildBankWithdrawMoney() > cost
 				if GuildWealth then
 					RepairAllItems(1)
-					print(format("Guild bank repaired for %s.", formatMoney(cost)))
+					print(format("|cffD7BEA5cael|rCore: Guild bank repaired for %s.", formatMoney(cost)))
 				elseif cost < GetMoney() then
 					RepairAllItems()
-					print(format("Repaired for %s.", formatMoney(cost)))
+					print(format("|cffD7BEA5cael|rCore: Repaired for %s.", formatMoney(cost)))
 				else
-					print("Repairs were unaffordable.")
+					print("|cffD7BEA5cael|rCore: Repairs were unaffordable.")
 				end
 			end
 		end
@@ -63,7 +63,7 @@ merchant:SetScript("OnEvent", function(self, event)
 		end
 
 		if diffMoney > 0 and itemCount > 0 then
-			print(format("Sold %d trash item%s for %s.", itemCount, itemCount ~= 1 and "s" or "", formatMoney(diffMoney)))
+			print(format("|cffD7BEA5cael|rCore: Sold %d trash item%s for %s.", itemCount, itemCount ~= 1 and "s" or "", formatMoney(diffMoney)))
 		end
 		itemCount = 0
 	end
