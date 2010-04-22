@@ -2,6 +2,7 @@
 ## Author: Caellian, Recluse, Phanx
 ## Title: |cffD7BEA5cael|rPetCare
 ## Notes: Easy hunter pet care
+## RequiredDeps: caelLib
 ## X-Revision: $Id$
 ## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
 
