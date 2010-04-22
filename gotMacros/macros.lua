@@ -333,21 +333,40 @@ if locale == "enUS" then
 					/castsequence [harm, nodead] Holy Shield, Judgement of Wisdom, !Auto Attack]=],
 			}
 		}
+	elseif playerClass == "DEATHKNIGHT" then
+		gM_Macros = {
+			["DPS"] = {
+				char = "Dkdens",
+				show = "Attaque Auto",
+				body = [=[/click [noexists][noharm][dead] gotMacros_T2
+					/click [combat, harm, nodead] gotMacros_CDs2
+					/castsequence [harm, nodead] reset=target/combat Plague Strike, Ice Touch, Blood Strike, Scourge Strike, Blood Strike, Scourge Strike, Blood Strike, Scourge Strike, Blood Strike]=],
+				blizzmacro = true,
+				perChar = true,
+			},
+			["BUFF"] = {
+				char = "Dkdens",
+				show = "Peste de sang",
+				body = [=[/castsequence Horn of Winter, Bone Shield]=],
+				blizzmacro = true,
+				perChar = true,
+			}
+		}	
 	end
 elseif locale == "frFR" then
 	if playerClass == "DEATHKNIGHT" then
 		gM_Macros = {
 			["DPS"] = {
-				char = "Dens",
+				char = "Dkdens",
 				show = "Attaque Auto",
 				body = [=[/click [noexists][noharm][dead] gotMacros_T2
 					/click [combat, harm, nodead] gotMacros_CDs2
-					/castsequence [harm, nodead] reset=target/combat Frappe de peste, Toucher de glace, Frappe de sang, Frappe du fléau, Frappe de sang, Voile mortel, Cor de l'hiver, Frappe du fléau, Frappe de sang, Frappe du fléau, Frappe de sang, Voile mortel, Voile mortel]=],
+					/castsequence [harm, nodead] reset=target/combat Frappe de peste, Toucher de glace, Frappe de sang,  Frappe de sang, Frappe du fléau, Frappe du fléau, Frappe de sang, Frappe de sang]=],
 				blizzmacro = true,
 				perChar = true,
 			},
 			["TANK"] = {
-				char = "Dens",
+				char = "Dkdens",
 				show = "Attaque Auto",
 				body = [=[/click [noexists][noharm][dead] gotMacros_T2
 					/click [combat, harm, nodead] gotMacros_CDs2
@@ -356,8 +375,8 @@ elseif locale == "frFR" then
 				perChar = true,
 			},
 			["BUFF"] = {
-				char = "Dens",
-				show = "",
+				char = "Dkdens",
+				show = "Peste de sang",
 				body = [=[/castsequence Cor de l'hiver, Bouclier d'os]=],
 				blizzmacro = true,
 				perChar = true,
@@ -560,13 +579,13 @@ end
 
 local multiLocales = {
 	["T2"] = {
-		char = "Bonewraith, Calyr, Dens, Cowdiak, Pimiko",
+		char = "Bonewraith, Calyr, Dkdens, Cowdiak, Pimiko",
 		icon = [=[Interface\Icons\Ability_Hunter_MasterMarksman]=],
 		body = [=[/cleartarget [exists]
 			/targetenemy]=],
 	},
 	["CDs2"] = {
-		char = "Cowdiak, Bonewraith",
+		char = "Cowdiak, Bonewraith, Dkdens",
 		icon = [=[Interface\Icons\Spell_Shadow_LastingAfflictions]=],
 		body = [=[/use Battlemaster's Determination
 			/use Bloodlust Brooch
