@@ -506,7 +506,7 @@ local HidePortrait = function(self, unit)
 		end
 	end
 end
-
+--[[
 local OverrideUpdateThreat = function(self, event, unit, status)
 	if (self.unit ~= unit) then return end
 
@@ -518,7 +518,7 @@ local OverrideUpdateThreat = function(self, event, unit, status)
 		self.FrameBackdrop:SetBackdropBorderColor(0, 0, 0)
 	end
 end
-
+]]
 local updateAllElements = function(frame)
 	for _, v in ipairs(frame.__elements) do
 		v(frame, "UpdateElement", frame.unit)
@@ -552,9 +552,9 @@ local SetStyle = function(self, unit)
 	else
 		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, 4, -4)
 	end
-	self:RegisterEvent("UNIT_THREAT_LIST_UPDATE", OverrideUpdateThreat)
-	self:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE", OverrideUpdateThreat)
-	insert(self.__elements,  OverrideUpdateThreat)
+--	self:RegisterEvent("UNIT_THREAT_LIST_UPDATE", OverrideUpdateThreat)
+--	self:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE", OverrideUpdateThreat)
+--	insert(self.__elements,  OverrideUpdateThreat)
 
 	self.Health = CreateFrame("StatusBar", self:GetName().."_Health", self)
 	self.Health:SetHeight((unit == "player" or unit == "target" or self:GetParent():GetName():match("oUF_Raid")) and 22 or self:GetAttribute("unitsuffix") == "pet" and 10 or 16)
@@ -1026,7 +1026,7 @@ local SetStyle = function(self, unit)
 	self.PostCreateEnchantIcon = CreateAura
 	self.PostUpdateAuraIcon = UpdateAura
 	self.PostUpdateEnchantIcons = CreateEnchantTimer
-	self.OverrideUpdateThreat = OverrideUpdateThreat
+--	self.OverrideUpdateThreat = OverrideUpdateThreat
 
 	self:SetScale(settings.scale)
 	if self.Auras then self.Auras:SetScale(settings.scale) end
