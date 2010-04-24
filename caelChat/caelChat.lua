@@ -212,7 +212,7 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 
 				frame:SetFading(true)
 				frame:SetFadeDuration(5)
-				frame:SetTimeVisible(20)
+				frame:SetTimeVisible(30)
 
 				dockHighlight:Hide()
 
