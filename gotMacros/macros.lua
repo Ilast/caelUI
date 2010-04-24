@@ -325,12 +325,12 @@ if locale == "enUS" then
 			["RetR"] = {
 				char = "Calyr",
 				body = [=[/startattack [harm, nodead]
-					/castsequence [harm, nodead] Crusader Strike, Judgement of Wisdom, !Auto Attack]=],
+					/cast [harm, nodead] Crusader Strike]=],
 			},
 			["ProtR"] = {
 				char = "Calyr",
 				body = [=[/startattack [harm, nodead]
-					/castsequence [harm, nodead] Holy Shield, Judgement of Wisdom, !Auto Attack]=],
+					/castsequence [harm, nodead] Holy Shield, Hammer of the Righteous, Judgement of Wisdom, !Auto Attack]=],
 			}
 		}
 	elseif playerClass == "DEATHKNIGHT" then
