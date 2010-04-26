@@ -507,10 +507,34 @@ local HidePortrait = function(self, unit)
 end
 
 local isTankClassSpec = {
-	["PALADIN"] = GetSpellInfo(25780), -- Righteous Fury
+	["PALADIN"] = {
+		GetSpellInfo(25780), -- Righteous Fury
+		(GetSpellInfo(465)), -- Devotion Aura
+	},
 	["WARRIOR"] = GetSpellInfo(71), -- Defensive Stance
-	["DRUID"] = GetSpellInfo(5487) or GetSpellInfo(9634) -- Bear Form -- Dire Bear Form
+	["DRUID"] = {
+		GetSpellInfo(5487), -- Bear Form
+		(GetSpellInfo(9634)), -- Dire Bear Form
+	},
 }
+
+local IsTankCheck = function(unit, spells)
+	local status = false
+	if type(spells) == "table" then
+		status = true
+		for i = 1, #spells do
+			if not UnitAura(unit, spells[i]) then
+				status = false
+			end
+		end
+	elseif spells then
+		if UnitAura(unit, spells) then
+			status = true
+		end
+	end
+	
+	return status
+end
 
 local aggroColors = {
 	[true] = {
@@ -530,7 +554,7 @@ local OverrideUpdateThreat = function(self, event, unit, status)
 
 	local _, unitClass = UnitClass(self.unit)
 
-	local isTank = not not(isTankClassSpec[unitClass] and UnitAura(self.unit, isTankClassSpec[unitClass]))
+	local isTank = IsTankCheck(self.unit, isTankClassSpec[unitClass])
 
 	local status = UnitIsFriend("player", unit) and UnitThreatSituation(unit) or UnitThreatSituation(self.unit, unit)
 	if (status and status > 0) then
