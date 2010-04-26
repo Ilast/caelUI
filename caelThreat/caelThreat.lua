@@ -18,16 +18,14 @@ local isTankClassSpec = {
 
 local aggroColors = {
 	[true] = {
-		[0] = {1, 0, 0},
 		[1] = {1, 0.6, 0},
 		[2] = {1, 1, 0.47},
 		[3] = {0.33, 0.59, 0.33},
 	},
 	[false] = {
-		[0] = {0.69, 0.69, 0.69},
 		[1] = {1, 1, 0.47},
 		[2] = {1, 0.6, 0},
-		[3] = {1, 0, 0},
+		[3] = {0.69, 0.31, 0.31},
 	}
 }
 
@@ -52,12 +50,12 @@ caelThreat.eventFrame:SetScript("OnEvent", function(self, event, unit)
 			if (status and status < 1)	then
 				if (abs(threatPercent - 20) <= 5) then
 					if (lastWarning ~= 20) then
-						RaidNotice_AddMessage(RaidWarningFrame, "|cffB0B0B0".."~20% THREAT|r", ChatTypeInfo["RAID_WARNING"]) -- Green |cff559655
+						RaidNotice_AddMessage(RaidWarningFrame, "|cff559655".."~20% THREAT|r", ChatTypeInfo["RAID_WARNING"])
 						lastWarning = 20
 					end
 				elseif (abs(threatPercent - 40) <= 5) then
 					if (lastWarning ~= 40) then
-						RaidNotice_AddMessage(RaidWarningFrame, "|cffB0B0B0".."~40% THREAT|r", ChatTypeInfo["RAID_WARNING"]) -- Green |cff559655
+						RaidNotice_AddMessage(RaidWarningFrame, "|cff559655".."~40% THREAT|r", ChatTypeInfo["RAID_WARNING"])
 						lastWarning = 40
 					end
 				elseif (abs(threatPercent - 60) <= 5) then
