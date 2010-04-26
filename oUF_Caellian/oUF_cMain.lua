@@ -14,7 +14,6 @@ local highlightTex = mediaPath..[=[textures\highlighttex]=]
 local font = settings.font
 local fontn = mediaPath..[=[fonts\russel square lt.ttf]=]
 
-local myName = UnitName("player")
 local _, playerClass = UnitClass("player")
 
 local lowThreshold = settings.lowThreshold
@@ -506,19 +505,42 @@ local HidePortrait = function(self, unit)
 		end
 	end
 end
---[[
+
+local isTankClassSpec = {
+	["PALADIN"] = GetSpellInfo(25780), -- Righteous Fury
+	["WARRIOR"] = GetSpellInfo(71), -- Defensive Stance
+	["DRUID"] = GetSpellInfo(5487) or GetSpellInfo(9634) -- Bear Form -- Dire Bear Form
+}
+
+local aggroColors = {
+	[true] = {
+		[1] = {1, 0.6, 0},
+		[2] = {1, 1, 0.47},
+		[3] = {0.33, 0.59, 0.33},
+	},
+	[false] = {
+		[1] = {1, 1, 0.47},
+		[2] = {1, 0.6, 0},
+		[3] = {0.69, 0.31, 0.31},
+	}
+}
+
 local OverrideUpdateThreat = function(self, event, unit, status)
 	if (self.unit ~= unit) then return end
 
-	local status = UnitIsFriend("player", unit) and UnitThreatSituation(unit) or UnitThreatSituation("player", unit)
+	local _, unitClass = UnitClass(self.unit)
+
+	local isTank = not not(isTankClassSpec[unitClass] and UnitAura(self.unit, isTankClassSpec[unitClass]))
+
+	local status = UnitIsFriend("player", unit) and UnitThreatSituation(unit) or UnitThreatSituation(self.unit, unit)
 	if (status and status > 0) then
-		local r, g, b = GetThreatStatusColor(status)
+		local r, g, b = unpack(aggroColors[isTank][status])
 		self.FrameBackdrop:SetBackdropBorderColor(r, g, b)
 	else
 		self.FrameBackdrop:SetBackdropBorderColor(0, 0, 0)
 	end
 end
-]]
+
 local updateAllElements = function(frame)
 	for _, v in ipairs(frame.__elements) do
 		v(frame, "UpdateElement", frame.unit)
@@ -552,9 +574,10 @@ local SetStyle = function(self, unit)
 	else
 		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, 4, -4)
 	end
---	self:RegisterEvent("UNIT_THREAT_LIST_UPDATE", OverrideUpdateThreat)
---	self:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE", OverrideUpdateThreat)
---	insert(self.__elements,  OverrideUpdateThreat)
+	self:RegisterEvent("UNIT_AURA", OverrideUpdateThreat)
+	self:RegisterEvent("UNIT_THREAT_LIST_UPDATE", OverrideUpdateThreat)
+	self:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE", OverrideUpdateThreat)
+	insert(self.__elements,  OverrideUpdateThreat)
 
 	self.Health = CreateFrame("StatusBar", self:GetName().."_Health", self)
 	self.Health:SetHeight((unit == "player" or unit == "target" or self:GetParent():GetName():match("oUF_Raid")) and 22 or self:GetAttribute("unitsuffix") == "pet" and 10 or 16)
@@ -981,6 +1004,9 @@ local SetStyle = function(self, unit)
 	if playerClass == "HUNTER" then
 		self:SetAttribute("type3", "spell")
 		self:SetAttribute("spell3", "Misdirection")
+	elseif playerClass == "PALADIN" then
+		self:SetAttribute("type3", "spell")
+		self:SetAttribute("spell3", "Righteous Defense")
 	end
 
 	if unit == "player" or unit == "target" then
@@ -1026,7 +1052,7 @@ local SetStyle = function(self, unit)
 	self.PostCreateEnchantIcon = CreateAura
 	self.PostUpdateAuraIcon = UpdateAura
 	self.PostUpdateEnchantIcons = CreateEnchantTimer
---	self.OverrideUpdateThreat = OverrideUpdateThreat
+	self.OverrideUpdateThreat = OverrideUpdateThreat
 
 	self:SetScale(settings.scale)
 	if self.Auras then self.Auras:SetScale(settings.scale) end
