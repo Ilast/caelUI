@@ -10,7 +10,7 @@ local autogreed = caelCore.autogreed
 
 autogreed:RegisterEvent("START_LOOT_ROLL")
 autogreed:SetScript("OnEvent", function(self, event, id)
-	if UnitLevel("player") < 70 then return end
+	if UnitLevel("player") ~= MAX_PLAYER_LEVEL then return end
 	if(id and select(4, GetLootRollItemInfo(id))==2 and not (select(5, GetLootRollItemInfo(id)))) then
 		if RollOnLoot(id, 3) then
 			RollOnLoot(id, 3)
