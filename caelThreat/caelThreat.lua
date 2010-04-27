@@ -61,48 +61,51 @@ caelThreat.eventFrame:SetScript("OnEvent", function(self, event, unit)
 
 	local isTank = IsTankCheck("player", isTankClassSpec[class])
 
-	local _, status, threatPercent = UnitDetailedThreatSituation("player", "target")
+	if event ~= "UNIT_AURA" then
 
-	if not isTank then
+		local _, status, threatPercent = UnitDetailedThreatSituation("player", "target")
 
-		if status then
-			threatPercent = floor(threatPercent + 0.5)
-		end
+		if not isTank then
 
-		if (status and status < 1)	then
-			if (abs(threatPercent - 20) <= 5) then
-				if (lastWarning ~= 20) then
-					RaidNotice_AddMessage(RaidWarningFrame, "|cff559655".."~20% THREAT|r", ChatTypeInfo["RAID_WARNING"])
-					lastWarning = 20
-				end
-			elseif (abs(threatPercent - 40) <= 5) then
-				if (lastWarning ~= 40) then
-					RaidNotice_AddMessage(RaidWarningFrame, "|cff559655".."~40% THREAT|r", ChatTypeInfo["RAID_WARNING"])
-					lastWarning = 40
-				end
-			elseif (abs(threatPercent - 60) <= 5) then
-				if (lastWarning ~= 60) then
-					RaidNotice_AddMessage(RaidWarningFrame, "|cffFFFF78".."~60% THREAT|r", ChatTypeInfo["RAID_WARNING"]) -- Yellow |cffA5A05A
-					lastWarning = 60
-				end
+			if status then
+				threatPercent = floor(threatPercent + 0.5)
 			end
-		elseif (status and status > 0 and status < 3 and unit == "player") then
-			if (abs(threatPercent - 80) <= 5) then
-				if (lastWarning ~= 85) then
-					if warningSounds then
-						PlaySoundFile(caelMedia.files.soundWarning)
+
+			if (status and status < 1)	then
+				if (abs(threatPercent - 20) <= 5) then
+					if (lastWarning ~= 20) then
+						RaidNotice_AddMessage(RaidWarningFrame, "|cff559655".."~20% THREAT|r", ChatTypeInfo["RAID_WARNING"])
+						lastWarning = 20
 					end
-					RaidNotice_AddMessage(RaidWarningFrame, "|cffFF9900".."WARNING THREAT: "..tostring(threatPercent).."%|r", ChatTypeInfo["RAID_WARNING"]) -- Orange |cffB46E46
-					UIFrameFlash(LowHealthFrame, 0.2, 0.2, 0.4, false)
-					lastWarning = 85
+				elseif (abs(threatPercent - 40) <= 5) then
+					if (lastWarning ~= 40) then
+						RaidNotice_AddMessage(RaidWarningFrame, "|cff559655".."~40% THREAT|r", ChatTypeInfo["RAID_WARNING"])
+						lastWarning = 40
+					end
+				elseif (abs(threatPercent - 60) <= 5) then
+					if (lastWarning ~= 60) then
+						RaidNotice_AddMessage(RaidWarningFrame, "|cffFFFF78".."~60% THREAT|r", ChatTypeInfo["RAID_WARNING"]) -- Yellow |cffA5A05A
+						lastWarning = 60
+					end
 				end
+			elseif (status and status > 0 and status < 3 and unit == "player") then
+				if (abs(threatPercent - 80) <= 5) then
+					if (lastWarning ~= 85) then
+						if warningSounds then
+							PlaySoundFile(caelMedia.files.soundWarning)
+						end
+						RaidNotice_AddMessage(RaidWarningFrame, "|cffFF9900".."WARNING THREAT: "..tostring(threatPercent).."%|r", ChatTypeInfo["RAID_WARNING"]) -- Orange |cffB46E46
+						UIFrameFlash(LowHealthFrame, 0.2, 0.2, 0.4, false)
+						lastWarning = 85
+					end
+				end
+			elseif (status and status > 2 and unit == "player") then
+				if warningSounds then
+					PlaySoundFile(caelMedia.files.soundAggro)
+				end
+				RaidNotice_AddMessage(RaidWarningFrame, "|cffAF5050AGGRO|r", ChatTypeInfo["RAID_WARNING"]) -- Red
+				UIFrameFlash(LowHealthFrame, 0.2, 0.2, 0.8, false)
 			end
-		elseif (status and status > 2 and unit == "player") then
-			if warningSounds then
-				PlaySoundFile(caelMedia.files.soundAggro)
-			end
-			RaidNotice_AddMessage(RaidWarningFrame, "|cffAF5050AGGRO|r", ChatTypeInfo["RAID_WARNING"]) -- Red
-			UIFrameFlash(LowHealthFrame, 0.2, 0.2, 0.8, false)
 		end
 	end
 
