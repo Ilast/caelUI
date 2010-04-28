@@ -4,7 +4,7 @@ local _, caelThreat = ...
 
 local lastWarning
 local abs = math.abs
-local class = caelLib.playerClass
+local playerClass = caelLib.playerClass
 
 caelThreat.eventFrame = CreateFrame("Frame", nil, self)
 
@@ -36,7 +36,7 @@ local function IsTankCheck(unit, spells)
 			status = true
 		end
 	end
-	
+
 	return status
 end
 
@@ -59,13 +59,13 @@ caelThreat.eventFrame:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE")
 caelThreat.eventFrame:SetScript("OnEvent", function(self, event, unit)
 	if unit ~= "player" then return end
 
-	local isTank = IsTankCheck("player", isTankClassSpec[class])
+	local playerIsTank = IsTankCheck("player", isTankClassSpec[playerClass])
 
 	if event ~= "UNIT_AURA" then
 
 		local _, status, threatPercent = UnitDetailedThreatSituation("player", "target")
 
-		if not isTank then
+		if not playerIsTank then
 
 			if status then
 				threatPercent = floor(threatPercent + 0.5)
@@ -112,7 +112,7 @@ caelThreat.eventFrame:SetScript("OnEvent", function(self, event, unit)
 	for _, panel in pairs(caelPanels) do
 		local status = UnitThreatSituation("player")
 		if (status and status > 0) then
-			local r, g, b = unpack(aggroColors[isTank][status])
+			local r, g, b = unpack(aggroColors[playerIsTank][status])
 			panel:SetBackdropBorderColor(r, g, b)
 		else
 			panel:SetBackdropBorderColor(0, 0, 0)
