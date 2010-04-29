@@ -127,7 +127,7 @@ caelThreat.eventFrame:SetScript("OnEvent", function(self, event, unit)
 	end
 
 	if IsAddOnLoaded("oUF_Caellian") then
-		for frame in pairs(oUF.units) do
+		for _, frame in pairs(oUF.units) do
 			local status = UnitThreatSituation(unit)
 
 			if (status and status > 0) then
