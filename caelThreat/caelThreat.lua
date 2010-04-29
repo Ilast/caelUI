@@ -53,12 +53,16 @@ local aggroColors = {
 	}
 }
 
+local warned = false
 caelThreat.eventFrame:RegisterEvent("UNIT_AURA")
 caelThreat.eventFrame:RegisterEvent("UNIT_THREAT_LIST_UPDATE")
 caelThreat.eventFrame:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE")
 caelThreat.eventFrame:SetScript("OnEvent", function(self, event, unit)
-	if unit ~= "player" then return end
+	if not unit then return end
 
+	local _, unitClass = UnitClass(unit)
+
+	local unitIsTank = IsTankCheck(unit, isTankClassSpec[unitClass])
 	local playerIsTank = IsTankCheck("player", isTankClassSpec[playerClass])
 
 	if event ~= "UNIT_AURA" then
@@ -109,13 +113,29 @@ caelThreat.eventFrame:SetScript("OnEvent", function(self, event, unit)
 		end
 	end
 
-	for _, panel in pairs(caelPanels) do
-		local status = UnitThreatSituation("player")
-		if (status and status > 0) then
-			local r, g, b = unpack(aggroColors[playerIsTank][status])
-			panel:SetBackdropBorderColor(r, g, b)
-		else
-			panel:SetBackdropBorderColor(0, 0, 0)
+	if IsAddOnLoaded("caelPanels") then
+		for _, panel in pairs(caelPanels) do
+			local status = UnitThreatSituation("player")
+
+			if (status and status > 0) then
+				local r, g, b = unpack(aggroColors[playerIsTank][status])
+				panel:SetBackdropBorderColor(r, g, b)
+			else
+				panel:SetBackdropBorderColor(0, 0, 0)
+			end
+		end
+	end
+
+	if IsAddOnLoaded("oUF_Caellian") then
+		for frame in pairs(oUF.units) do
+			local status = UnitThreatSituation(unit)
+
+			if (status and status > 0) then
+				local r, g, b = unpack(aggroColors[unitIsTank][status])
+				oUF.units[unit].FrameBackdrop:SetBackdropBorderColor(r, g, b)
+			else
+				oUF.units[unit].FrameBackdrop:SetBackdropBorderColor(0, 0, 0)
+			end
 		end
 	end
 end)
