@@ -310,6 +310,7 @@ if locale == "enUS" then
 				char = "Calyr",
 				show = "Auto Attack",
 				body = [=[/click [noexists][noharm][dead] gotMacros_T2
+					/click [combat, harm, nodead] gotMacros_CDs2
 					/click gotMacros_RetR]=],
 				blizzmacro = true,
 				perChar = true,
@@ -318,6 +319,7 @@ if locale == "enUS" then
 				char = "Calyr",
 				show = "Auto Attack",
 				body = [=[/click [noexists][noharm][dead] gotMacros_T2
+					/click [combat, harm, nodead] gotMacros_CDs2
 					/click gotMacros_ProtR]=],
 				blizzmacro = true,
 				perChar = true,
@@ -585,13 +587,14 @@ local multiLocales = {
 			/targetenemy]=],
 	},
 	["CDs2"] = {
-		char = "Cowdiak, Bonewraith, Dkdens",
+		char = "Cowdiak, Bonewraith, Calyr, Dkdens",
 		icon = [=[Interface\Icons\Spell_Shadow_LastingAfflictions]=],
 		body = [=[/use Battlemaster's Determination
 			/use Bloodlust Brooch
 			/cast Tiger's Fury
 			/cast Fureur sanguinaire
-			/use 14]=],
+			/use 14
+			/cast Avenging Wrath]=],
 		nosound = true,
 	}
 }
