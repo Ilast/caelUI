@@ -40,6 +40,8 @@ cvardata:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 cvardata:RegisterEvent("WORLD_MAP_UPDATE")
 cvardata:RegisterEvent("PLAYER_ENTERING_WORLD")
 cvardata:SetScript("OnEvent", function(self, event)
+	if not caelLib.isCharListB then return end
+
 	if event == "ZONE_CHANGED_NEW_AREA" or event == "WORLD_MAP_UPDATE" or event == "PLAYER_ENTERING_WORLD" then
 		local zone = GetRealZoneText()
 		if zone and zone ~= "" then
@@ -164,8 +166,6 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"showNewbieTips 0",
 			"scriptErrors 1",
 
---			"gxcolorbits","16"
---			"gxdepthbits","16"
 			"gxTextureCacheSize 512",
 			"M2Faster 3", -- Adds additional threads used in rendering models on screen (0 = no additional threads, 1 - 3 = adds additional threads to the WoW Client)
 
@@ -175,7 +175,6 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"gxTripleBuffer 0",
 			"gxFixLag 0",
 			"gxCursor 1",
---			"gxRefresh 50",
 			"Maxfps 50",
 			"maxfpsbk 10",
 			"ffx 0",
