@@ -130,7 +130,7 @@ if locale == "enUS" then
 				body = [=[/cast !Auto Shot
 					/click gotMacros_SrSb
 					/click gotMacros_Mark
-					/click gotMacros_AimS
+					/click gotMacros_MulS
 					/cast Silencing Shot
 					/click gotMacros_StdS]=],
 			},
