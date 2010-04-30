@@ -11,7 +11,7 @@ function MiniMapTrackingDropDown_Initialize()
 	for id=1, count do
 		name, texture, active, category  = GetTrackingInfo(id)
 		
-		if name:find("Find") or name:find("Track") or name:find("Quests") then
+		if name:find("Find") or name:find("Track") or name:find("Sense") or name:find("Quests") then
 			info = UIDropDownMenu_CreateInfo()
 			info.text = name
 			info.checked = active
