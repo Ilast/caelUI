@@ -91,7 +91,7 @@ oUF.TagEvents['[NameShort]'] = 'UNIT_NAME_UPDATE'
 if (not oUF.Tags['[NameShort]']) then
 	oUF.Tags['[NameShort]'] = function(unit)
 		local origName = UnitName(unit)
-		local newName = (string.len(origName) > 6) and string.gsub(origName, "%s?(.)%S+%s", "%1. ") or origName
+		local newName = (string.len(origName) > 6) and string.gsub(origName, "%s?(.[\128-\191]*)%S+%s", "%1. ") or origName -- "%s?(.)%S+%s"
 		return utf8sub(newName, 6, false)
 	end
 end
@@ -100,7 +100,7 @@ oUF.TagEvents['[NameMedium]'] = 'UNIT_NAME_UPDATE'
 if (not oUF.Tags['[NameMedium]']) then
 	oUF.Tags['[NameMedium]'] = function(unit)
 		local origName = UnitName(unit)
-		local newName = (string.len(origName) > 12) and string.gsub(origName, "%s?(.)%S+%s", "%1. ") or origName
+		local newName = (string.len(origName) > 12) and string.gsub(origName, "%s?(.[\128-\191]*)%S+%s", "%1. ") or origName
 		if (unit == 'pet' and name == 'Unknown') then
 			return 'Pet'
 		else
@@ -113,7 +113,7 @@ oUF.TagEvents['[NameLong]'] = 'UNIT_NAME_UPDATE'
 if (not oUF.Tags['[NameLong]']) then
 	oUF.Tags['[NameLong]'] = function(unit)
 		local origName = UnitName(unit)
-		local newName = (string.len(origName) > 18) and string.gsub(origName, "%s?(.)%S+%s", "%1. ") or origName
+		local newName = (string.len(origName) > 18) and string.gsub(origName, "%s?(.[\128-\191]*)%S+%s", "%1. ") or origName
 		return utf8sub(newName, 18, true)
 	end
 end
