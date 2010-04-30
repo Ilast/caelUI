@@ -16,11 +16,11 @@ local isTankClassSpec = {
 		(GetSpellInfo(465)), -- Devotion Aura
 	},
 	["WARRIOR"] = GetSpellInfo(71), -- Defensive Stance
-	["DRUID"] = {
-		GetSpellInfo(5487), -- Bear Form
-		(GetSpellInfo(9634)), -- Dire Bear Form
-	},
+	["DEATHKNIGHT"] = GetSpellInfo(48263), -- Frost Presence
+	["DRUID"] = GetSpellInfo(9634), -- Dire Bear Form
 }
+
+--	["DRUID"] = {{"Bear Form", "Dire BearForm"}, "Some other tank buff"}
 
 local function IsTankCheck(unit, spells)
 	local status = false
@@ -53,8 +53,8 @@ local aggroColors = {
 	}
 }
 
-local warned = false
 caelThreat.eventFrame:RegisterEvent("UNIT_AURA")
+caelThreat.eventFrame:RegisterEvent("PARTY_MEMBERS_CHANGED")
 caelThreat.eventFrame:RegisterEvent("UNIT_THREAT_LIST_UPDATE")
 caelThreat.eventFrame:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE")
 caelThreat.eventFrame:SetScript("OnEvent", function(self, event, unit)
@@ -113,21 +113,24 @@ caelThreat.eventFrame:SetScript("OnEvent", function(self, event, unit)
 		end
 	end
 
-	if IsAddOnLoaded("caelPanels") then
-		for _, panel in pairs(caelPanels) do
-			local status = UnitThreatSituation("player")
+	if GetNumPartyMembers() > 0 then
 
-			if (status and status > 0) then
-				local r, g, b = unpack(aggroColors[playerIsTank][status])
-				panel:SetBackdropBorderColor(r, g, b)
-			else
-				panel:SetBackdropBorderColor(0, 0, 0)
+		if IsAddOnLoaded("caelPanels") then
+			for _, panel in pairs(caelPanels) do
+				local status = UnitThreatSituation("player")
+
+				if (status and status > 0) then
+					local r, g, b = unpack(aggroColors[playerIsTank][status])
+					panel:SetBackdropBorderColor(r, g, b)
+				else
+					panel:SetBackdropBorderColor(0, 0, 0)
+				end
 			end
 		end
-	end
 
-	if IsAddOnLoaded("oUF_Caellian") then
-		for _, frame in pairs(oUF.units) do
+		if IsAddOnLoaded("oUF_Caellian") then
+			if not oUF.units[unit] then return end
+
 			local status = UnitThreatSituation(unit)
 
 			if (status and status > 0) then
