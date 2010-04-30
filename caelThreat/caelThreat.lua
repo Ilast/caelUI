@@ -20,8 +20,6 @@ local isTankClassSpec = {
 	["DRUID"] = GetSpellInfo(9634), -- Dire Bear Form
 }
 
---	["DRUID"] = {{"Bear Form", "Dire BearForm"}, "Some other tank buff"}
-
 local function IsTankCheck(unit, spells)
 	local status = false
 	if type(spells) == "table" then
