@@ -440,24 +440,24 @@ local hide_hotkey = 1
 
 --	COLORS
 --	color you want to appy to the standard texture (red, green, blue in RGB)
-local color = { r = 0.84, g = 0.75, b = 0.65, }
+local color = { r = 0.84, g = 0.75, b = 0.65}
 --	want class color? just comment in this:
 --	local color = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
 
 --	color when button is usable
-local usable_color = { r = 1, g = 1, b = 1, }
+local usable_color = { r = 1, g = 1, b = 1}
 
 --	color for equipped border texture (red, green, blue in RGB)
-local color_equipped = { r = 0.33, g = 0.59, b = 0.33, }
+local color_equipped = { r = 0.33, g = 0.59, b = 0.33}
 
 --	color when out of range
-local range_color = { r = 0.69, g = 0.31, b = 0.31, }
+local range_color = { r = 0.69, g = 0.31, b = 0.31}
 
 --	color when out of power (mana)
-local mana_color = { r = 0.31, g = 0.45, b = 0.63, }
+local mana_color = { r = 0.31, g = 0.45, b = 0.63}
 
 --	color when button is unusable (example revenge not active, since you have not blocked yet)
-local unusable_color = { r = 0.25, g = 0.25, b = 0.25, }
+local unusable_color = { r = 0.25, g = 0.25, b = 0.25}
 
 --	!!!IMPORTANT!!! - read this before editing the value blow
 --	!!!do not set this below 0.1 ever!!!
@@ -494,12 +494,12 @@ local function StyleBar(name, action)
 	bu:SetNormalTexture(buttonTex)
 
 --	Position Icon
-	ic:SetTexCoord(0.1,0.9,0.1,0.9)
+	ic:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 	ic:SetPoint("TOPLEFT", bu, 2, -2)
 	ic:SetPoint("BOTTOMRIGHT", bu, -2, 2)
 
 --	Non-equipped coloring.
-	nt:SetVertexColor(color.r,color.g,color.b,1)
+	nt:SetVertexColor(color.r, color.g, color.b, 1)
 
 --	Set Texture position
 	nt:SetHeight(bu:GetHeight())
@@ -525,7 +525,7 @@ local function StyleBar(name, action)
 		na:Hide()
 
 		if ( IsEquippedAction(action) ) then
-			nt:SetVertexColor(color_equipped.r,color_equipped.g,color_equipped.b,1)
+			nt:SetVertexColor(color_equipped.r, color_equipped.g, color_equipped.b, 1)
 		end
 	elseif isShapeshift then
 		-- Set Texture Postion
@@ -559,9 +559,9 @@ local function caelActionBars_AB_fixgrid(button)
 	local action = button.action
 	local nt  = _G[format("%sNormalTexture", name)]
 	if ( IsEquippedAction(action) ) then
-		nt:SetVertexColor(color_equipped.r,color_equipped.g,color_equipped.b,1)
+		nt:SetVertexColor(color_equipped.r, color_equipped.g, color_equipped.b, 1)
 	else
-		nt:SetVertexColor(color.r,color.g,color.b,1)
+		nt:SetVertexColor(color.r, color.g, color.b, 1)
 	end  
 end
 
@@ -572,22 +572,22 @@ local function caelActionBars_AB_usable(self)
 	local nt  = _G[format("%sNormalTexture", name)]
 	local icon = _G[format("%sIcon", name)]
 	if ( IsEquippedAction(action) ) then
-		nt:SetVertexColor(color_equipped.r,color_equipped.g,color_equipped.b,1)
+		nt:SetVertexColor(color_equipped.r, color_equipped.g, color_equipped.b, 1)
 	else
 		nt:SetVertexColor(color.r,color.g,color.b,1)
 	end  
 	local isUsable, notEnoughMana = IsUsableAction(action)
 	if (ActionHasRange(action) and IsActionInRange(action) == 0) then
-		icon:SetVertexColor(range_color.r,range_color.g,range_color.b,1)
+		icon:SetVertexColor(range_color.r, range_color.g, range_color.b, 1)
 		return
 	elseif (notEnoughMana) then
-		icon:SetVertexColor(mana_color.r,mana_color.g,mana_color.b,1)
+		icon:SetVertexColor(mana_color.r, mana_color.g, mana_color.b, 1)
 		return
 	elseif (isUsable) then
-		icon:SetVertexColor(usable_color.r,usable_color.g,usable_color.b,1)
+		icon:SetVertexColor(usable_color.r, usable_color.g, usable_color.b, 1)
 		return
 	else
-		icon:SetVertexColor(unusable_color.r,unusable_color.g,unusable_color.b,1)
+		icon:SetVertexColor(unusable_color.r, unusable_color.g, unusable_color.b, 1)
 		return
 	end
 end
