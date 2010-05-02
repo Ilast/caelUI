@@ -10,6 +10,7 @@ local uierrorsframe = caelCore.uierrorsframe
 
 local eventBlacklist = {
 	[ERR_NO_ATTACK_TARGET] = true,
+	[OUT_OF_RAGE] = true,
 	[OUT_OF_ENERGY] = true,
 	[ERR_ABILITY_COOLDOWN] = true,
 	[SPELL_FAILED_NO_COMBO_POINTS] = true,
