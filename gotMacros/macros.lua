@@ -211,25 +211,52 @@ if locale == "enUS" then
 		}
 	elseif playerClass == "DRUID" then
 		gM_Macros = {
-			["Cat"] = {
+			["CatF"] = {
 				char = "Cowdiak",
-				show = "Mangle (Cat)(Rank 4)",
+				show = "[stealth]Pounce; [nostealth]Mangle (Cat)(Rank 4)",
 				body = [=[/click [noexists][noharm][dead] gotMacros_T2
 					/click [combat, harm, nodead] gotMacros_CDs2
-					/cast [harm, nodead] Mangle (Cat)(Rank 4)]=],
+					/click [harm, nodead, stealth] gotMacros_DpsFs; [harm, nodead, nostealth] gotMacros_DpsFns]=],
+				nosound = true,
 				blizzmacro = true,
 				perChar = true,
+			},
+			["DpsFs"] = {
+				char = "Cowdiak",
+				body = [=[/cast Pounce]=],
+			},
+			["DpsFns"] = {
+				char = "Cowdiak",
+				body = [=[/castsequence reset=combat/target Rake, Mangle (Cat)(Rank 4), Mangle (Cat)(Rank 4)]=],
+			},
+			["CatB"] = {
+				char = "Cowdiak",
+				show = "[stealth]Ravage; [nostealth]Shred",
+				body = [=[/click [noexists][noharm][dead] gotMacros_T2
+					/click [combat, harm, nodead] gotMacros_CDs2
+					/click [harm, nodead, stealth] gotMacros_DpsBs; [harm, nodead, nostealth] gotMacros_DpsBns]=],
+				nosound = true,
+				blizzmacro = true,
+				perChar = true,
+			},
+			["DpsBs"] = {
+				char = "Cowdiak",
+				body = [=[/cast Ravage]=],
+			},
+			["DpsBns"] = {
+				char = "Cowdiak",
+				body = [=[/cast Shred]=],
 			},
 			["Bear"] = {
 				char = "Cowdiak",
 				show = "Mangle (Bear)(Rank 4)",
 				body = [=[/click [noexists][noharm][dead] gotMacros_T2
 					/click [combat, harm, nodead] gotMacros_CDs2
-					/click [harm, nodead] gotMacros_RotD]=],
+					/click [harm, nodead] gotMacros_Tank]=],
 				blizzmacro = true,
 				perChar = true,
 			},
-			["RotD"] = {
+			["Tank"] = {
 				char = "Cowdiak",
 				show = "Mangle (Bear)(Rank 4)",
 				body = [=[/startattack
@@ -238,16 +265,12 @@ if locale == "enUS" then
 			},
 			["MgB"] = {
 				char = "Cowdiak",
-				show = "Mangle (Bear)(Rank 4)",
 				body = [=[/castsequence reset=target Mangle (Bear)(Rank 4), Mangle (Bear)(Rank 4), Lacerate]=],
-				nosound = true,
 			},
 			["Maul"] = {
 				char = "Cowdiak",
-				show = "Maul",
 				body = [=[/cast !Maul]=],
-				nosound = true,
-			}
+			},
 		}
 	elseif playerClass == "ROGUE" then
 		gM_Macros = {
