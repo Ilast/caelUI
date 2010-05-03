@@ -342,7 +342,7 @@ local function ContainerFrameOnHide(self)
 
 	if not isCharListA then
 		CloseAllBags()
-		BankFrame:Hide()
+--		BankFrame:Hide()
 	end
 
 	container:Refresh()
