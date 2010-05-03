@@ -14,6 +14,7 @@ recReagents.eventFrame = CreateFrame("Frame", nil, UIParent)
 local reagents = {
 	["Illidan"] = {
 		["Caellian"] = {[31737] = 18000, [33445] = 40, [35953] = 40},
+		["Cowdiak"] = {[33445] = 40, [35953] = 40},
 		["Callysto"] = {[41586] = 18000, [33445] = 40, [35953] = 40},
 	}
 }
