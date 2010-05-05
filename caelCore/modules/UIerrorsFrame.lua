@@ -2,27 +2,31 @@
 
 local _, caelCore = ...
 
---[[	Blacklist some UIErrorsFrame messages	]]
+--[[	Blacklist some UIerrorFrame messages	]]
 
-caelCore.uierrorsframe = caelCore.createModule("UIerrorsFrame")
+caelCore.errorFrame = caelCore.createModule("UIerrorFrame")
 
-local uierrorsframe = caelCore.uierrorsframe
+local errorFrame = caelCore.errorFrame
 
 local eventBlacklist = {
 	[ERR_NO_ATTACK_TARGET] = true,
-	[OUT_OF_RAGE] = true,
-	[OUT_OF_ENERGY] = true,
+	[ERR_OUT_OF_RAGE] = true,
+	[ERR_OUT_OF_ENERGY] = true,
 	[ERR_ABILITY_COOLDOWN] = true,
+	[ERR_SPELL_COOLDOWN] = true,
+	[ERR_MUST_EQUIP_ITEM] = true,
 	[SPELL_FAILED_NO_COMBO_POINTS] = true,
 	[SPELL_FAILED_SPELL_IN_PROGRESS] = true,
-	[ERR_SPELL_COOLDOWN] = true,
+	[SPELL_FAILED_CUSTOM_ERROR_32] = true,
 }
 
-uierrorsframe:RegisterEvent("UI_ERROR_MESSAGE")
-uierrorsframe:SetScript("OnEvent", function(self, event, error)
+UIErrorsFrame:UnregisterEvent("UI_ERROR_MESSAGE")
+
+errorFrame:RegisterEvent("UI_ERROR_MESSAGE")
+
+errorFrame:SetScript("OnEvent", function(self, event, error)
 	if(not eventBlacklist[error]) then
-		UIErrorsFrame:AddMessage(error, 0.69, 0.31, 0.31)
+--		UIerrorFrame:AddMessage(error, 0.69, 0.31, 0.31)
+		recScrollAreas:AddText("|cffAF5050"..error.."|r", false, "Error")
 	end
 end)
-
-UIErrorsFrame:UnregisterEvent("UI_ERROR_MESSAGE")
