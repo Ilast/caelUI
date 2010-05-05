@@ -30,9 +30,9 @@ durability:SetScript("OnEvent", function(self, event)
 	for i = 1, 11 do
 		if GetInventoryItemLink("player", Slots[i][1]) ~= nil then
 			current, max = GetInventoryItemDurability(Slots[i][1])
-			if current then 
+			if current ~= max then
 				Slots[i][3] = current/max
-				Total = Total + 1
+					Total = Total + 1
 			end
 		end
 	end
