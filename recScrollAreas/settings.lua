@@ -26,6 +26,7 @@ recScrollAreas.animation_delay				= 0.015		-- Frequency of animation updates. (i
 -- Then you can pipe input into each scroll area using:
 -- recScrollAreas:AddText(text_to_show, sticky_style, scroll_area_identifer)
 --
+recScrollAreas:CreateScrollArea("Error", 75, 0, 800, "CENTER", "up", nil, nil, nil, nil, nil, nil, 2.5, 2.5)
 recScrollAreas:CreateScrollArea("Notification", 140, 0, 515, "CENTER", "down", nil, nil, nil, nil, nil, nil, 3.5, 3.5)
 recScrollAreas:CreateScrollArea("Information", 100, 0, 160, "CENTER", "down", nil, nil, nil, nil, nil, nil, 2.5, 1.25)
 recScrollAreas:CreateScrollArea("Outgoing", 200, 385, 375, "RIGHT", "up")
