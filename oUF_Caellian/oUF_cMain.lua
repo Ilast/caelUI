@@ -3,7 +3,7 @@
 local settings = Caellian.oUF
 local mediaPath = [=[Interface\Addons\oUF_Caellian\media\]=]
 
-local floor, format, insert = math.floor, string.format, table.insert
+local floor, format, insert, sort = math.floor, string.format, table.insert, table.sort
 
 local normtex = mediaPath..[=[textures\normtexb]=]
 local glowTex = mediaPath..[=[textures\glowtex]=]
@@ -318,7 +318,7 @@ local FormatTime = function(s)
 	return format("%.1f", s), (s * 100 - floor(s * 100))/100
 end
 
-local CreateAuraTimer = function(self,elapsed)
+local CreateAuraTimer = function(self, elapsed)
 	if self.timeLeft then
 		self.elapsed = (self.elapsed or 0) + elapsed
 		if self.elapsed >= 0.1 then
@@ -343,6 +343,16 @@ local CreateAuraTimer = function(self,elapsed)
 			self.elapsed = 0
 		end
 	end
+end
+
+local SortAura = function(self, auras, max)
+--	for i = 1, #auras do
+--		if auras[i].timeLeft == nil then
+--			auras[i].timeLeft = 0
+--		end
+--	end
+	
+	sort(auras, function(a, b) return (a.timeLeft or 0) > (b.timeLeft or 0) end)
 end
 
 local HideAura = function(self)
@@ -1076,6 +1086,7 @@ local SetStyle = function(self, unit)
 	self.PostCreateEnchantIcon = CreateAura
 	self.PostUpdateAuraIcon = UpdateAura
 	self.PostUpdateEnchantIcons = CreateEnchantTimer
+	self.PreAuraSetPosition = SortAura
 --	self.OverrideUpdateThreat = OverrideUpdateThreat
 
 	self:SetScale(settings.scale)
