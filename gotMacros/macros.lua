@@ -265,7 +265,7 @@ if locale == "enUS" then
 			},
 			["MgB"] = {
 				char = "Cowdiak",
-				body = [=[/castsequence reset=target Mangle (Bear)(Rank 4), Mangle (Bear)(Rank 4), Lacerate]=],
+				body = [=[/castsequence reset=target Mangle (Bear)(Rank 4), Lacerate]=],
 			},
 			["Maul"] = {
 				char = "Cowdiak",
