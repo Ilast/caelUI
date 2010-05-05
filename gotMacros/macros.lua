@@ -213,7 +213,7 @@ if locale == "enUS" then
 		gM_Macros = {
 			["CatF"] = {
 				char = "Cowdiak",
-				show = "[stealth]Pounce; [nostealth]Mangle (Cat)(Rank 4)",
+				show = "[stealth]Pounce; [nostealth]Mangle (Cat)(Rank 5)",
 				body = [=[/click [noexists][noharm][dead] gotMacros_T2
 					/click [combat, harm, nodead] gotMacros_CDs2
 					/click [harm, nodead, stealth] gotMacros_DpsFs; [harm, nodead, nostealth] gotMacros_DpsFns]=],
@@ -227,7 +227,7 @@ if locale == "enUS" then
 			},
 			["DpsFns"] = {
 				char = "Cowdiak",
-				body = [=[/castsequence reset=combat/target Rake, Mangle (Cat)(Rank 4), Mangle (Cat)(Rank 4)]=],
+				body = [=[/castsequence reset=combat/target Rake, Mangle (Cat)(Rank 5), Mangle (Cat)(Rank 5)]=],
 			},
 			["CatB"] = {
 				char = "Cowdiak",
@@ -249,7 +249,7 @@ if locale == "enUS" then
 			},
 			["Bear"] = {
 				char = "Cowdiak",
-				show = "Mangle (Bear)(Rank 4)",
+				show = "Mangle (Bear)(Rank 5)",
 				body = [=[/click [noexists][noharm][dead] gotMacros_T2
 					/click [combat, harm, nodead] gotMacros_CDs2
 					/click [harm, nodead] gotMacros_Tank]=],
@@ -258,14 +258,14 @@ if locale == "enUS" then
 			},
 			["Tank"] = {
 				char = "Cowdiak",
-				show = "Mangle (Bear)(Rank 4)",
+				show = "Mangle (Bear)(Rank 5)",
 				body = [=[/startattack
 					/click gotMacros_MgB
 					/click gotMacros_Maul]=],
 			},
 			["MgB"] = {
 				char = "Cowdiak",
-				body = [=[/castsequence reset=target Mangle (Bear)(Rank 4), Lacerate]=],
+				body = [=[/castsequence reset=target Mangle (Bear)(Rank 5), Lacerate]=],
 			},
 			["Maul"] = {
 				char = "Cowdiak",
