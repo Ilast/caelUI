@@ -18,13 +18,13 @@ experience:RegisterEvent("PLAYER_XP_UPDATE")
 experience:RegisterEvent("PLAYER_ENTERING_WORLD")
 experience:RegisterEvent("CHAT_MSG_COMBAT_XP_GAIN")
 
-local find, tonumber = string.find, tonumber
+local format, find, tonumber = string.format, string.find, tonumber
 
-local lastXP, a, b = 0
-local OnEvent = function(retval, self, event, ...)
+local lastXp, a, b = 0
+local OnEvent = function(retVal, self, event, ...)
 	if event == "CHAT_MSG_COMBAT_XP_GAIN" then
-		_, _, lastXP = find(select(1, ...), ".*gain (.*) experience.*")
-		lastXP = tonumber(lastXP)
+		_, _, lastXp = find(select(1, ...), ".*gain (.*) experience.*")
+		lastXp = tonumber(lastXp)
 		return
 	end
 	
@@ -32,21 +32,27 @@ local OnEvent = function(retval, self, event, ...)
 
 	local xp = UnitXP("player")
 	local maxXp = UnitXPMax("player")
+	local restedXp = GetXPExhaustion()
+
 	if UnitGUID("pet") then
 		petXp, petMaxXp = GetPetExperience()
 	end
 
 	local xpString
+
 	if not petMaxXp or petMaxXp == 0 then
-		xpString = string.format("|cffD7BEA5XP|r %.1f%%", ((xp/maxXp)*100))
+--		xpString = format("|cffD7BEA5XP|r %.1f%%", ((xp/maxXp)*100))
+		xpString = format("|cffD7BEA5XP|r "..(restedXp and "|cff5073a0%.1f%%|r" or "|cffffffff%.1f%%|r"), ((xp/maxXp)*100))
 	else
-		xpString = string.format("|cffD7BEA5XP|r %.1f%% |cffD7BEA5Pet|r %.0f%%", ((xp/maxXp)*100), ((petXp/petMaxXp)*100))
+--		xpString = string.format("|cffD7BEA5XP|r %.1f%% |cffD7BEA5Pet|r %.0f%%", ((xp/maxXp)*100), ((petXp/petMaxXp)*100))
+		xpString = format("|cffD7BEA5XP|r "..(restedXp and "|cff5073a0%.1f%%|r " or "|cffffffff%.1f%%|r ").."|cffD7BEA5Pet|r %.0f%%", ((xp/maxXp)*100), ((petXp/petMaxXp)*100))
 	end
 
+	experience.text:SetFont(caelMedia.files.fontRg, 10, "OUTLINE")
 	experience.text:SetText(xpString)
 
-	if retval then
-		return string.format("|cffD7BEA5Player|r %s / %s", xp, maxXp), (petMaxXp and petMaxXp > 0) and string.format("|cffD7BEA5Pet|r %s / %s", petXp, petMaxXp) or nil
+	if retVal then
+		return format("|cffD7BEA5Player|r %s / %s", xp, maxXp), (petMaxXp and petMaxXp > 0) and format("|cffD7BEA5Pet|r %s / %s", petXp, petMaxXp) or nil
 	end
 end
 
