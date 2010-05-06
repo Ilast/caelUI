@@ -43,7 +43,7 @@ if locale == "enUS" then
 					/2 recrute afin de compléter son roster 25.
 					/2 Avancée PVE : ICC10-HM: 9/12, ICC25: 11/12
 					/2 Toutes les candidatures seront étudiées
-					/2 Cinq soirs de présence requis
+					/2 4 soirs de présence requis par semaine
 					/2 Rendez-vous sur: http://www.guilde-wedidit.fr
 					/2 ou contactez nous directement. Bonne journée !]=],
 				blizzmacro = true,
