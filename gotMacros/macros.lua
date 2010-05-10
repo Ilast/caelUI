@@ -39,11 +39,11 @@ if locale == "enUS" then
 		gM_Macros = {
 			["WDI"] = {
 				char = "Caellian, Callysto",
-				body = [=[/2 La guilde >>> We Did It <<<
-					/2 recrute afin de compléter son roster 25.
-					/2 Avancée PVE : ICC10-HM: 9/12, ICC25: 11/12
-					/2 Toutes les candidatures seront étudiées
-					/2 4 soirs de présence requis par semaine
+				body = [=[/2 [[ -- >> We Did It << -- ]]
+					/2 Ouvre ses portes aux recrutements.
+					/2 Avancée PVE : ICC10-HM: 9/12, ICC25: CLEAN
+					/2 4 soirs de présence requis par semaine.
+					/2 Toutes les candidatures seront étudiées.
 					/2 Rendez-vous sur: http://www.guilde-wedidit.fr
 					/2 ou contactez nous directement. Bonne journée !]=],
 				blizzmacro = true,
@@ -130,7 +130,7 @@ if locale == "enUS" then
 				body = [=[/cast !Auto Shot
 					/click gotMacros_SrSb
 					/click gotMacros_Mark
-					/click gotMacros_AimS
+					/click gotMacros_MulS
 					/cast Silencing Shot
 					/click gotMacros_StdS]=],
 			},
