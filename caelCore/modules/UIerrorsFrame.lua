@@ -13,6 +13,7 @@ local eventBlacklist = {
 	[ERR_OUT_OF_RAGE] = true,
 	[ERR_OUT_OF_ENERGY] = true,
 	[ERR_ABILITY_COOLDOWN] = true,
+	[ERR_ITEM_COOLDOWN] = true,
 	[ERR_SPELL_COOLDOWN] = true,
 	[ERR_MUST_EQUIP_ITEM] = true,
 	[SPELL_FAILED_NO_COMBO_POINTS] = true,
