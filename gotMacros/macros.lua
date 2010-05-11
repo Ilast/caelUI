@@ -227,7 +227,7 @@ if locale == "enUS" then
 			},
 			["DpsFns"] = {
 				char = "Cowdiak",
-				body = [=[/castsequence reset=combat/target Rake, Mangle (Cat)(Rank 5), Mangle (Cat)(Rank 5)]=],
+				body = [=[/castsequence reset=combat/target Mangle (Cat)(Rank 5), Rake, Mangle (Cat)(Rank 5), Mangle (Cat)(Rank 5), Mangle (Cat)(Rank 5)]=],
 			},
 			["CatB"] = {
 				char = "Cowdiak",
