@@ -9,6 +9,7 @@ caelMedia.files = {
 	edgeFile			= [=[Interface\Addons\caelMedia\borders\glowtex]=],
 	statusBarA			= [=[Interface\Addons\caelMedia\statusbars\normtexa]=],
 	statusBarB			= [=[Interface\Addons\caelMedia\statusbars\normtexb]=],
+	statusBarC			= [=[Interface\Addons\caelMedia\statusbars\normtexc]=],
 
 	fontRg				= [=[Interface\Addons\caelMedia\fonts\neuropol x cd rg.ttf]=],
 	fontBd				= [=[Interface\Addons\caelMedia\fonts\neuropol x cd bd.ttf]=],
