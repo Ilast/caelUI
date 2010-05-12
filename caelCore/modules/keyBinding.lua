@@ -103,9 +103,16 @@ end)
 --------------------------
 ---[[	Acceleration	]]---
 --------------------------
+for i = 1, 12 do
+	local currentButton = _G["ActionButton"..i]
+
+	currentButton:RegisterForClicks("AnyDown")
+
+--	SetOverrideBindingClick(button, true, KEYBIND, button:GetName(), MOUSEBUTTONTOFAKE)
+	SetOverrideBindingClick(currentButton, true, i == 12 and "-" or i == 11 and ")" or i == 10 and "0" or i, currentButton:GetName(), "LeftButton")
+end
 
 local driver = CreateFrame("Frame", nil, UIParent, "SecureHandlerStateTemplate")
-RegisterStateDriver(driver, "form", "[vehicleui][bonusbar:5][form]1;0")
 -- Create binding map.
 driver:Execute([[
 	bindings = newtable("1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ")", "-")
@@ -125,14 +132,4 @@ driver:SetAttribute("_onstate-form", [=[
 		self:SetBindingClick(true, bindings[i], name:format(i))
 	end
 ]=])
-
-local currentButton
-
-for i = 1, 12 do
-	currentButton = _G["ActionButton"..i]
-
-	currentButton:RegisterForClicks("AnyDown")
-
---	SetOverrideBindingClick(button, true, KEYBIND, button:GetName(), MOUSEBUTTONTOFAKE)
-	SetOverrideBindingClick(currentButton, true, i == 12 and "-" or i == 11 and ")" or i == 10 and "0" or i, currentButton:GetName(), "LeftButton")
-end
+RegisterStateDriver(driver, "form", "[vehicleui][bonusbar:5][form]1;0")
