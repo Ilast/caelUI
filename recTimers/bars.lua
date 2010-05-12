@@ -110,4 +110,5 @@ elseif locale == "frFR" then
 		recTimers:make_bar("Armure de la fournaise", "player", "buff",	false, 0.5, 0.2, 0.0, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 226)
 
 	end
+
 end
