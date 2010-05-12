@@ -28,9 +28,9 @@ local incomingFilter = function(self, event, msg, ...)
 	local sender = ...
 	local gm = select(5, ...)
 
-	if type(sender) ~= "string" or sender == caelLib.playerName or
-	  (UnitExists("target") and UnitName("target") == sender) or UnitInRaid(sender) or
-	  (type(gm) == "string" and gm == "GM") then return false, msg, ... end
+	if type(sender) ~= "string" or (UnitExists("target") and UnitName("target") == sender) or UnitInRaid(sender) or (type(gm) == "string" and gm == "GM") then
+		return false, msg, ...
+	end
 
 	if not whisperers[sender] or whisperers[sender] == 1 or msg == "status" then
 		-- Let him know we are fighting a boss
@@ -49,7 +49,7 @@ ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", incomingFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", outgoingFilter)
 
 local checkTarget = function(id)
-	return UnitExists(id) and UnitAffectingCombat(id) and UnitClassification(id) == "worldboss"
+	return UnitExists(id) and UnitAffectingCombat(id) -- and UnitClassification(id) == "worldboss"
 end
 
 local scan = function()
