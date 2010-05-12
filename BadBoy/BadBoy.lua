@@ -58,7 +58,12 @@ local triggers = {
 	"you.*become.*blizzard.*gift.*add?res",
 	"mount.*server.*guys.*go.*app.*available",
 	"deliver.*buy.*gold.*fast",
-	"%d%d%d%d+g.*deliver.*discount", --Dear %t,WWW.Gamesky2,CQM,10000G/$29,5-30 minutes delivery!30% Discount Code:100002 Pw:12345 lvl 70-80/$37.99.100K Honor Points $34.99 WWW.Gamesky2,CQM! [25]
+	"deliver.*game.*info.*gift.*server", --Deliver in 5-10 mins make you are the best in game come to <www.game1313.org> for more information $3.98/1000+5% gift got some ready in this sever can deliver now im sry for bother here
+	"gold.*deliver.*gold.*order", --hello,welcome to [WWW.PANNINGWOW.COM], 10k gold only EUR 23 ,We can delivery your gold wow on the order in a short while. please remember our website  [http://www.panningwow.com]
+	"safe.*cheap.*gold.*stock", --The safest and cheapest gold come from the biggest gold stock: [MINEWOW.com]. 10k gold only for $41.99 use code:COFII. For the gold are all sufficient stock in all the servers,you will get your gold as the fastest speed. Today's stock: 670K
+	"safe.*deliver.*low.*price", --Your trustable friend <IGS.COM> comes again with the instant&safe delivery of g in lowest price as usual. 1000G=$4.53 !!!
+	--Dear >%t<,WWW.Gamesky2,COM, Happy Labor Day! 11000G/$29, over 20k plus 20% bonus! 5-30 minutes delivery! lvl 70-80/$37.99.100K Honor Points $34.99 WWW.Gamesky2,COM! [26]
+	"%d%d%d%d+g.*deliver.*honor", --Dear %t,WWW.Gamesky2,CQM,10000G/$29,5-30 minutes delivery!30% Discount Code:100002 Pw:12345 lvl 70-80/$37.99.100K Honor Points $34.99 WWW.Gamesky2,CQM! [25]
 	"fast.*stock.*deliver.*gold", --Welcome to  [www.FesGame.com] Fast-Easy-Safe.full stock.Deliver in  20min.E29.99=10000+1000 now.!Select you Gold and P0werLeveling!Thanks for your attention!
 	"gold.*order.*free.*gold", --welcome to < www.4wowgold.c@m>,when you introduce friends to our site ordering with your character name,you can enjoy about 15% free gold according to your friends' order amount
 	--enUS :39.99 euro/10k,delivery within 15 mins, 24/7 service, more than 100.000 loyal customers,McAfee Secure ! Welcome at [www.storeingame.com]
@@ -144,6 +149,12 @@ local triggers = {
 	"spieler.*testversion.*blizz.*invincible.*ghost", --deDE Herzlichen Gluckwunsch Sie werden gluckliche Spieler, werden Sie eine kostenlose Testversion erhalten neuesten Blizzard 310% Invincible Ghost fliegende Reittiere, 24 Stunden, bitte jetzt anmelden: XYZ
 	"blizz.*launch.*mount.*trial.*info", --Hi, Blizzard is about to launch a new mounts, Free trial, For more information, please log in: XYZ
 	"you.*drawn.*system.*gift.*steed", --Hello,you are drawn in the system to receive your gift.Please visit: [XYZ] Celestial Steed will be yours.
+	"blizz.*system.*account.*violation.*trading", --Hello! Blizzard game system scan to your game account, a violation of rules of the game's virtual currency trading! Please visit our website [XYZ] review your account information, or we will suspend your account.
+	"thank.*support.*warcraft.*blizz.*steed", --Hello. To thank you for your support for World of Warcraft. Blizzard will be giving your horse a celestial steed.Receiving please visit: XYZ
+	"hallo.*system.*gift.*steed.*erhalten", --Hallo, sind Sie in das System gezogen, um Ihren Besuch gift.Please: XYZ Celestial Steed erhalten verkaufen werden
+	"spieler.*netz.*warcraft.*blizz.*kompensation", --Liebe Spieler, weil das Netz der World of Warcraft gebrochen hatte, entschied sich Blizzard zu geben, jeder Spieler gewisse Kompensation. Bitte besuchen Sie: XYZ und erhalten einen Ausgleich fur Waren.
+	"master.*konto.*deaktiviert.*besuchen.*informationen", --Hallo! Game Master(GM) whispers: Ihr Konto wird vorubergehend [deaktiviert.Bitte] besuchen [XYZ] fur weitere Informationen
+	"obtain.*mount.*blizzard.*receive.*submit", --Hello, you have obtained a rare mount from Blizzard, but you haven't yet receive it. please log in XYZ and submit your email.
 
 	--Lvl 1 whisperers
 	"server.*purchase.*gold.*deliv", --sorry to bother,currently we have 29200g on this server, wondering if you might purchase some gold today? 15mins delivery:)
@@ -189,6 +200,7 @@ local triggers = {
 	"^%W+lastminuteangebotevonmmoggg%W+$", --temp
 	"^%W+osteraktionvonmmoggg%W+$", --temp
 	"^%W+wirschenkeneuch%d+%%mehrgold%W+$", --temp
+	"^%W+mai%-aktionvonmmoggg%W+$", --temp
 	"^%W+mmo4store%.com%W+$", --======<< [mmo4store.com] >>======
 	"wow.*provider.*igs%.c.*po?we?rle?ve?l", --31 October 09
 	"happygolds.*gold.*gold", --31 October 09
@@ -198,6 +210,7 @@ local triggers = {
 	"friend.*website.*wowseller%.c", --18 April 10
 	"cheap.*wow.*gold.*brogame%.c", --31 October 09
 	"^%W+w*%.?gold4guild%.c[o0]m%W+$", --31 October 09
+	"^%W+w*%.?wowseller%.c[o0]m%W+$", --18 April 10
 	"^%W+gg4g%.com%W+$", --27 January 09
 	"^www%.ignmax%.com$", --12 December 09
 	"^%W+wowbuffet%.comisinsane%W+$", -->>>>>wowbuffet.com is insane! <<<<< --03 February 10
@@ -222,11 +235,6 @@ local function filter(_, event, msg, player, _, _, _, _, channelId, _, _, _, lin
 	msg = (msg):lower() --Lower all text, remove capitals
 	msg = strreplace(msg, " ", "") --Remove spaces
 	msg = strreplace(msg, ",", ".") --Convert commas to periods
-	--START: Art remover
-	if fnd(msg, "^%p%p%p%p+$") then
-		result = true return true
-	end
-	--END: Art remover
 	--START: 6 line text buffer, this checks the current line, and blocks it if it's the same as one of the previous 6
 	for k,v in ipairs(chatLines) do
 		if v == msg then
@@ -261,6 +269,11 @@ local function filter(_, event, msg, player, _, _, _, _, channelId, _, _, _, lin
 			return true
 		end
 	end
+	--START: Art remover
+	if fnd(msg, "^%p%p%p%p+$") then
+		result = true return true
+	end
+	--END: Art remover
 	result = nil
 end
 
