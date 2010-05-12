@@ -5,7 +5,7 @@ local mediaPath = [=[Interface\Addons\oUF_Caellian\media\]=]
 
 local floor, format, insert, sort = math.floor, string.format, table.insert, table.sort
 
-local normtex = mediaPath..[=[textures\normtexb]=]
+local normtex = mediaPath..[=[textures\normtexc]=]
 local glowTex = mediaPath..[=[textures\glowtex]=]
 local bubbleTex = mediaPath..[=[textures\bubbletex]=]
 local buttonTex = mediaPath..[=[textures\buttontex]=]
