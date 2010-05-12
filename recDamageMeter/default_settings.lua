@@ -38,7 +38,7 @@ opt.mode_font_y_offset = opt.display_padding * -1
 -- max_bar_height = ((opt.display_height - (opt.button_height + (opt.display_padding * 2) + opt.bar_spacing)) / 10) - bar_spacing
 opt.bar_height = 9.35 			-- Height of each bar. --	opt.bar_height = tonumber(tostring(((opt.display_height - (opt.button_height + (opt.display_padding * 2) + opt.bar_spacing)) / 10) - opt.bar_spacing))
 opt.bar_spacing = 1.5			-- Distance between each bar.
-opt.bar_texture = caelMedia.files.statusBarB	-- Texture of the bars:
+opt.bar_texture = caelMedia.files.statusBarC	-- Texture of the bars:
 opt.bar_font_face = caelMedia.files.fontRg
 opt.bar_font_size = 9
 opt.bar_font_flags = ""
