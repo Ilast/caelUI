@@ -31,6 +31,7 @@
 	}
 ]==]--
 
+local multiLocales
 local locale = caelLib.locale
 local playerClass = caelLib.playerClass
 
@@ -602,25 +603,42 @@ elseif locale == "frFR" then
 	end
 end
 
-local multiLocales = {
-	["T2"] = {
-		char = "Bonewraith, Calyr, Dkdens, Cowdiak, Pimiko",
-		icon = [=[Interface\Icons\Ability_Hunter_MasterMarksman]=],
-		body = [=[/cleartarget [exists]
-			/targetenemy]=],
-	},
-	["CDs2"] = {
-		char = "Cowdiak, Bonewraith, Calyr, Dkdens",
-		icon = [=[Interface\Icons\Spell_Shadow_LastingAfflictions]=],
-		body = [=[/use Battlemaster's Determination
-			/use Bloodlust Brooch
-			/cast Tiger's Fury
-			/cast Fureur sanguinaire
-			/use 14
-			/cast Avenging Wrath]=],
-		nosound = true,
+if locale == "enUS" then
+	multiLocales = {
+		["T2"] = {
+			char = "Bonewraith, Calyr, Dkdens, Cowdiak, Pimiko",
+			icon = [=[Interface\Icons\Ability_Hunter_MasterMarksman]=],
+			body = [=[/cleartarget [exists]
+				/targetenemy]=],
+		},
+		["CDs2"] = {
+			char = "Cowdiak, Bonewraith, Calyr, Dkdens",
+			icon = [=[Interface\Icons\Spell_Shadow_LastingAfflictions]=],
+			body = [=[/cast Tiger's Fury
+				/cast Avenging Wrath
+				/use 13
+				/use 14]=],
+			nosound = true,
+		}
 	}
-}
+elseif locale == "frFR" then
+	multiLocales = {
+		["T2"] = {
+			char = "Bonewraith, Calyr, Dkdens, Cowdiak, Pimiko",
+			icon = [=[Interface\Icons\Ability_Hunter_MasterMarksman]=],
+			body = [=[/cleartarget [exists]
+				/targetenemy]=],
+		},
+		["CDs2"] = {
+			char = "Cowdiak, Bonewraith, Calyr, Dkdens",
+			icon = [=[Interface\Icons\Spell_Shadow_LastingAfflictions]=],
+			body = [=[/cast Fureur sanguinaire
+				/use 13
+				/use 14]=],
+			nosound = true,
+		}
+	}
+end
 
 if playerClass ~= "HUNTER" then
 	if not gM_Macros then
