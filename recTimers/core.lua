@@ -107,7 +107,7 @@ recTimers.make_bar = function(self, spell_name, unit, buff_type, only_self, r, g
 	
 	bars[new_id].tx = bars[new_id]:CreateTexture(nil, "ARTWORK")
 	bars[new_id].tx:SetAllPoints()
-	bars[new_id].tx:SetTexture(caelMedia.files.statusBarB)
+	bars[new_id].tx:SetTexture(caelMedia.files.statusBarC)
 	-- Color bar with user values unless they enter nil values.  If so, then we color bar based on aura type
 	if r and g and b then
 		bars[new_id].tx:SetVertexColor(r, g, b, 1)
@@ -131,7 +131,7 @@ recTimers.make_bar = function(self, spell_name, unit, buff_type, only_self, r, g
 	bars[new_id].bg = bars[new_id]:CreateTexture(nil, "BORDER")
 	bars[new_id].bg:SetPoint("TOPLEFT")
 	bars[new_id].bg:SetPoint("BOTTOMRIGHT")
-	bars[new_id].bg:SetTexture(caelMedia.files.statusBarB)
+	bars[new_id].bg:SetTexture(caelMedia.files.statusBarC)
 	bars[new_id].bg:SetVertexColor(0.25, 0.25, 0.25, 1)
 
 	bars[new_id].icon = bars[new_id]:CreateTexture(nil, "BORDER")
