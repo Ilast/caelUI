@@ -19,6 +19,9 @@ local KEYRING = KEYRING_CONTAINER			-- BagID of the keyring.
 local FIRST_BANKBAG = NUM_BAG_SLOTS + 1			-- BagID of first bankbag slot.
 local LAST_BANKBAG = NUM_BAG_SLOTS + NUM_BANKBAGSLOTS	-- BagID of the last bankbag slot.
 
+-- Prevent automatic resizing of the container frames.
+updateContainerFrameAnchors = dummy
+
 -- Layout settings
 -- Sizing
 local numBagColumns = 10
@@ -27,7 +30,8 @@ local buttonSize = 30
 local buttonSpacing = -2
 
 -- Margins
-local bottomMargin = 30
+local bottomButtonMargin = 30
+local bottomMargin = 5
 local sideMargin   = 5
 local topMargin    = 5
 
@@ -39,7 +43,7 @@ local ContainerMT = {__index = Container}
 -- Updates the size and height of a container, depending on the amount of 
 -- shown buttons it holds.
 function Container:UpdateSize()
-	self:SetHeight((self.row + (self.col == 0 and 0 or 1)) * (buttonSize + buttonSpacing) + bottomMargin + topMargin)
+	self:SetHeight((self.row + (self.col == 0 and 0 or 1)) * (buttonSize + buttonSpacing) + abs(buttonSpacing) +(self.hasButtons and bottomButtonMargin or bottomMargin) + topMargin)
 	self:SetWidth(self.maxColumns * buttonSize + buttonSpacing * (self.maxColumns - 1) + (2 * sideMargin))
 	
 	if not self:IsShown() then
@@ -127,6 +131,7 @@ local bags = Container:New("bag", numBagColumns)
 bags:SetPoint("BOTTOMRIGHT", UIParent, "RIGHT", -15, 0)
 bags:SetBackdropColor(0, 0, 0, 0.7)
 bags:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
+bags.hasButtons = true
 caelBags.bags = bags
 
 local ammo = Container:New("ammo", numBagColumns)
@@ -139,7 +144,14 @@ local bank = Container:New("bank", numBankColumns)
 bank:SetPoint("BOTTOMRIGHT", bags, "BOTTOMLEFT", -15, 0)
 bank:SetBackdropColor(0, 0, 0, 0.7)
 bank:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
+bank.hasButtons = true
 caelBags.bank = bank
+
+local keys = Container:New("keys", numBagColumns)
+keys:SetPoint("CENTER")
+keys:SetBackdropColor(0,0,0,0.7)
+keys:SetBackdropBorderColor(0.25,0.25, 0.25,1)
+caelBags.keys = keys
 
 -- Make em closable on escape.
 tinsert(UISpecialFrames, caelBags.bank)
@@ -164,6 +176,8 @@ local function GetContainerForBag(bagID)
 		type = "bank" 
 	elseif bagID >= BACKPACK then
 		type = "bags"
+	elseif bagID == KEYRING then
+		type = "keys"
 	else
 		error(format("Invalid bagID passed to GetContainer. Got %q", tostring(bagID)))
 	end
@@ -266,10 +280,10 @@ end
 
 -- Init function. Removes a whole bunch of texture from the default frames.
 local function Init()
-	for bagID = BACKPACK, LAST_BANKBAG do
-		local name = format("ContainerFrame%d", bagID + 1)
-		
-		local containerFrame = _G[name]
+	local i=1
+	local containerFrame = ContainerFrame1
+	while containerFrame do
+		local name = containerFrame:GetName()
 		
 		if not containerFrame then
 			return print(bagID)
@@ -289,6 +303,9 @@ local function Init()
 		-- Trash some buttons.
 		_G[format("%sCloseButton", name)]:Hide()
 		_G[format("%sPortraitButton", name)]:EnableMouse(false)
+		
+		i=i+1
+		containerFrame = _G["ContainerFrame"..i]
 	end
 
 	-- Fix token frame glitch
@@ -342,7 +359,6 @@ local function ContainerFrameOnHide(self)
 
 	if not isCharListA then
 		CloseAllBags()
---		BankFrame:Hide()
 	end
 
 	container:Refresh()
@@ -375,6 +391,7 @@ local closeBags = function()
 	for i = 0, 11 do
 		CloseBag(i)
 	end
+	CloseBag(-2)
 end
 
 local openBags = function()
@@ -422,3 +439,6 @@ OpenAllBags = toggleBags
 OpenBackpack = openBags
 CloseBackpack = closeBags
 CloseAllBags = closeBags
+
+SlashCmdList["RL"] = ReloadUI
+SLASH_RL1 = "/rl"
