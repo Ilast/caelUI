@@ -42,7 +42,7 @@ if locale == "enUS" then
 				char = "Caellian, Callysto",
 				body = [=[/2 [[ -- >> We Did It << -- ]]
 					/2 Ouvre ses portes aux recrutements.
-					/2 Avancée PVE : ICC10-HM: 10/12, ICC25: CLEAN
+					/2 Avancée PVE : ICC10-HM: 11/12, ICC25: CLEAN
 					/2 4 soirs de présence requis par semaine.
 					/2 Toutes les candidatures seront étudiées.
 					/2 Rendez-vous sur: http://www.guilde-wedidit.fr
