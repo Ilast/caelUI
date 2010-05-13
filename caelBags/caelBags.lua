@@ -138,6 +138,7 @@ local ammo = Container:New("ammo", numBagColumns)
 ammo:SetPoint("BOTTOM", bags, "TOP", 0, 5)
 ammo:SetBackdropColor(0, 0, 0, 0.7)
 ammo:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
+ammo.preventCloseAll = true
 caelBags.ammo = ammo
 
 local bank = Container:New("bank", numBankColumns)
@@ -151,6 +152,7 @@ local keys = Container:New("keys", numBagColumns)
 keys:SetPoint("CENTER")
 keys:SetBackdropColor(0,0,0,0.7)
 keys:SetBackdropBorderColor(0.25,0.25, 0.25,1)
+keys.preventCloseAll = true
 caelBags.keys = keys
 
 -- Make em closable on escape.
@@ -357,7 +359,7 @@ local function ContainerFrameOnHide(self)
 		end
 	end
 
-	if not isCharListA then
+	if not container.preventCloseAll then
 		CloseAllBags()
 	end
 
