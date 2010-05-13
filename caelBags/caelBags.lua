@@ -164,7 +164,7 @@ local function IsAmmoBag(bagID)
 	if not bagID then return end
 	
 	local freeSlots, bagType = GetContainerNumFreeSlots(bagID)
-	if bagType and bit.band(bagType, 0x3) > 0 then
+	if bagType and bit.band(bagType, 0x7) > 0 then
 		return true
 	end
 end

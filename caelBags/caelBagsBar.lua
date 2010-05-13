@@ -101,11 +101,6 @@ function bankBagBar:Update()
 	end
 end
 
-bankBagBar:SetScript("OnShow", bankBagBar.Update)
-bankBagBar:SetScript("OnEvent", bankBagBar.Update)
-bankBagBar:RegisterEvent("PLAYER_MONEY")
-bankBagBar:RegisterEvent("PLAYERBANKBAGSLOTS_CHANGED")
-
 function bankBagBar:init()
 	local buySlotButton = BankFramePurchaseButton
 	buySlotButton:SetParent(self)
@@ -122,6 +117,11 @@ function bankBagBar:init()
 	buySlotCost:SetParent(self)
 	buySlotCost:SetPoint("LEFT", buySlotButton, "RIGHT", 0, 0)
 	self.buySlotCost = buySlotCost
+	
+	bankBagBar:SetScript("OnShow", function(self) self:RegisterEvent("PLAYER_MONEY") self:Update() end)
+	bankBagBar:SetScript("OnHide", function(self) self:UnregisterEvent("PLAYER_MONEY") end)
+	bankBagBar:SetScript("OnEvent", bankBagBar.Update)
+	bankBagBar:RegisterEvent("PLAYERBANKBAGSLOTS_CHANGED")
 end
 
 local function CreateBagBar(bank)
