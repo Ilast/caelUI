@@ -23,9 +23,10 @@ local backupColor = {r = 0.69, g = 0.31, b = 0.31}
 setmetatable(DebuffTypeColor, {__index = function() return backupColor end})
 
 local whiteList = {
+	["Mark of the Fallen Champion"] = true, -- Deathbringer Saurfang
+	["Unbound Plague"] = true, -- Professor Putricide HM
 	["Essence of the Blood Queen"] = true, -- Blood-Queen Lana'thel
 	["Necrotic Plague"] = true, -- The Lich King
-	["Unbound Plague"] = true, -- Professor Putricide HM
 }
 
 local function GetDebuffType(unit, filter)
