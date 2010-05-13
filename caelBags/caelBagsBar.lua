@@ -1,7 +1,5 @@
 --[[	$Id$	]]
 
-if caelLib.isCharListA then return end
-
 local _, caelBags = ...
 
 local bagButtons = {}
