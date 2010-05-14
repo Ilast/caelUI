@@ -6,7 +6,6 @@ _G.caelBags = caelBags
 
 -- Dummy func so we can trash some functions we can't avoid being called.
 local dummy = caelLib.dummy
-local isCharListA = caelLib.isCharListA
 
 -- Constants
 local NUM_BAG_SLOTS = NUM_BAG_SLOTS			-- Amount of bag slots.
@@ -131,6 +130,7 @@ local bags = Container:New("bag", numBagColumns)
 bags:SetPoint("BOTTOMRIGHT", UIParent, "RIGHT", -15, 0)
 bags:SetBackdropColor(0, 0, 0, 0.7)
 bags:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
+bags.preventCloseAll = true
 bags.hasButtons = true
 caelBags.bags = bags
 
@@ -142,14 +142,14 @@ ammo.preventCloseAll = true
 caelBags.ammo = ammo
 
 local bank = Container:New("bank", numBankColumns)
-bank:SetPoint("BOTTOMRIGHT", bags, "BOTTOMLEFT", -15, 0)
+bank:SetPoint("BOTTOMRIGHT", bags, "BOTTOMLEFT", 0, 0)
 bank:SetBackdropColor(0, 0, 0, 0.7)
 bank:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
 bank.hasButtons = true
 caelBags.bank = bank
 
 local keys = Container:New("keys", numBagColumns)
-keys:SetPoint("CENTER")
+keys:SetPoint("BOTTOMRIGHT", bags, "BOTTOMLEFT", 0, 0)
 keys:SetBackdropColor(0, 0, 0, 0.7)
 keys:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
 keys.preventCloseAll = true
@@ -186,7 +186,7 @@ local function GetContainerForBag(bagID)
 	
 	return caelBags[type]
 end
-
+--[[
 -- Create A/S toggle button.
 local ammoButton = CreateFrame("Button", nil, bags)
 ammoButton:SetText("A / S")
@@ -203,7 +203,7 @@ ammoButton:SetScript("OnClick", function()
 		OpenAmmo()
 	end
 end)
-
+--]]
 -- Applies desired layout to the item button.
 local function ApplyButtonLayout(button)
 	local name = button:GetName()
