@@ -150,8 +150,8 @@ caelBags.bank = bank
 
 local keys = Container:New("keys", numBagColumns)
 keys:SetPoint("CENTER")
-keys:SetBackdropColor(0,0,0,0.7)
-keys:SetBackdropBorderColor(0.25,0.25, 0.25,1)
+keys:SetBackdropColor(0, 0, 0, 0.7)
+keys:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
 keys.preventCloseAll = true
 caelBags.keys = keys
 
@@ -215,7 +215,6 @@ local function ApplyButtonLayout(button)
 	-- Hide that ugly new quest border
 	questTexture:Hide()
 	questTexture.Show = dummy
---	hooksecurefunc(questTexture, "Show", questTexture.Hide)
 
 	-- Replace textures.
 	button:SetNormalTexture(caelMedia.files.buttonNormal)
@@ -241,7 +240,7 @@ local function ApplyButtonLayout(button)
 	normalTexture:SetWidth(buttonSize)
 	normalTexture:ClearAllPoints()
 	normalTexture:SetPoint("CENTER")
-	normalTexture:SetVertexColor(0.84, 0.75, 0.65)	
+	normalTexture:SetVertexColor(0.84, 0.75, 0.65)
 	
 	-- Move item count text into a readable position.
 	itemCount:ClearAllPoints()
