@@ -344,7 +344,7 @@ local CreateAuraTimer = function(self, elapsed)
 		end
 	end
 end
-
+--[[
 local SortAura = function(self, auras, max)
 --	for i = 1, #auras do
 --		if auras[i].timeLeft == nil then
@@ -354,7 +354,7 @@ local SortAura = function(self, auras, max)
 	
 	sort(auras, function(a, b) return (a.timeLeft or 0) > (b.timeLeft or 0) end)
 end
-
+--]]
 local HideAura = function(self)
 	if self.unit == "player" then
 		if settings.noPlayerAuras then
@@ -1086,7 +1086,7 @@ local SetStyle = function(self, unit)
 	self.PostCreateEnchantIcon = CreateAura
 	self.PostUpdateAuraIcon = UpdateAura
 	self.PostUpdateEnchantIcons = CreateEnchantTimer
-	self.PreAuraSetPosition = SortAura
+--	self.PreAuraSetPosition = SortAura
 --	self.OverrideUpdateThreat = OverrideUpdateThreat
 
 	self:SetScale(settings.scale)
