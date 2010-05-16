@@ -293,12 +293,54 @@ local UpdateCPoints = function(self, event, unit)
 	end
 end
 
-local FormatCastbarTime = function(self, duration)
-	if self.channeling then
-		self.Time:SetFormattedText("%.1f ", duration)
-	elseif self.casting then
-		self.Time:SetFormattedText("%.1f ", self.max - duration)
+local PostCastStart = function(self, event, unit, name, rank, text, castid, interrupt)
+	self.channeling = false
+	if unit == "vehicle" then unit = "player" end
+
+	if unit == "player" then
+		local latency = GetTime() - self.Castbar.castSent
+		latency = latency > self.Castbar.max and self.Castbar.max or latency
+		self.Castbar.Latency:SetText(("%dms"):format(latency * 1e3))
+		self.Castbar.SafeZone:SetWidth(self.Castbar:GetWidth() * latency / self.Castbar.max)
+		self.Castbar.SafeZone:ClearAllPoints()
+		self.Castbar.SafeZone:SetPoint("TOPRIGHT")
+		self.Castbar.SafeZone:SetPoint("BOTTOMRIGHT")
 	end
+
+	if interrupt and UnitCanAttack("player", unit) then
+		self.Castbar.bg:SetVertexColor(0.69, 0.31, 0.31, 0.75)
+	else
+		self.Castbar.bg:SetVertexColor(0.15, 0.15, 0.15, 0.75)
+	end
+end
+
+local PostChannelStart = function(self, event, unit, name, rank, text, interrupt)
+	self.channeling = true
+	if unit == "vehicle" then unit = "player" end
+
+	if unit == "player" then
+		local latency = GetTime() - self.Castbar.castSent
+		latency = latency > self.Castbar.max and self.Castbar.max or latency
+		self.Castbar.Latency:SetText(("%dms"):format(latency * 1e3))
+		self.Castbar.SafeZone:SetWidth(self.Castbar:GetWidth() * latency / self.Castbar.max)
+		self.Castbar.SafeZone:ClearAllPoints()
+		self.Castbar.SafeZone:SetPoint("TOPLEFT")
+		self.Castbar.SafeZone:SetPoint("BOTTOMLEFT")
+	end
+
+	if interrupt and UnitCanAttack("player", unit) then
+		self.Castbar.bg:SetVertexColor(0.69, 0.31, 0.31, 0.75)
+	else
+		self.Castbar.bg:SetVertexColor(0.15, 0.15, 0.15, 0.75)
+	end
+end
+
+local CustomCastTimeText = function(self, duration)
+	self.Time:SetText(("%.1f / %.1f"):format(self.channeling and duration or self.max - duration, self.max))
+end
+
+local CustomCastDelayText = function(self, duration)
+	self.Time:SetText(("%.1f |cffaf5050%s %.1f|r"):format(self.channeling and duration or self.max - duration, self.channeling and "- " or "+", self.delay))
 end
 
 local FormatTime = function(s)
@@ -344,17 +386,7 @@ local CreateAuraTimer = function(self, elapsed)
 		end
 	end
 end
---[[
-local SortAura = function(self, auras, max)
---	for i = 1, #auras do
---		if auras[i].timeLeft == nil then
---			auras[i].timeLeft = 0
---		end
---	end
-	
-	sort(auras, function(a, b) return (a.timeLeft or 0) > (b.timeLeft or 0) end)
-end
---]]
+
 local HideAura = function(self)
 	if self.unit == "player" then
 		if settings.noPlayerAuras then
@@ -458,28 +490,7 @@ local UpdateAura = function(self, icons, unit, icon, index)
 	icon.first = true
 	icon:SetScript("OnUpdate", CreateAuraTimer)
 end
---[[
-local debuffFilter = {
-	["Aimed Shot"] = true,
-	["Black Arrow"] = true,
-	["Concussive Shot"] = true,
-	["Distracting Shot"] = true,
-	["Explosive Shot"] = true,
-	["Explosive Trap Effect"] = true,
-	["Freezing Arrow Effect"] = true,
-	["Freezing Trap Effect"] = true,
-	["Frost Trap Aura"] = true,
-	["Hunter's Mark"] = true,
-	["Immolation Trap"] = true,
-	["Piercing Shots"] = true,
-	["Scatter Shot"] = true,
-	["Scorpid Sting"] = true,
-	["Serpent Sting"] = true,
-	["Silencing Shot"] = true,
-	["Viper Sting"] = true,
-	["Wing Clip"] = true,
-}
---]]
+
 local auraFilter = function(icons, unit, icon, name, rank, texture, count, dtype, duration, expiration, caster)
 	if UnitCanAttack("player", unit) then
 		local casterClass
@@ -515,66 +526,7 @@ local HidePortrait = function(self, unit)
 		end
 	end
 end
---[[
-local isTankClassSpec = {
-	["PALADIN"] = {
-		GetSpellInfo(25780), -- Righteous Fury
-		(GetSpellInfo(465)), -- Devotion Aura
-	},
-	["WARRIOR"] = GetSpellInfo(71), -- Defensive Stance
-	["DRUID"] = {
-		GetSpellInfo(5487), -- Bear Form
-		(GetSpellInfo(9634)), -- Dire Bear Form
-	},
-}
 
-local IsTankCheck = function(unit, spells)
-	local status = false
-	if type(spells) == "table" then
-		status = true
-		for i = 1, #spells do
-			if not UnitAura(unit, spells[i]) then
-				status = false
-			end
-		end
-	elseif spells then
-		if UnitAura(unit, spells) then
-			status = true
-		end
-	end
-	
-	return status
-end
-
-local aggroColors = {
-	[true] = {
-		[1] = {1, 0.6, 0},
-		[2] = {1, 1, 0.47},
-		[3] = {0.33, 0.59, 0.33},
-	},
-	[false] = {
-		[1] = {1, 1, 0.47},
-		[2] = {1, 0.6, 0},
-		[3] = {0.69, 0.31, 0.31},
-	}
-}
-
-local OverrideUpdateThreat = function(self, event, unit, status)
-	if (self.unit ~= unit) then return end
-
-	local _, unitClass = UnitClass(self.unit)
-
-	local isTank = IsTankCheck(self.unit, isTankClassSpec[unitClass])
-
-	local status = UnitIsFriend("player", unit) and UnitThreatSituation(unit) or UnitThreatSituation(self.unit, unit)
-	if (status and status > 0) then
-		local r, g, b = unpack(aggroColors[isTank][status])
-		self.FrameBackdrop:SetBackdropBorderColor(r, g, b)
-	else
-		self.FrameBackdrop:SetBackdropBorderColor(0, 0, 0)
-	end
-end
---]]
 local updateAllElements = function(frame)
 	for _, v in ipairs(frame.__elements) do
 		v(frame, "UpdateElement", frame.unit)
@@ -608,10 +560,6 @@ local SetStyle = function(self, unit)
 	else
 		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, 4, -4)
 	end
---	self:RegisterEvent("UNIT_AURA", OverrideUpdateThreat)
---	self:RegisterEvent("UNIT_THREAT_LIST_UPDATE", OverrideUpdateThreat)
---	self:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE", OverrideUpdateThreat)
---	insert(self.__elements,  OverrideUpdateThreat)
 
 	self.Health = CreateFrame("StatusBar", self:GetName().."_Health", self)
 	self.Health:SetHeight((unit == "player" or unit == "target" or self:GetParent():GetName():match("oUF_Raid")) and 22 or self:GetAttribute("unitsuffix") == "pet" and 10 or 16)
@@ -942,7 +890,6 @@ local SetStyle = function(self, unit)
 		self.Castbar.bg = self.Castbar:CreateTexture(nil, "BORDER")
 		self.Castbar.bg:SetAllPoints()
 		self.Castbar.bg:SetTexture(normtex)
-		self.Castbar.bg:SetVertexColor(0.15, 0.15, 0.15, 0.75)
 
 		if unit == "player" or unit == "target" then
 			self.Castbar:SetPoint("TOPLEFT", self, 0, -23)
@@ -957,7 +904,8 @@ local SetStyle = function(self, unit)
 			self.Castbar.Time:SetPoint("RIGHT", -1, 1)
 			self.Castbar.Time:SetTextColor(0.84, 0.75, 0.65)
 			self.Castbar.Time:SetJustifyH("RIGHT")
-			self.Castbar.CustomTimeText = FormatCastbarTime
+			self.Castbar.CustomTimeText = CustomCastTimeText
+			self.Castbar.CustomDelayText = CustomCastDelayText
 
 			self.Castbar.Text = SetFontString(self.PortraitOverlay, font, 11)
 			self.Castbar.Text:SetPoint("LEFT", 1, 1)
@@ -998,6 +946,17 @@ local SetStyle = function(self, unit)
 			self.Castbar.SafeZone = self.Castbar:CreateTexture(nil, "ARTWORK")
 			self.Castbar.SafeZone:SetTexture(normtex)
 			self.Castbar.SafeZone:SetVertexColor(0.69, 0.31, 0.31, 0.75)
+
+			self.Castbar.Latency = self.Castbar:CreateFontString(nil, "OVERLAY")
+			self.Castbar.Latency:SetFont(fontn, 8, "OUTLINE")
+			self.Castbar.Latency:SetTextColor(0.84, 0.75, 0.65)
+			self.Castbar.Latency:SetPoint("TOP", self.Castbar.Icon, "BOTTOM")
+			
+			self:RegisterEvent("UNIT_SPELLCAST_SENT", function(self, event, caster)
+				if caster == "player" or caster == "vehicle" then
+					self.Castbar.castSent = GetTime()
+				end
+			end)
 		end
 	end
 
@@ -1086,8 +1045,9 @@ local SetStyle = function(self, unit)
 	self.PostCreateEnchantIcon = CreateAura
 	self.PostUpdateAuraIcon = UpdateAura
 	self.PostUpdateEnchantIcons = CreateEnchantTimer
---	self.PreAuraSetPosition = SortAura
---	self.OverrideUpdateThreat = OverrideUpdateThreat
+	self.PostCastStart = PostCastStart
+	self.PostChannelStart = PostChannelStart
+
 
 	self:SetScale(settings.scale)
 	if self.Auras then self.Auras:SetScale(settings.scale) end
