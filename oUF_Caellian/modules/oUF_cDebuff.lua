@@ -6,10 +6,11 @@ local _, playerClass = UnitClass("player")
 
 local canDispel = {
 	PRIEST = { Magic = true, Disease = true },
-	SHAMAN = { Curse = true, Poison = true, Disease = true },
+	SHAMAN = { Curse = ({GetTalentInfo(3, 18, false, false, nil)})[5] == 1, Poison = true, Disease = true }, -- Curse only with Cleanse Spirit talented
 	PALADIN = { Magic = true, Poison = true, Disease = true },
 	MAGE = { Curse = true },
-	DRUID = { Curse = true, Poison = true }
+	DRUID = { Curse = true, Poison = true },
+	WARLOCK = { Magic = true }
 }
 local dispelList = canDispel[playerClass] or {}
 
