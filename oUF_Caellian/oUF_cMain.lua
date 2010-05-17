@@ -377,7 +377,11 @@ local CreateAuraTimer = function(self, elapsed)
 --				else
 --					self.remaining:SetFormattedText("%.1f", time)
 --				end
-				self.remaining:SetTextColor(0.84, 0.75, 0.65)
+				if self.timeLeft < 5 then
+					self.remaining:SetTextColor(0.69, 0.31, 0.31)
+				else
+					self.remaining:SetTextColor(0.84, 0.75, 0.65)
+				end
 			else
 				self.remaining:Hide()
 				self:SetScript("OnUpdate", nil)
@@ -515,6 +519,14 @@ local auraFilter = function(icons, unit, icon, name, rank, texture, count, dtype
 			return true
 		end
 	end
+end
+
+local SortAura = function(a, b)
+	return (a.timeLeft or 0) > (b.timeLeft or 0)
+end
+
+local PreAuraSetPosition = function(self, auras, max)
+	sort(auras, SortAura)
 end
 
 local HidePortrait = function(self, unit)
@@ -1042,6 +1054,7 @@ local SetStyle = function(self, unit)
 	self.PreUpdatePower = PreUpdatePower
 	self.PostUpdatePower = PostUpdatePower
 	self.PostCreateAuraIcon = CreateAura
+	self.PreAuraSetPosition = PreAuraSetPosition
 	self.PostCreateEnchantIcon = CreateAura
 	self.PostUpdateAuraIcon = UpdateAura
 	self.PostUpdateEnchantIcons = CreateEnchantTimer
