@@ -131,7 +131,7 @@ if locale == "enUS" then
 				body = [=[/cast !Auto Shot
 					/click gotMacros_SrSb
 					/click gotMacros_Mark
-					/click gotMacros_MulS
+					/click gotMacros_AimS
 					/cast Silencing Shot
 					/click gotMacros_StdS]=],
 			},
@@ -139,7 +139,7 @@ if locale == "enUS" then
 				char = "Caellian, Callysto, Dynames",
 				body = [=[/cast !Auto Shot
 					/click gotMacros_SrSa
-					/click gotMacros_MulS
+					/click gotMacros_AimS
 					/click gotMacros_ArcS
 					/click gotMacros_StdS]=],
 			},
