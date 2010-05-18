@@ -88,7 +88,7 @@ GameTooltip_UnitColor = function(unit)
 	return r, g, b
 end
 
-local OnTooltipSetItem = function(self)
+GameTooltip:HookScript("OnTooltipSetItem", function(self)
 	local _, link = self:GetItem()
 	if link then
 		local id = tonumber(link:match("item:(%d+):"))
@@ -109,11 +109,19 @@ local OnTooltipSetItem = function(self)
 			end
 		end
 	end
-end
+end)
+--[[
+GameTooltipStatusBar:SetScript("OnValueChanged", function(self, value)
+	if not value then return end
 
-GameTooltip:HookScript("OnTooltipSetItem", OnTooltipSetItem)
-
-local OnTooltipSetUnit = function(self)
+	local _, unit  = GameTooltip:GetUnit()
+	if unit then
+		local r, g, b = GameTooltip_UnitColor(unit)
+		GameTooltipStatusBar:SetStatusBarColor(r, g, b)
+	end
+end)
+--]]
+GameTooltip:HookScript("OnTooltipSetUnit", function(self)
 	local lines = self:NumLines()
 	local _, unit = self:GetUnit()
 	if(not unit or not UnitExists(unit)) then return end
@@ -190,19 +198,21 @@ local OnTooltipSetUnit = function(self)
 			self:AddLine("|cffD7BEA5Target:|r "..text, r, g, b)
 		end
 	end
-end
 
-GameTooltip:HookScript("OnTooltipSetUnit", OnTooltipSetUnit)
+	local r, g, b = GameTooltip_UnitColor(unit)
+	GameTooltipStatusBar:SetStatusBarColor(r, g, b, 0.5)
 
-local OnTooltipAddMoney = function(self, cost, maxcost)
+end)
+
+GameTooltipStatusBar:SetScript("OnValueChanged", nil)
+
+GameTooltip:HookScript("OnTooltipAddMoney", function(self, cost, maxcost)
 	local r, g, b = 0.84, 0.75, 0.65
 	self:AddLine("Value: "..FormatMoney(cost), r, g, b)
-end
-
-GameTooltip:SetScript("OnTooltipAddMoney", OnTooltipAddMoney)
+end)
 
 local BorderColor = function(self)
-	local unit = select(2, self:GetUnit())
+	local _, unit = self:GetUnit()
 	local reaction = unit and UnitReaction("player", unit)
 
 	if reaction then
@@ -229,19 +239,31 @@ local gradientBottom = caelTooltips:CreateTexture(nil, "BORDER")
 gradientBottom:SetTexture(caelMedia.files.bgFile)
 gradientBottom:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.75, 0, 0, 0, 0)
 
+local healthBar = GameTooltipStatusBar
+healthBar:ClearAllPoints()
+healthBar:SetHeight(5)
+healthBar:SetPoint("BOTTOMLEFT", 3, 3)
+healthBar:SetPoint("BOTTOMRIGHT", -3, 3)
+healthBar:SetStatusBarTexture(caelMedia.files.statusBarC)
+
+healthBar.bg = healthBar:CreateTexture(nil, "BORDER")
+healthBar.bg:SetAllPoints()
+healthBar.bg:SetTexture(caelMedia.files.statusBarC)
+healthBar.bg:SetVertexColor(0.25, 0.25, 0.25)
+
 local ApplyGradient = function(self)
 	self:SetHeight(floor(self:GetHeight()))
 	self:SetWidth(floor(self:GetWidth()))
-	
+
 	BorderColor(self)
-	
+
 	height = self:GetHeight() / 5
-	
+
 	gradientTop:SetParent(self)
 	gradientTop:SetPoint("TOPLEFT", 2, -2)
 	gradientTop:SetPoint("TOPRIGHT", -2, -2)
 	gradientTop:SetHeight(height)
-	
+
 	gradientBottom:SetParent(self)
 	gradientBottom:SetPoint("BOTTOMLEFT", 2, 2)
 	gradientBottom:SetPoint("BOTTOMRIGHT", -2, 2)
@@ -256,8 +278,6 @@ caelTooltips:SetScript("OnEvent", function(self)
 		v:SetBackdrop(caelMedia.backdropTable)
 --		v:SetScale(theOneScale)
 	end
-
-	GameTooltipStatusBar:SetAlpha(0)
 
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	self:SetScript("OnEvent", nil)
