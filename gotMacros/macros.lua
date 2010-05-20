@@ -208,7 +208,15 @@ if locale == "enUS" then
 					/cast Kill Shot]=],
 				blizzmacro = true,
 				perChar = true,
-			}
+			},
+			["King"] = {
+				char = "Caellian, Callysto",
+				show = "Tranquilizing Shot",
+				body = [=[/cast [target=Shambling Horror] Tranquilizing Shot
+					/targetlasttarget]=],
+				blizzmacro = true,
+				perChar = true,
+			},
 		}
 	elseif playerClass == "DRUID" then
 		gM_Macros = {
