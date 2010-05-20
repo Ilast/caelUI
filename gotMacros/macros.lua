@@ -1,6 +1,6 @@
 ﻿--[[	$Id$	]]
 
---[==[ 0.89 with 2.30 base speed
+--[==[ 0.89 with 2.30 base speed, 1.16 with 2.57 base speed (has to be verified)
 	gM_Macros = {
 		name = {		Macroname, these need to be unique
 			body,		Macrobody, 1023 chars max. Use either linebreaks in long comments [=[ ]=] or \n.
@@ -42,7 +42,7 @@ if locale == "enUS" then
 				char = "Callysto",
 				body = [=[/2 [[ -- >> We Did It << -- ]]
 					/2 Ouvre ses portes aux recrutements.
-					/2 Avancée PVE : ICC10-HM: 11/12, ICC25: CLEAN
+					/2 Avancée PVE : ICC10-HM: 11/12, ICC25-HM: 4/12
 					/2 4 soirs de présence requis par semaine.
 					/2 Toutes les candidatures seront étudiées.
 					/2 Rendez-vous sur: http://www.guilde-wedidit.fr
@@ -145,11 +145,11 @@ if locale == "enUS" then
 			},
 			["BlkA"] = {
 				char = "Caellian, Callysto",
-				body = [=[/castsequence reset=29.3 Black Arrow, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+				body = [=[/castsequence reset=29.3 Black Arrow, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 			},
 			["SrSa"] = {
 				char = "Caellian, Callysto",
-				body = [=[/castsequence reset=14.4/target Serpent Sting, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+				body = [=[/castsequence reset=20.4/target Serpent Sting, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 			},
 			["SrSb"] = {
 				char = "Caellian, Callysto",
@@ -161,15 +161,15 @@ if locale == "enUS" then
 			},
 			["Mark"] = {
 				char = "Caellian, Callysto",
-				body = [=[/castsequence reset=9.3 Chimera Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+				body = [=[/castsequence reset=9.3 Chimera Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 			},
 			["AimS"] = {
 				char = "Caellian, Callysto",
-				body = [=[/castsequence reset=9.7 Aimed Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+				body = [=[/castsequence reset=9.7 Aimed Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 			},
 			["MulS"] = {
 				char = "Caellian, Callysto",
-				body = [=[/castsequence reset=9.7 Multi-Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+				body = [=[/castsequence reset=9.7 Multi-Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 			},
 			["ArcS"] = {
 				char = "Caellian, Callysto",
