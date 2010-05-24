@@ -10,40 +10,6 @@ caelThreat.eventFrame = CreateFrame("Frame", nil, self)
 
 local warningSounds = true
 
-local SetUpAnimGroup = function(self)
-	self.anim = self:CreateAnimationGroup("Flash")
-	self.anim.fadein = self.anim:CreateAnimation("ALPHA", "FadeIn")
-	self.anim.fadein:SetChange(1)
-	self.anim.fadein:SetOrder(2)
-
-	self.anim.fadeout = self.anim:CreateAnimation("ALPHA", "FadeOut")
-	self.anim.fadeout:SetChange(-1)
-	self.anim.fadeout:SetOrder(1)
-
---	self.anim:SetLooping("REPEAT")
-end
-
-local Flash = function(self, duration)
-	if not self.anim then
-		SetUpAnimGroup(self)
-	end
-
-	if self.anim:IsPlaying() then
-		return
-		print("blah")
-	else
-
-	self.anim.fadein:SetDuration(duration)
-	self.anim.fadeout:SetDuration(duration)
-	self.anim:Play() end
-end
-
-local StopFlash = function(self)
-	if self.anim then
-		self.anim:Finish()
-	end
-end
-
 local isTankClassSpec = {
 	["PALADIN"] = {
 		GetSpellInfo(25780), -- Righteous Fury
@@ -133,8 +99,6 @@ caelThreat.eventFrame:SetScript("OnEvent", function(self, event, unit)
 							PlaySoundFile(caelMedia.files.soundWarning)
 						end
 						RaidNotice_AddMessage(RaidWarningFrame, "|cffFF9900".."WARNING THREAT: "..tostring(threatPercent).."%|r", ChatTypeInfo["RAID_WARNING"]) -- Orange |cffB46E46
---						UIFrameFlash(caelCoreModuleShadowEdge and caelCoreModuleShadowEdge or LowHealthFrame, 0.2, 0.2, 0.4, true, 0, 0.2)
-						Flash(caelCoreModuleShadowEdge and caelCoreModuleShadowEdge or LowHealthFrame, 0.15)
 						lastWarning = 85
 					end
 				end
@@ -143,8 +107,7 @@ caelThreat.eventFrame:SetScript("OnEvent", function(self, event, unit)
 					PlaySoundFile(caelMedia.files.soundAggro)
 				end
 				RaidNotice_AddMessage(RaidWarningFrame, "|cffAF5050AGGRO|r", ChatTypeInfo["RAID_WARNING"]) -- Red
---				UIFrameFlash(caelCoreModuleShadowEdge and caelCoreModuleShadowEdge or LowHealthFrame, 0.2, 0.2, 0.4, true, 0, 0.2)
-				Flash(caelCoreModuleShadowEdge and caelCoreModuleShadowEdge or LowHealthFrame, 0.15)
+				UIFrameFlash(caelCoreModuleShadowEdge and caelCoreModuleShadowEdge or LowHealthFrame, 0.2, 0.2, 0.4, caelCoreModuleShadowEdge and true or false, 0, 0.2)
 			end
 		end
 	end
