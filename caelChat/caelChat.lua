@@ -96,17 +96,17 @@ local cftbb = CreateFrame("Frame", "ChatButtonBar", UIParent)
 
 --	Make chat tab flash.
 local FlashTab = function(tab, start)
-        if start and tab.flash:IsShown() then
-                return
-        elseif not start and not tab.flash:IsShown() then
-                return
-        elseif start then
-			tab.flash:SetAlpha(0)
-			tab.flash.elapsed = 0
-            tab.flash:Show()
-        else
-            tab.flash:Hide()
-        end
+	if start and tab.flash:IsShown() then
+			return
+	elseif not start and not tab.flash:IsShown() then
+			return
+	elseif start then
+		tab.flash:SetAlpha(0)
+		tab.flash.elapsed = 0
+		tab.flash:Show()
+	else
+		tab.flash:Hide()
+	end
 end
 
 -- FCF override funcs
