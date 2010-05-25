@@ -136,6 +136,22 @@ RaidNotice_AddMessage = function(noticeFrame, textString, colorInfo, ...)
 	end
 end
 
+--[[	Quest progression to RWF	]]
+
+local QuestCompleted = ERR_QUEST_OBJECTIVE_COMPLETE_S
+local ObjCompPattern = QuestCompleted:gsub("[()]", "%%%1"):gsub("%%s", "(%.%-)")
+
+local UIErrorsFrame_OldOnEvent = UIErrorsFrame:GetScript("OnEvent")
+UIErrorsFrame:SetScript("OnEvent", function(self, event, msg, ...)
+	if event == "UI_INFO_MESSAGE" then
+		if msg:find("(.-): (.-)/(.+)") or msg:find(ObjCompPattern) or msg:find("Objective Complete.") then
+			return RaidNotice_AddMessage(RaidWarningFrame, msg, ChatTypeInfo["SYSTEM"])
+		end
+	end
+
+	return UIErrorsFrame_OldOnEvent(self, event, msg, ...)
+end)
+
 --[[	Bosses & monsters emotes to RWF	]]
 --[[
 chatFrames:RegisterEvent("CHAT_MSG_RAID_BOSS_EMOTE")
