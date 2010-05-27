@@ -61,6 +61,12 @@ oUF.colors.disconnected = {0.84, 0.75, 0.65}
 
 oUF.colors.smooth = {0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.15, 0.15, 0.15}
 
+local theOneScale = (768/tonumber(GetCVar("gxResolution"):match("%d+x(%d+)")))/GetCVar("uiScale")
+
+local scale = function(value)
+    return theOneScale * math.floor(value / theOneScale + 0.5)
+end
+
 local SetUpAnimGroup = function(self)
 	self.anim = self:CreateAnimationGroup("Flash")
 	self.anim.fadein = self.anim:CreateAnimation("ALPHA", "FadeIn")
@@ -558,7 +564,7 @@ local SetStyle = function(self, unit)
 	self:HookScript("OnShow", updateAllElements)
 
 	self.FrameBackdrop = CreateFrame("Frame", nil, self)
-	self.FrameBackdrop:SetPoint("TOPLEFT", self, -4, 4)
+	self.FrameBackdrop:SetPoint("TOPLEFT", self, scale(-4), scale(4))
 	self.FrameBackdrop:SetFrameStrata("BACKGROUND")
 	self.FrameBackdrop:SetBackdrop {
 		bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
@@ -569,13 +575,13 @@ local SetStyle = function(self, unit)
 	self.FrameBackdrop:SetBackdropBorderColor(0, 0, 0)
 
 	if unit == "player" and playerClass == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and unit == "player" and playerClass == "SHAMAN" then
-		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, 4, -12)
+		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, scale(4), scale(-12))
 	else
-		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, 4, -4)
+		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, scale(4), scale(-4))
 	end
 
 	self.Health = CreateFrame("StatusBar", self:GetName().."_Health", self)
-	self.Health:SetHeight((unit == "player" or unit == "target" or self:GetParent():GetName():match("oUF_Raid")) and 22 or self:GetAttribute("unitsuffix") == "pet" and 10 or 16)
+	self.Health:SetHeight((unit == "player" or unit == "target" or self:GetParent():GetName():match("oUF_Raid")) and scale(22) or self:GetAttribute("unitsuffix") == "pet" and scale(10) or scale(16))
 	self.Health:SetPoint("TOPLEFT")
 	self.Health:SetPoint("TOPRIGHT")
 	self.Health:SetStatusBarTexture(normtex)
@@ -617,7 +623,7 @@ local SetStyle = function(self, unit)
 
 	if not (self:GetAttribute("unitsuffix") == "pet") then
 		self.Power = CreateFrame("StatusBar", self:GetName().."_Power", self)
-		self.Power:SetHeight((unit == "player" or unit == "target") and 7 or 5)
+		self.Power:SetHeight((unit == "player" or unit == "target") and scale(7) or scale(5))
 		self.Power:SetPoint("BOTTOMLEFT")
 		self.Power:SetPoint("BOTTOMRIGHT")
 		self.Power:SetStatusBarTexture(normtex)
@@ -817,19 +823,18 @@ local SetStyle = function(self, unit)
 		end
 
 			self.Portrait = CreateFrame("PlayerModel", nil, self)
-			self.Portrait:SetPoint("TOPLEFT", self, 0, -23)
-			self.Portrait:SetPoint("BOTTOMRIGHT", self, 0, 8)
-			self.Portrait:SetBackdrop {
-				bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
-			}
-			self.Portrait:SetBackdropColor(0.15, 0.15, 0.15, 0.5)
+			self.Portrait:SetPoint("TOPLEFT", self, 0, scale(-23))
+			self.Portrait:SetPoint("BOTTOMRIGHT", self, 0, scale(8))
+--			self.Portrait:SetBackdrop {
+--				bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
+--			}
+--			self.Portrait:SetBackdropColor(0.15, 0.15, 0.15, 0.5)
 
 			insert(self.__elements, HidePortrait)
 	
 			self.PortraitOverlay = CreateFrame("StatusBar", self:GetName().."_PortraitOverlay", self.Portrait)
 			self.PortraitOverlay:SetFrameLevel(self.PortraitOverlay:GetFrameLevel() + 1)
-			self.PortraitOverlay:SetPoint("TOPLEFT", self, 0, -23)
-			self.PortraitOverlay:SetPoint("BOTTOMRIGHT", self, 0, 8)
+			self.PortraitOverlay:SetAllPoints()
 			self.PortraitOverlay:SetStatusBarTexture(shaderTex)
 			self.PortraitOverlay:GetStatusBarTexture():SetHorizTile(false)
 			self.PortraitOverlay:SetStatusBarColor(0.1, 0.1, 0.1, 0.75)
@@ -895,8 +900,8 @@ local SetStyle = function(self, unit)
 --		self.Castbar.bg:SetTexture(normtex)
 
 		if unit == "player" or unit == "target" then
-			self.Castbar:SetPoint("TOPLEFT", self, 0, -23)
-			self.Castbar:SetPoint("BOTTOMRIGHT", self, 0, 8)
+			self.Castbar:SetPoint("TOPLEFT", self, 0, -scale(23))
+			self.Castbar:SetPoint("BOTTOMRIGHT", self, 0, scale(8))
 		else
 			self.Castbar:SetHeight(5)
 			self.Castbar:SetAllPoints()
@@ -1006,17 +1011,17 @@ local SetStyle = function(self, unit)
 	end
 
 	if unit == "player" or unit == "target" then
-		self:SetAttribute("initial-height", 53)
-		self:SetAttribute("initial-width", 230)
+		self:SetAttribute("initial-height", scale(53))
+		self:SetAttribute("initial-width", scale(230))
 	elseif self:GetAttribute("unitsuffix") == "pet" then
-		self:SetAttribute("initial-height", 10)
-		self:SetAttribute("initial-width", 113)
+		self:SetAttribute("initial-height", scale(10))
+		self:SetAttribute("initial-width", scale(113))
 	elseif self:GetParent():GetName():match("oUF_Raid") then
-		self:SetAttribute("initial-height", 28)
-		self:SetAttribute("initial-width", 60)
+		self:SetAttribute("initial-height", scale(28))
+		self:SetAttribute("initial-width", scale(60))
 	else
-		self:SetAttribute("initial-height", 22)
-		self:SetAttribute("initial-width", 113)
+		self:SetAttribute("initial-height", scale(22))
+		self:SetAttribute("initial-width", scale(113))
 	end
 
 	self.RaidIcon = self.Health:CreateTexture(nil, "OVERLAY")
@@ -1093,18 +1098,18 @@ oUF:SetActiveStyle("Caellian")
 
 local cfg = settings.coords
 
-oUF:Spawn("player", "oUF_Caellian_player"):SetPoint("BOTTOM", UIParent, cfg.playerX, cfg.playerY)
-oUF:Spawn("target", "oUF_Caellian_target"):SetPoint("BOTTOM", UIParent, cfg.targetX, cfg.targetY)
+oUF:Spawn("player", "oUF_Caellian_player"):SetPoint("BOTTOM", UIParent, scale(cfg.playerX), scale(cfg.playerY))
+oUF:Spawn("target", "oUF_Caellian_target"):SetPoint("BOTTOM", UIParent, scale(cfg.targetX), scale(cfg.targetY))
 
-oUF:Spawn("pet", "oUF_Caellian_pet"):SetPoint("BOTTOMLEFT", oUF_Caellian_player, "TOPLEFT", 0, 10)
-oUF:Spawn("focus", "oUF_Caellian_focus"):SetPoint("BOTTOMRIGHT", oUF_Caellian_player, "TOPRIGHT", 0, 10)
-oUF:Spawn("focustarget", "oUF_Caellian_focustarget"):SetPoint("BOTTOMLEFT", oUF_Caellian_target, "TOPLEFT", 0, 10)
-oUF:Spawn("targettarget", "oUF_Caellian_targettarget"):SetPoint("BOTTOMRIGHT", oUF_Caellian_target, "TOPRIGHT", 0, 10)
+oUF:Spawn("pet", "oUF_Caellian_pet"):SetPoint("BOTTOMLEFT", oUF_Caellian_player, "TOPLEFT", 0, scale(10))
+oUF:Spawn("focus", "oUF_Caellian_focus"):SetPoint("BOTTOMRIGHT", oUF_Caellian_player, "TOPRIGHT", 0, scale(10))
+oUF:Spawn("focustarget", "oUF_Caellian_focustarget"):SetPoint("BOTTOMLEFT", oUF_Caellian_target, "TOPLEFT", 0, scale(10))
+oUF:Spawn("targettarget", "oUF_Caellian_targettarget"):SetPoint("BOTTOMRIGHT", oUF_Caellian_target, "TOPRIGHT", 0, scale(10))
 
 local party = oUF:Spawn("header", "oUF_Party")
 party:SetPoint("TOPLEFT", UIParent, cfg.partyX, cfg.partyY)
 party:SetAttribute("showParty", true)
-party:SetAttribute("yOffset", -27.5)
+party:SetAttribute("yOffset", scale(-27.5))
 party:SetAttribute("template", "oUF_cParty")
 
 local raid = {}
@@ -1112,12 +1117,12 @@ for i = 1, NUM_RAID_GROUPS do
 	local raidgroup = oUF:Spawn("header", "oUF_Raid"..i)
 	raidgroup:SetAttribute("groupFilter", tostring(i))
 	raidgroup:SetAttribute("showRaid", true)
-	raidgroup:SetAttribute("yOffSet", -7.5)
+	raidgroup:SetAttribute("yOffSet", scale(-7.5))
 	insert(raid, raidgroup)
 	if i == 1 then
 		raidgroup:SetPoint("TOPLEFT", UIParent, cfg.raidX, cfg.raidY)
 	else
-		raidgroup:SetPoint("TOPLEFT", raid[i-1], "TOPRIGHT", (60 * settings.scale - 60) + 7.5, 0)
+		raidgroup:SetPoint("TOPLEFT", raid[i-1], "TOPRIGHT", (60 * settings.scale - 60) + scale(7.5), 0)
 	end
 end
 
@@ -1126,9 +1131,9 @@ for i = 1, MAX_BOSS_FRAMES do
 	boss[i] = oUF:Spawn("boss"..i, "oUF_Boss"..i)
 
 	if i == 1 then
-		boss[i]:SetPoint("TOP", UIParent, 0, -15)
+		boss[i]:SetPoint("TOP", UIParent, 0, scale(-15))
 	else
-		boss[i]:SetPoint("TOP", boss[i-1], "BOTTOM", 0, -7.5)
+		boss[i]:SetPoint("TOP", boss[i-1], "BOTTOM", 0, scale(-7.5))
 	end
 end
 
