@@ -13,11 +13,13 @@ shadowedge:SetPoint("BOTTOMRIGHT")
 shadowedge:SetFrameLevel(0)
 shadowedge:SetFrameStrata("BACKGROUND")
 shadowedge.tex = shadowedge:CreateTexture()
-shadowedge.tex:SetTexture([=[Interface\Addons\caelMedia\Miscellaneous\shadow.tga]=])
+shadowedge.tex:SetTexture([=[Interface\Addons\caelMedia\Miscellaneous\largeshadertex1]=])
 shadowedge.tex:SetAllPoints()
-
+shadowedge.tex:SetVertexColor(0, 0, 0)
+--[[
 shadowedge:RegisterEvent("PLAYER_ENTERING_WORLD")
 shadowedge:SetScript("OnEvent", function(self)
 	self:SetAlpha(0.85)
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 end)
+--]]
