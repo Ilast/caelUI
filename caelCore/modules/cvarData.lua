@@ -133,7 +133,7 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"autoQuestProgress 1",
 			"mapQuestDifficulty 1",
 			"profanityFilter 0",
-			"chatBubbles 0",
+			"chatBubbles 1",
 			"chatBubblesParty 0",
 			"spamFilter 0",
 			"guildMemberNotify 0",
