@@ -1111,7 +1111,7 @@ for i = 1, NUM_RAID_GROUPS do
 	if i == 1 then
 		raidgroup:SetPoint("TOPLEFT", UIParent, scale(cfg.raidX), scale(cfg.raidY))
 	else
-		raidgroup:SetPoint("TOPLEFT", raid[i-1], "TOPRIGHT", (60 * settings.scale - 60) + scale(7.5), 0)
+		raidgroup:SetPoint("TOPLEFT", raid[i-1], "TOPRIGHT", scale(60 * settings.scale - 60) + scale(7.5), 0)
 	end
 end
 
