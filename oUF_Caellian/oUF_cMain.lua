@@ -9,6 +9,7 @@ local normtex = mediaPath..[=[textures\normtexc]=]
 local glowTex = mediaPath..[=[textures\glowtex]=]
 local bubbleTex = mediaPath..[=[textures\bubbletex]=]
 local buttonTex = mediaPath..[=[textures\buttontex]=]
+local shaderTex = mediaPath..[=[textures\smallshadertex]=]
 local highlightTex = mediaPath..[=[textures\highlighttex]=]
 
 local font = settings.font
@@ -308,9 +309,9 @@ local PostCastStart = function(self, event, unit, name, rank, text, castid, inte
 	end
 
 	if interrupt and UnitCanAttack("player", unit) then
-		self.Castbar.bg:SetVertexColor(0.69, 0.31, 0.31, 0.75)
+		self.Castbar:SetStatusBarColor(0.69, 0.31, 0.31)
 	else
-		self.Castbar.bg:SetVertexColor(0.15, 0.15, 0.15, 0.75)
+		self.Castbar:SetStatusBarColor(0.55, 0.57, 0.61)
 	end
 end
 
@@ -329,9 +330,9 @@ local PostChannelStart = function(self, event, unit, name, rank, text, interrupt
 	end
 
 	if interrupt and UnitCanAttack("player", unit) then
-		self.Castbar.bg:SetVertexColor(0.69, 0.31, 0.31, 0.75)
+		self.Castbar:SetStatusBarColor(0.69, 0.31, 0.31)
 	else
-		self.Castbar.bg:SetVertexColor(0.15, 0.15, 0.15, 0.75)
+		self.Castbar:SetStatusBarColor(0.55, 0.57, 0.61)
 	end
 end
 
@@ -564,7 +565,7 @@ local SetStyle = function(self, unit)
 		edgeFile = glowTex, edgeSize = 3,
 		insets = {left = 3, right = 3, top = 3, bottom = 3}
 	}
-	self.FrameBackdrop:SetBackdropColor(0.25, 0.25, 0.25)
+	self.FrameBackdrop:SetBackdropColor(0.25, 0.25, 0.25, 0)
 	self.FrameBackdrop:SetBackdropBorderColor(0, 0, 0)
 
 	if unit == "player" and playerClass == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and unit == "player" and playerClass == "SHAMAN" then
@@ -591,6 +592,7 @@ local SetStyle = function(self, unit)
 	self.Health.bg:SetAllPoints()
 	self.Health.bg:SetTexture(normtex)
 	self.Health.bg.multiplier = 0.33
+	self.Health.bg:SetAlpha(0.85)
 
 	self.Health.value = SetFontString(self.Health, font,(unit == "player" or unit == "target") and 11 or 9)
 	if self:GetParent():GetName():match("oUF_Raid") then
@@ -634,6 +636,7 @@ local SetStyle = function(self, unit)
 		self.Power.bg:SetAllPoints()
 		self.Power.bg:SetTexture(normtex)
 		self.Power.bg.multiplier = 0.33
+		self.Power.bg:SetAlpha(0.85)
 
 		self.Power.value = SetFontString(self.Health, font, (unit == "player" or unit == "target") and 11 or 9)
 		self.Power.value:SetPoint("LEFT", 1, 1)
@@ -819,7 +822,7 @@ local SetStyle = function(self, unit)
 			self.Portrait:SetBackdrop {
 				bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
 			}
-			self.Portrait:SetBackdropColor(0.15, 0.15, 0.15)
+			self.Portrait:SetBackdropColor(0.15, 0.15, 0.15, 0.5)
 
 			insert(self.__elements, HidePortrait)
 	
@@ -827,21 +830,9 @@ local SetStyle = function(self, unit)
 			self.PortraitOverlay:SetFrameLevel(self.PortraitOverlay:GetFrameLevel() + 1)
 			self.PortraitOverlay:SetPoint("TOPLEFT", self, 0, -23)
 			self.PortraitOverlay:SetPoint("BOTTOMRIGHT", self, 0, 8)
-			self.PortraitOverlay:SetStatusBarTexture(normtex)
+			self.PortraitOverlay:SetStatusBarTexture(shaderTex)
 			self.PortraitOverlay:GetStatusBarTexture():SetHorizTile(false)
-			self.PortraitOverlay:SetStatusBarColor(0.25, 0.25, 0.25, 0.5)
-
-			self.ThinLine1 = self.PortraitOverlay:CreateTexture(nil, "BORDER")
-			self.ThinLine1:SetHeight(1)
-			self.ThinLine1:SetPoint("TOPLEFT", self, 0, -22)
-			self.ThinLine1:SetPoint("TOPRIGHT", self, 0, -22)
-			self.ThinLine1:SetTexture(0.25, 0.25, 0.25)
-
-			self.ThinLine2 = self.PortraitOverlay:CreateTexture(nil, "BORDER")
-			self.ThinLine2:SetHeight(1)
-			self.ThinLine2:SetPoint("BOTTOMLEFT", self, 0, 7)
-			self.ThinLine2:SetPoint("BOTTOMRIGHT", self, 0, 7)
-			self.ThinLine2:SetTexture(0.25, 0.25, 0.25)
+			self.PortraitOverlay:SetStatusBarColor(0.1, 0.1, 0.1, 0.75)
 
 			self.CombatFeedbackText = SetFontString(self.PortraitOverlay, font, 18, "OUTLINE")
 			self.CombatFeedbackText:SetPoint("CENTER", 0, 1)
@@ -897,11 +888,11 @@ local SetStyle = function(self, unit)
 		self.Castbar = CreateFrame("StatusBar", self:GetName().."_Castbar", (unit == "player" or unit == "target") and self.Portrait or self.Power)
 		self.Castbar:SetStatusBarTexture(normtex)
 		self.Castbar:GetStatusBarTexture():SetHorizTile(false)
-		self.Castbar:SetStatusBarColor(0.55, 0.57, 0.61, 0.75)
+		self.Castbar:SetAlpha(0.75)
 
-		self.Castbar.bg = self.Castbar:CreateTexture(nil, "BORDER")
-		self.Castbar.bg:SetAllPoints()
-		self.Castbar.bg:SetTexture(normtex)
+--		self.Castbar.bg = self.Castbar:CreateTexture(nil, "BORDER")
+--		self.Castbar.bg:SetAllPoints()
+--		self.Castbar.bg:SetTexture(normtex)
 
 		if unit == "player" or unit == "target" then
 			self.Castbar:SetPoint("TOPLEFT", self, 0, -23)
