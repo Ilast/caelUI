@@ -8,7 +8,6 @@ local _G = getfenv(0)
 local orig1, orig2 = {}, {}
 local height
 
---local theOneScale = (768/tonumber(GetCVar("gxResolution"):match("%d+x(%d+)")))/GetCVar("uiScale")
 local GameTooltip, GameTooltipStatusBar = _G["GameTooltip"], _G["GameTooltipStatusBar"]
 
 local gsub, find, format = string.gsub, string.find, string.format
@@ -69,7 +68,7 @@ end
 
 GameTooltip_SetDefaultAnchor = function(self, parent)
 	self:SetOwner(parent, "ANCHOR_NONE")
-	self:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, 152)
+	self:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, caelLib.scale(152))
 	self.default = 1
 end
 
@@ -241,9 +240,9 @@ gradientBottom:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.75, 0, 0, 0, 0)
 
 local healthBar = GameTooltipStatusBar
 healthBar:ClearAllPoints()
-healthBar:SetHeight(5)
-healthBar:SetPoint("BOTTOMLEFT", 3, 3)
-healthBar:SetPoint("BOTTOMRIGHT", -3, 3)
+healthBar:SetHeight(caelLib.scale(5))
+healthBar:SetPoint("BOTTOMLEFT", caelLib.scale(3), caelLib.scale(3))
+healthBar:SetPoint("BOTTOMRIGHT", -caelLib.scale(3), caelLib.scale(3))
 healthBar:SetStatusBarTexture(caelMedia.files.statusBarC)
 
 healthBar.bg = healthBar:CreateTexture(nil, "BORDER")
@@ -252,21 +251,20 @@ healthBar.bg:SetTexture(caelMedia.files.statusBarC)
 healthBar.bg:SetVertexColor(0.25, 0.25, 0.25)
 
 local ApplyGradient = function(self)
-	self:SetHeight(floor(self:GetHeight()))
-	self:SetWidth(floor(self:GetWidth()))
+	self:SetSize(caelLib.scale(self:GetWidth()), caelLib.scale(self:GetHeight()))
 
 	BorderColor(self)
 
-	height = self:GetHeight() / 5
+	height = caelLib.scale(self:GetHeight() / 5)
 
 	gradientTop:SetParent(self)
-	gradientTop:SetPoint("TOPLEFT", 2, -2)
-	gradientTop:SetPoint("TOPRIGHT", -2, -2)
+	gradientTop:SetPoint("TOPLEFT", caelLib.scale(2), caelLib.scale(-2))
+	gradientTop:SetPoint("TOPRIGHT", caelLib.scale(-2), caelLib.scale(-2))
 	gradientTop:SetHeight(height)
 
 	gradientBottom:SetParent(self)
-	gradientBottom:SetPoint("BOTTOMLEFT", 2, 2)
-	gradientBottom:SetPoint("BOTTOMRIGHT", -2, 2)
+	gradientBottom:SetPoint("BOTTOMLEFT", caelLib.scale(2), caelLib.scale(2))
+	gradientBottom:SetPoint("BOTTOMRIGHT", caelLib.scale(-2), caelLib.scale(2))
 	gradientBottom:SetHeight(height)
 end
 
@@ -276,7 +274,6 @@ caelTooltips:SetScript("OnEvent", function(self)
 		v:HookScript("OnShow", ApplyGradient)
 
 		v:SetBackdrop(caelMedia.backdropTable)
---		v:SetScale(theOneScale)
 	end
 
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
