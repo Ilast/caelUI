@@ -35,16 +35,16 @@ caelMedia.files = {
 --	caelMedia.fontObject:SetFont(caelMedia.files.fontRg, 10, nil)
 
 caelMedia.insetTable = {
-    left = 2,
-    right = 2,
-    top = 2,
-    bottom = 2
+    left = caelLib.scale(2),
+    right = caelLib.scale(2),
+    top = caelLib.scale(2),
+    bottom = caelLib.scale(2)
 }
 
 caelMedia.backdropTable = {
     bgFile   = caelMedia.files.bgFile,
     edgeFile = caelMedia.files.edgeFile,
-    edgeSize = 2,
+    edgeSize = caelLib.scale(2),
     insets   = caelMedia.insetTable
 }
 
