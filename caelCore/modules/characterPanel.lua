@@ -13,10 +13,10 @@ local cloak = characterpanel.cloak
 local undress = characterpanel.undress
 
 CharacterModelFrameRotateLeftButton:ClearAllPoints()
-CharacterModelFrameRotateLeftButton:SetPoint("LEFT", PaperDollFrame, "LEFT", 70, 5)
+CharacterModelFrameRotateLeftButton:SetPoint("LEFT", PaperDollFrame, "LEFT", caelLib.scale(70), caelLib.scale(5))
     
 CharacterModelFrameRotateRightButton:ClearAllPoints()
-CharacterModelFrameRotateRightButton:SetPoint("RIGHT", PaperDollFrame, "RIGHT", -90, 5)
+CharacterModelFrameRotateRightButton:SetPoint("RIGHT", PaperDollFrame, "RIGHT", caelLib.scale(-90), caelLib.scale(5))
 
 local ShowCloak, ShowHelm = ShowCloak, ShowHelm
 _G.ShowCloak, _G.ShowHelm = dummy, dummy
@@ -26,7 +26,7 @@ for k, v in next, {InterfaceOptionsDisplayPanelShowCloak, InterfaceOptionsDispla
 end
 
 helm = CreateFrame("CheckButton", nil, PaperDollFrame, "OptionsCheckButtonTemplate")
-helm:SetPoint("LEFT", CharacterHeadSlot, "RIGHT", 7, 6)
+helm:SetPoint("LEFT", CharacterHeadSlot, "RIGHT", caelLib.scale(7), caelLib.scale(6))
 helm:SetChecked(ShowingHelm())
 helm:SetToplevel()
 helm:RegisterEvent("PLAYER_FLAGS_CHANGED")
@@ -43,7 +43,7 @@ end)
 helm:SetScript("OnLeave", function() GameTooltip:Hide() end)
 
 cloak = CreateFrame("CheckButton", nil, PaperDollFrame, "OptionsCheckButtonTemplate")
-cloak:SetPoint("LEFT", CharacterHeadSlot, "RIGHT", 7, -15)
+cloak:SetPoint("LEFT", CharacterHeadSlot, "RIGHT", caelLib.scale(7), caelLib.scale(-15))
 cloak:SetChecked(ShowingCloak())
 cloak:SetToplevel()
 cloak:RegisterEvent("PLAYER_FLAGS_CHANGED")
@@ -61,7 +61,7 @@ cloak:SetScript("OnLeave", function() GameTooltip:Hide() end)
 
 undress = CreateFrame("Button", nil, DressUpFrame, "UIPanelButtonTemplate")
 undress:SetPoint("RIGHT", DressUpFrameResetButton, "LEFT")
-undress:SetHeight(22)
-undress:SetWidth(80)
+undress:SetHeight(caelLib.scale(22))
+undress:SetWidth(caelLib.scale(80))
 undress:SetText("Undress")
 undress:SetScript("OnClick", function() DressUpModel:Undress() end)

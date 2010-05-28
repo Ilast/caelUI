@@ -8,7 +8,7 @@ function MiniMapTrackingDropDown_Initialize()
 	local anyActive, checked
 	local count = GetNumTrackingTypes()
 	local info
-	for id=1, count do
+	for id = 1, count do
 		name, texture, active, category  = GetTrackingInfo(id)
 		
 		if name:find("Find") or name:find("Track") or name:find("Sense") or name:find("Quests") then

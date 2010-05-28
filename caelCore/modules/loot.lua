@@ -7,7 +7,7 @@ local function onShow(self, ...)
         self:SetPoint("BOTTOM", caelPanel3, "TOP", 0, 5)
     else
         local _, _, num = self:GetName():find("GroupLootFrame(%d)")
-        self:SetPoint("BOTTOM", _G[string.format("GroupLootFrame%d", num-1)], "TOP", 0, 5)
+        self:SetPoint("BOTTOM", _G[string.format("GroupLootFrame%d", num-1)], "TOP", 0, caelLib.scale(5))
     end
     self:SetScale(.75)
 
@@ -27,5 +27,5 @@ LootFrame:HookScript("OnShow", function(self)
 	self:SetScale(0.85)
 	self:SetClampedToScreen(false)
 	self:ClearAllPoints()
-	self:SetPoint("TOPRIGHT", UIParent, "RIGHT", 50, 50)
+	self:SetPoint("TOPRIGHT", UIParent, "RIGHT", caelLib.scale(50), caelLib.scale(50))
 end)
