@@ -25,14 +25,14 @@ updateContainerFrameAnchors = dummy
 -- Sizing
 local numBagColumns = 10
 local numBankColumns = 20
-local buttonSize = 30
-local buttonSpacing = -2
+local buttonSize = caelLib.scale(30)
+local buttonSpacing = caelLib.scale(-2)
 
 -- Margins
-local bottomButtonMargin = 30
-local bottomMargin = 5
-local sideMargin   = 5
-local topMargin    = 5
+local bottomButtonMargin = caelLib.scale(30)
+local bottomMargin = caelLib.scale(5)
+local sideMargin   = caelLib.scale(5)
+local topMargin    = caelLib.scale(5)
 
 -- Methods we will use for the containers.
 local Container = CreateFrame("Button")
@@ -42,8 +42,8 @@ local ContainerMT = {__index = Container}
 -- Updates the size and height of a container, depending on the amount of 
 -- shown buttons it holds.
 function Container:UpdateSize()
-	self:SetHeight((self.row + (self.col == 0 and 0 or 1)) * (buttonSize + buttonSpacing) + abs(buttonSpacing) +(self.hasButtons and bottomButtonMargin or bottomMargin) + topMargin)
-	self:SetWidth(self.maxColumns * buttonSize + buttonSpacing * (self.maxColumns - 1) + (2 * sideMargin))
+	self:SetHeight((self.row + (self.col == 0 and 0 or caelLib.scale(1))) * (buttonSize + buttonSpacing) + abs(buttonSpacing) +(self.hasButtons and bottomButtonMargin or bottomMargin) + topMargin)
+	self:SetWidth(self.maxColumns * buttonSize + buttonSpacing * (self.maxColumns - caelLib.scale(1)) + (2 * sideMargin))
 	
 	if not self:IsShown() then
 		self:Show()
@@ -127,7 +127,7 @@ end
 
 -- Create the frames for each type of container: bag, bank and ammo.
 local bags = Container:New("bag", numBagColumns)
-bags:SetPoint("BOTTOMRIGHT", UIParent, "RIGHT", -15, 0)
+bags:SetPoint("BOTTOMRIGHT", UIParent, "RIGHT", caelLib.scale(-15), 0)
 bags:SetBackdropColor(0, 0, 0, 0.7)
 bags:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
 bags.preventCloseAll = true
@@ -135,7 +135,7 @@ bags.hasButtons = true
 caelBags.bags = bags
 
 local ammo = Container:New("ammo", numBagColumns)
-ammo:SetPoint("BOTTOM", bags, "TOP", 0, 5)
+ammo:SetPoint("BOTTOM", bags, "TOP", 0, caelLib.scale(5))
 ammo:SetBackdropColor(0, 0, 0, 0.7)
 ammo:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
 ammo.preventCloseAll = true
@@ -232,8 +232,8 @@ local function ApplyButtonLayout(button)
 	iconTexture:SetTexCoord(.08, .92, .08, .92)
 	-- Position icon using SetPoint relative to the button.
 	iconTexture:ClearAllPoints()
-	iconTexture:SetPoint("TOPLEFT", button, 4, -3)
-	iconTexture:SetPoint("BOTTOMRIGHT", button, -3, 4)
+	iconTexture:SetPoint("TOPLEFT", button, caelLib.scale(4), caelLib.scale(-3))
+	iconTexture:SetPoint("BOTTOMRIGHT", button, caelLib.scale(-3), caelLib.scale(4))
 	
 	-- Size and position the NormalTexture (the "bagFrame" around the button)
 	normalTexture:SetHeight(buttonSize)
@@ -244,7 +244,7 @@ local function ApplyButtonLayout(button)
 	
 	-- Move item count text into a readable position.
 	itemCount:ClearAllPoints()
-	itemCount:SetPoint("BOTTOMRIGHT", button, -3, 3)
+	itemCount:SetPoint("BOTTOMRIGHT", button, caelLib.scale(-3), caelLib.scale(3))
 	itemCount:SetFont([=[Interface\Addons\caelMedia\Fonts\xenara rg.ttf]=], 10, "OUTLINE")
 end
 

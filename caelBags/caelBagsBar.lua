@@ -31,7 +31,7 @@ local function CreateContainerFrame(name)
 end
 
 local function SkinButton(b)
-	b:SetSize(54, 18)
+	b:SetSize(caelLib.scale(54), caelLib.scale(18))
 	b:SetNormalFontObject(GameFontNormalSmall)
 --	b:SetNormalTexture(caelMedia.files.buttonNormal)
 --	b:SetPushedTexture(caelMedia.files.buttonPushed)
@@ -56,12 +56,12 @@ end
 
 bagBar = CreateContainerFrame("bagBar")
 bagBar:SetPoint("TOPLEFT", caelBagsbag, "BOTTOMLEFT", 0, 0)
-bagBar:SetPoint("BOTTOMRIGHT", caelBagsbag, "BOTTOMRIGHT", 0, -45)
+bagBar:SetPoint("BOTTOMRIGHT", caelBagsbag, "BOTTOMRIGHT", 0, caelLib.scale(-45))
 bagBar.buttons = {}
 
 bankBagBar = CreateContainerFrame("bankBagBar")
 bankBagBar:SetPoint("TOPLEFT", caelBagsbank, "BOTTOMLEFT", 0, 0)
-bankBagBar:SetPoint("BOTTOMRIGHT", caelBagsbank, "BOTTOMRIGHT", 0, -45)
+bankBagBar:SetPoint("BOTTOMRIGHT", caelBagsbank, "BOTTOMRIGHT", 0, caelLib.scale(-45))
 bankBagBar.buttons = {}
 
 function bankBagBar:Update() 
@@ -132,21 +132,18 @@ local function CreateBagBar(bank)
         local name = bagButtons[bag]
 	local b = _G[name]
 
-	b:SetWidth(28)
-        b:SetHeight(28)
-        
+	b:SetSize(caelLib.scale(28), caelLib.scale(28))
+
 	b:Show()
 	b.Bar = bar
 	b:SetParent(bar)
 
         b.Icon = _G[name.."IconTexture"]
-        b.Icon:SetHeight(28)
-        b.Icon:SetWidth(28)
+        b.Icon:SetSize(caelLib.scale(28), caelLib.scale(28))
 	
         b.NormalTexture = _G[name.."NormalTexture"]
         b:SetNormalTexture(caelMedia.files.buttonNormal)
-        b.NormalTexture:SetWidth(32)
-        b.NormalTexture:SetHeight(32)
+        b.NormalTexture:SetSize(caelLib.scale(32), caelLib.scale(32))
         b.NormalTexture:SetVertexColor(0.84, 0.75, 0.65)
 	
 	if not bank then
@@ -156,7 +153,7 @@ local function CreateBagBar(bank)
 	end
 	
 	b:ClearAllPoints()
-        b:SetPoint("RIGHT", bar, "RIGHT", bag_index * -28 - 5 * 2 - 4 * bag_index , 0)
+        b:SetPoint("RIGHT", bar, "RIGHT", caelLib.scale(bag_index * -28 - 5 * 2 - 4 * bag_index) , 0)
 	tinsert(bar.buttons, b)
 	
         bag_index = bag_index + 1
@@ -176,7 +173,7 @@ local function CreateBagBar(bank)
 end
 
 bagsButton = CreateToggleButton("bagsButton", "Bag Bar", caelBagsbag)
-bagsButton:SetPoint("BOTTOMRIGHT", caelBagsbag, "BOTTOMRIGHT", -5, 5)
+bagsButton:SetPoint("BOTTOMRIGHT", caelBagsbag, "BOTTOMRIGHT", caelLib.scale(-5), caelLib.scale(5))
 bagsButton:SetScript("OnClick", function(self)
     if not self.ready then
 	CreateBagBar()
@@ -191,7 +188,7 @@ bagsButton:SetScript("OnClick", function(self)
 end)
 
 bankBagsButton = CreateToggleButton("bankBagsButton", "Bag Bar", caelBagsbank)
-bankBagsButton:SetPoint("BOTTOMRIGHT", caelBagsbank, "BOTTOMRIGHT", -5, 5)
+bankBagsButton:SetPoint("BOTTOMRIGHT", caelBagsbank, "BOTTOMRIGHT", caelLib.scale(-5), caelLib.scale(5))
 bankBagsButton:SetScript("OnClick", function(self)
     if not self.ready then
 	CreateBagBar(true)
