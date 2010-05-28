@@ -2,6 +2,7 @@
 ## Author: Caellian
 ## Title: |cffD7BEA5cael|rCore
 ## Notes: Various UI Settings
+## SavedVariables: caelCoreDB
 ## RequiredDeps: caelLib, caelPanels
 ## X-Revision: $Id$
 ## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
