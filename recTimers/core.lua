@@ -72,8 +72,8 @@ recTimers.make_bar = function(self, spell_name, unit, buff_type, only_self, r, g
 	local new_id = (#bars or 0) + 1
 	bars[new_id] = CreateFrame("StatusBar", format("recTimers_Bar_%d", new_id), parent_frame)
 	recTimers.SmoothBar(bars[new_id])
-	bars[new_id]:SetHeight(height)
-	bars[new_id]:SetWidth(width)
+	bars[new_id]:SetHeight(caelLib.scale(height))
+	bars[new_id]:SetWidth(caelLib.scale(width))
 	bars[new_id].spell_name = spell_name
 	bars[new_id].unit = unit
 	bars[new_id].buff_type = buff_type
@@ -92,16 +92,16 @@ recTimers.make_bar = function(self, spell_name, unit, buff_type, only_self, r, g
 			attach_point   = attach_point1,
 			parent_frame   = parent_frame1,
 			relative_point = relative_point1,
-			x_offset       = x_offset1,
-			y_offset       = y_offset1
+			x_offset       = caelLib.scale(x_offset1),
+			y_offset       = caelLib.scale(y_offset1)
 		},
 		-- Talent spec 2 references - default to spec 1 values if user did not provide them.
 		[2] = {
 			attach_point   = attach_point2   or attach_point1,
 			parent_frame   = parent_frame2   or parent_frame1,
 			relative_point = relative_point2 or relative_point1,
-			x_offset       = x_offset2       or x_offset1,
-			y_offset       = y_offset2       or y_offset1
+			x_offset       = caelLib.scale(x_offset2 and x_offset2 or x_offset1),
+			y_offset       = caelLib.scale(y_offset2 and y_offset2 or y_offset1)
 		}
 	}
 	
@@ -117,12 +117,12 @@ recTimers.make_bar = function(self, spell_name, unit, buff_type, only_self, r, g
 	bars[new_id]:SetStatusBarTexture(bars[new_id].tx)
 
 	bars[new_id].soft_edge = CreateFrame("Frame", nil, bars[new_id])
-	bars[new_id].soft_edge:SetPoint("TOPLEFT", -3.5, 3.5)
-	bars[new_id].soft_edge:SetPoint("BOTTOMRIGHT", 3.5, -3.5)
+	bars[new_id].soft_edge:SetPoint("TOPLEFT", caelLib.scale(-3.5), caelLib.scale(3.5))
+	bars[new_id].soft_edge:SetPoint("BOTTOMRIGHT", caelLib.scale(3.5), caelLib.scale(-3.5))
 	bars[new_id].soft_edge:SetBackdrop({
 		bgFile = caelMedia.files.bgFile,
-		edgeFile = caelMedia.files.edgeFile, edgeSize = 3,
-		insets = {left = 3, right = 3, top = 3, bottom = 3}
+		edgeFile = caelMedia.files.edgeFile, edgeSize = caelLib.scale(3),
+		insets = {left = caelLib.scale(3), right = caelLib.scale(3), top = caelLib.scale(3), bottom = caelLib.scale(3)}
 	})
 	bars[new_id].soft_edge:SetFrameStrata("BACKGROUND")
 	bars[new_id].soft_edge:SetBackdropColor(0.25, 0.25, 0.25)
@@ -142,7 +142,7 @@ recTimers.make_bar = function(self, spell_name, unit, buff_type, only_self, r, g
 	
 	bars[new_id].lbl = bars[new_id]:CreateFontString(format("recTimers_BarLabel_%d", new_id), "OVERLAY")
 	bars[new_id].lbl:SetFont(caelMedia.files.fontRg, 8)
-	bars[new_id].lbl:SetPoint("CENTER", bars[new_id], "CENTER", 0, 1)
+	bars[new_id].lbl:SetPoint("CENTER", bars[new_id], "CENTER", 0, caelLib.scale(1))
 	
 	position_bar(bars[new_id])
 	
