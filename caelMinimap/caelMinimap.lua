@@ -37,14 +37,11 @@ Minimap:SetScript("OnEvent", function(self, event, ...)
 	end)
 
 	self:ClearAllPoints()
-	self:SetParent(UIParent)
-	self:SetScale(0.875)
-	self:SetPoint("BOTTOM", UIParent, 0, 27.25)
-	self:SetBackdrop{
-	bgFile = caelMedia.files.bgFile,
-	insets = {left = -1, right = -0.5, top = -1.5, bottom = -0.5},
-}
-	self:SetBackdropColor(0, 0, 0, 1)
+	self:SetParent(caelPanel3)
+	self:SetFrameLevel(caelPanel3:GetFrameLevel() - 1)
+	self:SetScale(0.88)
+	self:SetPoint("BOTTOM", caelPanel3, 0, caelLib.scale(4))
+
 	self:SetMaskTexture(caelMedia.files.bgFile)
 	self:SetBlipTexture([=[Interface\Addons\caelMedia\miscellaneous\charmed.tga]=])
 
@@ -52,7 +49,7 @@ Minimap:SetScript("OnEvent", function(self, event, ...)
 
 	MiniMapBattlefieldFrame:SetParent(self)
 	MiniMapBattlefieldFrame:ClearAllPoints()
-	MiniMapBattlefieldFrame:SetPoint("TOPRIGHT", 1, -2)
+	MiniMapBattlefieldFrame:SetPoint("TOPRIGHT", caelLib.scale(1), caelLib.scale(-2))
 
 	MiniMapTracking:SetParent(self)
 	MiniMapTracking:ClearAllPoints()
