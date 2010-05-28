@@ -16,18 +16,18 @@ local ChatFrameEditBox = ChatFrameEditBox
 ChatFrameEditBox:SetAltArrowKeyMode(nil)
 ChatFrameEditBox:ClearAllPoints()
 ChatFrameEditBox:SetHeight(20)
-ChatFrameEditBox:SetPoint("BOTTOMLEFT",  caelPanel1, "TOPLEFT", 0, 1)
-ChatFrameEditBox:SetPoint("BOTTOMRIGHT", caelPanel1, "TOPRIGHT", -90, 1)
+ChatFrameEditBox:SetPoint("BOTTOMLEFT",  caelPanel1, "TOPLEFT", 0, caelLib.scale(1))
+ChatFrameEditBox:SetPoint("BOTTOMRIGHT", caelPanel1, "TOPRIGHT", caelLib.scale(-90), caelLib.scale(1))
 ChatFrameEditBox:SetFont(caelMedia.files.fontRg, 12)
-ChatFrameEditBoxHeader:SetPoint("LEFT", caelPanel3a, 5, 1)
+ChatFrameEditBoxHeader:SetPoint("LEFT", caelPanel3a, caelLib.scale(5), caelLib.scale(1))
 ChatFrameEditBoxHeader:SetFont(caelMedia.files.fontRg, 12)
 
 -- save original function to alternate name
 ChatFrameEditBox.oldSetTextInsets = ChatFrameEditBox.SetTextInsets
 -- override function to modify values.
 ChatFrameEditBox.SetTextInsets = function(self, left, right, top, bottom)
-	left = left - 10
-	top = top - 2
+	left = caelLib.scale(left - 10)
+	top = caelLib.scale(top - 2)
 	-- call original function
 	ChatFrameEditBox.oldSetTextInsets(self, left, right, top, bottom)
 end
@@ -224,8 +224,8 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 				if(i == 1) then
 					FCF_SetWindowName(frame, "• Gen •")
 					frame:ClearAllPoints()
-					frame:SetPoint("TOPLEFT", caelPanel1, "TOPLEFT", 5, -6)
-					frame:SetPoint("BOTTOMRIGHT", caelPanel1, "BOTTOMRIGHT", -5, 10)
+					frame:SetPoint("TOPLEFT", caelPanel1, "TOPLEFT", caelLib.scale(5), caelLib.scale(-6))
+					frame:SetPoint("BOTTOMRIGHT", caelPanel1, "BOTTOMRIGHT", caelLib.scale(-5), caelLib.scale(10))
 					frame:SetMaxLines(1000)
 					frame.SetPoint = function() end
 
@@ -243,8 +243,8 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 					FCF_SetWindowName(frame, "• Log •")
 					FCF_UnDockFrame(frame)
 					frame:ClearAllPoints()
-					frame:SetPoint("TOPLEFT", caelPanel2, "TOPLEFT", 5, -30)
-					frame:SetPoint("BOTTOMRIGHT", caelPanel2, "BOTTOMRIGHT", -5, 10)
+					frame:SetPoint("TOPLEFT", caelPanel2, "TOPLEFT", caelLib.scale(5), caelLib.scale(-30))
+					frame:SetPoint("BOTTOMRIGHT", caelPanel2, "BOTTOMRIGHT", caelLib.scale(-5), caelLib.scale(10))
 					frame.SetPoint = function() end
 					FCF_SetTabPosition(frame, 0)
 					frame:SetJustifyH"RIGHT"
@@ -278,7 +278,7 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 			local MakeButton = function(id, txt, tip)
 				local btn = CreateFrame("Button", format("ChatButton%s", id), cftbb)
 				btn.id = id
-				btn:SetSize(30, 20)
+				btn:SetSize(caelLib.scale(30), caelLib.scale(20))
 --				If you want them to only show on_enter
 --				btn:SetScript("OnEnter", function(...) ChatButtonBar:SetAlpha(1) end)
 --				btn:SetScript("OnLeave", function(...) ChatButtonBar:SetAlpha(0) end)
@@ -294,7 +294,7 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 					end
 				end)
 				btn:SetScript("OnEnter", function(self)
-					GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 3)
+					GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, caelLib.scale(3))
 					GameTooltip:AddLine(tip)
 					GameTooltip:Show()
 				end)
@@ -303,7 +303,7 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 				end)
 				btn.t = btn:CreateFontString(nil, "OVERLAY")
 				btn.t:SetFont(caelMedia.files.fontRg, 9)
-				btn.t:SetPoint("CENTER", 0, 1)
+				btn.t:SetPoint("CENTER", 0, caelLib.scale(1))
 				btn.t:SetTextColor(1, 1, 1)
 				btn.t:SetText(txt)
 
@@ -347,16 +347,16 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 
 				btn.skinTop = btn:CreateTexture(nil, "BORDER")
 				btn.skinTop:SetTexture(caelMedia.files.bgFile)
-				btn.skinTop:SetHeight(4)
-				btn.skinTop:SetPoint("TOPLEFT", 2, -2)
-				btn.skinTop:SetPoint("TOPRIGHT", -2, -2)
+				btn.skinTop:SetHeight(caelLib.scale(4))
+				btn.skinTop:SetPoint("TOPLEFT", caelLib.scale(2), caelLib.scale(-2))
+				btn.skinTop:SetPoint("TOPRIGHT", caelLib.scale(-2), caelLib.scale(-2))
 				btn.skinTop:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.5)
 
 				btn.skinBottom = btn:CreateTexture(nil, "BORDER")
 				btn.skinBottom:SetTexture(caelMedia.files.bgFile)
-				btn.skinBottom:SetHeight(4)
-				btn.skinBottom:SetPoint("TOPLEFT", 2, -12)
-				btn.skinBottom:SetPoint("BOTTOMRIGHT", -2, 2)
+				btn.skinBottom:SetHeight(caelLib.scale(4))
+				btn.skinBottom:SetPoint("TOPLEFT", caelLib.scale(2), caelLib.scale(-12))
+				btn.skinBottom:SetPoint("BOTTOMRIGHT", caelLib.scale(-2), caelLib.scale(2))
 				btn.skinBottom:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.75, 0, 0, 0, 0)
 
 				return btn
