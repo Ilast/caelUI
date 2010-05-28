@@ -4,9 +4,9 @@ local _, caelCombatLog = ...
 
 caelCombatLog.frame = CreateFrame("Frame", "caelCombatLogFrame", UIParent)
 
-caelCombatLog.frame:SetWidth(311.5)
-caelCombatLog.frame:SetHeight(104.5)
-caelCombatLog.frame:SetPoint("BOTTOM", UIParent, "BOTTOM", -401, 43)
+caelCombatLog.frame:SetWidth(caelLib.scale(311.5))
+caelCombatLog.frame:SetHeight(caelLib.scale(104.5))
+caelCombatLog.frame:SetPoint("BOTTOM", UIParent, "BOTTOM", caelLib.scale(-401), caelLib.scale(43))
 
 local function ScrollFrame(self, delta)
 	if delta > 0 then
@@ -104,25 +104,22 @@ caelCombatLog.frame.collumns[3]:SetJustifyH("RIGHT")
 local icon = [=[Interface\LFGFrame\UI-LFG-ICON-PORTRAITROLES]=]
 
 local tex1 = caelCombatLog.frame:CreateTexture(nil, "ARTWORK")
-tex1:SetWidth(14)
-tex1:SetHeight(14)
+tex1:SetSize(caelLib.scale(14), caelLib.scale(14))
 tex1:SetTexture(icon)
 --tex1:SetTexCoord(1/2, 0, 1/2, 1, 3/4, 0, 3/4, 1)
 tex1:SetTexCoord(0, 19/64, 22/64, 41/64)
-tex1:SetPoint("TOPLEFT", caelCombatLog.frame, "BOTTOMLEFT", 0, -5)
+tex1:SetPoint("TOPLEFT", caelCombatLog.frame, "BOTTOMLEFT", 0, caelLib.scale(-5))
 
 local tex2 = caelCombatLog.frame:CreateTexture(nil, "ARTWORK")
-tex2:SetWidth(14)
-tex2:SetHeight(14)
+tex2:SetSize(caelLib.scale(14), caelLib.scale(14))
 tex2:SetTexture(icon)
 --tex2:SetTexCoord(3/4, 0, 3/4, 1, 1, 0, 1, 1)
 tex2:SetTexCoord(20/64, 39/64, 1/64, 20/64)
-tex2:SetPoint("TOP", caelCombatLog.frame, "BOTTOM", 0, -5)
+tex2:SetPoint("TOP", caelCombatLog.frame, "BOTTOM", 0, caelLib.scale(-5))
 
 local tex3 = caelCombatLog.frame:CreateTexture(nil, "ARTWORK")
-tex3:SetWidth(14)
-tex3:SetHeight(14)
+tex3:SetSize(caelLib.scale(14), caelLib.scale(14))
 tex3:SetTexture(icon)
 --tex3:SetTexCoord(1/4, 0, 1/4, 1, 1/2, 0, 1/2, 1)
 tex3:SetTexCoord(20/64, 39/64, 22/64, 41/64)
-tex3:SetPoint("TOPRIGHT", caelCombatLog.frame, "BOTTOMRIGHT", 0, -5)
+tex3:SetPoint("TOPRIGHT", caelCombatLog.frame, "BOTTOMRIGHT", 0, caelLib.scale(-5))
