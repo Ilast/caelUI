@@ -269,9 +269,9 @@ end
 
 local function MakeDisplay()
 	local f = display_frame
-	f:SetWidth(161)
-	f:SetHeight(124)
-	f:SetPoint("BOTTOM", UIParent, "BOTTOM", 647, 23)
+	f:SetWidth(caelLib.scale(161))
+	f:SetHeight(caelLib.scale(124))
+	f:SetPoint("BOTTOM", UIParent, "BOTTOM", caelLib.scale(647), caelLib.scale(23))
 
 	f.texture = f:CreateTexture()
 	f.texture:SetAllPoints()
@@ -287,33 +287,33 @@ local function MakeDisplay()
 	f.bars = Recycler()
 	for i=1,10 do
 		f.bars[i] = CreateFrame("StatusBar", nil, f)
-		f.bars[i]:SetWidth(196)
-		f.bars[i]:SetHeight(10)
+		f.bars[i]:SetWidth(caelLib.scale(196))
+		f.bars[i]:SetHeight(caelLib.scale(10))
 		f.bars[i]:SetMinMaxValues(0, 1)
 		f.bars[i]:SetOrientation("HORIZONTAL")
 		f.bars[i]:SetStatusBarColor(1, 1, 1, 0.8)
 		f.bars[i]:SetStatusBarTexture(caelMedia.files.statusBarC)
-		f.bars[i]:SetPoint("TOPLEFT", i == 1 and f or f.bars[i-1], i == 1 and "TOPLEFT" or "BOTTOMLEFT", i == 1 and 2 or 0, i == 1 and -15 or -1.5)
-		f.bars[i]:SetPoint("TOPRIGHT", i == 1 and f or f.bars[i-1], i == 1 and "TOPRIGHT" or "BOTTOMRIGHT", i == 1 and -2 or 0, i == 1 and -15 or -1.5)
+		f.bars[i]:SetPoint("TOPLEFT", i == 1 and f or f.bars[i-1], i == 1 and "TOPLEFT" or "BOTTOMLEFT", caelLib.scale(i == 1 and 2 or 0), caelLib.scale(i == 1 and -15 or -1.5))
+		f.bars[i]:SetPoint("TOPRIGHT", i == 1 and f or f.bars[i-1], i == 1 and "TOPRIGHT" or "BOTTOMRIGHT", caelLib.scale(i == 1 and -2 or 0), caelLib.scale(i == 1 and -15 or -1.5))
 		f.bars[i].lefttext = f.bars[i]:CreateFontString(nil, "ARTWORK")
 		f.bars[i].lefttext:SetFont(caelMedia.files.fontRg, 9)
-		f.bars[i].lefttext:SetPoint("LEFT", f.bars[i], "LEFT", 0, 2)
+		f.bars[i].lefttext:SetPoint("LEFT", f.bars[i], "LEFT", 0, caelLib.scale(2))
 		f.bars[i].lefttext:Show()
 		f.bars[i].righttext = f.bars[i]:CreateFontString(nil, "ARTWORK")
 		f.bars[i].righttext:SetFont(caelMedia.files.fontRg, 9)
-		f.bars[i].righttext:SetPoint("RIGHT", f.bars[i], "RIGHT", 0, 2)
+		f.bars[i].righttext:SetPoint("RIGHT", f.bars[i], "RIGHT", 0, caelLib.scale(2))
 		SetBarValues(i)
 	end
 
 	display_frame:HookScript("OnSizeChanged", function(frame, ...)
 		-- Truncate bars
 		local bar_room
-		bar_room = floor((recThreatMeter:GetHeight()-40)/10)
-		for i=1,10 do
+		bar_room = caelLib.scale(floor((recThreatMeter:GetHeight()-40)/10))
+		for i = 1, 10 do
 			recThreatMeter.bars[i]:Hide()
 		end
 		if bar_room > 0 then
-			for i=1,bar_room do
+			for i = 1, bar_room do
 				recThreatMeter.bars[i]:Show()
 			end
 		end
@@ -333,7 +333,7 @@ local function OnEvent(s,e,...)
 	if e == "PLAYER_TARGET_CHANGED" then
 		display_frame.titletext:SetText(UnitName("target") or "Threat")
 		overtake_threat = -1
-		for i=1,10 do
+		for i = 1, 10 do
 			display_frame.bars[i]:SetMinMaxValues(0, 1)
 			SetBarValues(i)
 		end
