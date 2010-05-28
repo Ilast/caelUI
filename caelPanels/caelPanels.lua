@@ -6,15 +6,15 @@ caelPanels.eventFrame = CreateFrame("frame", nil, UIParent)
 
 local panels, n = {}, 1
 --	local fadePanels = {}
-local bgTexture = [=[Interface\ChatFrame\ChatFrameBackground]=]
+local bgTexture = caelMedia.files.bgFile
 
 caelPanels.createPanel = function(name, x, y, width, height, point, rpoint, anchor, parent, strata)
 	panels[n] = CreateFrame("frame", name, parent)
 	panels[n]:EnableMouse(false)
 	panels[n]:SetFrameStrata(strata)
-	panels[n]:SetWidth(width)
-	panels[n]:SetHeight(height)
-	panels[n]:SetPoint(point, anchor, rpoint, x, y)
+	panels[n]:SetWidth(caelLib.scale(width))
+	panels[n]:SetHeight(caelLib.scale(height))
+	panels[n]:SetPoint(point, anchor, rpoint, caelLib.scale(x), caelLib.scale(y))
 	panels[n]:SetBackdrop(caelMedia.backdropTable)
 	panels[n]:SetBackdropColor(0, 0, 0, 0.5)
 	panels[n]:SetBackdropBorderColor(0, 0, 0)
@@ -38,31 +38,31 @@ caelPanels.eventFrame:SetScript("OnEvent", function(self, event)
 		if recDamageMeter then
 			caelPanels.createPanel("caelPanel9", -647, 20, 167, 130, "BOTTOM", "BOTTOM", UIParent, recDamageMeter, "BACKGROUND") -- MeterLeft
 			recDamageMeter:ClearAllPoints()
-			recDamageMeter:SetPoint("TOPLEFT", caelPanel9, "TOPLEFT", 3, -3)
+			recDamageMeter:SetPoint("TOPLEFT", caelPanel9, "TOPLEFT", caelLib.scale(3), caelLib.scale(-3))
 		end
 
 		if recThreatMeter then
 			caelPanels.createPanel("caelPanel10", 647, 20, 167, 130, "BOTTOM", "BOTTOM", UIParent, recThreatMeter, "BACKGROUND") -- MeterRight
 			recThreatMeter:ClearAllPoints()
-			recThreatMeter:SetPoint("TOPLEFT", caelPanel10, "TOPLEFT", 3, -3)
+			recThreatMeter:SetPoint("TOPLEFT", caelPanel10, "TOPLEFT", caelLib.scale(3), caelLib.scale(-3))
 		end
 
 		for i = 1, 11 do
 			local panel = panels[i]
 			if panel then
-				local width = panel:GetWidth() - 4
-				local height = panel:GetHeight() / 5
+				local width = caelLib.scale(panel:GetWidth() - 4)
+				local height = caelLib.scale(panel:GetHeight() / 5)
 
 				local gradientTop = panel:CreateTexture(nil, "BORDER")
 				gradientTop:SetTexture(bgTexture)
 				gradientTop:SetSize(width, height)
-				gradientTop:SetPoint("TOPLEFT", 2, -2)
+				gradientTop:SetPoint("TOPLEFT", caelLib.scale(2), caelLib.scale(-2))
 				gradientTop:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.5)
 
 				local gradientBottom = panel:CreateTexture(nil, "BORDER")
 				gradientBottom:SetTexture(bgTexture)
 				gradientBottom:SetSize(width, height)
-				gradientBottom:SetPoint("BOTTOMRIGHT", -2, 2)
+				gradientBottom:SetPoint("BOTTOMRIGHT", caelLib.scale(-2), caelLib.scale(2))
 				gradientBottom:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.75, 0, 0, 0, 0)
 			end
 		end
