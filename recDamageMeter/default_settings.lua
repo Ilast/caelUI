@@ -12,18 +12,18 @@ opt.dungeon_only = false		-- Only run RDM inside instances/raids. False == alway
 opt.ooc_timeout = 2				-- Seconds you can be out of combat before fight data resets. Useful for feign death, vanish etc.
 opt.report_format = "%s. %s - %s" -- values in order: ranking position, name, damage
 
-opt.display_width = 161			-- Width of the main frame.
-opt.display_height = 124		-- Height of the main frame.
-opt.display_padding = 2			-- Padding between bar/button edge and frame edge.
-opt.display_x_offset = -647		-- Relative to BOTTOM UIParent BOTTOM.
-opt.display_y_offset = 23		-- Relative to BOTTOM UIParent BOTTOM.
+opt.display_width = caelLib.scale(161)			-- Width of the main frame.
+opt.display_height = caelLib.scale(124)		-- Height of the main frame.
+opt.display_padding = caelLib.scale(2)			-- Padding between bar/button edge and frame edge.
+opt.display_x_offset = caelLib.scale(-647)		-- Relative to BOTTOM UIParent BOTTOM.
+opt.display_y_offset = caelLib.scale(23)		-- Relative to BOTTOM UIParent BOTTOM.
 opt.display_bg_color_r = 0
 opt.display_bg_color_g = 0
 opt.display_bg_color_b = 0
 opt.display_bg_color_a = 0		-- Alpha of the main frame's background.
 
 opt.mode = "Fight"				-- Default display mode: "Total", "Fight", or "DPS"
-opt.mode_button_width = 50
+opt.mode_button_width = caelLib.scale(50)
 opt.mode_font_face = caelMedia.files.fontRg
 opt.mode_font_size = 9
 opt.mode_font_flags = ""
@@ -32,12 +32,12 @@ opt.mode_font_color_g = 1
 opt.mode_font_color_b = 1
 opt.mode_font_color_a = 1
 opt.mode_font_x_offset = 0
-opt.mode_font_y_offset = opt.display_padding * -1
+opt.mode_font_y_offset = opt.display_padding * caelLib.scale(-1)
 
 -- You can determine maximum bar height by solving this equation with your settings:
 -- max_bar_height = ((opt.display_height - (opt.button_height + (opt.display_padding * 2) + opt.bar_spacing)) / 10) - bar_spacing
-opt.bar_height = 9.35 			-- Height of each bar. --	opt.bar_height = tonumber(tostring(((opt.display_height - (opt.button_height + (opt.display_padding * 2) + opt.bar_spacing)) / 10) - opt.bar_spacing))
-opt.bar_spacing = 1.5			-- Distance between each bar.
+opt.bar_height = caelLib.scale(9.35) 			-- Height of each bar. --	opt.bar_height = tonumber(tostring(((opt.display_height - (opt.button_height + (opt.display_padding * 2) + opt.bar_spacing)) / 10) - opt.bar_spacing))
+opt.bar_spacing = caelLib.scale(1.5)			-- Distance between each bar.
 opt.bar_texture = caelMedia.files.statusBarC	-- Texture of the bars:
 opt.bar_font_face = caelMedia.files.fontRg
 opt.bar_font_size = 9
@@ -47,15 +47,15 @@ opt.bar_font_color_g = 1
 opt.bar_font_color_b = 1
 opt.bar_font_color_a = 1
 opt.bar_font_x_offset = 0
-opt.bar_font_y_offset = 2
+opt.bar_font_y_offset = caelLib.scale(2)
 opt.bar_color_by_class = true
 opt.bar_color_r = 1	-- This is the color of the bar if class data is not available or opt.bar_color_by_class is false
 opt.bar_color_g = 1
 opt.bar_color_b = 1
 opt.bar_color_a = 0.8	-- For ALL bars
 
-opt.button_height = 10
-opt.button_width = 10
+opt.button_height = caelLib.scale(10)
+opt.button_width = caelLib.scale(10)
 opt.button_font_face = caelMedia.files.fontRg
 opt.button_font_size = 9
 opt.button_font_flags = ""
