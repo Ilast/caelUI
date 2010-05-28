@@ -6,7 +6,7 @@ caelDataFeeds.lfg = caelDataFeeds.createModule("LFG")
 
 local lfg = caelDataFeeds.lfg
 
-lfg.text:SetPoint("CENTER", caelPanel8, "CENTER", -150, 1) 
+lfg.text:SetPoint("CENTER", caelPanel8, "CENTER", caelLib.scale(-150), caelLib.scale(1))
 
 lfg:RegisterEvent("LFG_UPDATE")
 lfg:RegisterEvent("UPDATE_LFG_LIST")

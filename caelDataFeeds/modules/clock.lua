@@ -10,7 +10,7 @@ caelDataFeeds.clock = caelDataFeeds.createModule("Clock")
 local clock = caelDataFeeds.clock
 
 -- Move text into position (frame is set to fontstring's position).
-clock.text:SetPoint("RIGHT", caelPanel8, "RIGHT", -10, 1)
+clock.text:SetPoint("RIGHT", caelPanel8, "RIGHT", caelLib.scale(-10), caelLib.scale(1))
 
 -- Register necessary events.
 clock:RegisterEvent("CALENDAR_UPDATE_PENDING_INVITES")
@@ -47,7 +47,7 @@ end)
 
 -- Tooltip on hover.
 clock:SetScript("OnEnter", function(self)
-    GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
+    GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, caelLib.scale(4))
     GameTooltip:AddLine(date("%B, %A %d %Y"), 0.84, 0.75, 0.65)
     GameTooltip:Show()
 end)

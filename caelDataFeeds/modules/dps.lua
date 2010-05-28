@@ -8,7 +8,7 @@ caelDataFeeds.dps = caelDataFeeds.createModule("DPS")
 
 local dps = caelDataFeeds.dps
 
-dps.text:SetPoint("CENTER", caelPanel8, "CENTER", 125, 1)
+dps.text:SetPoint("CENTER", caelPanel8, "CENTER", caelLib.scale(125), caelLib.scale(1))
 dps.text:SetText("|cffD7BEA5DPS|r 0")
 
 dps:RegisterEvent("PLAYER_REGEN_ENABLED")
@@ -58,7 +58,7 @@ dps:SetScript("OnEvent", function(self, event, _, type, _, sourceName, _, _, des
 end)
 
 dps:SetScript("OnEnter", function(self)
-	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
+	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, caelLib.scale(4))
 
 	if dmgTotal then
 		GameTooltip:AddDoubleLine("|cffD7BEA5Damage|r", dmgTotal)

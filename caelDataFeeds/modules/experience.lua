@@ -8,7 +8,7 @@ caelDataFeeds.experience = caelDataFeeds.createModule("Experience")
 
 local experience = caelDataFeeds.experience
 
-experience.text:SetPoint("BOTTOM", caelPanel3, "BOTTOM", 0, 5)
+experience.text:SetPoint("BOTTOM", caelPanel3, "BOTTOM", 0, caelLib.scale(5))
 experience.text:SetParent(caelPanel3)
 
 experience:RegisterEvent("UNIT_PET")
@@ -59,7 +59,7 @@ end
 experience:SetScript("OnEvent", function(...) OnEvent(false, ...) end)
 
 experience:SetScript("OnEnter", function(self)
-	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
+	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, caelLib.scale(4))
 	local playerXp, petXp = OnEvent(true)
 	GameTooltip:AddLine(playerXp)
 	if petXp then

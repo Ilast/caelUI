@@ -6,7 +6,7 @@ caelDataFeeds.system = caelDataFeeds.createModule("System")
 
 local system = caelDataFeeds.system
 
-system.text:SetPoint("LEFT", caelPanel8, "LEFT", 10, 1)
+system.text:SetPoint("LEFT", caelPanel8, "LEFT", caelLib.scale(10), caelLib.scale(1))
 
 local Addons = {}
 
@@ -82,7 +82,7 @@ end)
 
 system:SetScript("OnEnter", function(self)
 	if IsShiftKeyDown() then
-		GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
+		GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, caelLib.scale(4))
 
 		local SortingTable = {}
 		for name in pairs(Addons) do

@@ -6,7 +6,7 @@ caelDataFeeds.social = caelDataFeeds.createModule("Social")
 
 local social = caelDataFeeds.social
 
-social.text:SetPoint("CENTER", caelPanel8, "CENTER", 325, 1) 
+social.text:SetPoint("CENTER", caelPanel8, "CENTER", caelLib.scale(325), caelLib.scale(1))
 
 social:RegisterEvent("FRIENDLIST_UPDATE")
 social:RegisterEvent("GUILD_ROSTER_UPDATE")
@@ -36,7 +36,7 @@ social:SetScript("OnEnter", function(self)
 	numGuildMembers = GetNumGuildMembers()
 	numFriends = GetNumFriends() 
 
-	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 4)
+	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, caelLib.scale(4))
 
 	if numGuildMembers > 0 then
 
