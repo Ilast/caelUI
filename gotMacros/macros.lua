@@ -246,7 +246,7 @@ if locale == "enUS" then
 			},
 			["DpsBns"] = {
 				char = "Cowdiak",
-				body = [=[/cast Shred]=],
+				body = [=[/castsequence reset=combat/target Shred, Rake, Shred, Shred, Shred]=],
 			},
 			["Bear"] = {
 				char = "Cowdiak",
