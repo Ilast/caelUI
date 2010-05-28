@@ -64,30 +64,17 @@ Scales = {
 }
 --]]
 
-local Scales = {
-	["800"] = { ["600"] = 0.7},
-	["1024"] = { ["768"] = 0.7},
-	["1152"] = { ["864"] = 0.7},
-	["1280"] = { ["720"] = 0.93, ["768"] = 0.87, ["960"] = 0.7, ["1024"] = 0.65},
-	["1366"] = { ["768"] = 0.93},
-	["1600"] = { ["900"] = 0.93, ["1200"] = 0.7},
-	["1680"] = { ["1050"] = 0.84},
-	["1768"] = { ["992"] = 0.93},
-	["1920"] = { ["1200"] = 0.84, ["1080"] = 0.93},
-}
-
 cvardata:RegisterEvent("PLAYER_ENTERING_WORLD")
 cvardata:HookScript("OnEvent", function(self, event)
 	if event == "PLAYER_ENTERING_WORLD" then
-		local width, height = string.match((({GetScreenResolutions()})[GetCurrentResolution()] or ""), "(%d+).-(%d+)")
-		if Scales[width] and Scales[width][height] then
+		if caelLib.scales[screenWidth] and caelLib.scales[screenWidth][screenHeight] then
 			SetCVar("useUiScale", 1)
-			SetCVar("uiScale", Scales[width][height])
+			SetCVar("uiScale", caelLib.scales[screenWidth][screenHeight])
 
 			WorldFrame:SetUserPlaced(false)
 			WorldFrame:ClearAllPoints()
-			WorldFrame:SetHeight(GetScreenHeight() * Scales[width][height])
-			WorldFrame:SetWidth(GetScreenWidth() * Scales[width][height])
+			WorldFrame:SetHeight(GetScreenHeight() * caelLib.scales[screenWidth][screenHeight])
+			WorldFrame:SetWidth(GetScreenWidth() * caelLib.scales[screenWidth][screenHeight])
 			WorldFrame:SetPoint("BOTTOM", UIParent, "BOTTOM")
 		else
 			SetCVar("useUiScale", 0)
