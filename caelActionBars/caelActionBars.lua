@@ -60,32 +60,30 @@ bar45Holder:SetAllPoints()
 
 -- Frame to hold the pet bars  
 local petBarHolder = CreateFrame("Frame", "PetBarHolder", UIParent)
-petBarHolder:SetWidth(120)
-petBarHolder:SetHeight(47)
-petBarHolder:SetPoint("BOTTOM", UIParent, -337, 359)
+petBarHolder:SetWidth(caelLib.scale(120))
+petBarHolder:SetHeight(caelLib.scale(47))
+petBarHolder:SetPoint("BOTTOM", UIParent, caelLib.scale(-337), caelLib.scale(359))
   
 -- Frame to hold the shapeshift bars  
 local shiftBarHolder = CreateFrame("Frame", "ShapeShiftHolder", UIParent)
-shiftBarHolder:SetWidth(355)
-shiftBarHolder:SetHeight(50)
+shiftBarHolder:SetWidth(caelLib.scale(355))
+shiftBarHolder:SetHeight(caelLib.scale(50))
 shiftBarHolder:SetScale(0.01)
 shiftBarHolder:SetAlpha(0)
-shiftBarHolder:SetPoint("BOTTOM", -154, 239) 
+shiftBarHolder:SetPoint("BOTTOM", caelLib.scale(-154), caelLib.scale(239)) 
  
 -- Frame to hold the vehicle button
 local vehicleButton = CreateFrame("Frame", "VEBHolder", UIParent)
-vehicleButton:SetWidth(70)
-vehicleButton:SetHeight(70)
-vehicleButton:SetPoint("BOTTOM", -150, 277)   
+vehicleButton:SetSize(caelLib.scale(70), caelLib.scale(70))
+vehicleButton:SetPoint("BOTTOM", caelLib.scale(-150), caelLib.scale(277))
 
 ---------------------------------------------------
 -- CREATE MY OWN VEHICLE EXIT BUTTON
 ---------------------------------------------------
   
 local veb = CreateFrame("BUTTON", "VehicleExitButton", vehicleButton, "SecureActionButtonTemplate")
-veb:SetWidth(32.5)
-veb:SetHeight(32.5)
-veb:SetPoint("CENTER",0,0)
+veb:SetSize(caelLib.scale(32.5), caelLib.scale(32.5))
+veb:SetPoint("CENTER", 0, 0)
 veb:SetAlpha(0)
 veb:RegisterForClicks("AnyUp")
 veb:SetNormalTexture([=[Interface\Vehicles\UI-Vehicles-Button-Exit-Up]=])
@@ -121,10 +119,10 @@ for i = 1, 12 do
 
 	if i > 1 and i ~= 7 then
 		currentButton:ClearAllPoints()
-		currentButton:SetPoint("LEFT", _G["ActionButton"..i-1], "RIGHT", 5, 0)
+		currentButton:SetPoint("LEFT", _G["ActionButton"..i-1], "RIGHT", caelLib.scale(5), 0)
 	elseif i == 7 then
 		currentButton:ClearAllPoints()
-		currentButton:SetPoint("TOPLEFT", _G["ActionButton"..i-6],"BOTTOMLEFT", 0, -6.5)
+		currentButton:SetPoint("TOPLEFT", _G["ActionButton"..i-6],"BOTTOMLEFT", 0, caelLib.scale(-6.5))
 	end
 end
 
@@ -134,10 +132,10 @@ BonusActionBarTexture0:Hide()
 BonusActionBarTexture1:Hide()
 
 BonusActionButton1:ClearAllPoints()
-BonusActionButton1:SetPoint("TOPLEFT", bar1Holder, 4.5, -4.5)
+BonusActionButton1:SetPoint("TOPLEFT", bar1Holder, caelLib.scale(4.5), caelLib.scale(-4.5))
 
 BonusActionButton7:ClearAllPoints()
-BonusActionButton7:SetPoint("TOPLEFT", BonusActionButton1, "BOTTOMLEFT", 0, -5)
+BonusActionButton7:SetPoint("TOPLEFT", BonusActionButton1, "BOTTOMLEFT", 0, caelLib.scale(-5))
 
 for i = 1, 12 do
 	currentButton = _G["BonusActionButton"..i]
@@ -145,16 +143,16 @@ for i = 1, 12 do
 
 	if i > 1 and i ~= 7 then
 		currentButton:ClearAllPoints()
-		currentButton:SetPoint("LEFT", _G["BonusActionButton"..i-1], "RIGHT", 5, 0)
+		currentButton:SetPoint("LEFT", _G["BonusActionButton"..i-1], "RIGHT", caelLib.scale(5), 0)
 	elseif i == 7 then
 		currentButton:ClearAllPoints()
-		currentButton:SetPoint("TOPLEFT",_G["BonusActionButton"..i-6],"BOTTOMLEFT",0, -6.5)
+		currentButton:SetPoint("TOPLEFT", _G["BonusActionButton"..i-6],"BOTTOMLEFT", 0, caelLib.scale(-6.5))
 	end
 end
 
 MultiBarBottomLeft:SetParent(bar2Holder)
 MultiBarBottomLeftButton1:ClearAllPoints()
-MultiBarBottomLeftButton1:SetPoint("TOPLEFT", bar2Holder, 4.5, -4.5)
+MultiBarBottomLeftButton1:SetPoint("TOPLEFT", bar2Holder, caelLib.scale(4.5), caelLib.scale(-4.5))
 
 for i = 1, 12 do
 	currentButton = _G["MultiBarBottomLeftButton"..i]
@@ -162,16 +160,16 @@ for i = 1, 12 do
 
 	if i > 1 and i ~= 7 then
 		currentButton:ClearAllPoints()
-		currentButton:SetPoint("LEFT", _G["MultiBarBottomLeftButton"..i-1], "RIGHT", 5, 0)
+		currentButton:SetPoint("LEFT", _G["MultiBarBottomLeftButton"..i-1], "RIGHT", caelLib.scale(5), 0)
 	elseif i == 7 then
 		currentButton:ClearAllPoints()
-		currentButton:SetPoint("TOPLEFT", _G["MultiBarBottomLeftButton"..i-6], "BOTTOMLEFT", 0, -6.5)
+		currentButton:SetPoint("TOPLEFT", _G["MultiBarBottomLeftButton"..i-6], "BOTTOMLEFT", 0, caelLib.scale(-6.5))
 	end
 end
 
 MultiBarBottomRight:SetParent(bar3Holder)
 MultiBarBottomRightButton1:ClearAllPoints()
-MultiBarBottomRightButton1:SetPoint("TOPLEFT", bar3Holder, 4.5, -4.5)
+MultiBarBottomRightButton1:SetPoint("TOPLEFT", bar3Holder, caelLib.scale(4.5), caelLib.scale(-4.5))
 
 for i = 1, 12 do
 	currentButton = _G["MultiBarBottomRightButton"..i]
@@ -179,16 +177,16 @@ for i = 1, 12 do
 
 	if i > 1 and i ~= 7 then
 		currentButton:ClearAllPoints()
-		currentButton:SetPoint("LEFT", _G["MultiBarBottomRightButton"..i-1], "RIGHT", 5, 0)
+		currentButton:SetPoint("LEFT", _G["MultiBarBottomRightButton"..i-1], "RIGHT", caelLib.scale(5), 0)
 	elseif i == 7 then
 		currentButton:ClearAllPoints()
-		currentButton:SetPoint("TOPLEFT", _G["MultiBarBottomRightButton"..i-6], "BOTTOMLEFT", 0, -6.5)
+		currentButton:SetPoint("TOPLEFT", _G["MultiBarBottomRightButton"..i-6], "BOTTOMLEFT", 0, caelLib.scale(-6.5))
 	end
 end
 
 MultiBarRight:SetParent(bar45Holder)
 MultiBarRightButton1:ClearAllPoints()
-MultiBarRightButton1:SetPoint("TOPLEFT", bar45Holder, 4.5, -4.5)
+MultiBarRightButton1:SetPoint("TOPLEFT", bar45Holder, caelLib.scale(4.5), caelLib.scale(-4.5))
 
 for i = 1, 12 do
 	currentButton = _G["MultiBarRightButton"..i]
@@ -196,10 +194,10 @@ for i = 1, 12 do
 
 	if i > 1 and i ~= 7 then
 		currentButton:ClearAllPoints()
-		currentButton:SetPoint("LEFT", _G["MultiBarRightButton"..i-1], "RIGHT", 5, 0)
+		currentButton:SetPoint("LEFT", _G["MultiBarRightButton"..i-1], "RIGHT", caelLib.scale(5), 0)
 	elseif i == 7 then
 		currentButton:ClearAllPoints()
-		currentButton:SetPoint("TOPLEFT", _G["MultiBarRightButton"..i-6], "BOTTOMLEFT", 0, -6.5)
+		currentButton:SetPoint("TOPLEFT", _G["MultiBarRightButton"..i-6], "BOTTOMLEFT", 0, caelLib.scale(-6.5))
 	end
 end
 
@@ -209,16 +207,16 @@ end
 
 MultiBarLeft:SetParent(UIParent)
 MultiBarLeftButton1:ClearAllPoints()
-MultiBarLeftButton1:SetPoint("RIGHT", UIParent, "RIGHT", -15, 0)
+MultiBarLeftButton1:SetPoint("RIGHT", UIParent, "RIGHT", caelLib.scale(-15), 0)
 
 ShapeshiftBarFrame:SetParent(shiftBarHolder)
 ShapeshiftBarFrame:SetWidth(0.01)
 ShapeshiftButton1:ClearAllPoints()
-ShapeshiftButton1:SetPoint("BOTTOMLEFT",shiftBarHolder, 10, 10)
+ShapeshiftButton1:SetPoint("BOTTOMLEFT",shiftBarHolder, caelLib.scale(10), caelLib.scale(10))
 
 PossessBarFrame:SetParent(shiftBarHolder)
 PossessButton1:ClearAllPoints()
-PossessButton1:SetPoint("BOTTOMLEFT", shiftBarHolder, 10, 10)
+PossessButton1:SetPoint("BOTTOMLEFT", shiftBarHolder, caelLib.scale(10), caelLib.scale(10))
 
 for i = 1, 10 do
 	_G["PetActionButton"..i]:SetScale(0.63)
@@ -226,9 +224,9 @@ end
 PetActionBarFrame:SetParent(petBarHolder)
 PetActionBarFrame:SetWidth(0.01)
 PetActionButton1:ClearAllPoints()
-PetActionButton1:SetPoint("TOPLEFT", petBarHolder, 4.5, -4.5)
+PetActionButton1:SetPoint("TOPLEFT", petBarHolder, caelLib.scale(4.5), caelLib.scale(-4.5))
 PetActionButton6:ClearAllPoints()
-PetActionButton6:SetPoint("TOPLEFT", PetActionButton1, "BOTTOMLEFT" ,0, -5)
+PetActionButton6:SetPoint("TOPLEFT", PetActionButton1, "BOTTOMLEFT" ,0, caelLib.scale(-5))
 
 ---------------------------------------------------
 -- ACTIONBUTTONS MUST BE HIDDEN
@@ -433,7 +431,7 @@ HideDefaultFrames()
 
 --	TEXTURES
 --	default border texture  
-local buttonTex = [=[Interface\AddOns\caelMedia\Buttons\buttonborder1]=]
+local buttonTex = caelMedia.files.buttonNormal
 
 --	hide the hotkey? 0/1
 local hide_hotkey = 1
@@ -495,8 +493,8 @@ local function StyleBar(name, action)
 
 --	Position Icon
 	ic:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-	ic:SetPoint("TOPLEFT", bu, 2, -2)
-	ic:SetPoint("BOTTOMRIGHT", bu, -2, 2)
+	ic:SetPoint("TOPLEFT", bu, caelLib.scale(2), caelLib.scale(-2))
+	ic:SetPoint("BOTTOMRIGHT", bu, caelLib.scale(-2), caelLib.scale(2))
 
 --	Non-equipped coloring.
 	nt:SetVertexColor(color.r, color.g, color.b, 1)
