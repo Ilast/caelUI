@@ -246,7 +246,7 @@ if locale == "enUS" then
 			},
 			["DpsBns"] = {
 				char = "Cowdiak",
-				body = [=[/castsequence reset=combat/target Shred, Rake, Shred, Shred, Shred]=],
+				body = [=[/cast Shred]=],
 			},
 			["Bear"] = {
 				char = "Cowdiak",
@@ -254,6 +254,14 @@ if locale == "enUS" then
 				body = [=[/click [noexists][noharm][dead] gotMacros_T2
 					/click [combat, harm, nodead] gotMacros_CDs2
 					/click [harm, nodead] gotMacros_Tank]=],
+				blizzmacro = true,
+				perChar = true,
+			},
+			["Swipe"] = {
+				char = "Cowdiak",
+				show = "Swipe (Bear)",
+				body = [=[/cast Swipe
+					/cast !Maul]=],
 				blizzmacro = true,
 				perChar = true,
 			},
