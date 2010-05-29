@@ -16,7 +16,7 @@ caelPanels.createPanel = function(name, x, y, width, height, point, rpoint, anch
 	panels[n]:SetHeight(caelLib.scale(height))
 	panels[n]:SetPoint(point, anchor, rpoint, caelLib.scale(x), caelLib.scale(y))
 	panels[n]:SetBackdrop(caelMedia.backdropTable)
-	panels[n]:SetBackdropColor(0, 0, 0, 0.5)
+	panels[n]:SetBackdropColor(0, 0, 0, 0.25)
 	panels[n]:SetBackdropBorderColor(0, 0, 0)
 	panels[n]:Show()
 	n = n + 1
