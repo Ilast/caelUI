@@ -7,5 +7,6 @@
 ## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
 ## X-Category: Miscellaneous
 
+customFonts.lua
 caelMedia.lua
 caelFonts.lua
