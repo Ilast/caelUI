@@ -16,12 +16,7 @@ local originalFonts = {
 	CHAT_FONT 		= [=[Interface\Addons\caelMedia\fonts\xenara rg.ttf]=],
 }
 
-local fonts
-if caelMedia.customFonts then
-	fonts = setmetatable(caelMedia.customFonts, {__index = originalFonts})
-else
-	fonts = originalFonts
-end
+local fonts = setmetatable(caelMedia.customFonts, {__index = originalFonts})
 
 caelMedia.eventFrame = CreateFrame("Frame", nil, UIParent)
 
