@@ -260,7 +260,7 @@ if locale == "enUS" then
 			["Swipe"] = {
 				char = "Cowdiak",
 				show = "Swipe (Bear)",
-				body = [=[/cast Swipe
+				body = [=[/cast Swipe (Bear)
 					/cast !Maul]=],
 				blizzmacro = true,
 				perChar = true,
