@@ -33,7 +33,7 @@ ChatFrameEditBox.SetTextInsets = function(self, left, right, top, bottom)
 end
 
 ChatFrameEditBox:HookScript("OnHide", function()
-	caelPanel3a:SetBackdropColor(0, 0, 0, 0.5)
+	caelPanel3a:SetBackdropColor(0, 0, 0, 0.25)
 end)
 
 local colorize = function(r, g, b)
@@ -45,7 +45,7 @@ hooksecurefunc("ChatEdit_UpdateHeader", function()
 	if type == "CHANNEL" then
 		local chatType = GetChannelName(ChatFrameEditBox:GetAttribute("channelTarget"))
 		if chatType == 0 then
-			colorize(0.5, 0.5, 0.5)
+			colorize(0.25, 0.25, 0.25)
 		else
 			colorize(ChatTypeInfo[type..chatType].r, ChatTypeInfo[type..chatType].g, ChatTypeInfo[type..chatType].b)
 		end
@@ -128,7 +128,7 @@ local ShowChatFrame = function(self)
 --	Hide all chat frames
 	for i = 1, 4 do
 		if i ~= 2 then
-			_G[format("ChatButton%s", i)]:SetBackdropColor(0, 0, 0, 0.5)
+			_G[format("ChatButton%s", i)]:SetBackdropColor(0, 0, 0, 0.25)
 			_G[format("ChatFrame%s", i)]:Hide()
 		end
 	end
@@ -367,7 +367,7 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 			local cft3 = MakeButton(3, "W", "• w <-> •")
 			local cft4 = MakeButton(4, "L", "• Loot •")
 
-			cft4:SetPoint("BOTTOMRIGHT", caelPanel1, "TOPRIGHT", 0, 1)
+			cft4:SetPoint("BOTTOMRIGHT", caelPanel1, "TOPRIGHT", 0, 1.5)
 			cft3:SetPoint("RIGHT", cft4, "LEFT")
 			cft1:SetPoint("RIGHT", cft3, "LEFT")
 
