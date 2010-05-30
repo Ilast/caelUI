@@ -33,7 +33,7 @@ ChatFrameEditBox.SetTextInsets = function(self, left, right, top, bottom)
 end
 
 ChatFrameEditBox:HookScript("OnHide", function()
-	caelPanel3a:SetBackdropColor(0, 0, 0, 0.25)
+	caelPanel3a:SetBackdropColor(0, 0, 0, 0.33)
 end)
 
 local colorize = function(r, g, b)
@@ -128,7 +128,7 @@ local ShowChatFrame = function(self)
 --	Hide all chat frames
 	for i = 1, 4 do
 		if i ~= 2 then
-			_G[format("ChatButton%s", i)]:SetBackdropColor(0, 0, 0, 0.25)
+			_G[format("ChatButton%s", i)]:SetBackdropColor(0, 0, 0, 0.33)
 			_G[format("ChatFrame%s", i)]:Hide()
 		end
 	end
