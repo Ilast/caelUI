@@ -76,16 +76,13 @@ social:SetScript("OnEnter", function(self)
 				end
 			end
 
-			if caelLib.Locale ~= "enUS" then -- feminine class localization
+			if caelLib.Locale ~= "enUS" then -- female class localization
 				for k, v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do
 					if class == v then
 						class = k
 					end
 				end
 			end
-
---			class = string.upper(class)
---			class = (class:find(" ")) and (caelLib.locale == "frFR" and "Chevalier de la mort" or "DEATHKNIGHT") or class
 
 			local color = RAID_CLASS_COLORS[class]
 			if isOnline then
