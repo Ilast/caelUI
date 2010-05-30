@@ -209,6 +209,13 @@ if locale == "enUS" then
 				blizzmacro = true,
 				perChar = true,
 			},
+			["Tranq"] = {
+				char = "Caellian, Callysto",
+				show = "Tranquilizing shot",
+				body = [=[/cast [target=mouseover, exists] Tranquilizing Shot]=],
+				blizzmacro = true,
+				perChar = true,
+			},
 		}
 	elseif playerClass == "DRUID" then
 		gM_Macros = {
@@ -257,14 +264,6 @@ if locale == "enUS" then
 				blizzmacro = true,
 				perChar = true,
 			},
-			["Swipe"] = {
-				char = "Cowdiak",
-				show = "Swipe (Bear)",
-				body = [=[/cast Swipe (Bear)
-					/cast !Maul]=],
-				blizzmacro = true,
-				perChar = true,
-			},
 			["Tank"] = {
 				char = "Cowdiak",
 				show = "Mangle (Bear)(Rank 5)",
@@ -275,6 +274,14 @@ if locale == "enUS" then
 			["MgB"] = {
 				char = "Cowdiak",
 				body = [=[/castsequence reset=target Mangle (Bear)(Rank 5), Lacerate]=],
+			},
+			["Swipe"] = {
+				char = "Cowdiak",
+				show = "Swipe (Bear)",
+				body = [=[/cast Swipe (Bear)
+					/click gotMacros_Maul]=],
+				blizzmacro = true,
+				perChar = true,
 			},
 			["Maul"] = {
 				char = "Cowdiak",
