@@ -51,6 +51,10 @@ gold:SetScript("OnEvent", function(self, event)
 	OldMoney = NewMoney
 end)
 
+gold:SetScript("OnMouseDown", function()
+	ToggleCharacter("TokenFrame")
+end)
+
 gold:SetScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, caelLib.scale(4))
 
