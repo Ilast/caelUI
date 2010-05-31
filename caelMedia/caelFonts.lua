@@ -42,10 +42,10 @@ caelMedia.eventFrame:SetScript("OnEvent", function(self, event, addon)
 	UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT = 12
 	CHAT_FONT_HEIGHTS = {7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24}
 
-	UNIT_NAME_FONT     = fonts.NORMAL
-	NAMEPLATE_FONT     = fonts.BOLD
-	DAMAGE_TEXT_FONT   = fonts.NUMBER
-	STANDARD_TEXT_FONT = fonts.NORMAL
+	UNIT_NAME_FONT     = fonts.UNIT_NAME_FONT
+	NAMEPLATE_FONT     = fonts.NAMEPLATE_FONT
+	DAMAGE_TEXT_FONT   = fonts.DAMAGE_TEXT_FONT
+	STANDARD_TEXT_FONT = fonts.STANDARD_TEXT_FONT
 
 	-- Base fonts
 	SetFont(AchievementFont_Small,                fonts.BOLD, 10)
