@@ -8,7 +8,7 @@ noTargetAuras = false, -- true to disable oUF buffs/debuffs on the target frame
 noToTAuras = false, -- true to disable oUF buffs/debuffs on the ToT frame
 noRaid = false, -- true to disable raid frames
 
-font = [=[Interface\Addons\oUF_Caellian\media\fonts\neuropol x cd rg.ttf]=],
+font = caelMedia.fonts.NORMAL,
 
 scale = 1, -- scale of the unitframes (1 being 100%)
 

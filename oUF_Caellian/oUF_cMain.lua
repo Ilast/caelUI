@@ -1,18 +1,18 @@
 --[[	$Id$	]]
 
 local settings = Caellian.oUF
-local mediaPath = [=[Interface\Addons\oUF_Caellian\media\]=]
+local mediaPath = [=[Interface\Addons\caelMedia\]=]
 
 local floor, format, insert, sort = math.floor, string.format, table.insert, table.sort
 
-local normtex = mediaPath..[=[textures\normtexc]=]
-local glowTex = mediaPath..[=[textures\glowtex]=]
-local bubbleTex = mediaPath..[=[textures\bubbletex]=]
-local buttonTex = mediaPath..[=[textures\buttontex]=]
-local shaderTex = mediaPath..[=[textures\smallshadertex]=]
-local highlightTex = mediaPath..[=[textures\highlighttex]=]
+local normtex = mediaPath..[=[statusbars\normtexc]=]
+local glowTex = mediaPath..[=[borders\glowtex]=]
+local bubbleTex = mediaPath..[=[miscellaneous\bubbletex]=]
+local buttonTex = mediaPath..[=[buttons\buttonborder1]=]
+local shaderTex = mediaPath..[=[miscellaneous\smallshadertex]=]
+local highlightTex = mediaPath..[=[miscellaneous\highlighttex]=]
 
-local font = caelMedia.fonts.NORMAL
+local font = settings.font
 local fontn = caelMedia.fonts.OUF_CAELLIAN_NUMBERFONT
 
 local _, playerClass = UnitClass("player")
