@@ -1,6 +1,6 @@
 ﻿--[[	$Id$	]]
 
-local _, caelMedia = ...
+caelMedia = select(2, ...)
 
 local originalFonts = {
 	NORMAL     = [=[Interface\Addons\caelMedia\fonts\neuropol x cd rg.ttf]=],
@@ -28,6 +28,7 @@ if caelMedia.customFonts then
 else
 	fonts = originalFonts
 end
+
 caelMedia.fonts = fonts
 
 caelMedia.eventFrame = CreateFrame("Frame", nil, UIParent)
