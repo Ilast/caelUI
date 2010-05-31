@@ -8,7 +8,7 @@ local barTexture = [=[Interface\Addons\caelNameplates\media\normtexc]=]
 local overlayTexture = [=[Interface\Tooltips\Nameplate-Border]=]
 local glowTexture = [=[Interface\Addons\caelNameplates\media\glowtex]=]
 local iconTexture = [=[Interface\Addons\caelNameplates\media\icontex]=]
-local font, fontSize, fontOutline = [=[Interface\Addons\caelNameplates\media\xenara rg.ttf]=], 8
+local font, fontSize, fontOutline = caelMedia.fonts.CAELNAMEPLATE_FONT, 8
 local backdrop = {
 	edgeFile = glowTexture, edgeSize = caelLib.scale(3),
 	insets = {left = caelLib.scale(3), right = caelLib.scale(3), top = caelLib.scale(3), bottom = caelLib.scale(3)}

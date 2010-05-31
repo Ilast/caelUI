@@ -141,7 +141,7 @@ recTimers.make_bar = function(self, spell_name, unit, buff_type, only_self, r, g
 	bars[new_id].icon:SetTexture(nil)
 	
 	bars[new_id].lbl = bars[new_id]:CreateFontString(format("recTimers_BarLabel_%d", new_id), "OVERLAY")
-	bars[new_id].lbl:SetFont(caelMedia.files.fontRg, 8)
+	bars[new_id].lbl:SetFont(caelMedia.fonts.NORMAL, 8)
 	bars[new_id].lbl:SetPoint("CENTER", bars[new_id], "CENTER", 0, caelLib.scale(1))
 	
 	position_bar(bars[new_id])

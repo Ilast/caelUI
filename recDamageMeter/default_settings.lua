@@ -24,7 +24,7 @@ opt.display_bg_color_a = 0		-- Alpha of the main frame's background.
 
 opt.mode = "Fight"				-- Default display mode: "Total", "Fight", or "DPS"
 opt.mode_button_width = caelLib.scale(50)
-opt.mode_font_face = caelMedia.files.fontRg
+opt.mode_font_face = caelMedia.fonts.NORMAL
 opt.mode_font_size = 9
 opt.mode_font_flags = ""
 opt.mode_font_color_r = 1
@@ -39,7 +39,7 @@ opt.mode_font_y_offset = opt.display_padding * caelLib.scale(-1)
 opt.bar_height = caelLib.scale(9.35) 			-- Height of each bar. --	opt.bar_height = tonumber(tostring(((opt.display_height - (opt.button_height + (opt.display_padding * 2) + opt.bar_spacing)) / 10) - opt.bar_spacing))
 opt.bar_spacing = caelLib.scale(1.5)			-- Distance between each bar.
 opt.bar_texture = caelMedia.files.statusBarC	-- Texture of the bars:
-opt.bar_font_face = caelMedia.files.fontRg
+opt.bar_font_face = caelMedia.fonts.NORMAL
 opt.bar_font_size = 9
 opt.bar_font_flags = ""
 opt.bar_font_color_r = 1
@@ -56,7 +56,7 @@ opt.bar_color_a = 0.8	-- For ALL bars
 
 opt.button_height = caelLib.scale(10)
 opt.button_width = caelLib.scale(10)
-opt.button_font_face = caelMedia.files.fontRg
+opt.button_font_face = caelMedia.fonts.NORMAL
 opt.button_font_size = 9
 opt.button_font_flags = ""
 opt.button_font_color_r = 1

@@ -9,12 +9,12 @@ local dummy = caelLib.dummy
 
 local Player = WorldMapButton:CreateFontString(nil, "ARTWORK")
 Player:SetPoint("TOPLEFT", WorldMapButton, 0, 40)
-Player:SetFont(caelMedia.files.fontRg, 12)
+Player:SetFont(caelMedia.fonts.NORMAL, 12)
 Player:SetTextColor(0.84, 0.75, 0.65)
 
 local Cursor = WorldMapButton:CreateFontString(nil, "ARTWORK")
 Cursor:SetPoint("TOPLEFT", WorldMapButton, 0, 20)
-Cursor:SetFont(caelMedia.files.fontRg, 12)
+Cursor:SetFont(caelMedia.fonts.NORMAL, 12)
 Cursor:SetTextColor(0.84, 0.75, 0.65)
 
 local caelMap_OnUpdate = function(self)
@@ -128,7 +128,7 @@ local function setupMap(self)
 
 	WorldMapButton.cursor_coordinates = WorldMapButton:CreateFontString(nil, "ARTWORK")
 	WorldMapButton.cursor_coordinates:SetPoint("BOTTOMLEFT", WorldMapButton, "BOTTOMLEFT", 5, 5)
-	WorldMapButton.cursor_coordinates:SetFont(caelMedia.files.fontRg, 12)
+	WorldMapButton.cursor_coordinates:SetFont(caelMedia.fonts.NORMAL, 12)
 	WorldMapButton.cursor_coordinates:SetTextColor(0.84, 0.75, 0.65)
 	WorldMapButton.timer = 0.1
 

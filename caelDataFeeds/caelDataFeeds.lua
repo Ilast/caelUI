@@ -9,7 +9,7 @@ caelDataFeeds.createModule = function(name)
     
     -- Create module text.
     module.text = caelPanel8:CreateFontString(nil, "OVERLAY")
-    module.text:SetFont(caelMedia.files.fontRg, 10)
+    module.text:SetFont(caelMedia.fonts.NORMAL, 10)
     
     -- Setup module.
     module:SetAllPoints(module.text)

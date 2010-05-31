@@ -12,9 +12,9 @@ local GameTooltip, GameTooltipStatusBar = _G["GameTooltip"], _G["GameTooltipStat
 
 local gsub, find, format = string.gsub, string.find, string.format
 
-_G["GameTooltipHeaderText"]:SetFont(caelMedia.files.fontRg, 10)
-_G["GameTooltipText"]:SetFont(caelMedia.files.fontRg, 10)
-_G["GameTooltipTextSmall"]:SetFont(caelMedia.files.fontRg, 9)
+_G["GameTooltipHeaderText"]:SetFont(caelMedia.fonts.NORMAL, 10)
+_G["GameTooltipText"]:SetFont(caelMedia.fonts.NORMAL, 10)
+_G["GameTooltipTextSmall"]:SetFont(caelMedia.fonts.NORMAL, 9)
 
 local Tooltips = {GameTooltip, ItemRefTooltip, ShoppingTooltip1, ShoppingTooltip2, ShoppingTooltip3, WorldMapTooltip}
 

@@ -12,8 +12,8 @@ local buttonTex = mediaPath..[=[textures\buttontex]=]
 local shaderTex = mediaPath..[=[textures\smallshadertex]=]
 local highlightTex = mediaPath..[=[textures\highlighttex]=]
 
-local font = settings.font
-local fontn = mediaPath..[=[fonts\russel square lt.ttf]=]
+local font = caelMedia.fonts.NORMAL
+local fontn = caelMedia.fonts.OUF_CAELLIAN_NUMBERFONT
 
 local _, playerClass = UnitClass("player")
 

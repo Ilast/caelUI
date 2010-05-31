@@ -245,7 +245,7 @@ local function ApplyButtonLayout(button)
 	-- Move item count text into a readable position.
 	itemCount:ClearAllPoints()
 	itemCount:SetPoint("BOTTOMRIGHT", button, caelLib.scale(-3), caelLib.scale(3))
-	itemCount:SetFont([=[Interface\Addons\caelMedia\Fonts\xenara rg.ttf]=], 10, "OUTLINE")
+	itemCount:SetFont(caelMedia.fonts.CHAT_FONT, 10, "OUTLINE")
 end
 
 -- Override Blizzard's GenerateFrame function with out own.

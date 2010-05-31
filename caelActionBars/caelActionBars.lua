@@ -514,9 +514,9 @@ local function StyleBar(name, action)
 
 		bo:Hide()
 
-		ho:SetFont(caelMedia.files.fontRg, 12)
-		co:SetFont(caelMedia.files.fontRg, 12)
-		na:SetFont(caelMedia.files.fontRg, 10)
+		ho:SetFont(caelMedia.fonts.NORMAL, 12)
+		co:SetFont(caelMedia.fonts.NORMAL, 12)
+		na:SetFont(caelMedia.fonts.NORMAL, 10)
 		if hide_hotkey == 1 then
 			ho:Hide()
 		end
