@@ -19,7 +19,7 @@ local originalFonts = {
 	OUF_CAELLIAN_NUMBERFONT	= [=[Interface\Addons\caelMedia\fonts\russel square lt.ttf]=],
 	SCROLLFRAME_NORMAL		= [=[Interface\Addons\caelMedia\fonts\neuropol nova cd rg.ttf]=],
 	SCROLLFRAME_BOLD		= [=[Interface\Addons\caelMedia\fonts\neuropol nova cd bd.ttf]=],
-	CAELNAMEPLATE_FONT		= [=[Interface\Addons\caelNameplates\media\xenara rg.ttf]=],
+	CAELNAMEPLATE_FONT		= [=[Interface\Addons\caelMedia\fonts\xenara rg.ttf]=],
 }
 
 local fonts
