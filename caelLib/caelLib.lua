@@ -25,7 +25,7 @@ caelLib.scales = {
 	["2560"] = { ["1600"] = 0.84},
 }
 
-local UIScale = 0.64
+local UIScale = caelLib.scales[screenWidth] and caelLib.scales[screenWidth][screenHeight] or 1
 local ScaleFix = (768/tonumber(GetCVar("gxResolution"):match("%d+x(%d+)")))/UIScale
 
 caelLib.scale = function(value)
