@@ -4,11 +4,12 @@ local _, caelNameplates = ...
 
 caelNameplates.eventFrame = CreateFrame("Frame", nil, UIParent)
 
-local barTexture = [=[Interface\Addons\caelNameplates\media\normtexc]=]
+local barTexture = [=[Interface\Addons\caelMedia\statusbars\normtexc]=]
 local overlayTexture = [=[Interface\Tooltips\Nameplate-Border]=]
-local glowTexture = [=[Interface\Addons\caelNameplates\media\glowtex]=]
-local iconTexture = [=[Interface\Addons\caelNameplates\media\icontex]=]
+local glowTexture = [=[Interface\Addons\caelMedia\borders\glowtex]=]
+local iconTexture = [=[Interface\Addons\caelMedia\buttons\buttonborder1]=]
 local font, fontSize, fontOutline = caelMedia.fonts.CAELNAMEPLATE_FONT, 8
+
 local backdrop = {
 	edgeFile = glowTexture, edgeSize = caelLib.scale(3),
 	insets = {left = caelLib.scale(3), right = caelLib.scale(3), top = caelLib.scale(3), bottom = caelLib.scale(3)}
