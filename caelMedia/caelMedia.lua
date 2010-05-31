@@ -1,6 +1,6 @@
 --[[	$Id$	]]
 
-caelMedia = {}
+caelMedia = select(2, ...)
 
 caelMedia.DIRECTORY = [=[Interface\Addons\caelMedia]=]
 
@@ -10,9 +10,6 @@ caelMedia.files = {
 	statusBarA			= [=[Interface\Addons\caelMedia\statusbars\normtexa]=],
 	statusBarB			= [=[Interface\Addons\caelMedia\statusbars\normtexb]=],
 	statusBarC			= [=[Interface\Addons\caelMedia\statusbars\normtexc]=],
-
-	fontRg				= [=[Interface\Addons\caelMedia\fonts\neuropol x cd rg.ttf]=],
-	fontBd				= [=[Interface\Addons\caelMedia\fonts\neuropol x cd bd.ttf]=],
 
 	buttonNormal		= [=[Interface\AddOns\caelMedia\buttons\buttonborder1]=],
 	buttonPushed		= [=[Interface\AddOns\caelMedia\buttons\buttonborder1pushed]=],

@@ -404,7 +404,6 @@ local FramesToHide = {
 --	CharacterBag1Slot,
 --	CharacterBag2Slot,
 --	CharacterBag3Slot,
---	KeyRingButton,
 
 	CharacterMicroButton,
 	SpellbookMicroButton,

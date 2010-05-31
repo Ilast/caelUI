@@ -2,7 +2,7 @@
 
 -- Font Settings
 recScrollAreas.font_face					= caelMedia.fonts.SCROLLFRAME_NORMAL
-recScrollAreas.font_face_sticky				= caelmedia.fonts.SCROLLFRAME_BOLD
+recScrollAreas.font_face_sticky				= caelMedia.fonts.SCROLLFRAME_BOLD
 recScrollAreas.font_flags					= "OUTLINE"	-- Some text can be hard to read without it.
 recScrollAreas.font_flags_sticky			= "OUTLINE"
 recScrollAreas.font_size					= 10
