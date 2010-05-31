@@ -1,6 +1,6 @@
 --[[	$Id$	]]
 
-caelMedia = select(2, ...)
+_, caelMedia = ...
 
 caelMedia.DIRECTORY = [=[Interface\Addons\caelMedia]=]
 

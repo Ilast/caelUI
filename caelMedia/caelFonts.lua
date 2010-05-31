@@ -1,6 +1,6 @@
 ﻿--[[	$Id$	]]
 
-caelMedia = select(2, ...)
+_, caelMedia = ...
 
 local originalFonts = {
 	NORMAL     = [=[Interface\Addons\caelMedia\fonts\neuropol x cd rg.ttf]=],

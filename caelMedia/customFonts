@@ -1,6 +1,8 @@
---[[ Rename this file to customFonts.lua if you want to use custom fonts]]
+--[[	$Id$	]]
 
-local _, caelMedia = ...
+--[[	Rename this file to customFonts.lua if you want to use custom fonts	]=]
+
+_, caelMedia = ...
 
 --[=[ 	Custom fonts should be added to the following table.
 		There are a number of different fonts being used through the UI.
