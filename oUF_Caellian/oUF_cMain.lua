@@ -5,10 +5,10 @@ local mediaPath = [=[Interface\Addons\caelMedia\]=]
 
 local floor, format, insert, sort = math.floor, string.format, table.insert, table.sort
 
-local normtex = mediaPath..[=[statusbars\normtexc]=]
-local glowTex = mediaPath..[=[borders\glowtex]=]
+local normtex = caelMedia.files.statusBarC
+local glowTex = caelMedia.files.edgeFile
+local buttonTex = caelMedia.files.buttonNormal
 local bubbleTex = mediaPath..[=[miscellaneous\bubbletex]=]
-local buttonTex = mediaPath..[=[buttons\buttonborder1]=]
 local shaderTex = mediaPath..[=[miscellaneous\smallshadertex]=]
 local highlightTex = mediaPath..[=[miscellaneous\highlighttex]=]
 
