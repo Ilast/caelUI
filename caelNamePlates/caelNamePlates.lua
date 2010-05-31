@@ -4,10 +4,10 @@ local _, caelNameplates = ...
 
 caelNameplates.eventFrame = CreateFrame("Frame", nil, UIParent)
 
-local barTexture = [=[Interface\Addons\caelMedia\statusbars\normtexc]=]
+local barTexture = caelMedia.files.statusBarC
+local glowTexture = caelMedia.files.edgeFile
+local iconTexture = caelMedia.files.buttonNormal
 local overlayTexture = [=[Interface\Tooltips\Nameplate-Border]=]
-local glowTexture = [=[Interface\Addons\caelMedia\borders\glowtex]=]
-local iconTexture = [=[Interface\Addons\caelMedia\buttons\buttonborder1]=]
 local font, fontSize, fontOutline = caelMedia.fonts.CAELNAMEPLATE_FONT, 8
 
 local backdrop = {
