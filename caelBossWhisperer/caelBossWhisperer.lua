@@ -33,7 +33,6 @@ local incomingFilter = function(self, event, msg, ...)
 	end
 
 	if not whisperers[sender] or whisperers[sender] == 1 or msg == "status" then
-		-- Let him know we are fighting a boss
 		whisperers[sender] = 2
 
 		local total = GetNumRaidMembers()
@@ -49,7 +48,7 @@ ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", incomingFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", outgoingFilter)
 
 local checkTarget = function(id)
-	return UnitExists(id) and UnitAffectingCombat(id) -- and UnitClassification(id) == "worldboss"
+	return UnitExists(id) and UnitAffectingCombat(id) and UnitClassification(id) == "worldboss"
 end
 
 local scan = function()
@@ -87,7 +86,6 @@ local caelBossWhisperer_OnUpdate = function(self, elapsed)
 --		local msg = combatEndedString:format(math.floor(time / 60))
 		local msg = combatEndedString:format(boss or "Unknown", (alive and alive > 0) and "" or "in a wipe ", math.floor(time / 60))
 		for k, v in pairs(whisperers) do
-			-- Notify people that combat has ended
 			SendChatMessage(msg, "WHISPER", nil, k)
 			whisperers[k] = nil
 		end
@@ -120,7 +118,6 @@ caelBossWhisperer.eventFrame:SetScript("OnEvent", function(self, event, msg)
 		end
 	elseif event == "UNIT_HEALTH" and msg and UnitName(msg) == boss then
 		bossHp = floor(UnitHealth(msg) / UnitHealthMax(msg) * 100 + 0.5)
-		-- Allow new status whispers every 10%
 		if bossHp % 10 == 0 then
 			for k in pairs(whisperers) do
 				whisperers[k] = 1
