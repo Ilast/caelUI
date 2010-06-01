@@ -25,7 +25,7 @@ local function CreateContainerFrame(name)
     local f = CreateFrame("Frame", name, UIParent)
     f:SetFrameStrata("HIGH")
     f:SetBackdrop(caelMedia.backdropTable)
-    f:SetBackdropColor(0, 0, 0, 0)
+    f:SetBackdropColor(0, 0, 0, 0.7)
     f:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
     return f
 end
@@ -38,7 +38,7 @@ local function SkinButton(b)
 --	b:SetHighlightTexture(caelMedia.files.buttonHighlight, "ADD")
 	b:SetBackdrop(caelMedia.backdropTable)
 	b:SetBackdropColor(0, 0, 0, 0.7)
-	b:SetBackdropBorderColor(0.5, 0.5, 0.5, 1)
+	b:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
 end
 	
 
