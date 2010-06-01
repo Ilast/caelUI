@@ -56,12 +56,12 @@ end
 
 bagBar = CreateContainerFrame("bagBar")
 bagBar:SetPoint("TOPLEFT", caelBagsbag, "BOTTOMLEFT", 0, 0)
-bagBar:SetPoint("BOTTOMRIGHT", caelBagsbag, "BOTTOMRIGHT", 0, caelLib.scale(-45))
+bagBar:SetPoint("BOTTOMRIGHT", caelBagsbag, "BOTTOMRIGHT", 0, caelLib.scale(-35))
 bagBar.buttons = {}
 
 bankBagBar = CreateContainerFrame("bankBagBar")
 bankBagBar:SetPoint("TOPLEFT", caelBagsbank, "BOTTOMLEFT", 0, 0)
-bankBagBar:SetPoint("BOTTOMRIGHT", caelBagsbank, "BOTTOMRIGHT", 0, caelLib.scale(-45))
+bankBagBar:SetPoint("BOTTOMRIGHT", caelBagsbank, "BOTTOMRIGHT", 0, caelLib.scale(-35))
 bankBagBar.buttons = {}
 
 function bankBagBar:Update() 
@@ -152,7 +152,7 @@ local function CreateBagBar(bank)
 	end
 	
 	b:ClearAllPoints()
-        b:SetPoint("RIGHT", bar, "RIGHT", caelLib.scale(bag_index * -28 - 5 * 2 - 4 * bag_index) , 0)
+        b:SetPoint("RIGHT", bar, "RIGHT", caelLib.scale(bag_index * -28 - 5 * 2 - 4 * bag_index) , 1.5)
 	tinsert(bar.buttons, b)
 	
         bag_index = bag_index + 1
