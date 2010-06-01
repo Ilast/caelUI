@@ -25,7 +25,7 @@ updateContainerFrameAnchors = dummy
 -- Sizing
 local numBagColumns = 10
 local numBankColumns = 20
-local buttonSize = caelLib.scale(30)
+local buttonSize = caelLib.scale(28)
 local buttonSpacing = caelLib.scale(-2)
 
 -- Margins
@@ -42,8 +42,8 @@ local ContainerMT = {__index = Container}
 -- Updates the size and height of a container, depending on the amount of 
 -- shown buttons it holds.
 function Container:UpdateSize()
-	self:SetHeight((self.row + (self.col == 0 and 0 or caelLib.scale(1))) * (buttonSize + buttonSpacing) + abs(buttonSpacing) +(self.hasButtons and bottomButtonMargin or bottomMargin) + topMargin)
-	self:SetWidth(self.maxColumns * buttonSize + buttonSpacing * (self.maxColumns - caelLib.scale(1)) + (2 * sideMargin))
+	self:SetHeight((self.row + (self.col == 0 and 0 or 1)) * (buttonSize + buttonSpacing) + abs(buttonSpacing) +(self.hasButtons and bottomButtonMargin or bottomMargin) + topMargin)
+	self:SetWidth(self.maxColumns * buttonSize + buttonSpacing * (self.maxColumns - 1) + (2 * sideMargin))
 	
 	if not self:IsShown() then
 		self:Show()
@@ -240,7 +240,6 @@ local function ApplyButtonLayout(button)
 	normalTexture:SetWidth(buttonSize)
 	normalTexture:ClearAllPoints()
 	normalTexture:SetPoint("CENTER")
-	normalTexture:SetVertexColor(0.84, 0.75, 0.65)
 	
 	-- Move item count text into a readable position.
 	itemCount:ClearAllPoints()

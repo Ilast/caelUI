@@ -132,7 +132,7 @@ local function CreateBagBar(bank)
         local name = bagButtons[bag]
 	local b = _G[name]
 
-	b:SetSize(caelLib.scale(28), caelLib.scale(28))
+	b:SetSize(caelLib.scale(24), caelLib.scale(24))
 
 	b:Show()
 	b.Bar = bar
@@ -143,8 +143,7 @@ local function CreateBagBar(bank)
 	
         b.NormalTexture = _G[name.."NormalTexture"]
         b:SetNormalTexture(caelMedia.files.buttonNormal)
-        b.NormalTexture:SetSize(caelLib.scale(32), caelLib.scale(32))
-        b.NormalTexture:SetVertexColor(0.84, 0.75, 0.65)
+        b.NormalTexture:SetSize(caelLib.scale(28), caelLib.scale(28))
 	
 	if not bank then
 		b:SetCheckedTexture(nil)
@@ -163,6 +162,7 @@ local function CreateBagBar(bank)
 	-- Give the keychain button a place.
 	local button = KeyRingButton
 	button:SetParent(bar)
+	button:SetScale(0.65)
 	button.bar = bar
     end
     
