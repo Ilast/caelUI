@@ -25,7 +25,7 @@ local function CreateContainerFrame(name)
     local f = CreateFrame("Frame", name, UIParent)
     f:SetFrameStrata("HIGH")
     f:SetBackdrop(caelMedia.backdropTable)
-    f:SetBackdropColor(0, 0, 0, 0.7)
+    f:SetBackdropColor(0, 0, 0, 0)
     f:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
     return f
 end
@@ -37,7 +37,7 @@ local function SkinButton(b)
 --	b:SetPushedTexture(caelMedia.files.buttonPushed)
 --	b:SetHighlightTexture(caelMedia.files.buttonHighlight, "ADD")
 	b:SetBackdrop(caelMedia.backdropTable)
-	b:SetBackdropColor(0, 0, 0, 1)
+	b:SetBackdropColor(0, 0, 0, 0.7)
 	b:SetBackdropBorderColor(0.5, 0.5, 0.5, 1)
 end
 	
@@ -162,7 +162,9 @@ local function CreateBagBar(bank)
 	-- Give the keychain button a place.
 	local button = KeyRingButton
 	button:SetParent(bar)
-	button:SetScale(0.65)
+	button:SetScale(0.675)
+	button:ClearAllPoints()
+	button:SetPoint("BOTTOMRIGHT", CharacterBag3Slot, "BOTTOMLEFT", -10, -3)
 	button.bar = bar
     end
     
