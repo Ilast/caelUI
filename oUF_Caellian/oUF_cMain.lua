@@ -213,14 +213,6 @@ local PostUpdatePower = function(self, event, unit, bar, min, max)
 	end
 end
 
-local onVehicleSwitch = function(self, event)
-	if event == "UNIT_ENTERED_VEHICLE" then
-		self.Info:Hide()
-	elseif event == "UNIT_EXITED_VEHICLE" then
-		self.Info:Show()
-	end
-end
-
 local delay = 0
 local viperAspectName = GetSpellInfo(34074)
 local UpdateManaLevel = function(self, elapsed)
@@ -743,9 +735,6 @@ local SetStyle = function(self, unit)
 			self.Auras:SetPoint("TOPRIGHT", self, "TOPLEFT", caelLib.scale(-9), caelLib.scale(1))
 			self.Auras.initialAnchor = "TOPRIGHT"
 			self.Auras["growth-x"] = "LEFT"
-
-			self:RegisterEvent("UNIT_ENTERED_VEHICLE", onVehicleSwitch)
-			self:RegisterEvent("UNIT_EXITED_VEHICLE", onVehicleSwitch)
 		else
 			self.Auras:SetPoint("TOPLEFT", self, "TOPRIGHT", caelLib.scale(9), caelLib.scale(1))
 			self.Auras.initialAnchor = "TOPLEFT"
