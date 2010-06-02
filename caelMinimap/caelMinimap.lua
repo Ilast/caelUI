@@ -49,7 +49,7 @@ Minimap:SetScript("OnEvent", function(self, event, ...)
 
 	MiniMapBattlefieldFrame:SetParent(self)
 	MiniMapBattlefieldFrame:ClearAllPoints()
-	MiniMapBattlefieldFrame:SetPoint("TOPRIGHT", caelLib.scale(1), caelLib.scale(-2))
+	MiniMapBattlefieldFrame:SetPoint("TOPRIGHT")
 
 	MiniMapTracking:SetParent(self)
 	MiniMapTracking:ClearAllPoints()
