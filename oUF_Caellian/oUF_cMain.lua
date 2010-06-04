@@ -1069,7 +1069,6 @@ oUF:RegisterStyle("Caellian", SetStyle)
 oUF:SetActiveStyle("Caellian")
 
 local cfg = settings.coords
-
 oUF:Spawn("player", "oUF_Caellian_player"):SetPoint("BOTTOM", UIParent, caelLib.scale(cfg.playerX), caelLib.scale(cfg.playerY))
 oUF:Spawn("target", "oUF_Caellian_target"):SetPoint("BOTTOM", UIParent, caelLib.scale(cfg.targetX), caelLib.scale(cfg.targetY))
 

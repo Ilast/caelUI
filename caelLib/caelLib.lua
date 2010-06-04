@@ -1,13 +1,21 @@
 ﻿--[[	$Id$	]]
 
-_, caelLib = ...
+local _, caelLib = ...
+_G["caelLib"] = caelLib
+
+local EventFrame = CreateFrame("Frame")
+EventFrame:SetScript("OnEvent", function(self, event, ...)
+	if type(self[event]) == "function" then
+		return self[event](self, event, ...)
+	end
+end)
 
 caelLib.playerClass = select(2, UnitClass("player"))
 caelLib.playerName = UnitName("player")
 caelLib.playerRealm = GetRealmName()
 caelLib.locale = GetLocale()
 
-screenWidth, screenHeight = string.match((({GetScreenResolutions()})[GetCurrentResolution()] or ""), "(%d+).-(%d+)")
+caelLib.screenWidth, caelLib.screenHeight = string.match((({GetScreenResolutions()})[GetCurrentResolution()] or ""), "(%d+).-(%d+)")
 
 caelLib.scales = {
 	["720"] = { ["576"] = 0.65},
@@ -25,12 +33,32 @@ caelLib.scales = {
 	["2560"] = { ["1600"] = 0.84},
 }
 
-local UIScale = caelLib.scales[screenWidth] and caelLib.scales[screenWidth][screenHeight] or 1
-local ScaleFix = (768/tonumber(GetCVar("gxResolution"):match("%d+x(%d+)")))/UIScale
+local ScaleFix
 
 caelLib.scale = function(value)
     return ScaleFix * math.floor(value / ScaleFix + 0.5)
 end
+
+EventFrame.ADDON_LOADED = function(self, event, addon)
+	if addon ~= "caelLib" then
+		return
+	end
+	
+	if not caelDB then
+		caelDB  = {}
+	end
+	
+	local UIScale = caelDB.scale or caelLib.scales[screenWidth] and caelLib.scales[screenWidth][screenHeight] or 1
+	ScaleFix = (768/tonumber(GetCVar("gxResolution"):match("%d+x(%d+)")))/UIScale
+	
+	self:UnregisterEvent(event)
+end
+EventFrame:RegisterEvent("ADDON_LOADED")
+
+EventFrame.UPDATE_FLOATING_CHAT_WINDOWS = function(self, event)
+	caelDB.scale = floor(GetCVar("uiScale") * 100 + 0.5)/100
+end
+EventFrame:RegisterEvent("UPDATE_FLOATING_CHAT_WINDOWS")
 
 caelLib.dummy = function() end
 
@@ -100,5 +128,3 @@ end
 
 charListA = nil
 charListB = nil
---caelLib.playerRealm = nil
---caelLib.playerClass = nil

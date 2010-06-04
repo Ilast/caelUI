@@ -67,6 +67,7 @@ Scales = {
 cvardata:RegisterEvent("PLAYER_ENTERING_WORLD")
 cvardata:HookScript("OnEvent", function(self, event)
 	if event == "PLAYER_ENTERING_WORLD" then
+		local screenWidth, screenHeight = caelLib.screenWidth, caelLib.screenHeight
 		if caelLib.scales[screenWidth] and caelLib.scales[screenWidth][screenHeight] then
 			SetCVar("useUiScale", 1)
 			SetCVar("uiScale", caelLib.scales[screenWidth][screenHeight])
