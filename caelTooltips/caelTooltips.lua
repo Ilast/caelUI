@@ -22,7 +22,7 @@ local linkTypes = {item = true, enchant = true, spell = true, quest = true, unit
 
 local classification = {
 	worldboss = "|cffAF5050Boss|r",
-	eliterare = "|cffAF5050+ Rare|r",
+	rareelite = "|cffAF5050+ Rare|r",
 	elite = "|cffAF5050+|r",
 	rare = "|cffAF5050Rare|r",
 }
