@@ -17,19 +17,6 @@ local numOnlineGuildMembers = 0
 local numFriends = 0
 local numOnlineFriends = 0
 
-local delay = 0
-social:SetScript("OnUpdate", function(self, elapsed)
-	delay = delay - elapsed
-	if delay < 0 then
-		if IsInGuild("player") then
-			GuildRoster()
---		else
---			self:SetScript("OnUpdate", nil)
-		end
-		delay = 15
-	end
-end)
-
 hooksecurefunc("SortGuildRoster", function(type) CURRENT_GUILD_SORTING = type end)
 
 social:SetScript("OnEnter", function(self)
@@ -115,9 +102,12 @@ social:SetScript("OnMouseDown", function(self, button)
 end)
 
 local Text
-social:SetScript("OnEvent", function(self, event)
+local updateFriends
+social:SetScript("OnEvent", function(self, event, ...)
 	if event == "GUILD_ROSTER_UPDATE" then
-		if IsInGuild("player") then
+		if ... then
+			GuildRoster()
+		elseif IsInGuild("player") then
 			numOnlineGuildMembers = 0
 			numGuildMembers = GetNumGuildMembers()
 			for i = 1, numGuildMembers do
@@ -127,20 +117,25 @@ social:SetScript("OnEvent", function(self, event)
 				end
 			end
 			numOnlineGuildMembers = numOnlineGuildMembers - 1
---		else
---			self:SetScript("OnUpdate", nil)
 		end
 	elseif event == "FRIENDLIST_UPDATE" then
-		numOnlineFriends = 0
-		numFriends = GetNumFriends()
-		
-		if numFriends > 0 then
-			for i = 1, numFriends do
-				local friendIsOnline = select(5, GetFriendInfo(i))
-				if friendIsOnline then
-					numOnlineFriends = numOnlineFriends + 1
+		if updateFriends or FriendsFrame:IsShown() then
+			numOnlineFriends = 0
+			numFriends = GetNumFriends()
+			
+			if numFriends > 0 then
+				for i = 1, numFriends do
+					local friendIsOnline = select(5, GetFriendInfo(i))
+					if friendIsOnline then
+						numOnlineFriends = numOnlineFriends + 1
+					end
 				end
 			end
+			
+			updateFriends = false
+		else
+			ShowFriends()
+			updateFriends = true
 		end
 	end
 
