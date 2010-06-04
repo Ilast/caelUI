@@ -1,3 +1,5 @@
+--[[	$Id$	]]
+
 local _, caelCore = ...
 
 caelCore.gameFonts = caelCore.createModule("gameFonts")
