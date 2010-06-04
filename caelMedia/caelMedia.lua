@@ -1,7 +1,7 @@
 --[[	$Id$	]]
 
 local _, caelMedia = ...
-_G.caelMedia = caelMedia
+_G["caelMedia"] = caelMedia
 
 caelMedia.DIRECTORY = [=[Interface\Addons\caelMedia]=]
 
