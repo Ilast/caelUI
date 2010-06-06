@@ -6,7 +6,6 @@ local mediaPath = [=[Interface\Addons\caelMedia\]=]
 local floor, format, insert, sort = math.floor, string.format, table.insert, table.sort
 
 local normtex = caelMedia.files.statusBarC
-local glowTex = caelMedia.files.edgeFile
 local buttonTex = caelMedia.files.buttonNormal
 local bubbleTex = mediaPath..[=[miscellaneous\bubbletex]=]
 local shaderTex = mediaPath..[=[miscellaneous\smallshadertex]=]
@@ -412,10 +411,7 @@ local CreateAura = function(self, button, icons)
 	button.backdrop:SetPoint("TOPLEFT", button, caelLib.scale(-3.5), caelLib.scale(3))
 	button.backdrop:SetPoint("BOTTOMRIGHT", button, caelLib.scale(4), caelLib.scale(-3.5))
 	button.backdrop:SetFrameStrata("BACKGROUND")
-	button.backdrop:SetBackdrop {
-		edgeFile = glowTex, edgeSize = caelLib.scale(5),
-		insets = {left = caelLib.scale(3), right = caelLib.scale(3), top = caelLib.scale(3), bottom = caelLib.scale(3)}
-	}
+	button.backdrop:SetBackdrop(caelMedia.borderTable)
 	button.backdrop:SetBackdropColor(0, 0, 0, 0)
 	button.backdrop:SetBackdropBorderColor(0, 0, 0)
 
@@ -552,11 +548,7 @@ local SetStyle = function(self, unit)
 	self.FrameBackdrop = CreateFrame("Frame", nil, self)
 	self.FrameBackdrop:SetPoint("TOPLEFT", self, caelLib.scale(-4), caelLib.scale(4))
 	self.FrameBackdrop:SetFrameStrata("BACKGROUND")
-	self.FrameBackdrop:SetBackdrop {
-		bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
-		edgeFile = glowTex, edgeSize = 3,
-		insets = {left = 3, right = 3, top = 3, bottom = 3}
-	}
+	self.FrameBackdrop:SetBackdrop(caelMedia.backdropTable)
 	self.FrameBackdrop:SetBackdropColor(0.25, 0.25, 0.25, 0)
 	self.FrameBackdrop:SetBackdropBorderColor(0, 0, 0)
 
@@ -920,10 +912,7 @@ local SetStyle = function(self, unit)
 			self.IconBackdrop = CreateFrame("Frame", nil, self.Castbar)
 			self.IconBackdrop:SetPoint("TOPLEFT", self.Castbar.Icon, caelLib.scale(-4), caelLib.scale(3))
 			self.IconBackdrop:SetPoint("BOTTOMRIGHT", self.Castbar.Icon, caelLib.scale(4), caelLib.scale(-3.5))
-			self.IconBackdrop:SetBackdrop({
-				edgeFile = glowTex, edgeSize = caelLib.scale(4),
-				insets = {left = caelLib.scale(3), right = caelLib.scale(3), top = caelLib.scale(3), bottom = caelLib.scale(3)}
-			})
+			self.IconBackdrop:SetBackdrop(caelMedia.borderTable)
 			self.IconBackdrop:SetBackdropColor(0, 0, 0, 0)
 			self.IconBackdrop:SetBackdropBorderColor(0, 0, 0, 0.7)
 		end
