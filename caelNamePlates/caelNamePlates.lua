@@ -5,15 +5,9 @@ local _, caelNameplates = ...
 caelNameplates.eventFrame = CreateFrame("Frame", nil, UIParent)
 
 local barTexture = caelMedia.files.statusBarC
-local glowTexture = caelMedia.files.edgeFile
 local iconTexture = caelMedia.files.buttonNormal
 local overlayTexture = [=[Interface\Tooltips\Nameplate-Border]=]
 local font, fontSize, fontOutline = caelMedia.fonts.CAELNAMEPLATE_FONT, 8
-
-local backdrop = {
-	edgeFile = glowTexture, edgeSize = caelLib.scale(3),
-	insets = {left = caelLib.scale(3), right = caelLib.scale(3), top = caelLib.scale(3), bottom = caelLib.scale(3)}
-}
 
 local select = select
 
@@ -85,8 +79,10 @@ local updatePlate = function(self)
 
 	self.healthBar:ClearAllPoints()
 	self.healthBar:SetPoint("CENTER", self.healthBar:GetParent())
-	self.healthBar:SetHeight(5)
-	self.healthBar:SetWidth(100)
+	self.healthBar:SetHeight(caelLib.scale(5))
+	self.healthBar:SetWidth(caelLib.scale(100))
+
+	self.healthBar.hpBackground:SetVertexColor(self.r * 0.33, self.g * 0.33, self.b * 0.33, 0.85)
 
 	self.castBar:ClearAllPoints()
 	self.castBar:SetPoint("TOP", self.healthBar, "BOTTOM", 0, caelLib.scale(-4))
@@ -194,19 +190,17 @@ local createPlate = function(frame)
 
 	healthBar:SetStatusBarTexture(barTexture)
 
-	local hpOffset = UIParent:GetScale() / healthBar:GetEffectiveScale()
 	healthBar.hpBackground = healthBar:CreateTexture(nil, "BACKGROUND")
-	healthBar.hpBackground:SetPoint("TOPLEFT", -hpOffset, hpOffset)
-	healthBar.hpBackground:SetPoint("BOTTOMRIGHT", hpOffset, -hpOffset)
+	healthBar.hpBackground:SetPoint("TOPLEFT", caelLib.scale(-1), caelLib.scale(1))
+	healthBar.hpBackground:SetPoint("BOTTOMRIGHT", caelLib.scale(1), caelLib.scale(-1))
 	healthBar.hpBackground:SetTexture(barTexture)
-	healthBar.hpBackground:SetVertexColor(0.15, 0.15, 0.15)
 
 	healthBar.hpGlow = CreateFrame("Frame", nil, healthBar)
 	healthBar.hpGlow:SetFrameLevel(healthBar:GetFrameLevel() -1 > 0 and healthBar:GetFrameLevel() -1 or 0)
 	healthBar.hpGlow:SetPoint("TOPLEFT", healthBar, "TOPLEFT", caelLib.scale(-3), caelLib.scale(3))
 	healthBar.hpGlow:SetPoint("BOTTOMRIGHT", healthBar, "BOTTOMRIGHT", caelLib.scale(3), caelLib.scale(-3))
-	healthBar.hpGlow:SetBackdrop(backdrop)
-	healthBar.hpGlow:SetBackdropColor(0.25, 0.25, 0.25)
+	healthBar.hpGlow:SetBackdrop(caelMedia.backdropTable)
+	healthBar.hpGlow:SetBackdropColor(0.25, 0.25, 0.25, 0)
 	healthBar.hpGlow:SetBackdropBorderColor(0, 0, 0)
 
 	castBar.castbarOverlay = castbarOverlay
@@ -227,28 +221,28 @@ local createPlate = function(frame)
 	castBar.time:SetTextColor(0.84, 0.75, 0.65)
 	castBar.time:SetShadowOffset(1.25, -1.25)
 
-	local cbOffset = UIParent:GetScale() / castBar:GetEffectiveScale()
 	castBar.cbBackground = castBar:CreateTexture(nil, "BACKGROUND")
-	castBar.cbBackground:SetPoint("TOPLEFT", -cbOffset, cbOffset)
-	castBar.cbBackground:SetPoint("BOTTOMRIGHT", cbOffset, -cbOffset)
+	castBar.cbBackground:SetPoint("TOPLEFT", caelLib.scale(-1), caelLib.scale(1))
+	castBar.cbBackground:SetPoint("BOTTOMRIGHT", caelLib.scale(1), caelLib.scale(-1))
 	castBar.cbBackground:SetTexture(barTexture)
-	castBar.cbBackground:SetVertexColor(0.15, 0.15, 0.15)
+	castBar.cbBackground:SetVertexColor(0.15, 0.15, 0.15, 0.85)
 
 	castBar.cbGlow = CreateFrame("Frame", nil, castBar)
 	castBar.cbGlow:SetFrameLevel(castBar:GetFrameLevel() -1 > 0 and castBar:GetFrameLevel() -1 or 0)
 	castBar.cbGlow:SetPoint("TOPLEFT", castBar, "TOPLEFT", caelLib.scale(-3), caelLib.scale(3))
 	castBar.cbGlow:SetPoint("BOTTOMRIGHT", castBar, "BOTTOMRIGHT", caelLib.scale(3), caelLib.scale(-3))
-	castBar.cbGlow:SetBackdrop(backdrop)
-	castBar.cbGlow:SetBackdropColor(0.25, 0.25, 0.25)
+	castBar.cbGlow:SetBackdrop(caelMedia.backdropTable)
+	castBar.cbGlow:SetBackdropColor(0.25, 0.25, 0.25, 0)
 	castBar.cbGlow:SetBackdropBorderColor(0, 0, 0)
-
-	spellIconRegion:ClearAllPoints()
-	spellIconRegion:SetPoint("BOTTOMLEFT", castBar, "BOTTOMRIGHT", 5, 0.25)
-	spellIconRegion:SetSize(caelLib.scale(15), caelLib.scale(15))
 
 	castBar.Holder = CreateFrame("Frame", nil, castBar)
 	castBar.Holder:SetFrameLevel(castBar.Holder:GetFrameLevel() + 1)
 	castBar.Holder:SetAllPoints()
+
+	spellIconRegion:ClearAllPoints()
+	spellIconRegion:SetParent(castBar.Holder)
+	spellIconRegion:SetPoint("BOTTOMLEFT", castBar, "BOTTOMRIGHT", 5, 0.25)
+	spellIconRegion:SetSize(caelLib.scale(15), caelLib.scale(15))
 
 	spellIconRegion.IconOverlay = castBar.Holder:CreateTexture(nil, "OVERLAY")
 	spellIconRegion.IconOverlay:SetPoint("TOPLEFT", spellIconRegion, "TOPLEFT", caelLib.scale(-1.5), caelLib.scale(1.5))
@@ -259,10 +253,7 @@ local createPlate = function(frame)
 	spellIconRegion.IconBackdrop = CreateFrame("Frame", nil, castBar.Holder)
 	spellIconRegion.IconBackdrop:SetPoint("TOPLEFT", spellIconRegion, "TOPLEFT", caelLib.scale(-3), caelLib.scale(3))
 	spellIconRegion.IconBackdrop:SetPoint("BOTTOMRIGHT", spellIconRegion, "BOTTOMRIGHT", caelLib.scale(3), caelLib.scale(-3))
-	spellIconRegion.IconBackdrop:SetBackdrop({
-		edgeFile = glowTexture, edgeSize = caelLib.scale(2),
-		insets = {left = caelLib.scale(3), right = caelLib.scale(3), top = caelLib.scale(3), bottom = caelLib.scale(3)}
-	})
+	spellIconRegion.IconBackdrop:SetBackdrop(caelMedia.backdropTable)
 	spellIconRegion.IconBackdrop:SetBackdropColor(0, 0, 0, 0)
 	spellIconRegion.IconBackdrop:SetBackdropBorderColor(0, 0, 0)
 
