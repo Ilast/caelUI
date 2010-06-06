@@ -77,8 +77,6 @@ local Spam = {
 	[3] = "encourageons à consulter le site http://eu.battle.net/security",
 	[4] = "pour de plus amples astuces et informations à ce sujet.",
 	[5] = "You have .+ the title '.atron Caellian'%.",
-	[6] = "^(%S+) has come online%.",
-	[7] = "^(%S+) has gone offline%.",
 }
 
 local SystemMessageFilter = function(self, event, ...)
