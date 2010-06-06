@@ -33,27 +33,27 @@ caelMedia.files = {
 --	caelMedia.fontObject:SetFont(caelMedia.files.fontRg, 10, nil)
 
 caelMedia.insetTable = {
-    left = caelLib.scale(2),
-    right = caelLib.scale(2),
-    top = caelLib.scale(2),
-    bottom = caelLib.scale(2)
+    left = caelLib.scale(3),
+    right = caelLib.scale(3),
+    top = caelLib.scale(3),
+    bottom = caelLib.scale(3)
 }
 
 caelMedia.backdropTable = {
     bgFile   = caelMedia.files.bgFile,
     edgeFile = caelMedia.files.edgeFile,
-    edgeSize = caelLib.scale(2),
+    edgeSize = caelLib.scale(3),
+    insets   = caelMedia.insetTable
+}
+
+caelMedia.borderTable = {
+    bgFile   = nil,
+    edgeFile = caelMedia.files.edgeFile,
+    edgeSize = caelLib.scale(5),
     insets   = caelMedia.insetTable
 }
 
 --[[
-caelMedia.borderTable = {
-    bgFile   = nil,
-    edgeFile = caelMedia.files.edgeFile,
-    edgeSize = 4,
-    insets   = caelMedia.insetTable
-}
-
 caelMedia.buttonTable = {
     bgFile = caelMedia.files.buttonBackdrop,
     edgeFile = nil,
