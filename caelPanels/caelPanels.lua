@@ -50,19 +50,19 @@ caelPanels.eventFrame:SetScript("OnEvent", function(self, event)
 		for i = 1, 11 do
 			local panel = panels[i]
 			if panel then
-				local width = caelLib.scale(panel:GetWidth() - 4)
+				local width = caelLib.scale(panel:GetWidth() - 6)
 				local height = caelLib.scale(panel:GetHeight() / 5)
 
 				local gradientTop = panel:CreateTexture(nil, "BORDER")
 				gradientTop:SetTexture(bgTexture)
 				gradientTop:SetSize(width, height)
-				gradientTop:SetPoint("TOPLEFT", caelLib.scale(2), caelLib.scale(-2))
+				gradientTop:SetPoint("TOPLEFT", caelLib.scale(3), caelLib.scale(-2))
 				gradientTop:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.5)
 
 				local gradientBottom = panel:CreateTexture(nil, "BORDER")
 				gradientBottom:SetTexture(bgTexture)
 				gradientBottom:SetSize(width, height)
-				gradientBottom:SetPoint("BOTTOMRIGHT", caelLib.scale(-2), caelLib.scale(2))
+				gradientBottom:SetPoint("BOTTOMRIGHT", caelLib.scale(-3), caelLib.scale(2))
 				gradientBottom:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.75, 0, 0, 0, 0)
 			end
 		end
