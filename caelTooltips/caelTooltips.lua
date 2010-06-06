@@ -241,8 +241,8 @@ gradientBottom:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.75, 0, 0, 0, 0)
 local healthBar = GameTooltipStatusBar
 healthBar:ClearAllPoints()
 healthBar:SetHeight(caelLib.scale(5))
-healthBar:SetPoint("BOTTOMLEFT", caelLib.scale(3), caelLib.scale(3))
-healthBar:SetPoint("BOTTOMRIGHT", -caelLib.scale(3), caelLib.scale(3))
+healthBar:SetPoint("BOTTOMLEFT", caelLib.scale(4), caelLib.scale(4))
+healthBar:SetPoint("BOTTOMRIGHT", -caelLib.scale(4), caelLib.scale(4))
 healthBar:SetStatusBarTexture(caelMedia.files.statusBarC)
 
 healthBar.bg = healthBar:CreateTexture(nil, "BORDER")
@@ -258,13 +258,13 @@ local ApplyGradient = function(self)
 	height = caelLib.scale(self:GetHeight() / 5)
 
 	gradientTop:SetParent(self)
-	gradientTop:SetPoint("TOPLEFT", caelLib.scale(2), caelLib.scale(-2))
-	gradientTop:SetPoint("TOPRIGHT", caelLib.scale(-2), caelLib.scale(-2))
+	gradientTop:SetPoint("TOPLEFT", caelLib.scale(3), caelLib.scale(-3))
+	gradientTop:SetPoint("TOPRIGHT", caelLib.scale(-3), caelLib.scale(-3))
 	gradientTop:SetHeight(height)
 
 	gradientBottom:SetParent(self)
-	gradientBottom:SetPoint("BOTTOMLEFT", caelLib.scale(2), caelLib.scale(2))
-	gradientBottom:SetPoint("BOTTOMRIGHT", caelLib.scale(-2), caelLib.scale(2))
+	gradientBottom:SetPoint("BOTTOMLEFT", caelLib.scale(3), caelLib.scale(3))
+	gradientBottom:SetPoint("BOTTOMRIGHT", caelLib.scale(-3), caelLib.scale(3))
 	gradientBottom:SetHeight(height)
 end
 
