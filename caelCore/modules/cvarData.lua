@@ -124,7 +124,7 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"chatBubbles 1",
 			"chatBubblesParty 0",
 			"spamFilter 0",
-			"guildMemberNotify 0",
+			"guildMemberNotify 1",
 			"lockActionBars 1",
 			"alwaysShowActionBars 1",
 			"secureAbilityToggle 1",
