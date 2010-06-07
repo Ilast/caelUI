@@ -19,11 +19,8 @@ local numOnlineFriends = 0
 
 hooksecurefunc("SortGuildRoster", function(type) CURRENT_GUILD_SORTING = type end)
 
-social:SetScript("OnEnter", function(self)
-	numGuildMembers = GetNumGuildMembers()
-	numFriends = GetNumFriends() 
-
-	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, caelLib.scale(4))
+local function MakeTooltip(self)
+	GameTooltip:SetOwner(social, "ANCHOR_TOP", 0, caelLib.scale(4))
 
 	if numGuildMembers > 0 then
 
@@ -79,6 +76,12 @@ social:SetScript("OnEnter", function(self)
 	end
 
 	GameTooltip:Show()
+	self.generateTooltip = false
+end
+
+social:SetScript("OnEnter", function(self)
+	self.generateTooltip = true
+	GuildRoster()
 end)
 
 social:SetScript("OnMouseDown", function(self, button)
@@ -101,15 +104,27 @@ social:SetScript("OnMouseDown", function(self, button)
 	end
 end)
 
+local guildUpdateDelay = 5
+local function DelayedUpdate(self, elapsed)
+	if guildUpdateDelay then
+		guildUpdateDelay = guildUpdateDelay - elapsed
+		if guildUpdateDelay <= 0 then
+			GuildRoster()
+			guildUpdateDelay = 5
+			self:SetScript("OnUpdate", nil)
+		end
+	end
+end
+
 -- Monitor 'Jimbob has come online./Jimbob has gone offline.' messages.
--- Call guild roster
+-- Schedule guild roster call.
 -- Update on GUILD_ROSTER_UPDATE
 local comeOnlineMsg = ERR_FRIEND_ONLINE_SS:gsub("%.", "%%.$"):gsub("\124H.+\124h", "^.-")
 local goOfflineMsg = "^"..ERR_FRIEND_OFFLINE_S:gsub("%%s", ".-").."$"
 
 ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", function(self, event, msg, ...)
 	if msg:find(comeOnlineMsg) or msg:find(goOfflineMsg) then
-		GuildRoster()
+		social:SetScript("OnUpdate", DelayedUpdate)
 		return true, msg, ...
 	else
 		return false, msg, ...
@@ -138,6 +153,8 @@ social:SetScript("OnEvent", function(self, event, ...)
 			
 			self.guildCheckIsRunning = false
 		end
+		
+		MakeTooltip(self)
 	elseif event == "FRIENDLIST_UPDATE" then
 		if updateFriends or FriendsFrame:IsShown() then
 			numOnlineFriends = 0
