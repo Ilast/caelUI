@@ -240,18 +240,33 @@ gradientBottom:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.75, 0, 0, 0, 0)
 
 local healthBar = GameTooltipStatusBar
 healthBar:ClearAllPoints()
-healthBar:SetHeight(caelLib.scale(5))
-healthBar:SetPoint("BOTTOMLEFT", caelLib.scale(4), caelLib.scale(4))
-healthBar:SetPoint("BOTTOMRIGHT", -caelLib.scale(4), caelLib.scale(4))
+healthBar:SetHeight(caelLib.scale(6))
+healthBar:SetPoint("BOTTOMLEFT", healthBar:GetParent(), "TOPLEFT", caelLib.scale(3), caelLib.scale(2))
+healthBar:SetPoint("BOTTOMRIGHT", healthBar:GetParent(), "TOPRIGHT", caelLib.scale(-3), caelLib.scale(2))
 healthBar:SetStatusBarTexture(caelMedia.files.statusBarC)
+
+healthBar.border = CreateFrame("Frame", nil, healthBar)
+healthBar.border:SetPoint("TOPLEFT", caelLib.scale(-3), caelLib.scale(3))
+healthBar.border:SetPoint("BOTTOMRIGHT", caelLib.scale(3), caelLib.scale(-3))
+healthBar.border:SetFrameStrata("BACKGROUND")
+healthBar.border:SetBackdrop {
+	bgFile = nil,
+	edgeFile = caelMedia.files.edgeFile,
+	edgeSize = caelLib.scale(2),
+	insets = {left = caelLib.scale(3), right = caelLib.scale(3), top = caelLib.scale(3), bottom = caelLib.scale(3)},
+}
+healthBar.border:SetBackdropColor(0.25, 0.25, 0.25, 0)
+healthBar.border:SetBackdropBorderColor(0, 0, 0)
 
 healthBar.bg = healthBar:CreateTexture(nil, "BORDER")
 healthBar.bg:SetAllPoints()
 healthBar.bg:SetTexture(caelMedia.files.statusBarC)
-healthBar.bg:SetVertexColor(0.25, 0.25, 0.25)
 
-local ApplyGradient = function(self)
+local SetStyle = function(self)
 	self:SetSize(caelLib.scale(self:GetWidth()), caelLib.scale(self:GetHeight()))
+
+	local r, g, b = healthBar:GetStatusBarColor()
+	healthBar.bg:SetVertexColor(r * 0.33, g * 0.33, b * 0.33, 0.85)
 
 	BorderColor(self)
 
@@ -271,9 +286,14 @@ end
 caelTooltips:RegisterEvent("PLAYER_ENTERING_WORLD")
 caelTooltips:SetScript("OnEvent", function(self)
 	for _, v in ipairs(Tooltips) do
-		v:HookScript("OnShow", ApplyGradient)
+		v:HookScript("OnShow", SetStyle)
 
-		v:SetBackdrop(caelMedia.backdropTable)
+		v:SetBackdrop {
+			bgFile = caelMedia.files.bgFile,
+			edgeFile = caelMedia.files.edgeFile,
+			edgeSize = caelLib.scale(2),
+			insets = {left = caelLib.scale(4), right = caelLib.scale(4), top = caelLib.scale(4), bottom = caelLib.scale(4)},
+		}
 	end
 
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
