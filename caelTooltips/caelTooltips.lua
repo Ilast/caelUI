@@ -214,10 +214,10 @@ local BorderColor = function(self)
 	local _, unit = self:GetUnit()
 	local reaction = unit and UnitReaction("player", unit)
 
-	if reaction then
-		local r, g, b = FACTION_BAR_COLORS[reaction].r, FACTION_BAR_COLORS[reaction].g, FACTION_BAR_COLORS[reaction].b
-		self:SetBackdropBorderColor(r, g, b)
-	else
+--	if reaction then
+--		local r, g, b = FACTION_BAR_COLORS[reaction].r, FACTION_BAR_COLORS[reaction].g, FACTION_BAR_COLORS[reaction].b
+--		self:SetBackdropBorderColor(r, g, b)
+--	else
 		local _, link = self:GetItem()
 		local quality = link and select(3, GetItemInfo(link))
 		if quality and quality >= 2 then
@@ -226,7 +226,7 @@ local BorderColor = function(self)
 		else
 			self:SetBackdropBorderColor(0, 0, 0)
 		end
-	end
+--	end
 	self:SetBackdropColor(0, 0, 0, GetMouseFocus() == WorldFrame and 0.33 or 0.66)
 end
 
