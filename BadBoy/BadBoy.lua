@@ -54,6 +54,8 @@ local triggers = {
 	"gold.*low.*price.*%d+kg",
 	"discount.*buy.*gold.*coupon",
 	"deliver.*buy.*gold.*fast",
+	"cheap.*gold.*deliver", --Cheap G from the Top1 WOW G company--G4P :  $30 for 10K gold at [mmo8wow.Com] with discount code ? cheap30 ? :) Welcome to our site and fill out the forms, 10min delivery is ready for you !!
+	"cheap.*gold.*discount", --dear friend, cheapest gold in <WWW.4WOWGOLD.C@M> fast delievry ,no risk. "GPS" as discount code for saving more money.3.8$ for 1000g, even 35$ for 10000g.come on!
 	"gold.*order.*discount", --<WWW.4WOWGOLD.C@M> offers free items for big orders. Motorcycle for 100k, and Battered Hilt for 90k. discount code: CF. First come, first served! Come on!
 	--[www.tgtimes.com>>] sicher und schnell mit Gold-Dienstleistungen, der Preis sehr billig 10000g = 22 eruos, Grobes Lager ist, werden alle Waren verfugbar, Lieferung innerhalb von 10 Minuten. Dies ist die richtige Wahl! Versuchen Sie, bitte. WWW.TGTIM
 	"gold.*preis.*innerhalb", --:[[ 18 EUR/10000 WOW GOLD ]]  DE Acc. u. IP., Blitzlieferung, Paypal / uberweisung,Am niedrigest Preis!!  Werden innerhalb 24 Stunden 95% der Bestellungen  ausgeliefert. [[  www.wow-europe.cn ]
@@ -169,6 +171,10 @@ local triggers = {
 	"detected.*software.*account.*info.*action", --We have detected third-party software associated with your account. Please log in to [XYZ] with your [Battle.Net] information before action is taken against your account
 	"support.*warcraft.*website.*rare.*mount", --Hello! Thank you for your support for World of Warcraft, now visit the official website will have the rare baby, and mounts, please visit: XYZ
 	"drawn.*system.*gift.*tiger", --Hello,you are drawn in the system to receive your gift.Pleast visit:   [XYZ]  Swift Spectral Tiger will be yours.
+	"customer.*blizz.*lucky.*player.*gift", --Dear Customer, you have become a blizzard lucky Players, can get a gift,registered address: XYZ
+	"drawn.*system.*receive.*cataclysm.*beta", --CONGRATULATiONS!YOU ARE DRAWN IN THE SYSTEM TO RECEiVE YOUR ACHiEVEMENTS REWARDS! IT'S A CATACLYSM  CLOSED BETA!PLEASE  ViSIT:[XYZ--BLiZZARD]
+	"hallo.*schon.*system.*erhalten.*klicken", --Hallo!Sie sind schon von diesem System auserwahlt worden und werden Pramie erhalten. Klicken Sie bitte: [XYZ]#!
+	"blizz.*notif[iy].*account.*cataclysm.*info", --Hello,Blizzard Entertainment notifies you that your WOW account has been chosen to participate in Cataclysm beta test. For more information please visit: XYZ
 
 	--Lvl 1 whisperers
 	"server.*purchase.*gold.*deliv", --sorry to bother,currently we have 29200g on this server, wondering if you might purchase some gold today? 15mins delivery:)
@@ -211,6 +217,8 @@ local triggers = {
 	"need.*buy.*gold.*fast.*deliver", --Excuse me, just asking that do you need to buy some gold in fast delivery and nice price.:)
 
 	--Advanced URL's
+	"^%W+mm[0o]%[?yy%.c[0o]m%W+$", --30 May 10
+	"choice.*mmo4store.*only", --Good Choice ===> MMO4STORE.C0M ==> only (=19.9 per 10k
 	"^%W+m+oggg%.de%W+$", --11 April 10
 	"^%W+lastminuteangebotevonmmoggg%W+$", --temp
 	--"^%W+osteraktionvonmmoggg%W+$", --temp
@@ -254,10 +262,10 @@ local function filter(_, event, msg, player, _, _, _, _, channelId, _, _, _, lin
 	msg = strreplace(msg, ",", ".") --Convert commas to periods
 	--START: 6 line text buffer, this checks the current line, and blocks it if it's the same as one of the previous 6
 	for k,v in ipairs(chatLines) do
-		if v == msg then
+		if v == msg then --If message same as one in previous 6...
 			for l,w in ipairs(chatPlayers) do
-				if l == k and w == player then
-					result = true return true
+				if l == k and w == player then --...and from the same person...
+					result = true return true --...filter!
 				end
 			end
 		end
@@ -286,8 +294,11 @@ local function filter(_, event, msg, player, _, _, _, _, channelId, _, _, _, lin
 			return true
 		end
 	end
-	--START: Art remover
-	if fnd(msg, "^%p%p%p%p+$") then
+	--START: Art remover after blacklist check to prevent hiding and not reporting
+	--Only applies for gen/trade/LFG/etc and for latin based languages, as %W only supports that... :(
+	--Exclude lines with item links "|cff", I think this whole thing is reasonably ugly, but the gold spammers like to draw sometimes...
+	if channelId > 0 and not BADBOY_ALLOWART and not BADBOY_NOLATIN and not fnd(msg, "|cff") and fnd(msg, "%W%W%W%W%W%W%W") then
+		if BADBOY_DEBUG then print("|cFF33FF99BadBoy_ART|r: ", debug, " - ", player) end
 		result = true return true
 	end
 	--END: Art remover
