@@ -210,26 +210,6 @@ GameTooltip:HookScript("OnTooltipAddMoney", function(self, cost, maxcost)
 	self:AddLine("Value: "..FormatMoney(cost), r, g, b)
 end)
 
-local BorderColor = function(self)
-	local _, unit = self:GetUnit()
-	local reaction = unit and UnitReaction("player", unit)
-
---	if reaction then
---		local r, g, b = FACTION_BAR_COLORS[reaction].r, FACTION_BAR_COLORS[reaction].g, FACTION_BAR_COLORS[reaction].b
---		self:SetBackdropBorderColor(r, g, b)
---	else
-		local _, link = self:GetItem()
-		local quality = link and select(3, GetItemInfo(link))
-		if quality and quality >= 2 then
-			local r, g, b = GetItemQualityColor(quality)
-			self:SetBackdropBorderColor(r, g, b, borderAlpha)
-		else
-			self:SetBackdropBorderColor(0, 0, 0)
-		end
---	end
-	self:SetBackdropColor(0, 0, 0, GetMouseFocus() == WorldFrame and 0.33 or 0.66)
-end
-
 local gradientTop = caelTooltips:CreateTexture(nil, "BORDER")
 gradientTop:SetTexture(caelMedia.files.bgFile)
 gradientTop:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.5)
@@ -261,6 +241,27 @@ healthBar.border:SetBackdropBorderColor(0, 0, 0)
 healthBar.bg = healthBar:CreateTexture(nil, "BORDER")
 healthBar.bg:SetAllPoints()
 healthBar.bg:SetTexture(caelMedia.files.statusBarC)
+
+local BorderColor = function(self)
+	local _, unit = self:GetUnit()
+	local reaction = unit and UnitReaction("player", unit)
+
+	if reaction then
+		local r, g, b = FACTION_BAR_COLORS[reaction].r, FACTION_BAR_COLORS[reaction].g, FACTION_BAR_COLORS[reaction].b
+		self:SetBackdropBorderColor(r, g, b)
+		healthBar.border:SetBackdropBorderColor(r, g, b)
+	else
+		local _, link = self:GetItem()
+		local quality = link and select(3, GetItemInfo(link))
+		if quality and quality >= 2 then
+			local r, g, b = GetItemQualityColor(quality)
+			self:SetBackdropBorderColor(r, g, b, borderAlpha)
+		else
+			self:SetBackdropBorderColor(0, 0, 0)
+		end
+	end
+	self:SetBackdropColor(0, 0, 0, GetMouseFocus() == WorldFrame and 0.33 or 0.66)
+end
 
 local SetStyle = function(self)
 	self:SetSize(caelLib.scale(self:GetWidth()), caelLib.scale(self:GetHeight()))
