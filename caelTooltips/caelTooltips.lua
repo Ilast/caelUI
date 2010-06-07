@@ -227,7 +227,7 @@ local BorderColor = function(self)
 			self:SetBackdropBorderColor(0, 0, 0)
 		end
 	end
-	self:SetBackdropColor(0, 0, 0, 0.33) -- GetMouseFocus() == WorldFrame and 0.75
+	self:SetBackdropColor(0, 0, 0, GetMouseFocus() == WorldFrame and 0.33 or 0.66)
 end
 
 local gradientTop = caelTooltips:CreateTexture(nil, "BORDER")
