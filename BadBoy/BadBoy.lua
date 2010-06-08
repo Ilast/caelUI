@@ -54,6 +54,7 @@ local triggers = {
 	"gold.*low.*price.*%d+kg",
 	"discount.*buy.*gold.*coupon",
 	"deliver.*buy.*gold.*fast",
+	"gold.*discount.*bonus", --<WWW.DATE4GOLD.COM> 10k only sell 29 dollars, with the discount code"VIP",besides,u can get 2% bonus as the hoilday gift, moresurprise,welcome to <WWW.DATE4GOLD.COM>
 	"cheap.*gold.*deliver", --Cheap G from the Top1 WOW G company--G4P :  $30 for 10K gold at [mmo8wow.Com] with discount code ? cheap30 ? :) Welcome to our site and fill out the forms, 10min delivery is ready for you !!
 	"cheap.*gold.*discount", --dear friend, cheapest gold in <WWW.4WOWGOLD.C@M> fast delievry ,no risk. "GPS" as discount code for saving more money.3.8$ for 1000g, even 35$ for 10000g.come on!
 	"gold.*order.*discount", --<WWW.4WOWGOLD.C@M> offers free items for big orders. Motorcycle for 100k, and Battered Hilt for 90k. discount code: CF. First come, first served! Come on!
@@ -218,6 +219,7 @@ local triggers = {
 
 	--Advanced URL's
 	"^%W+mm[0o]%[?yy%.c[0o]m%W+$", --30 May 10
+	"^%W+diymm[0o]game.c[0o]m%W+$", --07 June 10
 	"choice.*mmo4store.*only", --Good Choice ===> MMO4STORE.C0M ==> only (=19.9 per 10k
 	"^%W+m+oggg%.de%W+$", --11 April 10
 	"^%W+lastminuteangebotevonmmoggg%W+$", --temp
