@@ -2,6 +2,8 @@
 
 local _, caelDataFeeds = ...
 
+local LOGIN_GUILDUPDATE_DELAY = 10
+
 caelDataFeeds.social = caelDataFeeds.createModule("Social")
 
 local social = caelDataFeeds.social
@@ -115,13 +117,13 @@ social:SetScript("OnMouseDown", function(self, button)
 	end
 end)
 
-local guildUpdateDelay = 5
+local guildUpdateDelay = LOGIN_GUILDUPDATE_DELAY
 local function DelayedUpdate(self, elapsed)
 	if guildUpdateDelay then
 		guildUpdateDelay = guildUpdateDelay - elapsed
 		if guildUpdateDelay <= 0 then
 			GuildRoster()
-			guildUpdateDelay = 5
+			guildUpdateDelay = LOGIN_GUILDUPDATE_DELAY
 			self:SetScript("OnUpdate", nil)
 		end
 	end
