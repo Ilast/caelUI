@@ -11,18 +11,21 @@ social.text:SetPoint("CENTER", caelPanel8, "CENTER", caelLib.scale(325), caelLib
 social:RegisterEvent("FRIENDLIST_UPDATE")
 social:RegisterEvent("GUILD_ROSTER_UPDATE")
 
-local numGuildMembers = 0
 local numOnlineGuildMembers = 0
 
 local numFriends = 0
 local numOnlineFriends = 0
 
+local lastGuildRosterCall
+local CURRENT_GUILD_SORTING
+hooksecurefunc("GuildRoster", function() lastGuildRosterCall = time() end)
 hooksecurefunc("SortGuildRoster", function(type) CURRENT_GUILD_SORTING = type end)
 
 local function MakeTooltip(self)
-	GameTooltip:SetOwner(social, "ANCHOR_TOP", 0, caelLib.scale(4))
+	self.generateTooltip = false
+	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, caelLib.scale(4))
 
-	if numGuildMembers > 0 then
+	if numOnlineGuildMembers > 0 then
 
 		local sortingOrder = CURRENT_GUILD_SORTING
 		if sortingOrder ~= "class" then
@@ -32,7 +35,7 @@ local function MakeTooltip(self)
 		GameTooltip:AddLine("Online Guild Members", 0.84, 0.75, 0.65)
 		GameTooltip:AddLine(" ")
 
-		for i = 1, numGuildMembers do
+		for i = 1, numOnlineGuildMembers + 1 do
 			local name, _, _, level, _, zone, _, _, isOnline, status, classFileName = GetGuildRosterInfo(i)
 			local color = RAID_CLASS_COLORS[classFileName]
 
@@ -76,12 +79,20 @@ local function MakeTooltip(self)
 	end
 
 	GameTooltip:Show()
-	self.generateTooltip = false
 end
 
 social:SetScript("OnEnter", function(self)
-	self.generateTooltip = true
-	GuildRoster()
+	-- Update if last GuildRoster call was more than 10 seconds ago.
+	if not lastGuildRosterCall or time() - lastGuildRosterCall > 10 then
+		GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, caelLib.scale(4))
+		GameTooltip:AddLine("Loading...")
+		
+		self.generateTooltip = true
+		GuildRoster()
+	-- Else just show the tooltip with the data we've got.
+	else
+		MakeTooltip(self)
+	end
 end)
 
 social:SetScript("OnMouseDown", function(self, button)
@@ -125,7 +136,7 @@ local goOfflineMsg = "^"..ERR_FRIEND_OFFLINE_S:gsub("%%s", ".-").."$"
 ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", function(self, event, msg, ...)
 	if msg:find(comeOnlineMsg) or msg:find(goOfflineMsg) then
 		social:SetScript("OnUpdate", DelayedUpdate)
-		return true, msg, ...
+		return false, msg, ...
 	else
 		return false, msg, ...
 	end
@@ -151,10 +162,12 @@ social:SetScript("OnEvent", function(self, event, ...)
 			
 			SetGuildRosterShowOffline(ShowOfflineSetting)
 			
+			if self.generateTooltip then
+				MakeTooltip(self)
+			end
+			
 			self.guildCheckIsRunning = false
 		end
-		
-		MakeTooltip(self)
 	elseif event == "FRIENDLIST_UPDATE" then
 		if updateFriends or FriendsFrame:IsShown() then
 			numOnlineFriends = 0
