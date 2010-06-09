@@ -223,7 +223,7 @@ if locale == "enUS" then
 				char = "Cowdiak",
 				show = "[stealth]Pounce; [nostealth]Mangle (Cat)(Rank 5)",
 				body = [=[/click [noexists][noharm][dead] gotMacros_T2
-					/click [combat, harm, nodead] gotMacros_CDs2
+					/click [modifier, combat, harm, nodead] gotMacros_DruidCD
 					/click [harm, nodead, stealth] gotMacros_DpsFs; [harm, nodead, nostealth] gotMacros_DpsFns]=],
 				nosound = true,
 				blizzmacro = true,
@@ -241,7 +241,7 @@ if locale == "enUS" then
 				char = "Cowdiak",
 				show = "[stealth]Ravage; [nostealth]Shred",
 				body = [=[/click [noexists][noharm][dead] gotMacros_T2
-					/click [combat, harm, nodead] gotMacros_CDs2
+					/click [modifier, combat, harm, nodead] gotMacros_DruidCD
 					/click [harm, nodead, stealth] gotMacros_DpsBs; [harm, nodead, nostealth] gotMacros_DpsBns]=],
 				nosound = true,
 				blizzmacro = true,
@@ -259,7 +259,6 @@ if locale == "enUS" then
 				char = "Cowdiak",
 				show = "Mangle (Bear)(Rank 5)",
 				body = [=[/click [noexists][noharm][dead] gotMacros_T2
-					/click [combat, harm, nodead] gotMacros_CDs2
 					/click [harm, nodead] gotMacros_Tank]=],
 				blizzmacro = true,
 				perChar = true,
@@ -287,6 +286,14 @@ if locale == "enUS" then
 				char = "Cowdiak",
 				body = [=[/cast !Maul]=],
 			},
+			["DruidCD"] = {
+				char = "Cowdiak",
+				show = "",
+				body = [=[/cast Berserk
+						/cast Tiger's Fury]=],
+				nosound = true,
+				perChar = true,
+			}
 		}
 	elseif playerClass == "ROGUE" then
 		gM_Macros = {
@@ -629,8 +636,7 @@ if locale == "enUS" then
 		["CDs2"] = {
 			char = "Cowdiak, Bonewraith, Calyr, Dkdens",
 			icon = [=[Interface\Icons\Spell_Shadow_LastingAfflictions]=],
-			body = [=[/cast Tiger's Fury
-				/cast Avenging Wrath
+			body = [=[/cast Avenging Wrath
 				/use 13
 				/use 14]=],
 			nosound = true,
