@@ -1,4 +1,4 @@
-﻿--[[	$Id: social.lua 1157 2010-05-30 10:21:51Z sdkyron@gmail.com $	]]
+﻿--[[	$Id$	]]
 
 local _, caelDataFeeds = ...
 
