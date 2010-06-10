@@ -63,8 +63,7 @@ if (not oUF.Tags["[NameShort]"]) then
 	oUF.Tags["[NameShort]"] = function(unit)
 		local oldName = UnitName(unit)
 		local newName = (string.len(oldName) > 6) and string.gsub(oldName, "%s?(.[\128-\191]*)%S+%s", "%1. ") or oldName -- "%s?(.)%S+%s"
---		return caelLib.utf8sub(newName, 6, false)
-		return newName
+		return caelLib.utf8sub(newName, 6, false)
 	end
 end
 
@@ -78,8 +77,7 @@ if (not oUF.Tags["[NameMedium]"]) then
 		elseif (unit == PetFrame.unit and oldName == UnitName("player")) then
 			return
 		else
---			return caelLib.utf8sub(newName, 12, true)
-			return newName
+			return caelLib.utf8sub(newName, 12, true)
 		end
 	end
 end
@@ -89,7 +87,6 @@ if (not oUF.Tags["[NameLong]"]) then
 	oUF.Tags["[NameLong]"] = function(unit)
 		local oldName = UnitName(unit)
 		local newName = (string.len(oldName) > 18) and string.gsub(oldName, "%s?(.[\128-\191]*)%S+%s", "%1. ") or oldName
---		return caelLib.utf8sub(newName, 18, true)
-		return newName
+		return caelLib.utf8sub(newName, 18, true)
 	end
 end
