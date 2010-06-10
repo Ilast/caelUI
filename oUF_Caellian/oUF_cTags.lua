@@ -54,30 +54,32 @@ end
 
 --[[
 -- Workaround for names starting with weird letters, german for example (only works with capital letters sadly)
-local newName = (string.len(origName) > 10) and string.gsub(origName, "%s?([\128-\196].)%S+%s", "%1. ") or origName
+local newName = (string.len(oldName) > 10) and string.gsub(oldName, "%s?([\128-\196].)%S+%s", "%1. ") or oldName
 newName = (string.len(newName) > 10) and string.gsub(newName, "(%s?)([^\128-\196])%S+%s", "%1%2. ") or newName
 --]]
 
 oUF.TagEvents["[NameShort]"] = "UNIT_NAME_UPDATE"
 if (not oUF.Tags["[NameShort]"]) then
 	oUF.Tags["[NameShort]"] = function(unit)
-		local origName = UnitName(unit)
-		local newName = (string.len(origName) > 6) and string.gsub(origName, "%s?(.[\128-\191]*)%S+%s", "%1. ") or origName -- "%s?(.)%S+%s"
-		return caelLib.utf8sub(newName, 6, false)
+		local oldName = UnitName(unit)
+		local newName = (string.len(oldName) > 6) and string.gsub(oldName, "%s?(.[\128-\191]*)%S+%s", "%1. ") or oldName -- "%s?(.)%S+%s"
+--		return caelLib.utf8sub(newName, 6, false)
+		return newName
 	end
 end
 
 oUF.TagEvents["[NameMedium]"] = "UNIT_NAME_UPDATE"
 if (not oUF.Tags["[NameMedium]"]) then
 	oUF.Tags["[NameMedium]"] = function(unit)
-		local origName = UnitName(unit)
-		local newName = (string.len(origName) > 12) and string.gsub(origName, "%s?(.[\128-\191]*)%S+%s", "%1. ") or origName
+		local oldName = UnitName(unit)
+		local newName = (string.len(oldName) > 12) and string.gsub(oldName, "%s?(.[\128-\191]*)%S+%s", "%1. ") or oldName
 		if (unit == "pet" and name == "Unknown") then
 			return "Pet"
-		elseif (unit == PetFrame.unit and origName == UnitName("player")) then
+		elseif (unit == PetFrame.unit and oldName == UnitName("player")) then
 			return
 		else
-			return caelLib.utf8sub(newName, 12, true)
+--			return caelLib.utf8sub(newName, 12, true)
+			return newName
 		end
 	end
 end
@@ -85,8 +87,9 @@ end
 oUF.TagEvents["[NameLong]"] = "UNIT_NAME_UPDATE"
 if (not oUF.Tags["[NameLong]"]) then
 	oUF.Tags["[NameLong]"] = function(unit)
-		local origName = UnitName(unit)
-		local newName = (string.len(origName) > 18) and string.gsub(origName, "%s?(.[\128-\191]*)%S+%s", "%1. ") or origName
-		return caelLib.utf8sub(newName, 18, true)
+		local oldName = UnitName(unit)
+		local newName = (string.len(oldName) > 18) and string.gsub(oldName, "%s?(.[\128-\191]*)%S+%s", "%1. ") or oldName
+--		return caelLib.utf8sub(newName, 18, true)
+		return newName
 	end
 end
