@@ -52,35 +52,6 @@ if (not oUF.Tags["[GetNameColor]"]) then
 	end
 end
 
-local utf8sub = function(string, i, dots)
-	local bytes = string:len()
-	if (bytes <= i) then
-		return string
-	else
-		local len, pos = 0, 1
-		while(pos <= bytes) do
-			len = len + 1
-			local c = string:byte(pos)
-			if (c > 0 and c <= 127) then
-				pos = pos + 1
-			elseif (c >= 192 and c <= 223) then
-				pos = pos + 2
-			elseif (c >= 224 and c <= 239) then
-				pos = pos + 3
-			elseif (c >= 240 and c <= 247) then
-				pos = pos + 4
-			end
-			if (len == i) then break end
-		end
-
-		if (len == i and pos <= bytes) then
-			return string:sub(1, pos - 1)..(dots and "..." or "")
-		else
-			return string
-		end
-	end
-end
-
 --[[
 -- Workaround for names starting with weird letters, german for example (only works with capital letters sadly)
 local newName = (string.len(origName) > 10) and string.gsub(origName, "%s?([\128-\196].)%S+%s", "%1. ") or origName
@@ -92,7 +63,7 @@ if (not oUF.Tags["[NameShort]"]) then
 	oUF.Tags["[NameShort]"] = function(unit)
 		local origName = UnitName(unit)
 		local newName = (string.len(origName) > 6) and string.gsub(origName, "%s?(.[\128-\191]*)%S+%s", "%1. ") or origName -- "%s?(.)%S+%s"
-		return utf8sub(newName, 6, false)
+		return caelLib.utf8sub(newName, 6, false)
 	end
 end
 
@@ -106,7 +77,7 @@ if (not oUF.Tags["[NameMedium]"]) then
 		elseif (unit == PetFrame.unit and origName == UnitName("player")) then
 			return
 		else
-			return utf8sub(newName, 12, true)
+			return caelLib.utf8sub(newName, 12, true)
 		end
 	end
 end
@@ -116,6 +87,6 @@ if (not oUF.Tags["[NameLong]"]) then
 	oUF.Tags["[NameLong]"] = function(unit)
 		local origName = UnitName(unit)
 		local newName = (string.len(origName) > 18) and string.gsub(origName, "%s?(.[\128-\191]*)%S+%s", "%1. ") or origName
-		return utf8sub(newName, 18, true)
+		return caelLib.utf8sub(newName, 18, true)
 	end
 end
