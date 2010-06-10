@@ -1,4 +1,4 @@
---[[	$Id: experience.lua 1162 2010-05-31 16:03:52Z jwillebrands $	]]
+--[[	$Id$	]]
 
 if UnitLevel("player") == MAX_PLAYER_LEVEL then return end
 
