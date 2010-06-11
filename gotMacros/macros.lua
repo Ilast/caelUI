@@ -38,6 +38,17 @@ local playerClass = caelLib.playerClass
 if locale == "enUS" then
 	if playerClass == "HUNTER" then
 		gM_Macros = {
+			["WDI"] = {
+				char = "Cowdiak, Callysto",
+				body = [=[/2 [[ -- >> We Did It << -- ]]
+					/2 Ouvre ses portes aux recrutements.
+					/2 Avancée PVE : ICC10-HM: 11/12, ICC25-HM: 5/12
+					/2 4 soirs de présence requis par semaine.
+					/2 Toutes les candidatures seront étudiées.
+					/2 Rendez-vous sur: http://www.guilde-wedidit.fr
+					/2 ou contactez nous directement. Bonne journée !]=],
+				blizzmacro = true,
+			},
 			["TGT"] = {
 				char = "Caellian, Callysto",
 				show = "Hunter's Mark",
