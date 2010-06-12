@@ -4,20 +4,20 @@ function recScrollAreas:CreateScrollArea(id, height, x_pos, y_pos, textalign, di
 	recScrollAreas.scroll_area_frames[id] = CreateFrame("Frame", nil, UIParent)
 	recScrollAreas.scroll_area_frames[id.."sticky"] = CreateFrame("Frame", nil, UIParent)
 	-- Enable these two lines to see the scroll area on the screen for more accurate placement, etc
-	--recScrollAreas.scroll_area_frames[id]:SetBackdrop({ bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=], edgeFile = nil, edgeSize = 0, insets = {left = 0, right = 0, top = 0, bottom = 0} })
-	--recScrollAreas.scroll_area_frames[id]:SetBackdropColor(0, 0, 0, 1)
+	recScrollAreas.scroll_area_frames[id]:SetBackdrop({ bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=], edgeFile = nil, edgeSize = 0, insets = {left = 0, right = 0, top = 0, bottom = 0} })
+	recScrollAreas.scroll_area_frames[id]:SetBackdropColor(0, 0, 0, 1)
 
 	-- Set frame width
-	recScrollAreas.scroll_area_frames[id]:SetWidth(1)
-	recScrollAreas.scroll_area_frames[id.."sticky"]:SetWidth(1)
+	recScrollAreas.scroll_area_frames[id]:SetWidth(caelLib.scale(1))
+	recScrollAreas.scroll_area_frames[id.."sticky"]:SetWidth(caelLib.scale(1))
 
 	-- Set frame height
-	recScrollAreas.scroll_area_frames[id]:SetHeight(height)
-	recScrollAreas.scroll_area_frames[id.."sticky"]:SetHeight(height)
+	recScrollAreas.scroll_area_frames[id]:SetHeight(caelLib.scale(height))
+	recScrollAreas.scroll_area_frames[id.."sticky"]:SetHeight(caelLib.scale(height))
 
 	-- Position frame
-	recScrollAreas.scroll_area_frames[id]:SetPoint("BOTTOM", UIParent, "BOTTOM", x_pos, y_pos)
-	recScrollAreas.scroll_area_frames[id.."sticky"]:SetPoint("BOTTOM", UIParent, "BOTTOM", x_pos, y_pos)
+	recScrollAreas.scroll_area_frames[id]:SetPoint("BOTTOM", UIParent, "BOTTOM", caelLib.scale(x_pos), caelLib.scale(y_pos))
+	recScrollAreas.scroll_area_frames[id.."sticky"]:SetPoint("BOTTOM", UIParent, "BOTTOM", caelLib.scale(x_pos), caelLib.scale(y_pos))
 
 	-- Text alignment
 	recScrollAreas.scroll_area_frames[id].textalign = textalign
@@ -44,8 +44,8 @@ function recScrollAreas:CreateScrollArea(id, height, x_pos, y_pos, textalign, di
 	recScrollAreas.anim_strings[id.."sticky"] = {}
 
 	-- Set movement speed
-	recScrollAreas.scroll_area_frames[id].movement_speed = (animation_duration or recScrollAreas.animation_duration) / height
-	recScrollAreas.scroll_area_frames[id.."sticky"].movement_speed = (animation_duration_sticky or recScrollAreas.animation_duration_sticky) / height
+	recScrollAreas.scroll_area_frames[id].movement_speed = (animation_duration or recScrollAreas.animation_duration) / caelLib.scale(height)
+	recScrollAreas.scroll_area_frames[id.."sticky"].movement_speed = (animation_duration_sticky or recScrollAreas.animation_duration_sticky) / caelLib.scale(height)
 
 	-- Set animation duration
 	recScrollAreas.scroll_area_frames[id].animation_duration = animation_duration or recScrollAreas.animation_duration
