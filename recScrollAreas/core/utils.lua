@@ -4,8 +4,8 @@ function recScrollAreas:CreateScrollArea(id, height, x_pos, y_pos, textalign, di
 	recScrollAreas.scroll_area_frames[id] = CreateFrame("Frame", nil, UIParent)
 	recScrollAreas.scroll_area_frames[id.."sticky"] = CreateFrame("Frame", nil, UIParent)
 	-- Enable these two lines to see the scroll area on the screen for more accurate placement, etc
-	recScrollAreas.scroll_area_frames[id]:SetBackdrop({ bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=], edgeFile = nil, edgeSize = 0, insets = {left = 0, right = 0, top = 0, bottom = 0} })
-	recScrollAreas.scroll_area_frames[id]:SetBackdropColor(0, 0, 0, 1)
+	-- recScrollAreas.scroll_area_frames[id]:SetBackdrop({ bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=], edgeFile = nil, edgeSize = 0, insets = {left = 0, right = 0, top = 0, bottom = 0} })
+	-- recScrollAreas.scroll_area_frames[id]:SetBackdropColor(0, 0, 0, 1)
 
 	-- Set frame width
 	recScrollAreas.scroll_area_frames[id]:SetWidth(caelLib.scale(1))
