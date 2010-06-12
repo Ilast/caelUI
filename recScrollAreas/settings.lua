@@ -27,7 +27,7 @@ recScrollAreas.animation_delay				= 0.015		-- Frequency of animation updates. (i
 -- recScrollAreas:AddText(text_to_show, sticky_style, scroll_area_identifer)
 --
 recScrollAreas:CreateScrollArea("Error", 75, 0, 750, "CENTER", "up", nil, nil, nil, nil, nil, nil, 2.5, 2.5)
-recScrollAreas:CreateScrollArea("Notification", 140, 0, 515, "CENTER", "down", nil, nil, nil, nil, nil, nil, 3.5, 3.5)
+recScrollAreas:CreateScrollArea("Notification", 110, 0, 585, "CENTER", "down", nil, nil, nil, nil, nil, nil, 3.5, 3.5)
 recScrollAreas:CreateScrollArea("Information", 100, 0, 160, "CENTER", "down", nil, nil, nil, nil, nil, nil, 2.5, 1.25)
-recScrollAreas:CreateScrollArea("Outgoing", 150, 250, 375, "RIGHT", "up")
-recScrollAreas:CreateScrollArea("Incoming", 150, -250, 375, "LEFT", "down")
+recScrollAreas:CreateScrollArea("Outgoing", 150, 162.5, 385, "LEFT", "up")
+recScrollAreas:CreateScrollArea("Incoming", 150, -162.5, 385, "RIGHT", "down")
