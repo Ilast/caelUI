@@ -2,7 +2,7 @@
 ## Title: recScrollAreas
 ## Author: Recluse
 ## X-Revision: $Id$
-## RequiredDependencies: caelMedia
+## RequiredDependencies: caelLib, caelMedia
 
 core\init.lua
 core\utils.lua

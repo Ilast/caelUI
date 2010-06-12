@@ -5,8 +5,8 @@ recScrollAreas.font_face					= caelMedia.fonts.SCROLLFRAME_NORMAL
 recScrollAreas.font_face_sticky				= caelMedia.fonts.SCROLLFRAME_BOLD
 recScrollAreas.font_flags					= "OUTLINE"	-- Some text can be hard to read without it.
 recScrollAreas.font_flags_sticky			= "OUTLINE"
-recScrollAreas.font_size					= 10
-recScrollAreas.font_size_sticky				= 12
+recScrollAreas.font_size					= 9
+recScrollAreas.font_size_sticky				= 11
 
 -- Animation Settings
 recScrollAreas.blink_speed			= 0.5
@@ -26,8 +26,8 @@ recScrollAreas.animation_delay				= 0.015		-- Frequency of animation updates. (i
 -- Then you can pipe input into each scroll area using:
 -- recScrollAreas:AddText(text_to_show, sticky_style, scroll_area_identifer)
 --
-recScrollAreas:CreateScrollArea("Error", 75, 0, 800, "CENTER", "up", nil, nil, nil, nil, nil, nil, 2.5, 2.5)
+recScrollAreas:CreateScrollArea("Error", 75, 0, 750, "CENTER", "up", nil, nil, nil, nil, nil, nil, 2.5, 2.5)
 recScrollAreas:CreateScrollArea("Notification", 140, 0, 515, "CENTER", "down", nil, nil, nil, nil, nil, nil, 3.5, 3.5)
 recScrollAreas:CreateScrollArea("Information", 100, 0, 160, "CENTER", "down", nil, nil, nil, nil, nil, nil, 2.5, 1.25)
-recScrollAreas:CreateScrollArea("Outgoing", 200, 385, 375, "RIGHT", "up")
-recScrollAreas:CreateScrollArea("Incoming", 200, -385, 375, "LEFT", "down")
+recScrollAreas:CreateScrollArea("Outgoing", 150, 250, 375, "RIGHT", "up")
+recScrollAreas:CreateScrollArea("Incoming", 150, -250, 375, "LEFT", "down")
