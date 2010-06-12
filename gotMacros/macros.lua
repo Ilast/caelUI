@@ -56,7 +56,6 @@ if playerClass == "HUNTER" then
 				/targetenemy [target=pet, dead][target=pet, noexists]]=],
 		},
 		["CDsHunter"] = {
-			icon = [=[Interface\Icons\Spell_Shadow_LastingAfflictions]=],
 			body = [=[/cast [target=pettarget, exists] Kill Command
 				/cast [target=pettarget, exists] Bestial Wrath]=],
 			nosound = true,
@@ -66,6 +65,7 @@ if playerClass == "HUNTER" then
 			body = [=[/castsequence [harm] reset=0 Hunter's Mark, null
 				/focus [help, nodead]]=],
 			blizzmacro = true,
+			perChar = true,
 		},
 		["SvR"] = {
 			show = "Auto Shot",
@@ -186,9 +186,8 @@ elseif playerClass == "DRUID" then
 		["CatF"] = {
 			show = "[stealth]Pounce; [nostealth]Mangle (Cat)(Rank 5)",
 			body = [=[/click [noexists][noharm][dead] gotMacros_T2
-				/click [modifier, combat, harm, nodead] gotMacros_DruidCD
+				/click [modifier, combat, harm, nodead] gotMacros_CDsDruid
 				/click [harm, nodead, stealth] gotMacros_DpsFs; [harm, nodead, nostealth] gotMacros_DpsFns]=],
-			nosound = true,
 			blizzmacro = true,
 			perChar = true,
 		},
@@ -201,9 +200,8 @@ elseif playerClass == "DRUID" then
 		["CatB"] = {
 			show = "[stealth]Ravage; [nostealth]Shred",
 			body = [=[/click [noexists][noharm][dead] gotMacros_T2
-				/click [modifier, combat, harm, nodead] gotMacros_DruidCD
+				/click [modifier, combat, harm, nodead] gotMacros_CDsDruid
 				/click [harm, nodead, stealth] gotMacros_DpsBs; [harm, nodead, nostealth] gotMacros_DpsBns]=],
-			nosound = true,
 			blizzmacro = true,
 			perChar = true,
 		},
@@ -239,12 +237,10 @@ elseif playerClass == "DRUID" then
 		["Maul"] = {
 			body = [=[/cast !Maul]=],
 		},
-		["DruidCD"] = {
-			show = "",
+		["CDsDruid"] = {
 			body = [=[/cast Berserk
 					/cast Tiger's Fury]=],
 			nosound = true,
-			perChar = true,
 		}
 	}
 elseif playerClass == "ROGUE" then
@@ -256,7 +252,6 @@ elseif playerClass == "ROGUE" then
 				/script if strfind(GetInventoryItemLink("player",16)or"", "Assassin's Blade") then EquipItemByName("Wingblade", 16) end
 				/startattack
 				/castsequence reset=target Sinister Strike, Sinister Strike, Sinister Strike, Eviscerate]=],
-			nosound = true,
 			blizzmacro = true,
 			perChar = true,
 		},
@@ -267,7 +262,6 @@ elseif playerClass == "ROGUE" then
 				/script if strfind(GetInventoryItemLink("player",16)or"", "Wingblade") then EquipItemByName("Assassin's Blade", 16) end
 				/startattack
 				/castsequence reset=target Backstab, Backstab, Backstab, Eviscerate]=],
-			nosound = true,
 			blizzmacro = true,
 			perChar = true,
 		},
@@ -276,7 +270,6 @@ elseif playerClass == "ROGUE" then
 			body = [=[/click [noexists][noharm][dead] gotMacros_T2
 				/script if strfind(GetInventoryItemLink("player",16)or"", "Wingblade") then EquipItemByName("Assassin's Blade", 16) end
 				/cast [harm, nodead] Ambush]=],
-			nosound = true,
 			blizzmacro = true,
 			perChar = true,
 		},
@@ -284,7 +277,6 @@ elseif playerClass == "ROGUE" then
 			show = "Garrote",
 			body = [=[/click [noexists][noharm][dead] gotMacros_T2
 				/cast [harm, nodead] Garrote]=],
-			nosound = true,
 			blizzmacro = true,
 			perChar = true,
 		},
@@ -292,7 +284,6 @@ elseif playerClass == "ROGUE" then
 			show = "Sap",
 			body = [=[/click [noexists][noharm][dead] gotMacros_T2
 				/cast [harm, nodead] Sap]=],
-			nosound = true,
 			blizzmacro = true,
 			perChar = true,
 		}
@@ -334,7 +325,7 @@ multiClasses = {
 			/2 4 soirs de présence requis par semaine.
 			/2 Toutes les candidatures seront étudiées.
 			/2 Rendez-vous sur: http://www.guilde-wedidit.fr
-			/2 ou contactez nous directement. Bonne journée !]=],
+			/2 ou contactez nous directement. Bonne journée.]=],
 		blizzmacro = true,
 	},
 	["T2"] = {
@@ -342,7 +333,6 @@ multiClasses = {
 			/targetenemy]=],
 	},
 	["CDsAll"] = {
-		icon = [=[Interface\Icons\Spell_Shadow_LastingAfflictions]=],
 		body = [=[/cast Blood Fury
 				/cast Berserking
 				/use 10
@@ -352,12 +342,14 @@ multiClasses = {
 	}
 }
 
-if not gM_Macros then
-	gM_Macros = {}
-end
+if multiClasses then
+	if not gM_Macros then
+		gM_Macros = {}
+	end
 
-for k, v in pairs(multiClasses) do
-	gM_Macros[k] = v
-end
+	for k, v in pairs(multiClasses) do
+		gM_Macros[k] = v
+	end
 
-multiClasses = nil
+	multiClasses = nil
+end
