@@ -11,6 +11,7 @@
 	<Script file="modules\keyBinding.lua"/>
 	<Script file="modules\loot.lua"/>
 	<Script file="modules\merchant.lua"/>
+	<Script file="modules\miscellaneous.lua"/>
 	<Script file="modules\readyCheck.lua"/>
 	<Script file="modules\slashCommand.lua"/>
 	<Script file="modules\trackingMenu.lua"/>
