@@ -115,14 +115,15 @@ ActionButton1:SetPoint("TOPLEFT", bar1Holder, 4.5, -4.5)
 for i = 1, 12 do
 	currentButton = _G["ActionButton"..i]
 	currentButton:SetParent(bar1Holder)
+	currentButton:SetSize(currentButton:GetWidth() + 5, currentButton:GetHeight() - 2.5)
 	currentButton:SetScale(0.68625)
 
 	if i > 1 and i ~= 7 then
 		currentButton:ClearAllPoints()
-		currentButton:SetPoint("LEFT", _G["ActionButton"..i-1], "RIGHT", caelLib.scale(5), 0)
+		currentButton:SetPoint("LEFT", _G["ActionButton"..i-1], "RIGHT", caelLib.scale(-1), 0)
 	elseif i == 7 then
 		currentButton:ClearAllPoints()
-		currentButton:SetPoint("TOPLEFT", _G["ActionButton"..i-6],"BOTTOMLEFT", 0, caelLib.scale(-6.5))
+		currentButton:SetPoint("TOPLEFT", _G["ActionButton"..i-6],"BOTTOMLEFT", 0, caelLib.scale(-1))
 	end
 end
 
@@ -139,14 +140,15 @@ BonusActionButton7:SetPoint("TOPLEFT", BonusActionButton1, "BOTTOMLEFT", 0, cael
 
 for i = 1, 12 do
 	currentButton = _G["BonusActionButton"..i]
+	currentButton:SetSize(currentButton:GetWidth() + 5, currentButton:GetHeight() - 2.5)
 	currentButton:SetScale(0.68625)
 
 	if i > 1 and i ~= 7 then
 		currentButton:ClearAllPoints()
-		currentButton:SetPoint("LEFT", _G["BonusActionButton"..i-1], "RIGHT", caelLib.scale(5), 0)
+		currentButton:SetPoint("LEFT", _G["BonusActionButton"..i-1], "RIGHT", caelLib.scale(-1), 0)
 	elseif i == 7 then
 		currentButton:ClearAllPoints()
-		currentButton:SetPoint("TOPLEFT", _G["BonusActionButton"..i-6],"BOTTOMLEFT", 0, caelLib.scale(-6.5))
+		currentButton:SetPoint("TOPLEFT", _G["BonusActionButton"..i-6],"BOTTOMLEFT", 0, caelLib.scale(-1))
 	end
 end
 
@@ -156,14 +158,15 @@ MultiBarBottomLeftButton1:SetPoint("TOPLEFT", bar2Holder, caelLib.scale(4.5), ca
 
 for i = 1, 12 do
 	currentButton = _G["MultiBarBottomLeftButton"..i]
+	currentButton:SetSize(currentButton:GetWidth() + 5, currentButton:GetHeight() - 2.5)
 	currentButton:SetScale(0.68625)
 
 	if i > 1 and i ~= 7 then
 		currentButton:ClearAllPoints()
-		currentButton:SetPoint("LEFT", _G["MultiBarBottomLeftButton"..i-1], "RIGHT", caelLib.scale(5), 0)
+		currentButton:SetPoint("LEFT", _G["MultiBarBottomLeftButton"..i-1], "RIGHT", caelLib.scale(-1), 0)
 	elseif i == 7 then
 		currentButton:ClearAllPoints()
-		currentButton:SetPoint("TOPLEFT", _G["MultiBarBottomLeftButton"..i-6], "BOTTOMLEFT", 0, caelLib.scale(-6.5))
+		currentButton:SetPoint("TOPLEFT", _G["MultiBarBottomLeftButton"..i-6], "BOTTOMLEFT", 0, caelLib.scale(-1))
 	end
 end
 
@@ -173,14 +176,15 @@ MultiBarBottomRightButton1:SetPoint("TOPLEFT", bar3Holder, caelLib.scale(4.5), c
 
 for i = 1, 12 do
 	currentButton = _G["MultiBarBottomRightButton"..i]
+	currentButton:SetSize(currentButton:GetWidth() + 5, currentButton:GetHeight() - 2.5)
 	currentButton:SetScale(0.68625)
 
 	if i > 1 and i ~= 7 then
 		currentButton:ClearAllPoints()
-		currentButton:SetPoint("LEFT", _G["MultiBarBottomRightButton"..i-1], "RIGHT", caelLib.scale(5), 0)
+		currentButton:SetPoint("LEFT", _G["MultiBarBottomRightButton"..i-1], "RIGHT", caelLib.scale(-1), 0)
 	elseif i == 7 then
 		currentButton:ClearAllPoints()
-		currentButton:SetPoint("TOPLEFT", _G["MultiBarBottomRightButton"..i-6], "BOTTOMLEFT", 0, caelLib.scale(-6.5))
+		currentButton:SetPoint("TOPLEFT", _G["MultiBarBottomRightButton"..i-6], "BOTTOMLEFT", 0, caelLib.scale(-1))
 	end
 end
 
@@ -190,14 +194,15 @@ MultiBarRightButton1:SetPoint("TOPLEFT", bar45Holder, caelLib.scale(4.5), caelLi
 
 for i = 1, 12 do
 	currentButton = _G["MultiBarRightButton"..i]
+	currentButton:SetSize(currentButton:GetWidth() + 5, currentButton:GetHeight() - 2.5)
 	currentButton:SetScale(0.68625)
 
 	if i > 1 and i ~= 7 then
 		currentButton:ClearAllPoints()
-		currentButton:SetPoint("LEFT", _G["MultiBarRightButton"..i-1], "RIGHT", caelLib.scale(5), 0)
+		currentButton:SetPoint("LEFT", _G["MultiBarRightButton"..i-1], "RIGHT", caelLib.scale(-1), 0)
 	elseif i == 7 then
 		currentButton:ClearAllPoints()
-		currentButton:SetPoint("TOPLEFT", _G["MultiBarRightButton"..i-6], "BOTTOMLEFT", 0, caelLib.scale(-6.5))
+		currentButton:SetPoint("TOPLEFT", _G["MultiBarRightButton"..i-6], "BOTTOMLEFT", 0, caelLib.scale(-1))
 	end
 end
 
