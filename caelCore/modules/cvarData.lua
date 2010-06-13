@@ -40,8 +40,6 @@ cvardata:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 cvardata:RegisterEvent("WORLD_MAP_UPDATE")
 cvardata:RegisterEvent("PLAYER_ENTERING_WORLD")
 cvardata:SetScript("OnEvent", function(self, event)
-	if not caelLib.isCharListB then return end
-
 	if event == "ZONE_CHANGED_NEW_AREA" or event == "WORLD_MAP_UPDATE" or event == "PLAYER_ENTERING_WORLD" then
 		local zone = GetRealZoneText()
 		if zone and zone ~= "" then
