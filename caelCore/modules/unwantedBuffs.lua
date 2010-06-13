@@ -1,4 +1,4 @@
---[[	$Id: miscellaneous.lua 1242 2010-06-13 18:20:14Z sdkyron@gmail.com $	]]
+--[[	$Id$	]]
 
 local _, caelCore = ...
 
