@@ -294,6 +294,7 @@ elseif playerClass == "PALADIN" then
 			show = "Auto Attack",
 			body = [=[/click [noexists][noharm][dead] gotMacros_T2
 				/click [combat, harm, nodead] gotMacros_CDsAll
+				/click [combat, harm, nodead] gotMacros_CDsPaladin
 				/click gotMacros_RetR]=],
 			blizzmacro = true,
 			perChar = true,
@@ -302,6 +303,7 @@ elseif playerClass == "PALADIN" then
 			show = "Auto Attack",
 			body = [=[/click [noexists][noharm][dead] gotMacros_T2
 				/click [combat, harm, nodead] gotMacros_CDsAll
+				/click [combat, harm, nodead] gotMacros_CDsPaladin
 				/click gotMacros_ProtR]=],
 			blizzmacro = true,
 			perChar = true,
@@ -313,6 +315,10 @@ elseif playerClass == "PALADIN" then
 		["ProtR"] = {
 			body = [=[/startattack [harm, nodead]
 				/castsequence [harm, nodead] reset=combat Holy Shield, Hammer of the Righteous, Judgement of Wisdom]=],
+		},
+		["CDsPaladin"] = {
+			body = [=[/cast Avenging Wrath]=],
+			nosound = true,
 		}
 	}
 end
