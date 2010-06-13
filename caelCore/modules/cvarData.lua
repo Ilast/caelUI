@@ -9,7 +9,7 @@ local cvardata = caelCore.cvardata
 local ZoneChange = function(zone)
 	local _, instanceType = IsInInstance()
 	if zone == "Dalaran" then
-		if select(2, UnitClass("player")) == "HUNTER" then SetTracking(nil) end
+		if caelLib.playerClass == "HUNTER" then SetTracking(nil) end
 		SetCVar("useWeatherShaders", "0")
 		SetCVar("weatherDensity", 0)
 		SetCVar("environmentDetail", 0.5)
