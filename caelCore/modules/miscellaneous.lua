@@ -17,4 +17,4 @@ miscellaneous:SetScript("OnEvent", function(self, event)
 	if UnitBuff("player", "Hand of Protection") then
 		CancelUnitBuff("player", "Hand of Protection")
 	end
-end
+end)
