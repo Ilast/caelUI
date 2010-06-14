@@ -8,7 +8,7 @@ local npcChannels = {
 	"CHAT_MSG_MONSTER_SAY",
 	"CHAT_MSG_MONSTER_YELL",
 	"CHAT_MSG_MONSTER_EMOTE",
-	}
+}
 
 local isNpcChat = function(self, event, ...)
 	local msg = ...
@@ -30,7 +30,7 @@ local filteredchannels = {
 	"CHAT_MSG_RAID_WARNING",
 	"CHAT_MSG_RAID_LEADER",
 	"CHAT_MSG_WHISPER",
-	}
+}
 
 local IsSpam = function(self, event, ...)
 	local msg = ...
@@ -59,7 +59,7 @@ local eventsNotice = {
 	"CHAT_MSG_CHANNEL_LEAVE",
 	"CHAT_MSG_CHANNEL_NOTICE",
 	"CHAT_MSG_CHANNEL_NOTICE_USER",
-	}
+}
 
 local SuppressNotices = function()
 	return true
@@ -77,6 +77,8 @@ local Spam = {
 	[3] = "encourageons à consulter le site http://eu.battle.net/security",
 	[4] = "pour de plus amples astuces et informations à ce sujet.",
 	[5] = "You have .+ the title '.atron Caellian'%.",
+	[6] = "^(%S+) has come online%.",
+	[7] = "^(%S+) has gone offline%.",
 }
 
 local SystemMessageFilter = function(self, event, ...)
