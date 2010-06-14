@@ -6,6 +6,7 @@ caelNameplates.eventFrame = CreateFrame("Frame", nil, UIParent)
 
 local barTexture = caelMedia.files.statusBarC
 local iconTexture = caelMedia.files.buttonNormal
+local raidIcons = caelMedia.files.raidIcons
 local overlayTexture = [=[Interface\Tooltips\Nameplate-Border]=]
 local font, fontSize, fontOutline = caelMedia.fonts.CAELNAMEPLATE_FONT, 8
 
@@ -79,14 +80,14 @@ local updatePlate = function(self)
 
 	self.healthBar:ClearAllPoints()
 	self.healthBar:SetPoint("CENTER", self.healthBar:GetParent())
-	self.healthBar:SetHeight(caelLib.scale(5))
+	self.healthBar:SetHeight(caelLib.scale(6))
 	self.healthBar:SetWidth(caelLib.scale(100))
 
 	self.healthBar.hpBackground:SetVertexColor(self.r * 0.33, self.g * 0.33, self.b * 0.33, 0.85)
 
 	self.castBar:ClearAllPoints()
 	self.castBar:SetPoint("TOP", self.healthBar, "BOTTOM", 0, caelLib.scale(-4))
-	self.castBar:SetHeight(caelLib.scale(5))
+	self.castBar:SetHeight(caelLib.scale(4))
 	self.castBar:SetWidth(caelLib.scale(100))
 
 	self.highlight:ClearAllPoints()
@@ -262,6 +263,7 @@ local createPlate = function(frame)
 	raidIconRegion:ClearAllPoints()
 	raidIconRegion:SetPoint("LEFT", healthBar, "RIGHT", caelLib.scale(2), 0)
 	raidIconRegion:SetSize(caelLib.scale(15), caelLib.scale(15))
+	raidIconRegion:SetTexture(raidIcons)	
 
 	frame.oldglow = glowRegion
 	frame.elite = stateIconRegion
