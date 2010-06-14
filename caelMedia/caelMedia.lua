@@ -8,6 +8,7 @@ caelMedia.DIRECTORY = [=[Interface\Addons\caelMedia]=]
 caelMedia.files = {
 	bgFile				= [=[Interface\ChatFrame\ChatFrameBackground]=],
 	edgeFile			= [=[Interface\Addons\caelMedia\borders\glowtex]=],
+	raidIcons			= [=[Interface\Addons\caelMedia\miscellaneous\raidicons]=],
 	statusBarA			= [=[Interface\Addons\caelMedia\statusbars\normtexa]=],
 	statusBarB			= [=[Interface\Addons\caelMedia\statusbars\normtexb]=],
 	statusBarC			= [=[Interface\Addons\caelMedia\statusbars\normtexc]=],
