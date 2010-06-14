@@ -8,8 +8,10 @@ local social = caelDataFeeds.social
 
 social.text:SetPoint("CENTER", caelPanel8, "CENTER", caelLib.scale(325), caelLib.scale(1))
 
+social:RegisterEvent("CHAT_MSG_SYSTEM")
 social:RegisterEvent("FRIENDLIST_UPDATE")
 social:RegisterEvent("GUILD_ROSTER_UPDATE")
+social:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 local numGuildMembers = 0
 local numOnlineGuildMembers = 0
@@ -23,8 +25,6 @@ social:SetScript("OnUpdate", function(self, elapsed)
 	if delay < 0 then
 		if IsInGuild("player") then
 			GuildRoster()
---		else
---			self:SetScript("OnUpdate", nil)
 		end
 		delay = 15
 	end
@@ -116,9 +116,15 @@ social:SetScript("OnMouseDown", function(self, button)
 	end
 end)
 
-local Text
-social:SetScript("OnEvent", function(self, event)
-	if event == "GUILD_ROSTER_UPDATE" then
+social:SetScript("OnEvent", function(self, event, ...)
+	local msg = ...
+	local text, logInOutMsg
+
+	if event == "CHAT_MSG_SYSTEM" and msg and (msg:match("^(%S+) has come online%.") or msg:match("^(%S+) has gone offline%.")) then
+		logInOutMsg = true
+	end
+
+	if event == "GUILD_ROSTER_UPDATE" or logInOutMsg then
 		if IsInGuild("player") then
 			numOnlineGuildMembers = 0
 			numGuildMembers = GetNumGuildMembers()
@@ -129,13 +135,13 @@ social:SetScript("OnEvent", function(self, event)
 				end
 			end
 			numOnlineGuildMembers = numOnlineGuildMembers - 1
---		else
---			self:SetScript("OnUpdate", nil)
 		end
-	elseif event == "FRIENDLIST_UPDATE" then
+	end
+
+	if event == "PLAYER_ENTERING_WORLD" or event == "FRIENDLIST_UPDATE" or logInOutMsg then
 		numOnlineFriends = 0
 		numFriends = GetNumFriends()
-		
+
 		if numFriends > 0 then
 			for i = 1, numFriends do
 				local friendIsOnline = select(5, GetFriendInfo(i))
@@ -147,16 +153,16 @@ social:SetScript("OnEvent", function(self, event)
 	end
 
 	if numOnlineGuildMembers > 0 then
-		Text = string.format("%s %d", numOnlineFriends > 0 and "|cffD7BEA5G|r" or "|cffD7BEA5Guild|r", numOnlineGuildMembers)
+		text = string.format("%s %d", numOnlineFriends > 0 and "|cffD7BEA5G|r" or "|cffD7BEA5Guild|r", numOnlineGuildMembers)
 	end
 
 	if numOnlineFriends > 0 then
-		Text = string.format("%s %s %d", (numOnlineGuildMembers > 0) and Text or "", numOnlineGuildMembers > 0 and "- |cffD7BEA5F|r" or (numOnlineFriends > 1 and "|cffD7BEA5Friends|r" or "|cffD7BEA5Friend|r"), numOnlineFriends)
+		text = string.format("%s %s %d", (numOnlineGuildMembers > 0) and text or "", numOnlineGuildMembers > 0 and "- |cffD7BEA5F|r" or (numOnlineFriends > 1 and "|cffD7BEA5Friends|r" or "|cffD7BEA5Friend|r"), numOnlineFriends)
 	end
 
 	if numOnlineGuildMembers == 0 and numOnlineFriends == 0 then
-		Text = ""
+		text = ""
 	end
 
-	self.text:SetText(Text)
+	self.text:SetText(text)
 end)
