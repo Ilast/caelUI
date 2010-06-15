@@ -901,8 +901,8 @@ local SetStyle = function(self, unit)
 			end
 
 			self.IconOverlay = self.Castbar:CreateTexture(nil, "OVERLAY")
-			self.IconOverlay:SetPoint("TOPLEFT", self.Castbar.Icon, caelLib.scale(-1), caelLib.scale(1))
-			self.IconOverlay:SetPoint("BOTTOMRIGHT", self.Castbar.Icon, caelLib.scale(1), caelLib.scale(-1))
+			self.IconOverlay:SetPoint("TOPLEFT", self.Castbar.Icon, caelLib.scale(-1.5), caelLib.scale(1.5))
+			self.IconOverlay:SetPoint("BOTTOMRIGHT", self.Castbar.Icon, caelLib.scale(1.5), caelLib.scale(-1.5))
 			self.IconOverlay:SetTexture(buttonTex)
 			self.IconOverlay:SetVertexColor(0.84, 0.75, 0.65)
 
