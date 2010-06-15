@@ -12,7 +12,7 @@ local font, fontSize, fontOutline = caelMedia.fonts.CAELNAMEPLATE_FONT, 8
 
 local select = select
 
-local isValidFrame = function(frame)
+local IsValidFrame = function(frame)
 	if frame:GetName() then
 		return
 	end
@@ -22,7 +22,7 @@ local isValidFrame = function(frame)
 	return overlayRegion and overlayRegion:GetObjectType() == "Texture" and overlayRegion:GetTexture() == overlayTexture
 end
 
-local updateTime = function(self, curValue)
+local UpdateTime = function(self, curValue)
 	local minValue, maxValue = self:GetMinMaxValues()
 	if self.channeling then
 		self.time:SetFormattedText("%.1f ", curValue)
@@ -31,7 +31,7 @@ local updateTime = function(self, curValue)
 	end
 end
 
-local threatUpdate = function(self, elapsed)
+local ThreatUpdate = function(self, elapsed)
 	self.elapsed = self.elapsed + elapsed
 	if self.elapsed >= 0.2 then
 		if not self.oldglow:IsShown() then
@@ -43,7 +43,6 @@ local threatUpdate = function(self, elapsed)
 			else
 				self.healthBar.hpGlow:SetBackdropBorderColor(1, 1, 0)
 			end
---			self.healthBar.hpGlow:SetBackdropBorderColor(self.oldglow:GetVertexColor())
 		end
 
 		self.healthBar:SetStatusBarColor(self.r, self.g, self.b)
@@ -52,7 +51,7 @@ local threatUpdate = function(self, elapsed)
 	end
 end
 
-local updatePlate = function(self)
+local UpdatePlate = function(self)
 	local r, g, b = self.healthBar:GetStatusBarColor()
 	local newr, newg, newb
 	if g + b == 0 then
@@ -80,14 +79,15 @@ local updatePlate = function(self)
 
 	self.healthBar:ClearAllPoints()
 	self.healthBar:SetPoint("CENTER", self.healthBar:GetParent())
-	self.healthBar:SetHeight(caelLib.scale(6))
+	self.healthBar:SetHeight(caelLib.scale(8))
 	self.healthBar:SetWidth(caelLib.scale(100))
 
-	self.healthBar.hpBackground:SetVertexColor(self.r * 0.33, self.g * 0.33, self.b * 0.33, 0.85)
+	self.healthBar.hpBackground:SetVertexColor(self.r * 0.33, self.g * 0.33, self.b * 0.33, 0.75)
+	self.castBar.IconOverlay:SetVertexColor(self.r, self.g, self.b)
 
 	self.castBar:ClearAllPoints()
 	self.castBar:SetPoint("TOP", self.healthBar, "BOTTOM", 0, caelLib.scale(-4))
-	self.castBar:SetHeight(caelLib.scale(4))
+	self.castBar:SetHeight(caelLib.scale(5))
 	self.castBar:SetWidth(caelLib.scale(100))
 
 	self.highlight:ClearAllPoints()
@@ -112,7 +112,7 @@ local updatePlate = function(self)
 	end
 end
 
-local fixCastbar = function(self)
+local FixCastbar = function(self)
 	self.castbarOverlay:Hide()
 
 	self:SetHeight(caelLib.scale(5))
@@ -120,49 +120,52 @@ local fixCastbar = function(self)
 	self:SetPoint("TOP", self.healthBar, "BOTTOM", 0, caelLib.scale(-4))
 end
 
-local colorCastBar = function(self, shielded)
+local ColorCastBar = function(self, shielded)
 	if shielded then
 		self:SetStatusBarColor(0.8, 0.05, 0)
 		self.cbGlow:SetBackdropBorderColor(0.75, 0.75, 0.75)
-		self.icGlow:SetBackdropBorderColor(0.75, 0.75, 0.75, 0.7)
 	else
 		self.cbGlow:SetBackdropBorderColor(0, 0, 0)
-		self.icGlow:SetBackdropBorderColor(0, 0, 0, 0.85)
 	end
 end
 
-local onSizeChanged = function(self)
+local OnSizeChanged = function(self)
 	self.needFix = true
 end
 
-local onValueChanged = function(self, curValue)
-	updateTime(self, curValue)
+local OnValueChanged = function(self, curValue)
+	UpdateTime(self, curValue)
 	if self.needFix then
-		fixCastbar(self)
+		FixCastbar(self)
 		self.needFix = nil
 	end
 end
 
-local onShow = function(self)
+local OnShow = function(self)
 	self.channeling  = UnitChannelInfo("target")
-	fixCastbar(self)
-	colorCastBar(self, self.shieldedRegion:IsShown())
+	FixCastbar(self)
+	ColorCastBar(self, self.shieldedRegion:IsShown())
+	self.IconOverlay:Show()
 end
 
-local onHide = function(self)
+local OnHide = function(self)
 	self.highlight:Hide()
 	self.healthBar.hpGlow:SetBackdropBorderColor(0, 0, 0)
 end
 
-local onEvent = function(self, event, unit)
+local CastbarOnHide = function(self)
+	self.IconOverlay:Hide()	
+end
+
+local OnEvent = function(self, event, unit)
 	if unit == "target" then
 		if self:IsShown() then
-			colorCastBar(self, event == "UNIT_SPELLCAST_NOT_INTERRUPTIBLE")
+			ColorCastBar(self, event == "UNIT_SPELLCAST_NOT_INTERRUPTIBLE")
 		end
 	end
 end
 
-local createPlate = function(frame)
+local CreatePlate = function(frame)
 	if frame.done then
 		return
 	end
@@ -190,16 +193,15 @@ local createPlate = function(frame)
 	healthBar:SetStatusBarTexture(barTexture)
 
 	healthBar.hpBackground = healthBar:CreateTexture(nil, "BACKGROUND")
-	healthBar.hpBackground:SetPoint("TOPLEFT", caelLib.scale(-1), caelLib.scale(1))
-	healthBar.hpBackground:SetPoint("BOTTOMRIGHT", caelLib.scale(1), caelLib.scale(-1))
+	healthBar.hpBackground:SetAllPoints()
 	healthBar.hpBackground:SetTexture(barTexture)
 
 	healthBar.hpGlow = CreateFrame("Frame", nil, healthBar)
 	healthBar.hpGlow:SetFrameLevel(healthBar:GetFrameLevel() -1 > 0 and healthBar:GetFrameLevel() -1 or 0)
-	healthBar.hpGlow:SetPoint("TOPLEFT", healthBar, "TOPLEFT", caelLib.scale(-3), caelLib.scale(3))
-	healthBar.hpGlow:SetPoint("BOTTOMRIGHT", healthBar, "BOTTOMRIGHT", caelLib.scale(3), caelLib.scale(-3))
+	healthBar.hpGlow:SetPoint("TOPLEFT", healthBar, "TOPLEFT", caelLib.scale(-2), caelLib.scale(2))
+	healthBar.hpGlow:SetPoint("BOTTOMRIGHT", healthBar, "BOTTOMRIGHT", caelLib.scale(2), caelLib.scale(-2))
 	healthBar.hpGlow:SetBackdrop(caelMedia.backdropTable)
-	healthBar.hpGlow:SetBackdropColor(0.25, 0.25, 0.25, 0)
+	healthBar.hpGlow:SetBackdropColor(0, 0, 0, 0)
 	healthBar.hpGlow:SetBackdropBorderColor(0, 0, 0)
 
 	castBar.castbarOverlay = castbarOverlay
@@ -207,10 +209,11 @@ local createPlate = function(frame)
 	castBar.shieldedRegion = shieldedRegion
 	castBar:SetStatusBarTexture(barTexture)
 
-	castBar:HookScript("OnShow", onShow)
-	castBar:HookScript("OnSizeChanged", onSizeChanged)
-	castBar:HookScript("OnValueChanged", onValueChanged)
-	castBar:HookScript("OnEvent", onEvent)
+	castBar:HookScript("OnShow", OnShow)
+	castBar:HookScript("OnHide", CastbarOnHide)
+	castBar:HookScript("OnSizeChanged", OnSizeChanged)
+	castBar:HookScript("OnValueChanged", OnValueChanged)
+	castBar:HookScript("OnEvent", OnEvent)
 	castBar:RegisterEvent("UNIT_SPELLCAST_INTERRUPTIBLE")
 	castBar:RegisterEvent("UNIT_SPELLCAST_NOT_INTERRUPTIBLE")
 
@@ -221,17 +224,16 @@ local createPlate = function(frame)
 	castBar.time:SetShadowOffset(1.25, -1.25)
 
 	castBar.cbBackground = castBar:CreateTexture(nil, "BACKGROUND")
-	castBar.cbBackground:SetPoint("TOPLEFT", caelLib.scale(-1), caelLib.scale(1))
-	castBar.cbBackground:SetPoint("BOTTOMRIGHT", caelLib.scale(1), caelLib.scale(-1))
+	castBar.cbBackground:SetAllPoints()
 	castBar.cbBackground:SetTexture(barTexture)
-	castBar.cbBackground:SetVertexColor(0.15, 0.15, 0.15, 0.85)
+	castBar.cbBackground:SetVertexColor(0.25, 0.25, 0.25, 0.75)
 
 	castBar.cbGlow = CreateFrame("Frame", nil, castBar)
 	castBar.cbGlow:SetFrameLevel(castBar:GetFrameLevel() -1 > 0 and castBar:GetFrameLevel() -1 or 0)
-	castBar.cbGlow:SetPoint("TOPLEFT", castBar, "TOPLEFT", caelLib.scale(-3), caelLib.scale(3))
-	castBar.cbGlow:SetPoint("BOTTOMRIGHT", castBar, "BOTTOMRIGHT", caelLib.scale(3), caelLib.scale(-3))
+	castBar.cbGlow:SetPoint("TOPLEFT", castBar, caelLib.scale(-2), caelLib.scale(2))
+	castBar.cbGlow:SetPoint("BOTTOMRIGHT", castBar, caelLib.scale(2), caelLib.scale(-2))
 	castBar.cbGlow:SetBackdrop(caelMedia.backdropTable)
-	castBar.cbGlow:SetBackdropColor(0.25, 0.25, 0.25, 0)
+	castBar.cbGlow:SetBackdropColor(0, 0, 0, 0)
 	castBar.cbGlow:SetBackdropBorderColor(0, 0, 0)
 
 	castBar.Holder = CreateFrame("Frame", nil, castBar)
@@ -240,35 +242,26 @@ local createPlate = function(frame)
 
 	spellIconRegion:ClearAllPoints()
 	spellIconRegion:SetParent(castBar.Holder)
-	spellIconRegion:SetPoint("BOTTOMLEFT", castBar, "BOTTOMRIGHT", 5, 0.25)
+	spellIconRegion:SetPoint("LEFT", castBar, caelLib.scale(8), 0)
 	spellIconRegion:SetSize(caelLib.scale(15), caelLib.scale(15))
 
-	spellIconRegion.IconOverlay = castBar.Holder:CreateTexture(nil, "OVERLAY")
-	spellIconRegion.IconOverlay:SetPoint("TOPLEFT", spellIconRegion, "TOPLEFT", caelLib.scale(-1.5), caelLib.scale(1.5))
-	spellIconRegion.IconOverlay:SetPoint("BOTTOMRIGHT", spellIconRegion, "BOTTOMRIGHT", caelLib.scale(1.5), caelLib.scale(-1.5))
-	spellIconRegion.IconOverlay:SetTexture(iconTexture)
-	spellIconRegion.IconOverlay:SetVertexColor(0.25, 0.25, 0.25)
-
-	spellIconRegion.IconBackdrop = CreateFrame("Frame", nil, castBar.Holder)
-	spellIconRegion.IconBackdrop:SetPoint("TOPLEFT", spellIconRegion, "TOPLEFT", caelLib.scale(-3), caelLib.scale(3))
-	spellIconRegion.IconBackdrop:SetPoint("BOTTOMRIGHT", spellIconRegion, "BOTTOMRIGHT", caelLib.scale(3), caelLib.scale(-3))
-	spellIconRegion.IconBackdrop:SetBackdrop(caelMedia.backdropTable)
-	spellIconRegion.IconBackdrop:SetBackdropColor(0, 0, 0, 0)
-	spellIconRegion.IconBackdrop:SetBackdropBorderColor(0, 0, 0)
+	castBar.IconOverlay = castBar.Holder:CreateTexture(nil, "OVERLAY")
+	castBar.IconOverlay:SetPoint("TOPLEFT", spellIconRegion, caelLib.scale(-1.5), caelLib.scale(1.5))
+	castBar.IconOverlay:SetPoint("BOTTOMRIGHT", spellIconRegion, caelLib.scale(1.5), caelLib.scale(-1.5))
+	castBar.IconOverlay:SetTexture(iconTexture)
 
 	highlightRegion:SetTexture(barTexture)
 	highlightRegion:SetVertexColor(0.25, 0.25, 0.25)
 	frame.highlight = highlightRegion
 
 	raidIconRegion:ClearAllPoints()
-	raidIconRegion:SetPoint("LEFT", healthBar, "RIGHT", caelLib.scale(2), 0)
+	raidIconRegion:SetPoint("RIGHT", healthBar, caelLib.scale(-8), 0)
 	raidIconRegion:SetSize(caelLib.scale(15), caelLib.scale(15))
 	raidIconRegion:SetTexture(raidIcons)	
 
 	frame.oldglow = glowRegion
 	frame.elite = stateIconRegion
 	frame.boss = bossIconRegion
-	castBar.icGlow = spellIconRegion.IconBackdrop
 
 	frame.done = true
 
@@ -279,12 +272,12 @@ local createPlate = function(frame)
 	stateIconRegion:SetTexture(nil)
 	bossIconRegion:SetTexture(nil)
 
-	updatePlate(frame)
-	frame:SetScript("OnShow", updatePlate)
-	frame:SetScript("OnHide", onHide)
+	UpdatePlate(frame)
+	frame:SetScript("OnShow", UpdatePlate)
+	frame:SetScript("OnHide", OnHide)
 
 	frame.elapsed = 0
-	frame:SetScript("OnUpdate", threatUpdate)
+	frame:SetScript("OnUpdate", ThreatUpdate)
 end
 
 local numKids = 0
@@ -300,8 +293,8 @@ caelNameplates.eventFrame:SetScript("OnUpdate", function(self, elapsed)
 			for i = numKids + 1, newNumKids do
 				local frame = select(i, WorldFrame:GetChildren())
 
-				if isValidFrame(frame) then
-					createPlate(frame)
+				if IsValidFrame(frame) then
+					CreatePlate(frame)
 				end
 			end
 			numKids = newNumKids
