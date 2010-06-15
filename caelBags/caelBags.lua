@@ -129,7 +129,7 @@ end
 local bags = Container:New("bag", numBagColumns)
 bags:SetPoint("BOTTOMRIGHT", UIParent, "RIGHT", caelLib.scale(-15), 0)
 bags:SetBackdropColor(0, 0, 0, 0.7)
-bags:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
+bags:SetBackdropBorderColor(0, 0, 0)
 bags.preventCloseAll = true
 bags.hasButtons = true
 caelBags.bags = bags
@@ -137,21 +137,21 @@ caelBags.bags = bags
 local ammo = Container:New("ammo", numBagColumns)
 ammo:SetPoint("BOTTOM", bags, "TOP", 0, caelLib.scale(5))
 ammo:SetBackdropColor(0, 0, 0, 0.7)
-ammo:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
+ammo:SetBackdropBorderColor(0, 0, 0)
 ammo.preventCloseAll = true
 caelBags.ammo = ammo
 
 local bank = Container:New("bank", numBankColumns)
 bank:SetPoint("BOTTOMRIGHT", bags, "BOTTOMLEFT", 0, 0)
 bank:SetBackdropColor(0, 0, 0, 0.7)
-bank:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
+bank:SetBackdropBorderColor(0, 0, 0)
 bank.hasButtons = true
 caelBags.bank = bank
 
 local keys = Container:New("keys", numBagColumns)
 keys:SetPoint("BOTTOMRIGHT", bags, "BOTTOMLEFT", 0, 0)
 keys:SetBackdropColor(0, 0, 0, 0.7)
-keys:SetBackdropBorderColor(0.25, 0.25, 0.25, 1)
+keys:SetBackdropBorderColor(0, 0, 0)
 keys.preventCloseAll = true
 caelBags.keys = keys
 
