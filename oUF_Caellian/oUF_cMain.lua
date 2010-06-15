@@ -7,6 +7,7 @@ local floor, format, insert, sort = math.floor, string.format, table.insert, tab
 
 local normtex = caelMedia.files.statusBarC
 local buttonTex = caelMedia.files.buttonNormal
+local raidIcons = caelMedia.files.raidIcons
 local bubbleTex = mediaPath..[=[miscellaneous\bubbletex]=]
 local shaderTex = mediaPath..[=[miscellaneous\smallshadertex]=]
 local highlightTex = mediaPath..[=[miscellaneous\highlighttex]=]
@@ -987,6 +988,7 @@ local SetStyle = function(self, unit)
 	end
 
 	self.RaidIcon = self.Health:CreateTexture(nil, "OVERLAY")
+	self.RaidIcon:SetTexture(raidIcons)
 	self.RaidIcon:SetSize((self:GetParent():GetName():match("oUF_Raid")) and caelLib.scale(10) or caelLib.scale(14), (self:GetParent():GetName():match("oUF_Raid")) and caelLib.scale(10) or caelLib.scale(14))
 	if self:GetParent():GetName():match("oUF_Raid") then
 		self.RaidIcon:SetPoint("BOTTOMLEFT", caelLib.scale(1), caelLib.scale(2))
