@@ -229,12 +229,7 @@ healthBar.border = CreateFrame("Frame", nil, healthBar)
 healthBar.border:SetPoint("TOPLEFT", caelLib.scale(-3), caelLib.scale(3))
 healthBar.border:SetPoint("BOTTOMRIGHT", caelLib.scale(3), caelLib.scale(-3))
 healthBar.border:SetFrameStrata("BACKGROUND")
-healthBar.border:SetBackdrop {
-	bgFile = nil,
-	edgeFile = caelMedia.files.edgeFile,
-	edgeSize = caelLib.scale(2),
-	insets = {left = caelLib.scale(3), right = caelLib.scale(3), top = caelLib.scale(3), bottom = caelLib.scale(3)},
-}
+healthBar.border:SetBackdrop(caelMedia.backdropTable)
 healthBar.border:SetBackdropColor(0.25, 0.25, 0.25, 0)
 healthBar.border:SetBackdropBorderColor(0, 0, 0)
 
@@ -289,12 +284,7 @@ caelTooltips:SetScript("OnEvent", function(self)
 	for _, v in ipairs(Tooltips) do
 		v:HookScript("OnShow", SetStyle)
 
-		v:SetBackdrop {
-			bgFile = caelMedia.files.bgFile,
-			edgeFile = caelMedia.files.edgeFile,
-			edgeSize = caelLib.scale(2),
-			insets = {left = caelLib.scale(4), right = caelLib.scale(4), top = caelLib.scale(4), bottom = caelLib.scale(4)},
-		}
+		v:SetBackdrop(caelMedia.backdropTable)
 	end
 
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
