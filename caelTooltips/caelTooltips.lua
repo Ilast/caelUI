@@ -109,17 +109,7 @@ GameTooltip:HookScript("OnTooltipSetItem", function(self)
 		end
 	end
 end)
---[[
-GameTooltipStatusBar:SetScript("OnValueChanged", function(self, value)
-	if not value then return end
 
-	local _, unit  = GameTooltip:GetUnit()
-	if unit then
-		local r, g, b = GameTooltip_UnitColor(unit)
-		GameTooltipStatusBar:SetStatusBarColor(r, g, b)
-	end
-end)
---]]
 GameTooltip:HookScript("OnTooltipSetUnit", function(self)
 	local lines = self:NumLines()
 	local _, unit = self:GetUnit()
@@ -231,7 +221,6 @@ healthBar.border:SetPoint("BOTTOMRIGHT", caelLib.scale(3), caelLib.scale(-3))
 healthBar.border:SetFrameStrata("BACKGROUND")
 healthBar.border:SetBackdrop(caelMedia.backdropTable)
 healthBar.border:SetBackdropColor(0.25, 0.25, 0.25, 0)
-healthBar.border:SetBackdropBorderColor(0, 0, 0)
 
 healthBar.bg = healthBar:CreateTexture(nil, "BORDER")
 healthBar.bg:SetAllPoints()
@@ -253,6 +242,7 @@ local BorderColor = function(self)
 			self:SetBackdropBorderColor(r, g, b, borderAlpha)
 		else
 			self:SetBackdropBorderColor(0, 0, 0)
+			healthBar.border:SetBackdropBorderColor(0, 0, 0)
 		end
 	end
 	self:SetBackdropColor(0, 0, 0, GetMouseFocus() == WorldFrame and 0.33 or 0.66)
