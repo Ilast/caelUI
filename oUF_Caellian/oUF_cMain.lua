@@ -409,8 +409,8 @@ end
 
 local CreateAura = function(self, button, icons)
 	button.backdrop = CreateFrame("Frame", nil, button)
-	button.backdrop:SetPoint("TOPLEFT", button, caelLib.scale(-3.5), caelLib.scale(3))
-	button.backdrop:SetPoint("BOTTOMRIGHT", button, caelLib.scale(4), caelLib.scale(-3.5))
+	button.backdrop:SetPoint("TOPLEFT", button, caelLib.scale(-3), caelLib.scale(3))
+	button.backdrop:SetPoint("BOTTOMRIGHT", button, caelLib.scale(3), caelLib.scale(-3))
 	button.backdrop:SetFrameStrata("BACKGROUND")
 	button.backdrop:SetBackdrop(caelMedia.borderTable)
 	button.backdrop:SetBackdropColor(0, 0, 0, 0)
@@ -470,7 +470,7 @@ local UpdateAura = function(self, icons, unit, icon, index)
 				icon.icon:SetDesaturated(true)
 			end
 		end
-		icon.overlay:SetVertexColor(0.25, 0.25, 0.25)
+		icon.overlay:SetVertexColor(0.84, 0.75, 0.65)
 	end
 
 	if duration and duration > 0 then
@@ -547,16 +547,16 @@ local SetStyle = function(self, unit)
 	self:HookScript("OnShow", updateAllElements)
 
 	self.FrameBackdrop = CreateFrame("Frame", nil, self)
-	self.FrameBackdrop:SetPoint("TOPLEFT", self, caelLib.scale(-4), caelLib.scale(4))
+	self.FrameBackdrop:SetPoint("TOPLEFT", self, caelLib.scale(-3), caelLib.scale(3))
 	self.FrameBackdrop:SetFrameStrata("BACKGROUND")
 	self.FrameBackdrop:SetBackdrop(caelMedia.backdropTable)
 	self.FrameBackdrop:SetBackdropColor(0.25, 0.25, 0.25, 0)
 	self.FrameBackdrop:SetBackdropBorderColor(0, 0, 0)
 
 	if unit == "player" and playerClass == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and unit == "player" and playerClass == "SHAMAN" then
-		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, caelLib.scale(4), caelLib.scale(-12))
+		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, caelLib.scale(3), caelLib.scale(-11))
 	else
-		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, caelLib.scale(4), caelLib.scale(-4))
+		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, caelLib.scale(3), caelLib.scale(-3))
 	end
 
 	self.Health = CreateFrame("StatusBar", self:GetName().."_Health", self)
@@ -798,10 +798,6 @@ local SetStyle = function(self, unit)
 			self.Portrait = CreateFrame("PlayerModel", nil, self)
 			self.Portrait:SetPoint("TOPLEFT", self, 0, caelLib.scale(-23))
 			self.Portrait:SetPoint("BOTTOMRIGHT", self, 0, caelLib.scale(8))
---			self.Portrait:SetBackdrop {
---				bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
---			}
---			self.Portrait:SetBackdropColor(0.15, 0.15, 0.15, 0.5)
 
 			insert(self.__elements, HidePortrait)
 	
@@ -908,11 +904,11 @@ local SetStyle = function(self, unit)
 			self.IconOverlay:SetPoint("TOPLEFT", self.Castbar.Icon, caelLib.scale(-1), caelLib.scale(1))
 			self.IconOverlay:SetPoint("BOTTOMRIGHT", self.Castbar.Icon, caelLib.scale(1), caelLib.scale(-1))
 			self.IconOverlay:SetTexture(buttonTex)
-			self.IconOverlay:SetVertexColor(0.25, 0.25, 0.25)
+			self.IconOverlay:SetVertexColor(0.84, 0.75, 0.65)
 
 			self.IconBackdrop = CreateFrame("Frame", nil, self.Castbar)
-			self.IconBackdrop:SetPoint("TOPLEFT", self.Castbar.Icon, caelLib.scale(-4), caelLib.scale(3))
-			self.IconBackdrop:SetPoint("BOTTOMRIGHT", self.Castbar.Icon, caelLib.scale(4), caelLib.scale(-3.5))
+			self.IconBackdrop:SetPoint("TOPLEFT", self.Castbar.Icon, caelLib.scale(-3), caelLib.scale(3))
+			self.IconBackdrop:SetPoint("BOTTOMRIGHT", self.Castbar.Icon, caelLib.scale(3), caelLib.scale(-3))
 			self.IconBackdrop:SetBackdrop(caelMedia.borderTable)
 			self.IconBackdrop:SetBackdropColor(0, 0, 0, 0)
 			self.IconBackdrop:SetBackdropBorderColor(0, 0, 0, 0.7)
