@@ -153,10 +153,6 @@ local OnHide = function(self)
 	self.healthBar.hpGlow:SetBackdropBorderColor(0, 0, 0)
 end
 
-local CastbarOnHide = function(self)
-	self.IconOverlay:Hide()	
-end
-
 local OnEvent = function(self, event, unit)
 	if unit == "target" then
 		if self:IsShown() then
@@ -210,7 +206,6 @@ local CreatePlate = function(frame)
 	castBar:SetStatusBarTexture(barTexture)
 
 	castBar:HookScript("OnShow", OnShow)
-	castBar:HookScript("OnHide", CastbarOnHide)
 	castBar:HookScript("OnSizeChanged", OnSizeChanged)
 	castBar:HookScript("OnValueChanged", OnValueChanged)
 	castBar:HookScript("OnEvent", OnEvent)
@@ -236,16 +231,20 @@ local CreatePlate = function(frame)
 	castBar.cbGlow:SetBackdropColor(0, 0, 0, 0)
 	castBar.cbGlow:SetBackdropBorderColor(0, 0, 0)
 
-	castBar.Holder = CreateFrame("Frame", nil, castBar)
-	castBar.Holder:SetFrameLevel(castBar.Holder:GetFrameLevel() + 1)
-	castBar.Holder:SetAllPoints()
+	castBar.HolderA = CreateFrame("Frame", nil, castBar)
+	castBar.HolderA:SetFrameLevel(castBar.HolderA:GetFrameLevel() + 1)
+	castBar.HolderA:SetAllPoints()
 
 	spellIconRegion:ClearAllPoints()
-	spellIconRegion:SetParent(castBar.Holder)
+	spellIconRegion:SetParent(castBar.HolderA)
 	spellIconRegion:SetPoint("LEFT", castBar, caelLib.scale(8), 0)
 	spellIconRegion:SetSize(caelLib.scale(15), caelLib.scale(15))
 
-	castBar.IconOverlay = castBar.Holder:CreateTexture(nil, "OVERLAY")
+	castBar.HolderB = CreateFrame("Frame", nil, castBar)
+	castBar.HolderB:SetFrameLevel(castBar.HolderA:GetFrameLevel() + 2)
+	castBar.HolderB:SetAllPoints()
+
+	castBar.IconOverlay = castBar.HolderB:CreateTexture(nil, "OVERLAY")
 	castBar.IconOverlay:SetPoint("TOPLEFT", spellIconRegion, caelLib.scale(-1.5), caelLib.scale(1.5))
 	castBar.IconOverlay:SetPoint("BOTTOMRIGHT", spellIconRegion, caelLib.scale(1.5), caelLib.scale(-1.5))
 	castBar.IconOverlay:SetTexture(iconTexture)
