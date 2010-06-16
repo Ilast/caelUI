@@ -565,6 +565,7 @@ local SetStyle = function(self, unit)
 	self.Health:SetPoint("TOPRIGHT")
 	self.Health:SetStatusBarTexture(normtex)
 	self.Health:GetStatusBarTexture():SetHorizTile(false)
+	self.Health:SetAlpha(0.75)
 
 	self.Health.colorTapping = true
 	self.Health.colorDisconnected = true
@@ -577,7 +578,6 @@ local SetStyle = function(self, unit)
 	self.Health.bg:SetAllPoints()
 	self.Health.bg:SetTexture(normtex)
 	self.Health.bg.multiplier = 0.33
-	self.Health.bg:SetAlpha(0.85)
 
 	self.Health.value = SetFontString(self.Health, font,(unit == "player" or unit == "target") and 11 or 9)
 	if self:GetParent():GetName():match("oUF_Raid") then
@@ -607,6 +607,7 @@ local SetStyle = function(self, unit)
 		self.Power:SetPoint("BOTTOMRIGHT")
 		self.Power:SetStatusBarTexture(normtex)
 		self.Power:GetStatusBarTexture():SetHorizTile(false)
+		self.Power:SetAlpha(0.75)
 
 		self.Power.colorTapping = true
 		self.Power.colorDisconnected = true
@@ -621,7 +622,6 @@ local SetStyle = function(self, unit)
 		self.Power.bg:SetAllPoints()
 		self.Power.bg:SetTexture(normtex)
 		self.Power.bg.multiplier = 0.33
-		self.Power.bg:SetAlpha(0.85)
 
 		self.Power.value = SetFontString(self.Health, font, (unit == "player" or unit == "target") and caelLib.scale(11) or caelLib.scale(9))
 		self.Power.value:SetPoint("LEFT", caelLib.scale(1), caelLib.scale(1))
