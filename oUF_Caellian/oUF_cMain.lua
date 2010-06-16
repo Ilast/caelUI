@@ -985,7 +985,7 @@ local SetStyle = function(self, unit)
 
 	self.RaidIcon = self.Health:CreateTexture(nil, "OVERLAY")
 	self.RaidIcon:SetTexture(raidIcons)
-	self.RaidIcon:SetSize((self:GetParent():GetName():match("oUF_Raid")) and caelLib.scale(10) or caelLib.scale(14), (self:GetParent():GetName():match("oUF_Raid")) and caelLib.scale(10) or caelLib.scale(14))
+	self.RaidIcon:SetSize((self:GetParent():GetName():match("oUF_Raid")) and caelLib.scale(14) or caelLib.scale(18), (self:GetParent():GetName():match("oUF_Raid")) and caelLib.scale(14) or caelLib.scale(18))
 	if self:GetParent():GetName():match("oUF_Raid") then
 		self.RaidIcon:SetPoint("BOTTOMLEFT", caelLib.scale(1), caelLib.scale(2))
 	else
