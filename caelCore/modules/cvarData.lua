@@ -74,7 +74,7 @@ cvardata:HookScript("OnEvent", function(self, event)
 			WorldFrame:ClearAllPoints()
 			WorldFrame:SetHeight(GetScreenHeight() * caelLib.scales[screenWidth][screenHeight])
 			WorldFrame:SetWidth(GetScreenWidth() * caelLib.scales[screenWidth][screenHeight])
-			WorldFrame:SetPoint("BOTTOM", UIParent, "BOTTOM")
+			WorldFrame:SetPoint("BOTTOM", UIParent)
 		else
 			SetCVar("useUiScale", 0)
 			print("Your resolution is not supported, UI Scale has been disabled.")
