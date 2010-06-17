@@ -15,7 +15,7 @@ shadowedge:SetFrameStrata("BACKGROUND")
 shadowedge.tex = shadowedge:CreateTexture()
 shadowedge.tex:SetTexture([=[Interface\Addons\caelMedia\Miscellaneous\largeshadertex1]=])
 shadowedge.tex:SetAllPoints()
-shadowedge.tex:SetVertexColor(0, 0, 0)
+shadowedge.tex:SetVertexColor(0, 0, 0, 0.75)
 --[[
 shadowedge:RegisterEvent("PLAYER_ENTERING_WORLD")
 shadowedge:SetScript("OnEvent", function(self)
