@@ -1,4 +1,4 @@
---[[	$Id$	]]
+﻿--[[	$Id$	]]
 
 local settings = Caellian.oUF
 local mediaPath = [=[Interface\Addons\caelMedia\]=]
@@ -59,7 +59,7 @@ local colors = setmetatable({
 oUF.colors.tapped = {0.55, 0.57, 0.61}
 oUF.colors.disconnected = {0.84, 0.75, 0.65}
 
-oUF.colors.smooth = {0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.15, 0.15, 0.15}
+oUF.colors.smooth = {0.69, 0.31, 0.31, 0.15, 0.15, 0.25, 0.15, 0.15, 0.20}
 
 local SetUpAnimGroup = function(self)
 	self.anim = self:CreateAnimationGroup("Flash")
@@ -107,7 +107,7 @@ local SetFontString = function(parent, fontName, fontHeight, fontStyle)
 	fs:SetFont(fontName, fontHeight, fontStyle)
 	fs:SetJustifyH("LEFT")
 	fs:SetShadowColor(0, 0, 0)
-	fs:SetShadowOffset(1.25, -1.25)
+	fs:SetShadowOffset(0.75, -0.75)
 	return fs
 end
 
@@ -138,7 +138,7 @@ local PostUpdateHealth = function(self, event, unit, bar, min, max)
 			elseif unit == "target" then
 				bar.value:SetFormattedText("|cffAF5050%s|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", ShortValue(min), r * 255, g * 255, b * 255, floor(min / max * 100))
 			else
-				bar.value:SetFormattedText("|cff%02x%02x%02x%d%%|r", r * 255, g * 255, b * 255, floor(min / max * 100))
+				bar.value:SetFormattedText("|cff%02x%02x%02x%s • %d%%|r", r * 255, g * 255, b * 255, ShortValue(floor(min - max)), floor(min / max * 100))
 			end
 		else
 			if unit ~= "player" and unit ~= "pet" then
@@ -565,7 +565,6 @@ local SetStyle = function(self, unit)
 	self.Health:SetPoint("TOPRIGHT")
 	self.Health:SetStatusBarTexture(normtex)
 	self.Health:GetStatusBarTexture():SetHorizTile(false)
-	self.Health:SetOrientation(self:GetParent():GetName():match("oUF_Raid") and "VERTICAL" or "HORIZONTAL")
 
 	self.Health.colorTapping = true
 	self.Health.colorDisconnected = true
@@ -577,7 +576,7 @@ local SetStyle = function(self, unit)
 	self.Health.bg = self.Health:CreateTexture(nil, "BORDER")
 	self.Health.bg:SetAllPoints()
 	self.Health.bg:SetTexture(normtex)
-	self.Health.bg.multiplier = 0.33
+	self.Health.bg.multiplier = 0.5
 
 	self.Health.value = SetFontString(self.Health, font,(unit == "player" or unit == "target") and 11 or 9)
 	if self:GetParent():GetName():match("oUF_Raid") then
@@ -625,7 +624,7 @@ local SetStyle = function(self, unit)
 		self.Power.bg = self.Power:CreateTexture(nil, "BORDER")
 		self.Power.bg:SetAllPoints()
 		self.Power.bg:SetTexture(normtex)
-		self.Power.bg.multiplier = 0.33
+		self.Power.bg.multiplier = 0.5
 
 		self.Power.value = SetFontString(self.Health, font, (unit == "player" or unit == "target") and caelLib.scale(11) or caelLib.scale(9))
 		self.Power.value:SetPoint("LEFT", caelLib.scale(1), caelLib.scale(1))
@@ -1011,7 +1010,7 @@ local SetStyle = function(self, unit)
 	end
 
 	if not unit or (unit and not unit:match("boss%d")) then
-		self.outsideRangeAlpha = 0.4
+		self.outsideRangeAlpha = 0.25
 		self.inRangeAlpha = 1
 		self.SpellRange = true
 	end
