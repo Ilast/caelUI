@@ -3,6 +3,7 @@
 ## Title: |cffD7BEA5cael|rNameplates
 ## Notes: Custom minimalistic nameplates
 ## RequiredDeps: caelLib, caelMedia
+## SavedVariables: caelNameplatesDB
 ## X-Revision: $Id$
 ## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
 ## X-Category: Miscellaneous

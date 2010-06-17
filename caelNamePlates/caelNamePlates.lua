@@ -3,6 +3,11 @@
 local _, caelNameplates = ...
 
 caelNameplates.eventFrame = CreateFrame("Frame", nil, UIParent)
+caelNameplates.eventFrame:SetScript("OnEvent", function(self, event, ...)
+	if type(self[event] == "function") then
+		return self[event](self, event, ...)
+	end
+end)
 
 local barTexture = caelMedia.files.statusBarC
 local iconTexture = caelMedia.files.buttonNormal
@@ -301,16 +306,40 @@ caelNameplates.eventFrame:SetScript("OnUpdate", function(self, elapsed)
 	end
 end)
 
-caelNameplates.eventFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
-caelNameplates.eventFrame:SetScript("OnEvent", function()
-	if event == "PLAYER_REGEN_ENABLED" then
-		SetCVar("nameplateShowEnemies", 0)
+caelNameplates.eventFrame:RegisterEvent("ADDON_LOADED")
+function caelNameplates.eventFrame:ADDON_LOADED(event, addon)
+	if addon == "caelNamePlates" then
+		if not caelNameplatesDB then
+			caelNameplatesDB = {}
+		end
+		
+		caelNameplates.settings = caelNameplatesDB
+		
+		if caelNameplates.settings.autotoggle then
+			self:RegisterEvent("PLAYER_REGEN_ENABLED")
+			self.PLAYER_REGEN_ENABLED = function()
+				SetCVar("nameplateShowEnemies", 0)
+			end
+			
+			self:RegisterEvent("PLAYER_REGEN_DISABLED")
+			self.PLAYER_REGEN_DISABLED = function()
+				SetCVar("nameplateShowEnemies", 1)
+			end
+		end
 	end
-end)
+end
 
-caelNameplates.eventFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
-caelNameplates.eventFrame:HookScript("OnEvent", function()
-	if event == "PLAYER_REGEN_DISABLED" then
-		SetCVar("nameplateShowEnemies", 1)
+SlashCmdList["caelNameplates"] = function(parameters)
+	if parameters == "autotoggle" then
+		local newsetting = not caelNameplates.settings.autotoggle
+		caelNameplates.settings.autotoggle = newsetting
+		
+		local func = newsetting and "RegisterEvent" or "UnregisterEvent"
+		
+		caelNameplates.eventFrame[func](caelNameplates.eventFrame, "PLAYER_REGEN_ENABLED")
+		caelNameplates.eventFrame[func](caelNameplates.eventFrame, "PLAYER_REGEN_DISABLED")
+		print("Auto toggling of nameplates based on combat state " .. (caelNameplates.settings.autotoggle and "|cff00ff00enabled|r." or "|cffff0000disabled|r."))
 	end
-end)
+end
+
+SLASH_caelNameplates1 = "/caelnameplates"
