@@ -62,8 +62,8 @@ oUF.TagEvents["[NameShort]"] = "UNIT_NAME_UPDATE"
 if (not oUF.Tags["[NameShort]"]) then
 	oUF.Tags["[NameShort]"] = function(unit)
 		local oldName = UnitName(unit)
-		local newName = (string.len(oldName) > 6) and string.gsub(oldName, "%s?(.[\128-\191]*)%S+%s", "%1. ") or oldName -- "%s?(.)%S+%s"
-		return caelLib.utf8sub(newName, 6, false)
+		local newName = (string.len(oldName) > 8) and string.gsub(oldName, "%s?(.[\128-\191]*)%S+%s", "%1. ") or oldName -- "%s?(.)%S+%s"
+		return caelLib.utf8sub(newName, 8, false)
 	end
 end
 

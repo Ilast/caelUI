@@ -547,16 +547,16 @@ local SetStyle = function(self, unit)
 	self:HookScript("OnShow", updateAllElements)
 
 	self.FrameBackdrop = CreateFrame("Frame", nil, self)
-	self.FrameBackdrop:SetPoint("TOPLEFT", self, caelLib.scale(-3), caelLib.scale(3))
+	self.FrameBackdrop:SetPoint("TOPLEFT", self, caelLib.scale(-2), caelLib.scale(2))
 	self.FrameBackdrop:SetFrameStrata("BACKGROUND")
 	self.FrameBackdrop:SetBackdrop(caelMedia.backdropTable)
-	self.FrameBackdrop:SetBackdropColor(0.25, 0.25, 0.25, 0)
+	self.FrameBackdrop:SetBackdropColor(0, 0, 0, 0)
 	self.FrameBackdrop:SetBackdropBorderColor(0, 0, 0)
 
 	if unit == "player" and playerClass == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and unit == "player" and playerClass == "SHAMAN" then
-		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, caelLib.scale(3), caelLib.scale(-11))
+		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, caelLib.scale(2), caelLib.scale(-10))
 	else
-		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, caelLib.scale(3), caelLib.scale(-3))
+		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, caelLib.scale(2), caelLib.scale(-2))
 	end
 
 	self.Health = CreateFrame("StatusBar", self:GetName().."_Health", self)
@@ -565,7 +565,7 @@ local SetStyle = function(self, unit)
 	self.Health:SetPoint("TOPRIGHT")
 	self.Health:SetStatusBarTexture(normtex)
 	self.Health:GetStatusBarTexture():SetHorizTile(false)
-	self.Health:SetAlpha(0.75)
+	self.Health:SetOrientation(self:GetParent():GetName():match("oUF_Raid") and "VERTICAL" or "HORIZONTAL")
 
 	self.Health.colorTapping = true
 	self.Health.colorDisconnected = true
@@ -589,7 +589,7 @@ local SetStyle = function(self, unit)
 	if unit ~= "player" then
 		self.Info = SetFontString(self.Health, font, unit == "target" and 11 or 9)
 		if self:GetParent():GetName():match("oUF_Raid") then
-			self.Info:SetPoint("TOPLEFT", caelLib.scale(1), 0)
+			self.Info:SetPoint("BOTTOM", self, 0, caelLib.scale(3))
 			self:Tag(self.Info, "[GetNameColor][NameShort]")
 		elseif unit == "target" then
 			self.Info:SetPoint("LEFT", caelLib.scale(1), caelLib.scale(1))
@@ -603,11 +603,15 @@ local SetStyle = function(self, unit)
 	if not (self:GetAttribute("unitsuffix") == "pet") then
 		self.Power = CreateFrame("StatusBar", self:GetName().."_Power", self)
 		self.Power:SetHeight((unit == "player" or unit == "target") and caelLib.scale(7) or caelLib.scale(5))
-		self.Power:SetPoint("BOTTOMLEFT")
-		self.Power:SetPoint("BOTTOMRIGHT")
+		if self:GetParent():GetName():match("oUF_Raid") then
+			self.Power:SetPoint("TOPLEFT", self.Health, "BOTTOMLEFT", 0, caelLib.scale(-1))
+			self.Power:SetPoint("TOPRIGHT", self.Health, "BOTTOMRIGHT", 0, caelLib.scale(-1))
+		else
+			self.Power:SetPoint("BOTTOMLEFT")
+			self.Power:SetPoint("BOTTOMRIGHT")
+		end
 		self.Power:SetStatusBarTexture(normtex)
 		self.Power:GetStatusBarTexture():SetHorizTile(false)
-		self.Power:SetAlpha(0.75)
 
 		self.Power.colorTapping = true
 		self.Power.colorDisconnected = true
@@ -625,6 +629,20 @@ local SetStyle = function(self, unit)
 
 		self.Power.value = SetFontString(self.Health, font, (unit == "player" or unit == "target") and caelLib.scale(11) or caelLib.scale(9))
 		self.Power.value:SetPoint("LEFT", caelLib.scale(1), caelLib.scale(1))
+	end
+
+	if self:GetParent():GetName():match("oUF_Raid") then
+		self.Nameplate = CreateFrame("Frame", nil, self.FrameBackdrop)
+		self.Nameplate:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT")
+		self.Nameplate:SetPoint("BOTTOMRIGHT", self)
+		self.Nameplate:SetBackdrop {
+			bgFile = caelMedia.files.bgFile,
+			edgeFile = caelMedia.files.bgFile,
+			tile = false, tileSize = 0, edgeSize = caelLib.scale(1),
+			insets = {left = 0, right = 0, top = 1, bottom = 0}
+		}
+		self.Nameplate:SetBackdropColor(0.15, 0.15, 0.15)
+		self.Nameplate:SetBackdropBorderColor(0, 0, 0)
 	end
 
 	if unit == "player" then
@@ -948,7 +966,7 @@ local SetStyle = function(self, unit)
 			self.ReadyCheck = self.Health:CreateTexture(nil, "ARTWORK")
 			self.ReadyCheck:SetSize(caelLib.scale(12), caelLib.scale(12))
 			if (self:GetParent():GetName():match("oUF_Raid")) then
-				self.ReadyCheck:SetPoint("BOTTOMLEFT", caelLib.scale(13), caelLib.scale(1))
+				self.ReadyCheck:SetPoint("BOTTOMLEFT", self, "BOTTOMRIGHT", caelLib.scale(-5), caelLib.scale(2))
 			else
 				self.ReadyCheck:SetPoint("TOPRIGHT", caelLib.scale(7), caelLib.scale(7))
 			end
@@ -976,7 +994,7 @@ local SetStyle = function(self, unit)
 		self:SetAttribute("initial-height", caelLib.scale(10))
 		self:SetAttribute("initial-width", caelLib.scale(113))
 	elseif self:GetParent():GetName():match("oUF_Raid") then
-		self:SetAttribute("initial-height", caelLib.scale(28))
+		self:SetAttribute("initial-height", caelLib.scale(43))
 		self:SetAttribute("initial-width", caelLib.scale(60))
 	else
 		self:SetAttribute("initial-height", caelLib.scale(22))
@@ -987,7 +1005,7 @@ local SetStyle = function(self, unit)
 	self.RaidIcon:SetTexture(raidIcons)
 	self.RaidIcon:SetSize((self:GetParent():GetName():match("oUF_Raid")) and caelLib.scale(14) or caelLib.scale(18), (self:GetParent():GetName():match("oUF_Raid")) and caelLib.scale(14) or caelLib.scale(18))
 	if self:GetParent():GetName():match("oUF_Raid") then
-		self.RaidIcon:SetPoint("BOTTOMLEFT", caelLib.scale(1), caelLib.scale(2))
+		self.RaidIcon:SetPoint("BOTTOM", 0, caelLib.scale(-10))
 	else
 		self.RaidIcon:SetPoint("TOP", 0, caelLib.scale(8))
 	end
@@ -1075,12 +1093,12 @@ for i = 1, NUM_RAID_GROUPS do
 	local raidgroup = oUF:Spawn("header", "oUF_Raid"..i)
 	raidgroup:SetAttribute("groupFilter", tostring(i))
 	raidgroup:SetAttribute("showRaid", true)
-	raidgroup:SetAttribute("yOffSet", caelLib.scale(-7.5))
+	raidgroup:SetAttribute("yOffSet", caelLib.scale(-3.5))
 	insert(raid, raidgroup)
 	if i == 1 then
 		raidgroup:SetPoint("TOPLEFT", UIParent, caelLib.scale(cfg.raidX), caelLib.scale(cfg.raidY))
 	else
-		raidgroup:SetPoint("TOPLEFT", raid[i-1], "TOPRIGHT", caelLib.scale(60 * settings.scale - 60) + caelLib.scale(7.5), 0)
+		raidgroup:SetPoint("TOPLEFT", raid[i-1], "TOPRIGHT", caelLib.scale(60 * settings.scale - 60) + caelLib.scale(3.5), 0)
 	end
 end
 
