@@ -856,7 +856,7 @@ local SetStyle = function(self, unit)
 	self.cDebuffFilter = true
 
 	self.cDebuffBackdrop = self.Health:CreateTexture(nil, "OVERLAY")
-	self.cDebuffBackdrop:SetAllPoints()
+	self.cDebuffBackdrop:SetAllPoints(self:GetParent():GetName():match("oUF_Raid") and self.Nameplate or self.Health)
 	self.cDebuffBackdrop:SetTexture(highlightTex)
 	self.cDebuffBackdrop:SetBlendMode("ADD")
 	self.cDebuffBackdrop:SetVertexColor(0, 0, 0, 0)
