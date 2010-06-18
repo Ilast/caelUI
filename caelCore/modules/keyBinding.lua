@@ -74,6 +74,19 @@ local bindings = {
 	["MOUSEWHEELDOWN"] = "CAMERAZOOMOUT",
 }
 
+-- [[
+	if event == "ZONE_CHANGED_NEW_AREA" then
+		local _, instance = IsInInstance()
+		if(instance == "pvp" or instance == "arena" or GetZonePVPInfo() == "combat") then
+			SetBinding("TAB", "TARGETNEARESTENEMYPLAYER")
+			SetBinding("SHIFT-TAB", "TARGETPREVIOUSENEMYPLAYER")
+		else
+			SetBinding("TAB", "TARGETNEARESTENEMY")
+			SetBinding("SHIFT-TAB", "TARGETPREVIOUSENEMY")
+		end
+	end
+--]]
+
 PVPParentFrame:HookScript("OnShow", function() PVPParentFrameTab2:Click() end)
 
 keybinding:RegisterEvent("PLAYER_ENTERING_WORLD")
