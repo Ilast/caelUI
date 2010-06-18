@@ -2,6 +2,8 @@
 
 local caelMinimap = CreateFrame("Frame", nil, Minimap)
 
+local nextBattleTimer
+
 for _, object in pairs({
 		GameTimeFrame,
 		MinimapBorder,
@@ -60,8 +62,31 @@ Minimap:SetScript("OnEvent", function(self, event, ...)
 	MiniMapTrackingButton:SetScript("OnEnter", function() MiniMapTracking:SetAlpha(1) end)
 	MiniMapTrackingButton:SetScript("OnLeave", function() MiniMapTracking:SetAlpha(0) end)
 
+	nextBattleTimer = caelPanel3:CreateFontString(nil, "OVERLAY")
+	nextBattleTimer:SetPoint("BOTTOM", 0, 5)
+	nextBattleTimer:SetFont(caelMedia.fonts.NORMAL, 10)
+
 	DurabilityFrame:UnregisterAllEvents()
 	MiniMapMailFrame:UnregisterAllEvents()
 	MiniMapInstanceDifficulty:UnregisterAllEvents()
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+end)
+
+local delay = 0
+Minimap:SetScript("OnUpdate", function(self, elapsed)
+	delay = delay - elapsed
+	if delay < 0 then
+		local nextBattleTime = GetWintergraspWaitTime()
+		if not IsInInstance() then
+			if nextBattleTime then
+				local seconds = mod(nextBattleTime, 60)
+				local minutes = mod(floor(nextBattleTime / 60), 60)
+				local hours = floor(nextBattleTime / 3600)
+				nextBattleTimer:SetFormattedText("WG in %sh %sm %ss", hours, minutes, seconds)
+			else
+				nextBattleTimer:SetText("WG in progress")
+			end
+		end
+		delay = 1
+	end
 end)
