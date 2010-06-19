@@ -15,8 +15,10 @@ local delay = 0
 wgtimer:SetScript("OnUpdate", function(self, elapsed)
 	delay = delay - elapsed
 	if delay < 0 then
-		local nextBattleTime = SecondsToTime(GetWintergraspWaitTime())
-		if not IsInInstance() then
+		local inInstance, instanceType = IsInInstance()
+--		if not (inInstance or instanceType == "pvp" or instanceType == "arena" or GetZonePVPInfo() == "combat") then
+		if not inInstance or tostring(GetZoneText() == "Wintergrasp") or MiniMapBattlefieldFrame.status == "active" then
+			local nextBattleTime = SecondsToTime(GetWintergraspWaitTime())
 			if nextBattleTime then
 				self.text:SetFormattedText("|cffD7BEA5Wg in:|r %s", nextBattleTime)
 			else
