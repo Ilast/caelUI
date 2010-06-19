@@ -19,7 +19,7 @@ wgtimer:SetScript("OnUpdate", function(self, elapsed)
 
 		if inInstance == nil then
 			if GetWintergraspWaitTime() == nil then
-				self.text:SetText("|cffD7BEA5wg:|r progress")
+				self.text:SetText("|cffD7BEA5wg:|r In progress")
 			else
 				local nextBattleTime = SecondsToTime(GetWintergraspWaitTime())
 				if nextBattleTime then
