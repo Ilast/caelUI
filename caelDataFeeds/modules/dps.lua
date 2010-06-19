@@ -9,7 +9,7 @@ caelDataFeeds.dps = caelDataFeeds.createModule("DPS")
 local dps = caelDataFeeds.dps
 
 dps.text:SetPoint("CENTER", caelPanel8, "CENTER", caelLib.scale(125), caelLib.scale(1))
-dps.text:SetText("|cffD7BEA5DPS|r 0")
+dps.text:SetText("|cffD7BEA5dps|r 0")
 
 dps:RegisterEvent("PLAYER_REGEN_ENABLED")
 dps:RegisterEvent("PLAYER_REGEN_DISABLED")
