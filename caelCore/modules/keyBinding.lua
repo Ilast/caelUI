@@ -74,7 +74,7 @@ local bindings = {
 	["MOUSEWHEELDOWN"] = "CAMERAZOOMOUT",
 }
 
--- [[
+--[[
 	if event == "ZONE_CHANGED_NEW_AREA" then
 		local _, instance = IsInInstance()
 		if(instance == "pvp" or instance == "arena" or GetZonePVPInfo() == "combat") then
