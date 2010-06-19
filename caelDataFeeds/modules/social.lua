@@ -153,11 +153,11 @@ social:SetScript("OnEvent", function(self, event, ...)
 	end
 
 	if numOnlineGuildMembers > 0 then
-		text = string.format("%s %d", numOnlineFriends > 0 and "|cffD7BEA5G|r" or "|cffD7BEA5Guild|r", numOnlineGuildMembers)
+		text = string.format("%s %d", numOnlineFriends > 0 and "|cffD7BEA5g|r" or "|cffD7BEA5guild|r", numOnlineGuildMembers)
 	end
 
 	if numOnlineFriends > 0 then
-		text = string.format("%s %s %d", (numOnlineGuildMembers > 0) and text or "", numOnlineGuildMembers > 0 and "- |cffD7BEA5F|r" or (numOnlineFriends > 1 and "|cffD7BEA5Friends|r" or "|cffD7BEA5Friend|r"), numOnlineFriends)
+		text = string.format("%s %s %d", (numOnlineGuildMembers > 0) and text or "", numOnlineGuildMembers > 0 and "- |cffD7BEA5f|r" or (numOnlineFriends > 1 and "|cffD7BEA5friends|r" or "|cffD7BEA5friend|r"), numOnlineFriends)
 	end
 
 	if numOnlineGuildMembers == 0 and numOnlineFriends == 0 then

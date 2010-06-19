@@ -13,7 +13,7 @@ mail:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 mail:SetScript("OnEvent", function(self, event)
 	if HasNewMail() then
-		self.text:SetText("New mail", 1, 1, 1)
+		self.text:SetText("new mail", 1, 1, 1)
 	else
 		self.text:SetText("")
 	end

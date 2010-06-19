@@ -41,18 +41,18 @@ local OnEvent = function(retVal, self, event, ...)
 	local xpString
 
 	if not petMaxXp or petMaxXp == 0 then
---		xpString = format("|cffD7BEA5XP|r %.1f%%", ((xp/maxXp)*100))
-		xpString = format("|cffD7BEA5XP|r "..(restedXp and "|cff5073a0%.1f%%|r" or "|cffffffff%.1f%%|r"), ((xp/maxXp)*100))
+--		xpString = format("|cffD7BEA5xp|r %.1f%%", ((xp/maxXp)*100))
+		xpString = format("|cffD7BEA5xp|r "..(restedXp and "|cff5073a0%.1f%%|r" or "|cffffffff%.1f%%|r"), ((xp/maxXp)*100))
 	else
---		xpString = string.format("|cffD7BEA5XP|r %.1f%% |cffD7BEA5Pet|r %.0f%%", ((xp/maxXp)*100), ((petXp/petMaxXp)*100))
-		xpString = format("|cffD7BEA5XP|r "..(restedXp and "|cff5073a0%.1f%%|r " or "|cffffffff%.1f%%|r ").."|cffD7BEA5Pet|r %.0f%%", ((xp/maxXp)*100), ((petXp/petMaxXp)*100))
+--		xpString = string.format("|cffD7BEA5xp|r %.1f%% |cffD7BEA5pet|r %.0f%%", ((xp/maxXp)*100), ((petXp/petMaxXp)*100))
+		xpString = format("|cffD7BEA5xp|r "..(restedXp and "|cff5073a0%.1f%%|r " or "|cffffffff%.1f%%|r ").."|cffD7BEA5pet|r %.0f%%", ((xp/maxXp)*100), ((petXp/petMaxXp)*100))
 	end
 
 	experience.text:SetFont(caelMedia.fonts.NORMAL, 10, "OUTLINE")
 	experience.text:SetText(xpString)
 
 	if retVal then
-		return format("|cffD7BEA5Player|r %s / %s", xp, maxXp), (petMaxXp and petMaxXp > 0) and format("|cffD7BEA5Pet|r %s / %s", petXp, petMaxXp) or nil
+		return format("|cffD7BEA5player|r %s / %s", xp, maxXp), (petMaxXp and petMaxXp > 0) and format("|cffD7BEA5pet|r %s / %s", petXp, petMaxXp) or nil
 	end
 end
 

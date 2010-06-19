@@ -31,15 +31,15 @@ lfg:SetScript("OnEvent", function(self, event)
 		self.text:SetText("|cffD7BEA5LFR|r")
 		return
 	elseif mode == "queued" and not hasData then
-		self.text:SetText("|cffD7BEA5LFG|r Searching")
+		self.text:SetText("|cffD7BEA5lfg|r Searching")
 		return
 	elseif not hasData then
-		self.text:SetText("|cffD7BEA5LFG|r Standby")
+		self.text:SetText("|cffD7BEA5lfg|r Standby")
 		return
 	end
 
 	self.text:SetText(
-		string.format("|cffD7BEA5LFG |r %s%s%s%s%s %s",
+		string.format("|cffD7BEA5lfg |r %s%s%s%s%s %s",
 			string.format("|cff%s%s|r", tankNeeds == 0 and green or red, "T"),
 			string.format("|cff%s%s|r", healerNeeds == 0 and green or red, "H"),
 			string.format("|cff%s%s|r", dpsNeeds == 3 and red or green, "D"),

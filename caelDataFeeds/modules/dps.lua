@@ -29,9 +29,9 @@ end
 
 local updateDps = function(self)
 	if combTime == 0 then
-		self.text:SetText("|cffD7BEA5DPS|r 0")
+		self.text:SetText("|cffD7BEA5dps|r 0")
 	else
-		self.text:SetFormattedText("|cffD7BEA5DPS|r %.1f", dmgTotal / combTime)
+		self.text:SetFormattedText("|cffD7BEA5dps|r %.1f", dmgTotal / combTime)
 	end
 end
 

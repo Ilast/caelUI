@@ -43,9 +43,9 @@ durability:SetScript("OnEvent", function(self, event)
 	table.sort(Slots, sorting)
 	
 	if Total > 0 then
-		self.text:SetFormattedText("|cffD7BEA5Dur|r %d%s", floor(Slots[1][3] * 100), "%")
+		self.text:SetFormattedText("|cffD7BEA5dur|r %d%s", floor(Slots[1][3] * 100), "%")
 	else
-		self.text:SetText("100% |cffD7BEA5Armor|r")
+		self.text:SetText("100% |cffD7BEA5armor|r")
 	end
 end)
 
