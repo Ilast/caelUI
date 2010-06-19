@@ -11,4 +11,5 @@
 	<Script file="modules\mail.lua"/>
 	<Script file="modules\social.lua"/>
 	<Script file="modules\system.lua"/>
+	<Script file="modules\wintergrasp.lua"/>
 </Ui>
