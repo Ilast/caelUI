@@ -16,9 +16,7 @@ wgtimer:SetScript("OnUpdate", function(self, elapsed)
 	delay = delay - elapsed
 	if delay < 0 then
 		local inInstance, instanceType = IsInInstance()
---		if GetCurrentMapContinent() == 4 and IsInInstance() == nil then
---		if not (inInstance or instanceType == "pvp" or instanceType == "arena" or GetZonePVPInfo() == "combat") then
---		if not inInstance and (tostring(GetZoneText() ~= "Wintergrasp") or MiniMapBattlefieldFrame.status ~= "active") then
+
 		if inInstance == nil then
 			if GetWintergraspWaitTime() == nil then
 				self.text:SetText("|cffD7BEA5Wg in:|r progress")
