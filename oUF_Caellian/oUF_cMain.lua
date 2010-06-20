@@ -77,9 +77,11 @@ local Flash = function(self, duration)
 		SetUpAnimGroup(self)
 	end
 
-	self.anim.fadein:SetDuration(duration)
-	self.anim.fadeout:SetDuration(duration)
-	self.anim:Play()
+	if not self.anim:IsPlaying() or duration ~= self.anim.fadein:GetDuration() then
+		self.anim.fadein:SetDuration(duration)
+		self.anim.fadeout:SetDuration(duration)
+		self.anim:Play()
+	end
 end
 
 local StopFlash = function(self)
