@@ -56,7 +56,7 @@ caelThreat.eventFrame:RegisterEvent("PARTY_MEMBERS_CHANGED")
 caelThreat.eventFrame:RegisterEvent("UNIT_THREAT_LIST_UPDATE")
 caelThreat.eventFrame:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE")
 caelThreat.eventFrame:SetScript("OnEvent", function(self, event, unit)
-	if tostring(GetZoneText() == "Wintergrasp") or MiniMapBattlefieldFrame.status == "active" then return end
+	if tostring(GetZoneText()) == "Wintergrasp" or MiniMapBattlefieldFrame.status == "active" then return end
 
 	if not unit then return end
 
