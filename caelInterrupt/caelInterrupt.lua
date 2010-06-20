@@ -16,7 +16,7 @@ caelInterrupt.eventFrame:RegisterEvent("PLAYER_LOGIN")
 caelInterrupt.eventFrame:RegisterEvent("PARTY_MEMBERS_CHANGED")
 caelInterrupt.eventFrame:SetScript("OnEvent", function(self, event, timestamp, subEvent, sourceGUID, _, _, _, destName, _, _, spellName, _, _, extraSkillName)
 
-	if tostring(GetZoneText() == "Wintergrasp") or MiniMapBattlefieldFrame.status == "active" then return end
+	if tostring(GetZoneText()) == "Wintergrasp" or MiniMapBattlefieldFrame.status == "active" then return end
 
 	if event == "PARTY_MEMBERS_CHANGED" then
 		local n = GetNumPartyMembers()
