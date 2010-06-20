@@ -325,13 +325,12 @@ end
 
 multiClasses = {
 	["WDI"] = {
-		body = [=[/2 [[ -- >> We Did It << -- ]]
-			/2 Ouvre ses portes aux recrutements.
+		body = [=[/2 [[ -- >> We Did It << -- ]] Recrute.
 			/2 Avancée PVE : ICC10-HM: 11/12, ICC25-HM: 5/12
 			/2 4 soirs de présence requis par semaine.
 			/2 Toutes les candidatures seront étudiées.
-			/2 Rendez-vous sur: http://www.guilde-wedidit.fr
-			/2 ou contactez nous directement. Bonne journée.]=],
+			/2 Prio: Tank (War/Pal), Pal Heal, Rogue, Démo
+			/2 Rendez-vous sur: http://www.guilde-wedidit.fr]=],
 		blizzmacro = true,
 	},
 	["T2"] = {
