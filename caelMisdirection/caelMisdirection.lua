@@ -23,7 +23,7 @@ caelMisdirection.eventFrame:SetScript("OnEvent", function(_, _, _, subEvent, _, 
 		if  spellName == "Misdirection" then
 			if sourceName and UnitIsPlayer(destName) then
 				if sourceName == caelLib.playerName and not UnitIsUnit(destName, "pet") then
---					SendChatMessage((msgWhisper), "WHISPER", GetDefaultLanguage("player"), destName)
+					SendChatMessage((msgWhisper), "WHISPER", GetDefaultLanguage("player"), destName)
 					RaidNotice_AddMessage(RaidWarningFrame, msgChannel..destName, textColor)
 
 					local index = GetChannelName("WeDidHunter")
