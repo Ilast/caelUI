@@ -139,8 +139,10 @@ local PostUpdateHealth = function(self, event, unit, bar, min, max)
 				bar.value:SetFormattedText("|cffAF5050%d|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", min, r * 255, g * 255, b * 255, floor(min / max * 100))
 			elseif unit == "target" then
 				bar.value:SetFormattedText("|cffAF5050%s|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", ShortValue(min), r * 255, g * 255, b * 255, floor(min / max * 100))
-			else
+			elseif self:GetParent():GetName():match("oUF_Party") or self:GetParent():GetName():match("oUF_Raid") then
 				bar.value:SetFormattedText("|cff%02x%02x%02x%s • %d%%|r", r * 255, g * 255, b * 255, ShortValue(floor(min - max)), floor(min / max * 100))
+			else
+				bar.value:SetFormattedText("|cff%02x%02x%02x%d%%|r", r * 255, g * 255, b * 255, floor(min / max * 100))
 			end
 		else
 			if unit ~= "player" and unit ~= "pet" then
