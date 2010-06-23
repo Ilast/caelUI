@@ -9,6 +9,8 @@ local _G = getfenv(0)
 local kill = caelLib.kill
 local isCharListB = caelLib.isCharListB
 
+local INVITE_WORD = "inviteraid"
+
 CHAT_TELL_ALERT_TIME = 0 -- sound on every whisper
 DEFAULT_CHATFRAME_ALPHA = 0 -- remove mouseover background
 
@@ -458,8 +460,14 @@ caelChat.eventFrame:HookScript("OnEvent", function(self, event)
 end)
 
 caelChat.eventFrame:RegisterEvent("CHAT_MSG_WHISPER")
-caelChat.eventFrame:HookScript("OnEvent", function(self, event)
+caelChat.eventFrame:HookScript("OnEvent", function(self, event, ...)
 	if event == "CHAT_MSG_WHISPER" then
 		PlaySoundFile(caelMedia.files.soundWhisper)
+
+		arg1, arg2 = ...
+
+		if (not UnitExists("party1") or IsPartyLeader("player")) and arg1:lower():match(INVITE_WORD) then
+			InviteUnit(arg2)
+		end
 	end
 end)
