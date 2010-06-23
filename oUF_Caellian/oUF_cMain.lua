@@ -15,8 +15,6 @@ local highlightTex = mediaPath..[=[miscellaneous\highlighttex]=]
 local font = settings.font
 local fontn = caelMedia.fonts.OUF_CAELLIAN_NUMBERFONT
 
-local _, playerClass = UnitClass("player")
-
 local lowThreshold = settings.lowThreshold
 local highThreshold = settings.highThreshold
 
@@ -497,7 +495,7 @@ local auraFilter = function(icons, unit, icon, name, rank, texture, count, dtype
 			casterClass = select(2, UnitClass(caster))
 		end
 
-		if not icon.debuff or (casterClass and casterClass == playerClass) then
+		if not icon.debuff or (casterClass and casterClass == caelLib.playerClass) then
 			return true
 		end
 	else
@@ -557,7 +555,7 @@ local SetStyle = function(self, unit)
 	self.FrameBackdrop:SetBackdropColor(0, 0, 0, 0)
 	self.FrameBackdrop:SetBackdropBorderColor(0, 0, 0)
 
-	if unit == "player" and playerClass == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and unit == "player" and playerClass == "SHAMAN" then
+	if unit == "player" and caelLib.playerClass == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and unit == "player" and caelLib.playerClass == "SHAMAN" then
 		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, caelLib.scale(2), caelLib.scale(-10))
 	else
 		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, caelLib.scale(2), caelLib.scale(-2))
@@ -683,7 +681,7 @@ local SetStyle = function(self, unit)
 			self.Enchant["growth-x"] = "RIGHT"
 		end
 
-		if playerClass == "DEATHKNIGHT" then
+		if caelLib.playerClass == "DEATHKNIGHT" then
 			self.Runes = CreateFrame("Frame", nil, self)
 			self.Runes:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, caelLib.scale(-1))
 			self.Runes:SetHeight(caelLib.scale(7))
@@ -706,7 +704,7 @@ local SetStyle = function(self, unit)
 			end
 		end
 
-		if IsAddOnLoaded("oUF_TotemBar") and playerClass == "SHAMAN" then
+		if IsAddOnLoaded("oUF_TotemBar") and caelLib.playerClass == "SHAMAN" then
 			self.TotemBar = {}
 			self.TotemBar.Destroy = true
 			for i = 1, 4 do
@@ -729,7 +727,7 @@ local SetStyle = function(self, unit)
 			end
 		end
 
-		if playerClass == "DRUID" then
+		if caelLib.playerClass == "DRUID" then
 			CreateFrame("Frame"):SetScript("OnUpdate", function() UpdateDruidMana(self) end)
 			self.DruidMana = SetFontString(self.Health, font, 11)
 			self.DruidMana:SetTextColor(1, 0.49, 0.04)
@@ -776,7 +774,7 @@ local SetStyle = function(self, unit)
 
 			self.Debuffs.initialAnchor = "TOPLEFT"
 			self.Debuffs["growth-y"] = "DOWN"
-			if playerClass == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and playerClass == "SHAMAN" then
+			if caelLib.playerClass == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and caelLib.playerClass == "SHAMAN" then
 				self.Debuffs:SetPoint("TOPLEFT", self, "BOTTOMLEFT", caelLib.scale(-1), caelLib.scale(-15))
 			else
 				self.Debuffs:SetPoint("TOPLEFT", self, "BOTTOMLEFT", caelLib.scale(-1), caelLib.scale(-7.5))
@@ -982,10 +980,13 @@ local SetStyle = function(self, unit)
 		self.LFDRole:SetPoint("RIGHT", self, "LEFT", caelLib.scale(-1), 0)
 	end
 
-	if playerClass == "HUNTER" then
+	if caelLib.playerClass == "HUNTER" then
 		self:SetAttribute("type3", "spell")
 		self:SetAttribute("spell3", "Misdirection")
-	elseif playerClass == "PALADIN" then
+	elseif caelLib.playerClass == "DRUID" then
+		self:SetAttribute("type3", "spell")
+		self:SetAttribute("spell3", "Innervate")
+	elseif caelLib.playerClass == "PALADIN" then
 		self:SetAttribute("type3", "spell")
 		self:SetAttribute("spell3", "Righteous Defense")
 	end
