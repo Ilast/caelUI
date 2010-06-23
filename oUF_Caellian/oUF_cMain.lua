@@ -999,7 +999,7 @@ local SetStyle = function(self, unit)
 		self:SetAttribute("initial-width", caelLib.scale(113))
 	elseif self:GetParent():GetName():match("oUF_Raid") then
 		self:SetAttribute("initial-height", caelLib.scale(43))
-		self:SetAttribute("initial-width", caelLib.scale(60))
+		self:SetAttribute("initial-width", caelLib.scale(64))
 	else
 		self:SetAttribute("initial-height", caelLib.scale(22))
 		self:SetAttribute("initial-width", caelLib.scale(113))
@@ -1015,7 +1015,7 @@ local SetStyle = function(self, unit)
 	end
 
 	if not unit or (unit and not unit:match("boss%d")) then
-		self.outsideRangeAlpha = 0.25
+		self.outsideRangeAlpha = 0.4
 		self.inRangeAlpha = 1
 		self.SpellRange = true
 	end
