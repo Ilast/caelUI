@@ -308,7 +308,7 @@ end)
 
 caelNameplates.eventFrame:RegisterEvent("ADDON_LOADED")
 function caelNameplates.eventFrame:ADDON_LOADED(event, addon)
-	if addon == "caelNameplates" then
+	if addon and addon:lower() == "caelnameplates" then
 		if not caelNameplatesDB then
 			caelNameplatesDB = {}
 		end
