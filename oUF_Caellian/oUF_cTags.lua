@@ -37,12 +37,12 @@ oUF.TagEvents["[GetNameColor]"] = "UNIT_HAPPINESS"
 if (not oUF.Tags["[GetNameColor]"]) then
 	oUF.Tags["[GetNameColor]"] = function(unit)
 		local reaction = UnitReaction(unit, "player")
-		if (unit == "pet" and GetPetHappiness()) then
+		if unit == "pet" and GetPetHappiness() then
 			local c = colors.happiness[GetPetHappiness()]
 			return string.format("|cff%02x%02x%02x", c[1] * 255, c[2] * 255, c[3] * 255)
-		elseif (UnitIsPlayer(unit)) then
+		elseif UnitIsPlayer(unit) then
 			return oUF.Tags["[raidcolor]"](unit)
-		elseif (reaction) then
+		elseif reaction then
 			local c =  colors.reaction[reaction]
 			return string.format("|cff%02x%02x%02x", c[1] * 255, c[2] * 255, c[3] * 255)
 		else

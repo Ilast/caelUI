@@ -122,14 +122,21 @@ local ShortValue = function(value)
 end
 
 local PostUpdateHealth = function(self, event, unit, bar, min, max)
-	if not UnitIsConnected(unit) then
+	if not UnitIsConnected(unit) or UnitIsDead(unit) or UnitIsGhost(unit) then
+		local color = oUF.colors.class[select(2, UnitClass(unit))]
 		bar:SetValue(0)
-		bar.value:SetText("|cffD7BEA5".."Off".."|r")
-	elseif UnitIsDead(unit) then
-		bar.value:SetText("|cffD7BEA5".."Dead".."|r")
-	elseif UnitIsGhost(unit) then
-		bar.value:SetText("|cffD7BEA5".."Ghost".."|r")
+		bar.bg:SetVertexColor(color[1] * 0.5, color[2] * 0.5, color[3] * 0.5)
+		if not UnitIsConnected(unit) then
+			bar.value:SetText("|cffD7BEA5".."Off".."|r")
+		elseif UnitIsDead(unit) then
+			bar.value:SetText("|cffD7BEA5".."Dead".."|r")
+		elseif UnitIsGhost(unit) then
+			bar.value:SetText("|cffD7BEA5".."Ghost".."|r")
+		end
 	else
+		bar:SetStatusBarColor(0, 0, 0, 0.5)
+		bar.bg:SetVertexColor(0.2, 0.2, 0.3)
+
 		if min ~= max then
 			local r, g, b
 			r, g, b = oUF.ColorGradient(min/max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
@@ -172,14 +179,34 @@ local PreUpdatePower = function(self, event, unit)
 end
 
 local PostUpdatePower = function(self, event, unit, bar, min, max)
-	if self.unit ~= "player" and self.unit ~= "pet" and self.unit ~= "target" then return end
-
 	local pType, pToken = UnitPowerType(unit)
 	local color = colors.power[pToken]
+
+	local reaction = UnitReaction(unit, "player")
+	if UnitIsPlayer(unit) or unit == "pet" then
+		if unit ~= "player" and unit ~= "pet" then
+			t = oUF.colors.class[select(2, UnitClass(unit))]
+		else
+			t = color
+		end
+	elseif reaction then
+		t = oUF.colors.reaction[reaction]
+	else
+		r, g, b = 0.84, 0.75, 0.65
+	end
+
+	if t then
+		r, g, b = t[1] * 0.5, t[2] * 0.5, t[3] * 0.5
+	end
+
+	bar:SetStatusBarColor(0, 0, 0, 0.5)
+	bar.bg:SetVertexColor(r, g, b)
 
 	if color then
 		bar.value:SetTextColor(color[1], color[2], color[3])
 	end
+
+	if self.unit ~= "player" and self.unit ~= "pet" and self.unit ~= "target" then return end
 
 	if min == 0 then
 		bar.value:SetText()
@@ -548,17 +575,24 @@ local SetStyle = function(self, unit)
 
 	self:HookScript("OnShow", updateAllElements)
 
+	self:SetBackdrop {
+		bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
+		insets = {top = caelLib.scale(-1), left = caelLib.scale(-1), bottom = caelLib.scale(-1), right = caelLib.scale(-1)},
+	}
+	self:SetBackdropColor(0.25, 0.25, 0.25)
+	
+
 	self.FrameBackdrop = CreateFrame("Frame", nil, self)
-	self.FrameBackdrop:SetPoint("TOPLEFT", self, caelLib.scale(-2), caelLib.scale(2))
-	self.FrameBackdrop:SetFrameStrata("BACKGROUND")
+	self.FrameBackdrop:SetPoint("TOPLEFT", self, caelLib.scale(-3), caelLib.scale(3))
+	self.FrameBackdrop:SetFrameStrata("MEDIUM")
 	self.FrameBackdrop:SetBackdrop(caelMedia.backdropTable)
 	self.FrameBackdrop:SetBackdropColor(0, 0, 0, 0)
 	self.FrameBackdrop:SetBackdropBorderColor(0, 0, 0)
 
 	if unit == "player" and caelLib.playerClass == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and unit == "player" and caelLib.playerClass == "SHAMAN" then
-		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, caelLib.scale(2), caelLib.scale(-10))
+		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, caelLib.scale(3), caelLib.scale(-11))
 	else
-		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, caelLib.scale(2), caelLib.scale(-2))
+		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, caelLib.scale(3), caelLib.scale(-3))
 	end
 
 	self.Health = CreateFrame("StatusBar", self:GetName().."_Health", self)
@@ -568,37 +602,19 @@ local SetStyle = function(self, unit)
 	self.Health:SetStatusBarTexture(normtex)
 	self.Health:GetStatusBarTexture():SetHorizTile(false)
 
-	self.Health.colorTapping = true
-	self.Health.colorDisconnected = true
-	self.Health.colorSmooth = true
-
 	self.Health.frequentUpdates = true
 	self.Health.Smooth = true
 
 	self.Health.bg = self.Health:CreateTexture(nil, "BORDER")
 	self.Health.bg:SetAllPoints()
 	self.Health.bg:SetTexture(normtex)
-	self.Health.bg.multiplier = 0.5
+--	self.Health.bg.multiplier = 2
 
 	self.Health.value = SetFontString(self.Health, font,(unit == "player" or unit == "target") and 11 or 9)
 	if self:GetParent():GetName():match("oUF_Raid") then
 		self.Health.value:SetPoint("BOTTOMRIGHT", caelLib.scale(-1), caelLib.scale(2))
 	else
 		self.Health.value:SetPoint("RIGHT", caelLib.scale(-1), caelLib.scale(1))
-	end
-
-	if unit ~= "player" then
-		self.Info = SetFontString(self.Health, font, unit == "target" and 11 or 9)
-		if self:GetParent():GetName():match("oUF_Raid") then
-			self.Info:SetPoint("BOTTOM", self, 0, caelLib.scale(3))
-			self:Tag(self.Info, "[GetNameColor][NameShort]")
-		elseif unit == "target" then
-			self.Info:SetPoint("LEFT", caelLib.scale(1), caelLib.scale(1))
-			self:Tag(self.Info, "[GetNameColor][NameLong] [DiffColor][level] [shortclassification]")
-		else
-			self.Info:SetPoint("LEFT", caelLib.scale(1), caelLib.scale(1))
-			self:Tag(self.Info, "[GetNameColor][NameMedium]")
-		end
 	end
 
 	if not (self:GetAttribute("unitsuffix") == "pet") then
@@ -614,19 +630,12 @@ local SetStyle = function(self, unit)
 		self.Power:SetStatusBarTexture(normtex)
 		self.Power:GetStatusBarTexture():SetHorizTile(false)
 
-		self.Power.colorTapping = true
-		self.Power.colorDisconnected = true
-		self.Power.colorPower = unit == "player" or unit == "pet" and true
-		self.Power.colorClass = true
-		self.Power.colorReaction = true
-
 		self.Power.frequentUpdates = true
 		self.Power.Smooth = true
 
 		self.Power.bg = self.Power:CreateTexture(nil, "BORDER")
 		self.Power.bg:SetAllPoints()
 		self.Power.bg:SetTexture(normtex)
-		self.Power.bg.multiplier = 0.5
 
 		self.Power.value = SetFontString(self.Health, font, (unit == "player" or unit == "target") and caelLib.scale(11) or caelLib.scale(9))
 		self.Power.value:SetPoint("LEFT", caelLib.scale(1), caelLib.scale(1))
@@ -644,6 +653,20 @@ local SetStyle = function(self, unit)
 		}
 		self.Nameplate:SetBackdropColor(0.15, 0.15, 0.15)
 		self.Nameplate:SetBackdropBorderColor(0, 0, 0)
+	end
+
+	if unit ~= "player" then
+		self.Info = SetFontString(self:GetParent():GetName():match("oUF_Raid") and self.Nameplate or self.Health, font, unit == "target" and 11 or 9)
+		if self:GetParent():GetName():match("oUF_Raid") then
+			self.Info:SetPoint("BOTTOM", self, 0, caelLib.scale(3))
+			self:Tag(self.Info, "[GetNameColor][NameShort]")
+		elseif unit == "target" then
+			self.Info:SetPoint("LEFT", caelLib.scale(1), caelLib.scale(1))
+			self:Tag(self.Info, "[GetNameColor][NameLong] [DiffColor][level] [shortclassification]")
+		else
+			self.Info:SetPoint("LEFT", caelLib.scale(1), caelLib.scale(1))
+			self:Tag(self.Info, "[GetNameColor][NameMedium]")
+		end
 	end
 
 	if unit == "player" then
@@ -956,15 +979,18 @@ local SetStyle = function(self, unit)
 		self.Leader:SetSize(caelLib.scale(14), caelLib.scale(14))
 		self.Leader:SetPoint("TOPLEFT", 0, caelLib.scale(10))
 
-		self.Assistant = self.Health:CreateTexture(nil, "ARTWORK")
+		self.Assistant = self:CreateTexture(nil, "ARTWORK")
+		self.Assistant:SetParent(self:GetParent():GetName():match("oUF_Raid") and self.Nameplate or self.Health)
 		self.Assistant:SetSize(caelLib.scale(14), caelLib.scale(14))
-		self.Assistant:SetPoint("TOPLEFT", 0, caelLib.scale(10))
+		self.Assistant:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, caelLib.scale(-4))
 
-		self.MasterLooter = self.Health:CreateTexture(nil, "ARTWORK")
+		self.MasterLooter = self:CreateTexture(nil, "ARTWORK")
+		self.MasterLooter:SetParent(self:GetParent():GetName():match("oUF_Raid") and self.Nameplate or self.Health)
 		self.MasterLooter:SetHeight(caelLib.scale(12), caelLib.scale(12))
-		self.MasterLooter:SetPoint("TOPRIGHT", 0, caelLib.scale(10))
+		self.MasterLooter:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 0, caelLib.scale(-4))
 		if not unit then
-			self.ReadyCheck = self.Health:CreateTexture(nil, "ARTWORK")
+			self.ReadyCheck = self:CreateTexture(nil, "ARTWORK")
+			self.ReadyCheck:SetParent(self:GetParent():GetName():match("oUF_Raid") and self.Nameplate or self.Health)
 			self.ReadyCheck:SetSize(caelLib.scale(12), caelLib.scale(12))
 			if (self:GetParent():GetName():match("oUF_Raid")) then
 				self.ReadyCheck:SetPoint("BOTTOMLEFT", self, "BOTTOMRIGHT", caelLib.scale(-5), caelLib.scale(2))
@@ -1005,17 +1031,18 @@ local SetStyle = function(self, unit)
 		self:SetAttribute("initial-width", caelLib.scale(113))
 	end
 
-	self.RaidIcon = self.Health:CreateTexture(nil, "OVERLAY")
+	self.RaidIcon = self:CreateTexture(nil, "OVERLAY")
+	self.RaidIcon:SetParent(self:GetParent():GetName():match("oUF_Raid") and self.Nameplate or self.Health)
 	self.RaidIcon:SetTexture(raidIcons)
 	self.RaidIcon:SetSize((self:GetParent():GetName():match("oUF_Raid")) and caelLib.scale(14) or caelLib.scale(18), (self:GetParent():GetName():match("oUF_Raid")) and caelLib.scale(14) or caelLib.scale(18))
 	if self:GetParent():GetName():match("oUF_Raid") then
-		self.RaidIcon:SetPoint("BOTTOM", 0, caelLib.scale(-10))
+		self.RaidIcon:SetPoint("CENTER", 0, caelLib.scale(10))
 	else
-		self.RaidIcon:SetPoint("TOP", 0, caelLib.scale(8))
+		self.RaidIcon:SetPoint("TOP", 0, caelLib.scale(10))
 	end
 
 	if not unit or (unit and not unit:match("boss%d")) then
-		self.outsideRangeAlpha = 0.4
+		self.outsideRangeAlpha = 0.3
 		self.inRangeAlpha = 1
 		self.SpellRange = true
 	end
@@ -1130,7 +1157,7 @@ partyToggle:SetScript("OnEvent", function(self)
 	else
 		self:UnregisterEvent("PLAYER_REGEN_ENABLED")
 		local numraid = GetNumRaidMembers()
-		if numraid > 0 and (numraid > 5 or numraid ~= GetNumPartyMembers() + 1) then
+		if numraid > 0 and (numraid > 1 or numraid ~= GetNumPartyMembers() + 1) then
 			party:Hide()
 			if not settings.noRaid then
 				for i, v in ipairs(raid) do v:Show() end
