@@ -12,6 +12,8 @@ caelMedia.files = {
 	statusBarA			= [=[Interface\Addons\caelMedia\statusbars\normtexa]=],
 	statusBarB			= [=[Interface\Addons\caelMedia\statusbars\normtexb]=],
 	statusBarC			= [=[Interface\Addons\caelMedia\statusbars\normtexc]=],
+	statusBarD			= [=[Interface\Addons\caelMedia\statusbars\normtexd]=],
+	statusBarE			= [=[Interface\Addons\caelMedia\statusbars\normtexe]=],
 
 	buttonNormal		= [=[Interface\AddOns\caelMedia\buttons\buttonborder1]=],
 	buttonPushed		= [=[Interface\AddOns\caelMedia\buttons\buttonborder1pushed]=],
