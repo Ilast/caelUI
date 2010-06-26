@@ -122,8 +122,11 @@ local ShortValue = function(value)
 end
 
 local PostUpdateHealth = function(self, event, unit, bar, min, max)
+	if self.unit ~= unit then return end
+
 	if not UnitIsConnected(unit) or UnitIsDead(unit) or UnitIsGhost(unit) then
-		local color = oUF.colors.class[select(2, UnitClass(unit))]
+		local class = select(2, UnitClass(unit))
+		local color = oUF.colors.class[class]
 		bar:SetValue(0)
 		bar.bg:SetVertexColor(color[1] * 0.5, color[2] * 0.5, color[3] * 0.5)
 		if not UnitIsConnected(unit) then
@@ -169,7 +172,8 @@ local PostNamePosition = function(self)
 end
 
 local PreUpdatePower = function(self, event, unit)
-	if(self.unit ~= unit) then return end
+	if self.unit ~= unit then return end
+
 	local _, pType = UnitPowerType(unit)
 	
 	local color = self.colors.power[pType]
@@ -185,7 +189,8 @@ local PostUpdatePower = function(self, event, unit, bar, min, max)
 	local reaction = UnitReaction(unit, "player")
 	if UnitIsPlayer(unit) or unit == "pet" then
 		if unit ~= "player" and unit ~= "pet" then
-			t = oUF.colors.class[select(2, UnitClass(unit))]
+			local class = select(2, UnitClass(unit))
+			t = oUF.colors.class[class]
 		else
 			t = color
 		end
