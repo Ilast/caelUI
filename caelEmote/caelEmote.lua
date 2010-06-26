@@ -42,3 +42,17 @@ caelEmote.eventFrame:HookScript("OnEvent", function(self, event)
 		end
 	end
 end)
+
+caelEmote.eventFrame:RegisterEvent("UNIT_AURA")
+caelEmote.eventFrame:HookScript("OnEvent", function(self, event, ...)
+	if event == "UNIT_AURA" then
+		arg1 = ...
+		if  arg1 == "player" then
+			local newState = UnitBuff("player", "Strength of the Taunka") or UnitBuff("player", "Speed of the Vrykul") or UnitBuff("player", "Agility of the Vrykul")
+			if newState and not oldState then
+				DoEmote("ROAR", "none")
+			end
+			oldState = newState
+		end
+	end
+end)
