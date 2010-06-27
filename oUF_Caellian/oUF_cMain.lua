@@ -570,6 +570,12 @@ local updateAllElements = function(frame)
 end
 
 local SetStyle = function(self, unit)
+
+	local unitInRaid = self:GetParent():GetName():match"oUF_Raid" 
+	local unitInParty = self:GetParent():GetName():match"oUF_Party"
+	local unitIsPartyPet = self:GetAttribute("unitsuffix") == "pet"
+	local unitIsPartyTarget = self:GetAttribute("unitsuffix") == "target"
+
 	self.menu = Menu
 	self.colors = colors
 	self:RegisterForClicks("AnyUp")
@@ -601,7 +607,7 @@ local SetStyle = function(self, unit)
 	end
 
 	self.Health = CreateFrame("StatusBar", self:GetName().."_Health", self)
-	self.Health:SetHeight((unit == "player" or unit == "target" or self:GetParent():GetName():match("oUF_Raid")) and caelLib.scale(22) or self:GetAttribute("unitsuffix") == "pet" and caelLib.scale(10) or caelLib.scale(16))
+	self.Health:SetHeight((unit == "player" or unit == "target" or unitInRaid) and caelLib.scale(22) or unitIsPartyPet and caelLib.scale(10) or caelLib.scale(16))
 	self.Health:SetPoint("TOPLEFT")
 	self.Health:SetPoint("TOPRIGHT")
 	self.Health:SetStatusBarTexture(normtex)
@@ -617,16 +623,16 @@ local SetStyle = function(self, unit)
 	self.Health.bg:SetTexture(normtex)
 
 	self.Health.value = SetFontString(self.Health, font,(unit == "player" or unit == "target") and 11 or 9)
-	if self:GetParent():GetName():match("oUF_Raid") then
+	if unitInRaid then
 		self.Health.value:SetPoint("BOTTOMRIGHT", caelLib.scale(-1), caelLib.scale(2))
 	else
 		self.Health.value:SetPoint("RIGHT", caelLib.scale(-1), caelLib.scale(1))
 	end
 
-	if not (self:GetAttribute("unitsuffix") == "pet") then
+	if not unitIsPartyPet then
 		self.Power = CreateFrame("StatusBar", self:GetName().."_Power", self)
 		self.Power:SetHeight((unit == "player" or unit == "target") and caelLib.scale(7) or caelLib.scale(5))
-		if self:GetParent():GetName():match("oUF_Raid") then
+		if unitInRaid then
 			self.Power:SetPoint("TOPLEFT", self.Health, "BOTTOMLEFT", 0, caelLib.scale(-1))
 			self.Power:SetPoint("TOPRIGHT", self.Health, "BOTTOMRIGHT", 0, caelLib.scale(-1))
 		else
@@ -650,7 +656,7 @@ local SetStyle = function(self, unit)
 		self.Power.value:SetPoint("LEFT", caelLib.scale(1), caelLib.scale(1))
 	end
 
-	if self:GetParent():GetName():match("oUF_Raid") then
+	if unitInRaid then
 		self.Nameplate = CreateFrame("Frame", nil, self.FrameBackdrop)
 		self.Nameplate:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT")
 		self.Nameplate:SetPoint("BOTTOMRIGHT", self)
@@ -665,8 +671,8 @@ local SetStyle = function(self, unit)
 	end
 
 	if unit ~= "player" then
-		self.Info = SetFontString(self:GetParent():GetName():match("oUF_Raid") and self.Nameplate or self.Health, font, unit == "target" and 11 or 9)
-		if self:GetParent():GetName():match("oUF_Raid") then
+		self.Info = SetFontString(unitInRaid and self.Nameplate or self.Health, font, unit == "target" and 11 or 9)
+		if unitInRaid then
 			self.Info:SetPoint("BOTTOM", self, 0, caelLib.scale(3))
 			self:Tag(self.Info, "[caellian:getnamecolor][caellian:nameshort]")
 		elseif unit == "target" then
@@ -901,7 +907,7 @@ local SetStyle = function(self, unit)
 	self.cDebuffFilter = true
 
 	self.cDebuffBackdrop = self.Health:CreateTexture(nil, "OVERLAY")
-	self.cDebuffBackdrop:SetAllPoints(self:GetParent():GetName():match("oUF_Raid") and self.Nameplate or self.Health)
+	self.cDebuffBackdrop:SetAllPoints(unitInRaid and self.Nameplate or self.Health)
 	self.cDebuffBackdrop:SetTexture(highlightTex)
 	self.cDebuffBackdrop:SetBlendMode("ADD")
 	self.cDebuffBackdrop:SetVertexColor(0, 0, 0, 0)
@@ -919,7 +925,7 @@ local SetStyle = function(self, unit)
 	self.cDebuff.IconOverlay:SetTexture(buttonTex)
 	self.cDebuff.IconOverlay:SetVertexColor(0.25, 0.25, 0.25, 0)
 
-	if not (self:GetParent():GetName():match("oUF_Raid") or self:GetAttribute("unitsuffix") == "pet") then
+	if not (unitInRaid or unitIsPartyPet) then
 		self.Castbar = CreateFrame("StatusBar", self:GetName().."_Castbar", (unit == "player" or unit == "target") and self.Portrait or self.Power)
 		self.Castbar:SetStatusBarTexture(normtex)
 		self.Castbar:GetStatusBarTexture():SetHorizTile(false)
@@ -996,32 +1002,32 @@ local SetStyle = function(self, unit)
 		end
 	end
 
-	if self:GetParent():GetName():match("oUF_Party") and not self:GetAttribute("unitsuffix") or self:GetParent():GetName():match("oUF_Raid") or unit == "player" then
+	if unitInParty and not unitIsPartyPet and not unitIsPartyTarget or unitInRaid or unit == "player" then
 		self.Leader = self.Health:CreateTexture(nil, "ARTWORK")
 		self.Leader:SetSize(caelLib.scale(14), caelLib.scale(14))
 		self.Leader:SetPoint("TOPLEFT", 0, caelLib.scale(10))
 
 		self.Assistant = self:CreateTexture(nil, "ARTWORK")
-		self.Assistant:SetParent(self:GetParent():GetName():match("oUF_Raid") and self.Nameplate or self.Health)
+		self.Assistant:SetParent(unitInRaid and self.Nameplate or self.Health)
 		self.Assistant:SetSize(caelLib.scale(14), caelLib.scale(14))
 		self.Assistant:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, caelLib.scale(-4))
 
 		self.MasterLooter = self:CreateTexture(nil, "ARTWORK")
-		self.MasterLooter:SetParent(self:GetParent():GetName():match("oUF_Raid") and self.Nameplate or self.Health)
+		self.MasterLooter:SetParent(unitInRaid and self.Nameplate or self.Health)
 		self.MasterLooter:SetHeight(caelLib.scale(12), caelLib.scale(12))
 		self.MasterLooter:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 0, caelLib.scale(-4))
 		if not unit == "player" then
 			self.ReadyCheck = self:CreateTexture(nil, "ARTWORK")
-			self.ReadyCheck:SetParent(self:GetParent():GetName():match("oUF_Raid") and self.Nameplate or self.Health)
+			self.ReadyCheck:SetParent(unitInRaid and self.Nameplate or self.Health)
 			self.ReadyCheck:SetSize(caelLib.scale(12), caelLib.scale(12))
-			if (self:GetParent():GetName():match("oUF_Raid")) then
+			if unitInRaid then
 				self.ReadyCheck:SetPoint("BOTTOMLEFT", self, "BOTTOMRIGHT", caelLib.scale(-5), caelLib.scale(2))
 			else
 				self.ReadyCheck:SetPoint("TOPRIGHT", caelLib.scale(7), caelLib.scale(7))
 			end
 		end
 
-		if self:GetParent():GetName():match("oUF_Party") and not self:GetAttribute("unitsuffix") then
+		if unitInParty and not unitIsPartyPet and not unitIsPartyTarget then
 			self.LFDRole = self.Health:CreateTexture(nil, "ARTWORK")
 			self.LFDRole:SetSize(caelLib.scale(14), caelLib.scale(14))
 			self.LFDRole:SetPoint("RIGHT", self, "LEFT", caelLib.scale(-1), 0)
@@ -1042,10 +1048,10 @@ local SetStyle = function(self, unit)
 	if unit == "player" or unit == "target" then
 		self:SetAttribute("initial-height", caelLib.scale(53))
 		self:SetAttribute("initial-width", caelLib.scale(230))
-	elseif self:GetAttribute("unitsuffix") == "pet" then
+	elseif unitIsPartyPet then
 		self:SetAttribute("initial-height", caelLib.scale(10))
 		self:SetAttribute("initial-width", caelLib.scale(113))
-	elseif self:GetParent():GetName():match("oUF_Raid") then
+	elseif unitInRaid then
 		self:SetAttribute("initial-height", caelLib.scale(43))
 		self:SetAttribute("initial-width", caelLib.scale(64))
 	else
@@ -1054,16 +1060,16 @@ local SetStyle = function(self, unit)
 	end
 
 	self.RaidIcon = self:CreateTexture(nil, "OVERLAY")
-	self.RaidIcon:SetParent(self:GetParent():GetName():match("oUF_Raid") and self.Nameplate or self.Health)
+	self.RaidIcon:SetParent(unitInRaid and self.Nameplate or self.Health)
 	self.RaidIcon:SetTexture(raidIcons)
-	self.RaidIcon:SetSize((self:GetParent():GetName():match("oUF_Raid")) and caelLib.scale(14) or caelLib.scale(18), (self:GetParent():GetName():match("oUF_Raid")) and caelLib.scale(14) or caelLib.scale(18))
-	if self:GetParent():GetName():match("oUF_Raid") then
+	self.RaidIcon:SetSize(unitInRaid and caelLib.scale(14) or caelLib.scale(18), unitInRaid and caelLib.scale(14) or caelLib.scale(18))
+	if unitInRaid then
 		self.RaidIcon:SetPoint("CENTER", 0, caelLib.scale(10))
 	else
 		self.RaidIcon:SetPoint("TOP", 0, caelLib.scale(10))
 	end
 
-	if self:GetParent():GetName():match("oUF_Party") and not self:GetAttribute("unitsuffix") or self:GetParent():GetName():match("oUF_Raid") or (unit and not unit:match("boss%d")) then
+	if unitInParty and not unitIsPartyPet and not unitIsPartyTarget or unitInRaid or (unit and not unit:match("boss%d")) then
 		self.outsideRangeAlpha = 0.3
 		self.inRangeAlpha = 1
 		self.SpellRange = true
