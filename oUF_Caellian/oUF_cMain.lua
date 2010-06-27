@@ -896,7 +896,7 @@ local SetStyle = function(self, unit)
 			}
 	
 			self.Status = SetFontString(self.PortraitOverlay, font, 18, "OUTLINE")
-			self.Status:SetPoint("CENTER", 0, caelLib.scale(1))
+			self.Status:SetPoint("CENTER", 0, caelLib.scale(4))
 			self.Status:SetTextColor(0.69, 0.31, 0.31, 0)
 			self:Tag(self.Status, "pvp")
 	
