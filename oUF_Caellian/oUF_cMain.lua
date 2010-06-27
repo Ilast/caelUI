@@ -57,7 +57,7 @@ local colors = setmetatable({
 oUF.colors.tapped = {0.55, 0.57, 0.61}
 oUF.colors.disconnected = {0.84, 0.75, 0.65}
 
-oUF.colors.smooth = {0.69, 0.31, 0.31, 0.15, 0.15, 0.25, 0.15, 0.15, 0.20}
+--	oUF.colors.smooth = {0.69, 0.31, 0.31, 0.15, 0.15, 0.25, 0.15, 0.15, 0.20}
 
 local SetUpAnimGroup = function(self)
 	self.anim = self:CreateAnimationGroup("Flash")
@@ -125,7 +125,7 @@ end
 local PostUpdateHealth = function(health, unit, min, max)
 	if not UnitIsConnected(unit) or UnitIsDead(unit) or UnitIsGhost(unit) then
 		local class = select(2, UnitClass(unit))
-		local color = oUF.colors.class[class]
+		local color = UnitIsPlayer(unit) and oUF.colors.class[class] or {0.84, 0.75, 0.65}
 		health:SetValue(0)
 		health.bg:SetVertexColor(color[1] * 0.5, color[2] * 0.5, color[3] * 0.5)
 		if not UnitIsConnected(unit) then
@@ -137,7 +137,7 @@ local PostUpdateHealth = function(health, unit, min, max)
 		end
 	else
 		health:SetStatusBarColor(0, 0, 0, 0.5)
-		health.bg:SetVertexColor(0.84, 0.75, 0.65)
+		health.bg:SetVertexColor(0.42, 0.38, 0.33)
 
 		if min ~= max then
 			local r, g, b
