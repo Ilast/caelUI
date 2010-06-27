@@ -1,8 +1,8 @@
 --[[	$Id$	]]
 
-oUF.TagEvents["[DiffColor]"] = "UNIT_LEVEL"
-if (not oUF.Tags["[DiffColor]"]) then
-	oUF.Tags["[DiffColor]"]  = function(unit)
+oUF.TagEvents["caellian:diffcolor"] = "UNIT_LEVEL"
+if (not oUF.Tags["caellian:diffcolor"]) then
+	oUF.Tags["caellian:diffcolor"]  = function(unit)
 		local r, g, b
 		local level = UnitLevel(unit)
 		if (level < 1) then
@@ -33,15 +33,15 @@ local colors = setmetatable({
 	}, {__index = oUF.colors.happiness}),
 }, {__index = oUF.colors})
 
-oUF.TagEvents["[GetNameColor]"] = "UNIT_HAPPINESS"
-if (not oUF.Tags["[GetNameColor]"]) then
-	oUF.Tags["[GetNameColor]"] = function(unit)
+oUF.TagEvents["caellian:getnamecolor"] = "UNIT_HAPPINESS"
+if (not oUF.Tags["caellian:getnamecolor"]) then
+	oUF.Tags["caellian:getnamecolor"] = function(unit)
 		local reaction = UnitReaction(unit, "player")
 		if unit == "pet" and GetPetHappiness() then
 			local c = colors.happiness[GetPetHappiness()]
 			return string.format("|cff%02x%02x%02x", c[1] * 255, c[2] * 255, c[3] * 255)
 		elseif UnitIsPlayer(unit) then
-			return oUF.Tags["[raidcolor]"](unit)
+			return oUF.Tags["raidcolor"](unit)
 		elseif reaction then
 			local c =  colors.reaction[reaction]
 			return string.format("|cff%02x%02x%02x", c[1] * 255, c[2] * 255, c[3] * 255)
@@ -58,18 +58,18 @@ local newName = (string.len(oldName) > 10) and string.gsub(oldName, "%s?([\128-\
 newName = (string.len(newName) > 10) and string.gsub(newName, "(%s?)([^\128-\196])%S+%s", "%1%2. ") or newName
 --]]
 
-oUF.TagEvents["[NameShort]"] = "UNIT_NAME_UPDATE"
-if (not oUF.Tags["[NameShort]"]) then
-	oUF.Tags["[NameShort]"] = function(unit)
+oUF.TagEvents["caellian:nameshort"] = "UNIT_NAME_UPDATE"
+if (not oUF.Tags["caellian:nameshort"]) then
+	oUF.Tags["caellian:nameshort"] = function(unit)
 		local oldName = UnitName(unit)
 		local newName = (string.len(oldName) > 8) and string.gsub(oldName, "%s?(.[\128-\191]*)%S+%s", "%1. ") or oldName -- "%s?(.)%S+%s"
 		return caelLib.utf8sub(newName, 8, false)
 	end
 end
 
-oUF.TagEvents["[NameMedium]"] = "UNIT_NAME_UPDATE"
-if (not oUF.Tags["[NameMedium]"]) then
-	oUF.Tags["[NameMedium]"] = function(unit)
+oUF.TagEvents["caellian:namemedium"] = "UNIT_NAME_UPDATE"
+if (not oUF.Tags["caellian:namemedium"]) then
+	oUF.Tags["caellian:namemedium"] = function(unit)
 		local oldName = UnitName(unit)
 		local newName = (string.len(oldName) > 12) and string.gsub(oldName, "%s?(.[\128-\191]*)%S+%s", "%1. ") or oldName
 		if (unit == "pet" and name == "Unknown") then
@@ -82,9 +82,9 @@ if (not oUF.Tags["[NameMedium]"]) then
 	end
 end
 
-oUF.TagEvents["[NameLong]"] = "UNIT_NAME_UPDATE"
-if (not oUF.Tags["[NameLong]"]) then
-	oUF.Tags["[NameLong]"] = function(unit)
+oUF.TagEvents["caellian:namelong"] = "UNIT_NAME_UPDATE"
+if (not oUF.Tags["caellian:namelong"]) then
+	oUF.Tags["caellian:namelong"] = function(unit)
 		local oldName = UnitName(unit)
 		local newName = (string.len(oldName) > 18) and string.gsub(oldName, "%s?(.[\128-\191]*)%S+%s", "%1. ") or oldName
 		return caelLib.utf8sub(newName, 18, true)

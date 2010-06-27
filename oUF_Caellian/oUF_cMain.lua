@@ -89,16 +89,17 @@ local StopFlash = function(self)
 end
 
 local Menu = function(self)
-	local unit = self.unit:gsub("(.)", string.upper, 1) 
-	if _G[unit.."FrameDropDown"] then
-		ToggleDropDownMenu(1, nil, _G[unit.."FrameDropDown"], "cursor")
-	elseif (self.unit:match("party")) then
-		ToggleDropDownMenu(1, nil, _G["PartyMemberFrame"..self.id.."DropDown"], "cursor")
-	else
-		FriendsDropDown.unit = self.unit
-		FriendsDropDown.id = self.id
-		FriendsDropDown.initialize = RaidFrameDropDown_Initialize
-		ToggleDropDownMenu(1, nil, FriendsDropDown, "cursor")
+	local unit = self.unit:sub(1, -2)
+	local cunit = self.unit:gsub("^%l", string.upper)
+
+	if(cunit == 'Vehicle') then
+		cunit = 'Pet'
+	end
+
+	if(unit == "party" or unit == "partypet") then
+		ToggleDropDownMenu(1, nil, _G["PartyMemberFrame"..self.id.."DropDown"], "cursor", 0, 0)
+	elseif(_G[cunit.."FrameDropDown"]) then
+		ToggleDropDownMenu(1, nil, _G[cunit.."FrameDropDown"], "cursor", 0, 0)
 	end
 end
 
@@ -121,68 +122,65 @@ local ShortValue = function(value)
 	end
 end
 
-local PostUpdateHealth = function(self, event, unit, bar, min, max)
-	if self.unit ~= unit then return end
-
+local PostUpdateHealth = function(health, unit, min, max)
 	if not UnitIsConnected(unit) or UnitIsDead(unit) or UnitIsGhost(unit) then
 		local class = select(2, UnitClass(unit))
 		local color = oUF.colors.class[class]
-		bar:SetValue(0)
-		bar.bg:SetVertexColor(color[1] * 0.5, color[2] * 0.5, color[3] * 0.5)
+		health:SetValue(0)
+		health.bg:SetVertexColor(color[1] * 0.5, color[2] * 0.5, color[3] * 0.5)
 		if not UnitIsConnected(unit) then
-			bar.value:SetText("|cffD7BEA5".."Off".."|r")
+			health.value:SetText("|cffD7BEA5".."Off".."|r")
 		elseif UnitIsDead(unit) then
-			bar.value:SetText("|cffD7BEA5".."Dead".."|r")
+			health.value:SetText("|cffD7BEA5".."Dead".."|r")
 		elseif UnitIsGhost(unit) then
-			bar.value:SetText("|cffD7BEA5".."Ghost".."|r")
+			health.value:SetText("|cffD7BEA5".."Ghost".."|r")
 		end
 	else
-		bar:SetStatusBarColor(0, 0, 0, 0.5)
-		bar.bg:SetVertexColor(0.2, 0.2, 0.3)
+		health:SetStatusBarColor(0, 0, 0, 0.5)
+		health.bg:SetVertexColor(0.84, 0.75, 0.65)
 
 		if min ~= max then
 			local r, g, b
 			r, g, b = oUF.ColorGradient(min/max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
-			if unit == "player" and self:GetAttribute("normalUnit") ~= "pet" then
-				bar.value:SetFormattedText("|cffAF5050%d|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", min, r * 255, g * 255, b * 255, floor(min / max * 100))
+			if unit == "player" and health:GetAttribute("normalUnit") ~= "pet" then
+				health.value:SetFormattedText("|cffAF5050%d|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", min, r * 255, g * 255, b * 255, floor(min / max * 100))
 			elseif unit == "target" then
-				bar.value:SetFormattedText("|cffAF5050%s|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", ShortValue(min), r * 255, g * 255, b * 255, floor(min / max * 100))
-			elseif self:GetParent():GetName():match("oUF_Party") or self:GetParent():GetName():match("oUF_Raid") then
-				bar.value:SetFormattedText("|cff%02x%02x%02x%s • %d%%|r", r * 255, g * 255, b * 255, ShortValue(floor(min - max)), floor(min / max * 100))
+				health.value:SetFormattedText("|cffAF5050%s|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", ShortValue(min), r * 255, g * 255, b * 255, floor(min / max * 100))
+			elseif health:GetParent():GetName():match("oUF_Party") or health:GetParent():GetName():match("oUF_Raid") then
+				health.value:SetFormattedText("|cff%02x%02x%02x%s • %d%%|r", r * 255, g * 255, b * 255, ShortValue(floor(min - max)), floor(min / max * 100))
 			else
-				bar.value:SetFormattedText("|cff%02x%02x%02x%d%%|r", r * 255, g * 255, b * 255, floor(min / max * 100))
+				health.value:SetFormattedText("|cff%02x%02x%02x%d%%|r", r * 255, g * 255, b * 255, floor(min / max * 100))
 			end
 		else
 			if unit ~= "player" and unit ~= "pet" then
-				bar.value:SetText("|cff559655"..ShortValue(max).."|r")
+				health.value:SetText("|cff559655"..ShortValue(max).."|r")
 			else
-				bar.value:SetText("|cff559655"..max.."|r")
+				health.value:SetText("|cff559655"..max.."|r")
 			end
 		end
 	end
 end
 
-local PostNamePosition = function(self)
+local PostNamePosition = function(self, power)
 	self.Info:ClearAllPoints()
-	if self.Power.value:GetText() then
+	if power.value:GetText() then
 		self.Info:SetPoint("CENTER", 0, caelLib.scale(1))
 	else
 		self.Info:SetPoint("LEFT", caelLib.scale(1), caelLib.scale(1))
 	end
 end
 
-local PreUpdatePower = function(self, event, unit)
-	if self.unit ~= unit then return end
-
+local PreUpdatePower = function(power, unit)
 	local _, pType = UnitPowerType(unit)
 	
-	local color = self.colors.power[pType]
+	local color = colors.power[pType]
 	if color then
-		self.Power:SetStatusBarColor(color[1], color[2], color[3])
+		power:SetStatusBarColor(color[1], color[2], color[3])
 	end
 end
 
-local PostUpdatePower = function(self, event, unit, bar, min, max)
+local PostUpdatePower = function(power, unit, min, max)
+	local self = power:GetParent()
 	local pType, pToken = UnitPowerType(unit)
 	local color = colors.power[pToken]
 
@@ -204,46 +202,46 @@ local PostUpdatePower = function(self, event, unit, bar, min, max)
 		r, g, b = t[1] * 0.5, t[2] * 0.5, t[3] * 0.5
 	end
 
-	bar:SetStatusBarColor(0, 0, 0, 0.5)
-	bar.bg:SetVertexColor(r, g, b)
+	power:SetStatusBarColor(0, 0, 0, 0.5)
+	power.bg:SetVertexColor(r, g, b)
 
 	if color then
-		bar.value:SetTextColor(color[1], color[2], color[3])
+		power.value:SetTextColor(color[1], color[2], color[3])
 	end
 
-	if self.unit ~= "player" and self.unit ~= "pet" and self.unit ~= "target" then return end
+	if unit ~= "player" and unit ~= "pet" and unit ~= "target" then return end
 
 	if min == 0 then
-		bar.value:SetText()
+		power.value:SetText()
 	elseif not UnitIsPlayer(unit) and not UnitPlayerControlled(unit) or not UnitIsConnected(unit) then
-		bar.value:SetText()
+		power.value:SetText()
 	elseif UnitIsDead(unit) or UnitIsGhost(unit) then
-		bar.value:SetText()
+		power.value:SetText()
 	elseif min == max and (pType == 2 or pType == 3 and pToken ~= "POWER_TYPE_PYRITE") then
-		bar.value:SetText()
+		power.value:SetText()
 	else
 		if min ~= max then
 			if pType == 0 then
 				if unit == "target" then
-					bar.value:SetFormattedText("%d%% |cffD7BEA5-|r %s", floor(min / max * 100), ShortValue(max - (max - min)))
-				elseif unit == "player" and self:GetAttribute("normalUnit") == "pet" or unit == "pet" then
-					bar.value:SetFormattedText("%d%%", floor(min / max * 100))
+					power.value:SetFormattedText("%d%% |cffD7BEA5-|r %s", floor(min / max * 100), ShortValue(max - (max - min)))
+				elseif unit == "player" and power:GetAttribute("normalUnit") == "pet" or unit == "pet" then
+					power.value:SetFormattedText("%d%%", floor(min / max * 100))
 				else
-					bar.value:SetFormattedText("%d%% |cffD7BEA5-|r %d", floor(min / max * 100), max - (max - min))
+					power.value:SetFormattedText("%d%% |cffD7BEA5-|r %d", floor(min / max * 100), max - (max - min))
 				end
 			else
-				bar.value:SetText(max - (max - min))
+				power.value:SetText(max - (max - min))
 			end
 		else
 			if unit == "pet" or unit == "target" then
-				bar.value:SetText(ShortValue(min))
+				power.value:SetText(ShortValue(min))
 			else
-				bar.value:SetText(min)
+				power.value:SetText(min)
 			end
 		end
 	end
 	if self.Info then
-		if self.unit == "pet" or self.unit == "target" then PostNamePosition(self) end
+		if unit == "pet" or unit == "target" then PostNamePosition(self, power) end
 	end
 end
 
@@ -320,45 +318,45 @@ local UpdateCPoints = function(self, event, unit)
 	end
 end
 
-local PostCastStart = function(self, event, unit, name, rank, text, castid, interrupt)
-	self.channeling = false
+local PostCastStart = function(Castbar, unit, name, rank, text, castid, interrupt)
+	Castbar.channeling = false
 	if unit == "vehicle" then unit = "player" end
 
 	if unit == "player" then
-		local latency = GetTime() - self.Castbar.castSent
-		latency = latency > self.Castbar.max and self.Castbar.max or latency
-		self.Castbar.Latency:SetText(("%dms"):format(latency * 1e3))
-		self.Castbar.SafeZone:SetWidth(caelLib.scale(self.Castbar:GetWidth() * latency / self.Castbar.max))
-		self.Castbar.SafeZone:ClearAllPoints()
-		self.Castbar.SafeZone:SetPoint("TOPRIGHT")
-		self.Castbar.SafeZone:SetPoint("BOTTOMRIGHT")
+		local latency = GetTime() - Castbar.castSent
+		latency = latency > Castbar.max and Castbar.max or latency
+		Castbar.Latency:SetText(("%dms"):format(latency * 1e3))
+		Castbar.SafeZone:SetWidth(caelLib.scale(Castbar:GetWidth() * latency / Castbar.max))
+		Castbar.SafeZone:ClearAllPoints()
+		Castbar.SafeZone:SetPoint("TOPRIGHT")
+		Castbar.SafeZone:SetPoint("BOTTOMRIGHT")
 	end
 
 	if interrupt and UnitCanAttack("player", unit) then
-		self.Castbar:SetStatusBarColor(0.69, 0.31, 0.31)
+		Castbar:SetStatusBarColor(0.69, 0.31, 0.31)
 	else
-		self.Castbar:SetStatusBarColor(0.55, 0.57, 0.61)
+		Castbar:SetStatusBarColor(0.55, 0.57, 0.61)
 	end
 end
 
-local PostChannelStart = function(self, event, unit, name, rank, text, interrupt)
-	self.channeling = true
+local PostChannelStart = function(Castbar, unit, name, rank, text, interrupt)
+	Castbar.channeling = true
 	if unit == "vehicle" then unit = "player" end
 
 	if unit == "player" then
-		local latency = GetTime() - self.Castbar.castSent
-		latency = latency > self.Castbar.max and self.Castbar.max or latency
-		self.Castbar.Latency:SetText(("%dms"):format(latency * 1e3))
-		self.Castbar.SafeZone:SetWidth(caelLib.scale(self.Castbar:GetWidth() * latency / self.Castbar.max))
-		self.Castbar.SafeZone:ClearAllPoints()
-		self.Castbar.SafeZone:SetPoint("TOPLEFT")
-		self.Castbar.SafeZone:SetPoint("BOTTOMLEFT")
+		local latency = GetTime() - Castbar.castSent
+		latency = latency > Castbar.max and Castbar.max or latency
+		Castbar.Latency:SetText(("%dms"):format(latency * 1e3))
+		Castbar.SafeZone:SetWidth(caelLib.scale(Castbar:GetWidth() * latency / Castbar.max))
+		Castbar.SafeZone:ClearAllPoints()
+		Castbar.SafeZone:SetPoint("TOPLEFT")
+		Castbar.SafeZone:SetPoint("BOTTOMLEFT")
 	end
 
 	if interrupt and UnitCanAttack("player", unit) then
-		self.Castbar:SetStatusBarColor(0.69, 0.31, 0.31)
+		Castbar:SetStatusBarColor(0.69, 0.31, 0.31)
 	else
-		self.Castbar:SetStatusBarColor(0.55, 0.57, 0.61)
+		Castbar:SetStatusBarColor(0.55, 0.57, 0.61)
 	end
 end
 
@@ -441,7 +439,7 @@ local CancelAura = function(self, button)
 	end
 end
 
-local CreateAura = function(self, button, icons)
+local PostCreateAura = function(element, button)
 	button.backdrop = CreateFrame("Frame", nil, button)
 	button.backdrop:SetPoint("TOPLEFT", button, caelLib.scale(-3), caelLib.scale(3))
 	button.backdrop:SetPoint("BOTTOMRIGHT", button, caelLib.scale(3), caelLib.scale(-3))
@@ -457,7 +455,7 @@ local CreateAura = function(self, button, icons)
 
 	button.cd.noOCC = true
 	button.cd.noCooldownCount = true
-	icons.disableCooldown = true
+	element.disableCooldown = true
 
 	button.overlay:SetTexture(buttonTex)
 	button.overlay:SetPoint("TOPLEFT", button, caelLib.scale(-1), caelLib.scale(1))
@@ -465,9 +463,9 @@ local CreateAura = function(self, button, icons)
 	button.overlay:SetTexCoord(0, 1, 0.02, 1)
 	button.overlay.Hide = function(self) end
 
-	if icons ~= self.Enchant then
+	if element ~= Enchant then
 		button.remaining = SetFontString(button, fontn, 8, "OUTLINE")
-		if self.unit == "player" then
+		if unit == "player" then
 			button:SetScript("OnMouseUp", CancelAura)
 		end
 	else
@@ -490,7 +488,7 @@ local CreateEnchantTimer = function(self, icons)
 	end
 end
 
-local UpdateAura = function(self, icons, unit, icon, index)
+local PostUpdateIcon = function(icons, unit, icon, index, offset)
 	local _, _, _, _, _, duration, expirationTime, unitCaster, _ = UnitAura(unit, index, icon.filter)
 	if unitCaster == "player" or unitCaster == "pet" or unitCaster == "vehicle" then
 		if icon.debuff then
@@ -546,10 +544,10 @@ local auraFilter = function(icons, unit, icon, name, rank, texture, count, dtype
 end
 
 local SortAura = function(a, b)
-	return (a.timeLeft or 0) > (b.timeLeft or 0)
+	return (a.timeLeft) > (b.timeLeft)
 end
 
-local PreAuraSetPosition = function(self, auras, max)
+local PreSetPosition = function(auras)
 	sort(auras, SortAura)
 end
 
@@ -610,10 +608,11 @@ local SetStyle = function(self, unit)
 	self.Health.frequentUpdates = true
 	self.Health.Smooth = true
 
+	self.Health.PostUpdate = PostUpdateHealth
+
 	self.Health.bg = self.Health:CreateTexture(nil, "BORDER")
 	self.Health.bg:SetAllPoints()
 	self.Health.bg:SetTexture(normtex)
---	self.Health.bg.multiplier = 2
 
 	self.Health.value = SetFontString(self.Health, font,(unit == "player" or unit == "target") and 11 or 9)
 	if self:GetParent():GetName():match("oUF_Raid") then
@@ -637,6 +636,9 @@ local SetStyle = function(self, unit)
 
 		self.Power.frequentUpdates = true
 		self.Power.Smooth = true
+
+		self.Power.PreUpdate = PreUpdatePower
+		self.Power.PostUpdate = PostUpdatePower
 
 		self.Power.bg = self.Power:CreateTexture(nil, "BORDER")
 		self.Power.bg:SetAllPoints()
@@ -664,13 +666,13 @@ local SetStyle = function(self, unit)
 		self.Info = SetFontString(self:GetParent():GetName():match("oUF_Raid") and self.Nameplate or self.Health, font, unit == "target" and 11 or 9)
 		if self:GetParent():GetName():match("oUF_Raid") then
 			self.Info:SetPoint("BOTTOM", self, 0, caelLib.scale(3))
-			self:Tag(self.Info, "[GetNameColor][NameShort]")
+			self:Tag(self.Info, "[caellian:getnamecolor][caellian:nameshort]")
 		elseif unit == "target" then
 			self.Info:SetPoint("LEFT", caelLib.scale(1), caelLib.scale(1))
-			self:Tag(self.Info, "[GetNameColor][NameLong] [DiffColor][level] [shortclassification]")
+			self:Tag(self.Info, "[caellian:getnamecolor][caellian:namelong] [caellian:diffcolor][level] [shortclassification]")
 		else
 			self.Info:SetPoint("LEFT", caelLib.scale(1), caelLib.scale(1))
-			self:Tag(self.Info, "[GetNameColor][NameMedium]")
+			self:Tag(self.Info, "[caellian:getnamecolor][caellian:namemedium]")
 		end
 	end
 
@@ -707,6 +709,8 @@ local SetStyle = function(self, unit)
 			self.Enchant.spacing = caelLib.scale(1)
 			self.Enchant.initialAnchor = "TOPLEFT"
 			self.Enchant["growth-x"] = "RIGHT"
+			self.PostCreateEnchantIcon = PostCreateAura
+			self.PostUpdateEnchantIcons = CreateEnchantTimer
 		end
 
 		if caelLib.playerClass == "DEATHKNIGHT" then
@@ -771,6 +775,9 @@ local SetStyle = function(self, unit)
 		self.Auras.numBuffs = 16
 		self.Auras.numDebuffs = 16
 		self.Auras.gap = true
+		self.Auras.PreSetPosition = PreSetPosition
+		self.Auras.PostCreateIcon = PostCreateAura
+		self.Auras.PostUpdateIcon = PostUpdateIcon
 		if unit == "pet" then
 			self.Auras:SetPoint("TOPRIGHT", self, "TOPLEFT", caelLib.scale(-9), caelLib.scale(1))
 			self.Auras.initialAnchor = "TOPRIGHT"
@@ -787,12 +794,18 @@ local SetStyle = function(self, unit)
 		self.Buffs:SetWidth(caelLib.scale(24 * 8))
 		self.Buffs.size = caelLib.scale(24)
 		self.Buffs.spacing = caelLib.scale(1)
+		self.Buffs.PreSetPosition = PreSetPosition
+		self.Buffs.PostCreateIcon = PostCreateAura
+		self.Buffs.PostUpdateIcon = PostUpdateIcon
 
 		self.Debuffs = CreateFrame("Frame", nil, self)
 		self.Debuffs:SetHeight(caelLib.scale(23 * 0.97))
 		self.Debuffs:SetWidth(caelLib.scale(230))
 		self.Debuffs.size = caelLib.scale(23 * 0.97)
 		self.Debuffs.spacing = caelLib.scale(1)
+		self.Debuffs.PreSetPosition = PreSetPosition
+		self.Debuffs.PostCreateIcon = PostCreateAura
+		self.Debuffs.PostUpdateIcon = PostUpdateIcon
 		if unit == "player" then
 			self.Buffs:SetPoint("TOPRIGHT", self, "TOPLEFT", caelLib.scale(-9), caelLib.scale(1))
 			self.Buffs.initialAnchor = "TOPRIGHT"
@@ -818,7 +831,7 @@ local SetStyle = function(self, unit)
 			self.Debuffs["growth-y"] = "DOWN"
 			self.Debuffs.onlyShowPlayer = false
 			if not settings.noClassDebuffs then
-				self.CustomAuraFilter = auraFilter
+				self.Debuffs.CustomAuraFilter = auraFilter
 			end
 
 			self.CPoints = CreateFrame("Frame", nil, self.Power)
@@ -877,7 +890,7 @@ local SetStyle = function(self, unit)
 			self.Status = SetFontString(self.PortraitOverlay, font, 18, "OUTLINE")
 			self.Status:SetPoint("CENTER", 0, caelLib.scale(1))
 			self.Status:SetTextColor(0.69, 0.31, 0.31, 0)
-			self:Tag(self.Status, "[pvp]")
+			self:Tag(self.Status, "pvp")
 	
 			self:SetScript("OnEnter", function(self) self.Status:SetAlpha(0.5); UnitFrame_OnEnter(self) end)
 			self:SetScript("OnLeave", function(self) self.Status:SetAlpha(0); UnitFrame_OnLeave(self) end)
@@ -929,6 +942,8 @@ local SetStyle = function(self, unit)
 			self.Castbar.Time:SetJustifyH("RIGHT")
 			self.Castbar.CustomTimeText = CustomCastTimeText
 			self.Castbar.CustomDelayText = CustomCastDelayText
+			self.Castbar.PostCastStart = PostCastStart
+			self.Castbar.PostChannelStart = PostChannelStart
 
 			self.Castbar.Text = SetFontString(self.PortraitOverlay, font, 11)
 			self.Castbar.Text:SetPoint("LEFT", caelLib.scale(1), caelLib.scale(1))
@@ -1059,18 +1074,6 @@ local SetStyle = function(self, unit)
 	end
 	self:RegisterEvent("PLAYER_TARGET_CHANGED", AggroSelect)
 
-	self.PostUpdateHealth = PostUpdateHealth
-	self.PreUpdatePower = PreUpdatePower
-	self.PostUpdatePower = PostUpdatePower
-	self.PostCreateAuraIcon = CreateAura
-	self.PreAuraSetPosition = PreAuraSetPosition
-	self.PostCreateEnchantIcon = CreateAura
-	self.PostUpdateAuraIcon = UpdateAura
-	self.PostUpdateEnchantIcons = CreateEnchantTimer
-	self.PostCastStart = PostCastStart
-	self.PostChannelStart = PostChannelStart
-
-
 	self:SetScale(settings.scale)
 	if self.Auras then self.Auras:SetScale(settings.scale) end
 	if self.Buffs then self.Buffs:SetScale(settings.scale) end
@@ -1107,71 +1110,72 @@ columnAnchorPoint = [STRING] - the anchor point of each new column (ie. use LEFT
 --]]
 
 oUF:RegisterStyle("Caellian", SetStyle)
-oUF:SetActiveStyle("Caellian")
+oUF:Factory(function(self)
+	oUF:SetActiveStyle("Caellian")
 
-local cfg = settings.coords
-oUF:Spawn("player", "oUF_Caellian_player"):SetPoint("BOTTOM", UIParent, caelLib.scale(cfg.playerX), caelLib.scale(cfg.playerY))
-oUF:Spawn("target", "oUF_Caellian_target"):SetPoint("BOTTOM", UIParent, caelLib.scale(cfg.targetX), caelLib.scale(cfg.targetY))
+	local cfg = settings.coords
 
-oUF:Spawn("pet", "oUF_Caellian_pet"):SetPoint("BOTTOMLEFT", oUF_Caellian_player, "TOPLEFT", 0, caelLib.scale(10))
-oUF:Spawn("focus", "oUF_Caellian_focus"):SetPoint("BOTTOMRIGHT", oUF_Caellian_player, "TOPRIGHT", 0, caelLib.scale(10))
-oUF:Spawn("focustarget", "oUF_Caellian_focustarget"):SetPoint("BOTTOMLEFT", oUF_Caellian_target, "TOPLEFT", 0, caelLib.scale(10))
-oUF:Spawn("targettarget", "oUF_Caellian_targettarget"):SetPoint("BOTTOMRIGHT", oUF_Caellian_target, "TOPRIGHT", 0, caelLib.scale(10))
+	self:Spawn("player", "oUF_Caellian_player"):SetPoint("BOTTOM", UIParent, caelLib.scale(cfg.playerX), caelLib.scale(cfg.playerY))
+	self:Spawn("target", "oUF_Caellian_target"):SetPoint("BOTTOM", UIParent, caelLib.scale(cfg.targetX), caelLib.scale(cfg.targetY))
 
-local party = oUF:Spawn("header", "oUF_Party")
-party:SetPoint("TOPLEFT", UIParent, caelLib.scale(cfg.partyX), caelLib.scale(cfg.partyY))
-party:SetAttribute("showParty", true)
-party:SetAttribute("yOffset", caelLib.scale(-27.5))
-party:SetAttribute("template", "oUF_cParty")
+	self:Spawn("pet", "oUF_Caellian_pet"):SetPoint("BOTTOMLEFT", oUF_Caellian_player, "TOPLEFT", 0, caelLib.scale(10))
+	self:Spawn("focus", "oUF_Caellian_focus"):SetPoint("BOTTOMRIGHT", oUF_Caellian_player, "TOPRIGHT", 0, caelLib.scale(10))
+	self:Spawn("focustarget", "oUF_Caellian_focustarget"):SetPoint("BOTTOMLEFT", oUF_Caellian_target, "TOPLEFT", 0, caelLib.scale(10))
+	self:Spawn("targettarget", "oUF_Caellian_targettarget"):SetPoint("BOTTOMRIGHT", oUF_Caellian_target, "TOPRIGHT", 0, caelLib.scale(10))
 
-local raid = {}
-for i = 1, NUM_RAID_GROUPS do
-	local raidgroup = oUF:Spawn("header", "oUF_Raid"..i)
-	raidgroup:SetAttribute("groupFilter", tostring(i))
-	raidgroup:SetAttribute("showRaid", true)
-	raidgroup:SetAttribute("yOffSet", caelLib.scale(-3.5))
-	insert(raid, raidgroup)
-	if i == 1 then
-		raidgroup:SetPoint("TOPLEFT", UIParent, caelLib.scale(cfg.raidX), caelLib.scale(cfg.raidY))
-	else
-		raidgroup:SetPoint("TOPLEFT", raid[i-1], "TOPRIGHT", caelLib.scale(60 * settings.scale - 60) + caelLib.scale(3.5), 0)
-	end
-end
+	local party = self:SpawnHeader("oUF_Party", nil, visible,
+		"showParty", true, "yOffset", caelLib.scale(-27.5))
+	party:SetAttribute("template", "oUF_cParty")
+	party:SetPoint("TOPLEFT", UIParent, caelLib.scale(cfg.partyX), caelLib.scale(cfg.partyY))
 
-local boss = {}
-for i = 1, MAX_BOSS_FRAMES do
-	boss[i] = oUF:Spawn("boss"..i, "oUF_Boss"..i)
-
-	if i == 1 then
-		boss[i]:SetPoint("TOP", UIParent, 0, caelLib.scale(-15))
-	else
-		boss[i]:SetPoint("TOP", boss[i-1], "BOTTOM", 0, caelLib.scale(-7.5))
-	end
-end
-
-for i, v in ipairs(boss) do v:Show() end
-
-local partyToggle = CreateFrame("Frame")
-partyToggle:RegisterEvent("PLAYER_LOGIN")
-partyToggle:RegisterEvent("RAID_ROSTER_UPDATE")
-partyToggle:RegisterEvent("PARTY_LEADER_CHANGED")
-partyToggle:RegisterEvent("PARTY_MEMBERS_CHANGED")
-partyToggle:SetScript("OnEvent", function(self)
-	if InCombatLockdown() then
-		self:RegisterEvent("PLAYER_REGEN_ENABLED")
-	else
-		self:UnregisterEvent("PLAYER_REGEN_ENABLED")
-		local numraid = GetNumRaidMembers()
-		if numraid > 0 and (numraid > 1 or numraid ~= GetNumPartyMembers() + 1) then
-			party:Hide()
-			if not settings.noRaid then
-				for i, v in ipairs(raid) do v:Show() end
-			end
+	local raid = {}
+	for i = 1, NUM_RAID_GROUPS do
+		local raidgroup = self:SpawnHeader("oUF_Raid"..i, nil, visible,
+		"groupFilter", tostring(i), "showRaid", true, "yOffSet", caelLib.scale(-3.5)
+	)
+		insert(raid, raidgroup)
+		if i == 1 then
+			raidgroup:SetPoint("TOPLEFT", UIParent, caelLib.scale(cfg.raidX), caelLib.scale(cfg.raidY))
 		else
-			party:Show()
-			if not settings.noRaid then
-				for i, v in ipairs(raid) do v:Hide() end
-			end
+			raidgroup:SetPoint("TOPLEFT", raid[i-1], "TOPRIGHT", caelLib.scale(60 * settings.scale - 60) + caelLib.scale(3.5), 0)
 		end
 	end
+
+	local boss = {}
+	for i = 1, MAX_BOSS_FRAMES do
+		boss[i] = self:Spawn("boss"..i, "oUF_Boss"..i)
+
+		if i == 1 then
+			boss[i]:SetPoint("TOP", UIParent, 0, caelLib.scale(-15))
+		else
+			boss[i]:SetPoint("TOP", boss[i-1], "BOTTOM", 0, caelLib.scale(-7.5))
+		end
+	end
+
+	for i, v in ipairs(boss) do v:Show() end
+
+	local partyToggle = CreateFrame("Frame")
+	partyToggle:RegisterEvent("PLAYER_LOGIN")
+	partyToggle:RegisterEvent("RAID_ROSTER_UPDATE")
+	partyToggle:RegisterEvent("PARTY_LEADER_CHANGED")
+	partyToggle:RegisterEvent("PARTY_MEMBERS_CHANGED")
+	partyToggle:SetScript("OnEvent", function(self)
+		if InCombatLockdown() then
+			self:RegisterEvent("PLAYER_REGEN_ENABLED")
+		else
+			self:UnregisterEvent("PLAYER_REGEN_ENABLED")
+			local numraid = GetNumRaidMembers()
+			if numraid > 0 and (numraid > 5 or numraid ~= GetNumPartyMembers() + 1) then
+				party:Hide()
+				if not settings.noRaid then
+					for i, v in ipairs(raid) do v:Show() end
+				end
+			else
+				party:Show()
+				if not settings.noRaid then
+					for i, v in ipairs(raid) do v:Hide() end
+				end
+			end
+		end
+	end)
 end)
