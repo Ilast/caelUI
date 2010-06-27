@@ -126,8 +126,10 @@ local PostUpdateHealth = function(health, unit, min, max)
 	if not UnitIsConnected(unit) or UnitIsDead(unit) or UnitIsGhost(unit) then
 		local class = select(2, UnitClass(unit))
 		local color = UnitIsPlayer(unit) and oUF.colors.class[class] or {0.84, 0.75, 0.65}
+
 		health:SetValue(0)
 		health.bg:SetVertexColor(color[1] * 0.5, color[2] * 0.5, color[3] * 0.5)
+
 		if not UnitIsConnected(unit) then
 			health.value:SetText("|cffD7BEA5".."Off".."|r")
 		elseif UnitIsDead(unit) then
@@ -994,7 +996,7 @@ local SetStyle = function(self, unit)
 		end
 	end
 
-	if not unit or unit == "player" then
+	if self:GetParent():GetName():match("oUF_Party") and not self:GetAttribute("unitsuffix") or self:GetParent():GetName():match("oUF_Raid") or unit == "player" then
 		self.Leader = self.Health:CreateTexture(nil, "ARTWORK")
 		self.Leader:SetSize(caelLib.scale(14), caelLib.scale(14))
 		self.Leader:SetPoint("TOPLEFT", 0, caelLib.scale(10))
@@ -1008,7 +1010,7 @@ local SetStyle = function(self, unit)
 		self.MasterLooter:SetParent(self:GetParent():GetName():match("oUF_Raid") and self.Nameplate or self.Health)
 		self.MasterLooter:SetHeight(caelLib.scale(12), caelLib.scale(12))
 		self.MasterLooter:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 0, caelLib.scale(-4))
-		if not unit then
+		if not unit == "player" then
 			self.ReadyCheck = self:CreateTexture(nil, "ARTWORK")
 			self.ReadyCheck:SetParent(self:GetParent():GetName():match("oUF_Raid") and self.Nameplate or self.Health)
 			self.ReadyCheck:SetSize(caelLib.scale(12), caelLib.scale(12))
@@ -1018,12 +1020,12 @@ local SetStyle = function(self, unit)
 				self.ReadyCheck:SetPoint("TOPRIGHT", caelLib.scale(7), caelLib.scale(7))
 			end
 		end
-	end
 
-	if self:GetParent():GetName():match("oUF_Party") and not self:GetAttribute("unitsuffix") then
-		self.LFDRole = self.Health:CreateTexture(nil, "ARTWORK")
-		self.LFDRole:SetSize(caelLib.scale(14), caelLib.scale(14))
-		self.LFDRole:SetPoint("RIGHT", self, "LEFT", caelLib.scale(-1), 0)
+		if self:GetParent():GetName():match("oUF_Party") and not self:GetAttribute("unitsuffix") then
+			self.LFDRole = self.Health:CreateTexture(nil, "ARTWORK")
+			self.LFDRole:SetSize(caelLib.scale(14), caelLib.scale(14))
+			self.LFDRole:SetPoint("RIGHT", self, "LEFT", caelLib.scale(-1), 0)
+		end
 	end
 
 	if caelLib.playerClass == "HUNTER" then
@@ -1061,7 +1063,7 @@ local SetStyle = function(self, unit)
 		self.RaidIcon:SetPoint("TOP", 0, caelLib.scale(10))
 	end
 
-	if not unit or (unit and not unit:match("boss%d")) then
+	if self:GetParent():GetName():match("oUF_Party") and not self:GetAttribute("unitsuffix") or self:GetParent():GetName():match("oUF_Raid") or (unit and not unit:match("boss%d")) then
 		self.outsideRangeAlpha = 0.3
 		self.inRangeAlpha = 1
 		self.SpellRange = true
