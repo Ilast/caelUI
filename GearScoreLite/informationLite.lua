@@ -1,4 +1,4 @@
-
+--[[	$Id$	]]
 
 GS_ItemTypes = {
 	["INVTYPE_RELIC"] = { ["SlotMOD"] = 0.3164, ["ItemSlot"] = 18 },
