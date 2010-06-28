@@ -89,17 +89,16 @@ local StopFlash = function(self)
 end
 
 local Menu = function(self)
-	local unit = self.unit:sub(1, -2)
-	local cunit = self.unit:gsub("^%l", string.upper)
-
-	if(cunit == 'Vehicle') then
-		cunit = 'Pet'
-	end
-
-	if(unit == "party" or unit == "partypet") then
-		ToggleDropDownMenu(1, nil, _G["PartyMemberFrame"..self.id.."DropDown"], "cursor", 0, 0)
-	elseif(_G[cunit.."FrameDropDown"]) then
-		ToggleDropDownMenu(1, nil, _G[cunit.."FrameDropDown"], "cursor", 0, 0)
+	local unit = self.unit:gsub("(.)", string.upper, 1) 
+	if _G[unit.."FrameDropDown"] then
+		ToggleDropDownMenu(1, nil, _G[unit.."FrameDropDown"], "cursor")
+	elseif (self.unit:match("party")) then
+		ToggleDropDownMenu(1, nil, _G["PartyMemberFrame"..self.id.."DropDown"], "cursor")
+	else
+		FriendsDropDown.unit = self.unit
+		FriendsDropDown.id = self.id
+		FriendsDropDown.initialize = RaidFrameDropDown_Initialize
+		ToggleDropDownMenu(1, nil, FriendsDropDown, "cursor")
 	end
 end
 
