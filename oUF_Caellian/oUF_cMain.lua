@@ -464,16 +464,12 @@ local PostCreateAura = function(element, button)
 	button.overlay:SetTexCoord(0, 1, 0.02, 1)
 	button.overlay.Hide = function(self) end
 
-	if element ~= Enchant then
-		button.remaining = SetFontString(button, fontn, 8, "OUTLINE")
-		if unit == "player" then
-			button:SetScript("OnMouseUp", CancelAura)
-		end
-	else
-		button.remaining = SetFontString(button, fontn, 8, "OUTLINE")
-		button.overlay:SetVertexColor(0.33, 0.59, 0.33)
-	end
+	button.remaining = SetFontString(button, fontn, 8, "OUTLINE")
 	button.remaining:SetPoint("TOPLEFT", caelLib.scale(1), caelLib.scale(-1))
+
+	if unit == "player" then
+		button:SetScript("OnMouseUp", CancelAura)
+	end
 end
 
 local CreateEnchantTimer = function(self, icons)
