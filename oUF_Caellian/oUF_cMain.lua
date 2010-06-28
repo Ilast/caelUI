@@ -283,8 +283,7 @@ local UpdateDruidMana = function(self)
 
 	local num, str = UnitPowerType("player")
 	if num ~= 0 then
-		local min = UnitPower("player", 0)
-		local max = UnitPowerMax("player", 0)
+		local min, max = UnitPower("player", 0), UnitPowerMax("player", 0)
 
 		local percMana = min / max * 100
 		if percMana <= lowThreshold then
@@ -440,7 +439,7 @@ local CancelAura = function(self, button)
 	end
 end
 
-local PostCreateAura = function(element, button)
+local PostCreateAura = function(auras, button)
 	button.backdrop = CreateFrame("Frame", nil, button)
 	button.backdrop:SetPoint("TOPLEFT", button, caelLib.scale(-3), caelLib.scale(3))
 	button.backdrop:SetPoint("BOTTOMRIGHT", button, caelLib.scale(3), caelLib.scale(-3))
@@ -456,7 +455,7 @@ local PostCreateAura = function(element, button)
 
 	button.cd.noOCC = true
 	button.cd.noCooldownCount = true
-	element.disableCooldown = true
+	auras.disableCooldown = true
 
 	button.overlay:SetTexture(buttonTex)
 	button.overlay:SetPoint("TOPLEFT", button, caelLib.scale(-1), caelLib.scale(1))
