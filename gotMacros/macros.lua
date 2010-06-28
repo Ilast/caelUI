@@ -326,7 +326,7 @@ end
 multiClasses = {
 	["WDI"] = {
 		body = [=[/2 [[ - >> We Did It << - ]] Recrute
-			/2 Avancée: ICC10-HM:11/12, ICC25-HM:7/12
+			/2 Avancée: ICC10-HM:11/12, ICC25-HM:8/12
 			/2 4 soirs de raid 25 requis par semaine
 			/2 Toutes les candidatures seront étudiées
 			/2 Visitez: http://www.guilde-wedidit.fr]=],
