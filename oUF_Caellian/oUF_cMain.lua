@@ -715,7 +715,7 @@ local SetStyle = function(self, unit)
 			self.PostUpdateEnchantIcons = CreateEnchantTimer
 		end
 
-		if caelLib.playerClass == "DEATHKNIGHT" then
+--		if caelLib.playerClass == "DEATHKNIGHT" then
 			self.Runes = CreateFrame("Frame", nil, self)
 			self.Runes:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, caelLib.scale(-1))
 			self.Runes:SetHeight(caelLib.scale(7))
@@ -736,7 +736,7 @@ local SetStyle = function(self, unit)
 				self.Runes[i].bd:SetTexture(normtex)
 				self.Runes[i].bd:SetVertexColor(0.15, 0.15, 0.15)
 			end
-		end
+--		end
 
 		if IsAddOnLoaded("oUF_TotemBar") and caelLib.playerClass == "SHAMAN" then
 			self.TotemBar = {}
