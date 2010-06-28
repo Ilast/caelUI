@@ -838,7 +838,7 @@ local SetStyle = function(self, unit)
 			self.Debuffs["growth-y"] = "DOWN"
 			self.Debuffs.onlyShowPlayer = false
 			if not settings.noClassDebuffs then
-				self.Debuffs.CustomAuraFilter = auraFilter
+				self.Debuffs.CustomFilter = auraFilter
 			end
 
 			self.CPoints = CreateFrame("Frame", nil, self.Power)
