@@ -18,6 +18,11 @@ local fontn = caelMedia.fonts.OUF_CAELLIAN_NUMBERFONT
 local lowThreshold = settings.lowThreshold
 local highThreshold = settings.highThreshold
 
+local backdrop = {
+	bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
+	insets = {top = caelLib.scale(-1), left = caelLib.scale(-1), bottom = caelLib.scale(-1), right = caelLib.scale(-1)},
+}
+
 local runeloadcolors = {
 	[1] = {0.69, 0.31, 0.31},
 	[2] = {0.69, 0.31, 0.31},
@@ -580,10 +585,7 @@ local SetStyle = function(self, unit)
 
 	self:HookScript("OnShow", updateAllElements)
 
-	self:SetBackdrop {
-		bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
-		insets = {top = caelLib.scale(-1), left = caelLib.scale(-1), bottom = caelLib.scale(-1), right = caelLib.scale(-1)},
-	}
+	self:SetBackdrop(backdrop)
 	self:SetBackdropColor(0.25, 0.25, 0.25)
 	
 
@@ -720,13 +722,18 @@ local SetStyle = function(self, unit)
 			self.Runes:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, caelLib.scale(-1))
 			self.Runes:SetHeight(caelLib.scale(7))
 			self.Runes:SetWidth(caelLib.scale(230))
-			self.Runes.anchor = "TOPLEFT"
-			self.Runes.growth = "RIGHT"
-			self.Runes.height = caelLib.scale(7)
-			self.Runes.width = caelLib.scale(230 / 6) -- ( -0.85)
+			self.Runes:SetBackdrop(backdrop)
+			self.Runes:SetBackdropColor(0.25, 0.25, 0.25)
 
 			for i = 1, 6 do
 				self.Runes[i] = CreateFrame("StatusBar", self:GetName().."_Runes"..i, self)
+				self.Runes[i]:SetHeight(caelLib.scale(7))
+				self.Runes[i]:SetWidth(caelLib.scale(230 / 6) - 0.4)
+				if (i == 1) then
+					self.Runes[i]:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, caelLib.scale(-1))
+				else
+					self.Runes[i]:SetPoint("TOPLEFT", self.Runes[i-1], "TOPRIGHT", caelLib.scale(1), 0)
+				end
 				self.Runes[i]:SetStatusBarTexture(normtex)
 				self.Runes[i]:GetStatusBarTexture():SetHorizTile(false)
 				self.Runes[i]:SetStatusBarColor(unpack(runeloadcolors[i]))
