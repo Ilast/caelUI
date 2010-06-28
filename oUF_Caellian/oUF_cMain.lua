@@ -518,7 +518,7 @@ local PostUpdateIcon = function(icons, unit, icon, index, offset)
 	icon:SetScript("OnUpdate", CreateAuraTimer)
 end
 
-local auraFilter = function(icons, unit, icon, name, rank, texture, count, dtype, duration, expiration, caster)
+local CustomFilter = function(icons, unit, icon, name, rank, texture, count, dtype, duration, expiration, caster)
 	if UnitCanAttack("player", unit) then
 		local casterClass
 --		if debuffFilter[name] then
@@ -838,7 +838,7 @@ local SetStyle = function(self, unit)
 			self.Debuffs["growth-y"] = "DOWN"
 			self.Debuffs.onlyShowPlayer = false
 			if not settings.noClassDebuffs then
-				self.Debuffs.CustomFilter = auraFilter
+				self.Debuffs.CustomFilter = CustomFilter
 			end
 
 			self.CPoints = CreateFrame("Frame", nil, self.Power)
