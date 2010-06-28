@@ -307,7 +307,7 @@ local UpdateCPoints = function(self, event, unit)
 	end
 end
 
-local PostCastStart = function(Castbar, unit, name, rank, text, castid, interrupt)
+local PostCastStart = function(Castbar, unit, name, rank, text, castid)
 	Castbar.channeling = false
 	if unit == "vehicle" then unit = "player" end
 
@@ -321,14 +321,14 @@ local PostCastStart = function(Castbar, unit, name, rank, text, castid, interrup
 		Castbar.SafeZone:SetPoint("BOTTOMRIGHT")
 	end
 
-	if interrupt and UnitCanAttack("player", unit) then
+	if Castbar.interrupt and UnitCanAttack("player", unit) then
 		Castbar:SetStatusBarColor(0.69, 0.31, 0.31)
 	else
 		Castbar:SetStatusBarColor(0.55, 0.57, 0.61)
 	end
 end
 
-local PostChannelStart = function(Castbar, unit, name, rank, text, interrupt)
+local PostChannelStart = function(Castbar, unit, name, rank, text)
 	Castbar.channeling = true
 	if unit == "vehicle" then unit = "player" end
 
@@ -342,7 +342,7 @@ local PostChannelStart = function(Castbar, unit, name, rank, text, interrupt)
 		Castbar.SafeZone:SetPoint("BOTTOMLEFT")
 	end
 
-	if interrupt and UnitCanAttack("player", unit) then
+	if Castbar.interrupt and UnitCanAttack("player", unit) then
 		Castbar:SetStatusBarColor(0.69, 0.31, 0.31)
 	else
 		Castbar:SetStatusBarColor(0.55, 0.57, 0.61)
