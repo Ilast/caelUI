@@ -80,6 +80,8 @@ local triggers = {
 	"blizz.*notif[iy].*account.*cataclysm.*info", --Hello,Blizzard Entertainment notifies you that your WOW account has been chosen to participate in Cataclysm beta test. For more information please visit: XYZ
 	"blizz.*account.*safety.*hacker.*opportunity", --Blizzard latest activities, cell phone locked account hundred percent safety of your account, no interference by hackers who have the opportunity to get big disaster trial eligibility, please visit:XYZ
 	"blizz.*warcraft.*account.*info.*disable", --Hello! Blizzard World of Warcraft game found in violation of your game account, please visit our website [XYZ] enter your information, pending review, or we will permanently disable your game account. 
+	"blizz.*monk.*store.*log.*submit.*free", --Hello, In celebration of BlizzCon 2010 you have receieved a Pandaren Monk Pet from the Blizzard Pet Store. please log in at [XYZ] Submit your email, and your free pet will be sent to all of your characters!
+	"surprise.*summon.*worgen.*first.*conquer.*visit", --surprise!Summons from goblins and worgens, the first warrior to conquer Azeroth will be you!please visit:[XYZ]
 
 	--Personal Whispers
 	"server.*purchase.*gold.*deliv", --sorry to bother,currently we have 29200g on this server, wondering if you might purchase some gold today? 15mins delivery:)
@@ -119,8 +121,10 @@ local triggers = {
 	"^%W+diymm[0o]game.c[0o]m%W+$", --June 10
 	--Good Choice ===> MMO4STORE.C0M ==> only (=19.9 per 10k --June 10
 	--Good Choice==> BUYEUGOLD.COM==>Only E17 per 10K --June 10
-	"^goodchoice%W+.*c[o0]m%W+only.*per.*k$", --Good Choice==>29 [GOLD.COM]==>Only E18 per 10K
-	"^choice%Wm4m%W+.*%.c[o0]m%W+only.*per.*k$", --Choice"M4M"=>>BUYEUGOLD.COM=>>Only E13.7 per 10K
+	--Good Choice ===> MMO4STORE.CC ==> only E16.36 per 10k --June 10
+	"^goodchoice%W+.*%.c[co0@]m?%W+only.*per%d+k$", --Good Choice==>29 [GOLD.COM]==>Only E18 per 10K
+	--Choice "M4M"==>WOWGAMELIFE.C@M==>Only E17 per 10K
+	"^choice%Wm4m%W+.*%.c[co0@]m?%W+only.*per%d+k$", --Choice"M4M"=>>BUYEUGOLD.COM=>>Only E13.7 per 10K
 	"sell.*safe.*fast.*site.*gold2wow", --()()Hot selling:safest and fastest trade,reliable site gold2wow()() --June 10
 	"^%W+m+oggg%.[cd][oe]m?%W+$", --April 10
 	"^%W+lastminuteangebotevonmmoggg%W+$", --temp
@@ -138,6 +142,10 @@ local triggers = {
 	"^%W+gg4g%.[ce][ou]m?%W+$", --January 09
 	"^www%.ignmax%.com$", --December 09
 	"gamesky2%..*deliver", --January 10
+	"mmoarm2teeth.*wanna.*gear.*season.*wowgold", --hey,this is [3w.mmoarm2teeth.com](3w=www).do you wanna get heroic ICC gear,season8 gear and wow gold?
+	"^%W+.*enjoy.*promotion.*offline%-ah%.com%W+$", -->>>Take a little time enjoy World Cup Promotion of Offline-AH.COM<<< --June 10 / "Expires 11/7"
+	"^%W+goldforonly.*gbp%W+$", -->>>GOLD for only 0.0016GBP<<< --temp
+	"^%W+ilvl.*weapons.*freemountsonsite%W+$", -->>>ilvl 251/264 weapons even free mounts Onsite <<< --temp
 	"www.*cheap.*safe.*info.*cost", --<< www.ignaccount.com >> Cheap,Safe & Transferal level 80 accounts with all the registered information on << www.ignaccount.com >> cost only $180 --June 10
 	"%[.*%].*wehave.*boeitems.*mats.*sale.*www", --wts [Battered Hilt] [Wodin's Lucky Necklace] we have all the Boe items,mats and t10/t10.5 for sale .<www.ignah.com>!! --June 10
 	"skillcopper%.eu.*wow.*spectral", --skillcopper.eu Oldalunk ujabb termekekel bovult WoWTCG Loot Card-okal pl.:(Mount: Spectral Tiger, pet: Tuskarr Kite, Spectral Kitten Fun cuccok: Papa Hummel es meg sok mas) Gold, GC, CD kulcsok Akcio! Latogass el oldalunkra skillcopper.eu
