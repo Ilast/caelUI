@@ -147,7 +147,7 @@ local PostUpdateHealth = function(health, unit, min, max)
 				health.value:SetFormattedText("|cffAF5050%d|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", min, r * 255, g * 255, b * 255, floor(min / max * 100))
 			elseif unit == "target" then
 				health.value:SetFormattedText("|cffAF5050%s|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", ShortValue(min), r * 255, g * 255, b * 255, floor(min / max * 100))
-			elseif health:GetParent():GetName():match("oUF_Party") or health:GetParent():GetName():match("oUF_Raid") then
+			elseif health:GetParent():GetName():match("oUF_Raid") then
 				health.value:SetFormattedText("|cff%02x%02x%02x%s • %d%%|r", r * 255, g * 255, b * 255, ShortValue(floor(min - max)), floor(min / max * 100))
 			else
 				health.value:SetFormattedText("|cff%02x%02x%02x%d%%|r", r * 255, g * 255, b * 255, floor(min / max * 100))
