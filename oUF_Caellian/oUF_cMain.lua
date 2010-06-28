@@ -62,7 +62,7 @@ local colors = setmetatable({
 oUF.colors.tapped = {0.55, 0.57, 0.61}
 oUF.colors.disconnected = {0.84, 0.75, 0.65}
 
---	oUF.colors.smooth = {0.69, 0.31, 0.31, 0.15, 0.15, 0.25, 0.15, 0.15, 0.20}
+oUF.colors.smooth = {0.69, 0.31, 0.31, 0.15, 0.15, 0.25, 0.15, 0.15, 0.20}
 
 local SetUpAnimGroup = function(self)
 	self.anim = self:CreateAnimationGroup("Flash")
@@ -127,6 +127,7 @@ local ShortValue = function(value)
 end
 
 local PostUpdateHealth = function(health, unit, min, max)
+
 	if not UnitIsConnected(unit) or UnitIsDead(unit) or UnitIsGhost(unit) then
 		local class = select(2, UnitClass(unit))
 		local color = UnitIsPlayer(unit) and oUF.colors.class[class] or {0.84, 0.75, 0.65}
@@ -142,9 +143,6 @@ local PostUpdateHealth = function(health, unit, min, max)
 			health.value:SetText("|cffD7BEA5".."Ghost".."|r")
 		end
 	else
-		health:SetStatusBarColor(0, 0, 0, 0.5)
-		health.bg:SetVertexColor(0.42, 0.38, 0.33)
-
 		if min ~= max then
 			local r, g, b
 			r, g, b = oUF.ColorGradient(min/max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
@@ -186,33 +184,19 @@ local PreUpdatePower = function(power, unit)
 end
 
 local PostUpdatePower = function(power, unit, min, max)
+
 	local self = power:GetParent()
+
 	local pType, pToken = UnitPowerType(unit)
 	local color = colors.power[pToken]
 
-	local reaction = UnitReaction(unit, "player")
-	if UnitIsPlayer(unit) or unit == "pet" then
-		if unit ~= "player" and unit ~= "pet" then
-			local class = select(2, UnitClass(unit))
-			t = oUF.colors.class[class]
-		else
-			t = color
-		end
-	elseif reaction then
-		t = oUF.colors.reaction[reaction]
-	else
-		r, g, b = 0.84, 0.75, 0.65
-	end
-
-	if t then
-		r, g, b = t[1] * 0.5, t[2] * 0.5, t[3] * 0.5
-	end
-
-	power:SetStatusBarColor(0, 0, 0, 0.5)
-	power.bg:SetVertexColor(r, g, b)
-
 	if color then
 		power.value:SetTextColor(color[1], color[2], color[3])
+
+		if not UnitIsConnected(unit) or UnitIsDead(unit) or UnitIsGhost(unit) then
+			power:SetValue(0)
+			power.bg:SetVertexColor(color[1] * 0.5, color[2] * 0.5, color[3] * 0.5)
+		end
 	end
 
 	if unit ~= "player" and unit ~= "pet" and unit ~= "target" then return end
@@ -609,6 +593,10 @@ local SetStyle = function(self, unit)
 	self.Health:SetStatusBarTexture(normtex)
 	self.Health:GetStatusBarTexture():SetHorizTile(false)
 
+	self.Health.colorTapping = true
+	self.Health.colorDisconnected = true
+	self.Health.colorSmooth = true
+
 	self.Health.frequentUpdates = true
 	self.Health.Smooth = true
 
@@ -617,6 +605,7 @@ local SetStyle = function(self, unit)
 	self.Health.bg = self.Health:CreateTexture(nil, "BORDER")
 	self.Health.bg:SetAllPoints()
 	self.Health.bg:SetTexture(normtex)
+	self.Health.bg.multiplier = 0.5
 
 	self.Health.value = SetFontString(self.Health, font,(unit == "player" or unit == "target") and 11 or 9)
 	if unitInRaid then
@@ -638,6 +627,10 @@ local SetStyle = function(self, unit)
 		self.Power:SetStatusBarTexture(normtex)
 		self.Power:GetStatusBarTexture():SetHorizTile(false)
 
+		self.Power.colorPower = unit == "player" or unit == "pet" and true
+		self.Power.colorClass = true
+		self.Power.colorReaction = true
+
 		self.Power.frequentUpdates = true
 		self.Power.Smooth = true
 
@@ -647,6 +640,7 @@ local SetStyle = function(self, unit)
 		self.Power.bg = self.Power:CreateTexture(nil, "BORDER")
 		self.Power.bg:SetAllPoints()
 		self.Power.bg:SetTexture(normtex)
+		self.Power.bg.multiplier = 0.5
 
 		self.Power.value = SetFontString(self.Health, font, (unit == "player" or unit == "target") and caelLib.scale(11) or caelLib.scale(9))
 		self.Power.value:SetPoint("LEFT", caelLib.scale(1), caelLib.scale(1))
@@ -1071,7 +1065,7 @@ local SetStyle = function(self, unit)
 	end
 
 	if unitInParty and not unitIsPartyPet and not unitIsPartyTarget or unitInRaid or (unit and not unit:match("boss%d")) then
-		self.outsideRangeAlpha = 0.3
+		self.outsideRangeAlpha = 0.5
 		self.inRangeAlpha = 1
 		self.SpellRange = true
 	end
