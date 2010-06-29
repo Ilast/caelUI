@@ -192,11 +192,14 @@ local PostUpdatePower = function(power, unit, min, max)
 
 	if color then
 		power.value:SetTextColor(color[1], color[2], color[3])
+	end
 
-		if not UnitIsConnected(unit) or UnitIsDead(unit) or UnitIsGhost(unit) then
-			power:SetValue(0)
-			power.bg:SetVertexColor(color[1] * 0.5, color[2] * 0.5, color[3] * 0.5)
-		end
+	if not UnitIsConnected(unit) or UnitIsDead(unit) or UnitIsGhost(unit) then
+		local class = select(2, UnitClass(unit))
+		local color = UnitIsPlayer(unit) and oUF.colors.class[class] or {0.84, 0.75, 0.65}
+
+		power:SetValue(0)
+		power.bg:SetVertexColor(color[1] * 0.5, color[2] * 0.5, color[3] * 0.5)
 	end
 
 	if unit ~= "player" and unit ~= "pet" and unit ~= "target" then return end
