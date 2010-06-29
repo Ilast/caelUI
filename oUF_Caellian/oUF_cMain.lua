@@ -933,6 +933,9 @@ local SetStyle = function(self, unit)
 		self.Castbar:GetStatusBarTexture():SetHorizTile(false)
 		self.Castbar:SetAlpha(0.75)
 
+		self.Castbar.PostCastStart = PostCastStart
+		self.Castbar.PostChannelStart = PostChannelStart
+
 --		self.Castbar.bg = self.Castbar:CreateTexture(nil, "BORDER")
 --		self.Castbar.bg:SetAllPoints()
 --		self.Castbar.bg:SetTexture(normtex)
@@ -952,8 +955,6 @@ local SetStyle = function(self, unit)
 			self.Castbar.Time:SetJustifyH("RIGHT")
 			self.Castbar.CustomTimeText = CustomCastTimeText
 			self.Castbar.CustomDelayText = CustomCastDelayText
-			self.Castbar.PostCastStart = PostCastStart
-			self.Castbar.PostChannelStart = PostChannelStart
 
 			self.Castbar.Text = SetFontString(self.PortraitOverlay, font, 11)
 			self.Castbar.Text:SetPoint("LEFT", caelLib.scale(1), caelLib.scale(1))
