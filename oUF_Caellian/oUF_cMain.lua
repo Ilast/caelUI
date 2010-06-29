@@ -62,7 +62,7 @@ local colors = setmetatable({
 oUF.colors.tapped = {0.55, 0.57, 0.61}
 oUF.colors.disconnected = {0.84, 0.75, 0.65}
 
-oUF.colors.smooth = {0.69, 0.31, 0.31, 0.15, 0.15, 0.25, 0.15, 0.15, 0.20}
+--	oUF.colors.smooth = {0.69, 0.31, 0.31, 0.25, 0.25, 0.25, 0.15, 0.15, 0.15}
 
 local SetUpAnimGroup = function(self)
 	self.anim = self:CreateAnimationGroup("Flash")
@@ -136,22 +136,27 @@ local PostUpdateHealth = function(health, unit, min, max)
 		health.bg:SetVertexColor(color[1] * 0.5, color[2] * 0.5, color[3] * 0.5)
 
 		if not UnitIsConnected(unit) then
-			health.value:SetText("|cffD7BEA5".."Off".."|r")
+			health.value:SetText("|cffD7BEA5".."Offline".."|r")
 		elseif UnitIsDead(unit) then
 			health.value:SetText("|cffD7BEA5".."Dead".."|r")
 		elseif UnitIsGhost(unit) then
 			health.value:SetText("|cffD7BEA5".."Ghost".."|r")
 		end
 	else
+		local r, g, b
+		r, g, b = oUF.ColorGradient(min/max, 0.69, 0.31, 0.31, 0.71, 0.43, 0.27, 0.17, 0.17, 0.24)
+
+		health:SetStatusBarColor(r, g, b)
+		health.bg:SetVertexColor(0.15, 0.15, 0.15)
+
 		if min ~= max then
-			local r, g, b
 			r, g, b = oUF.ColorGradient(min/max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
 			if unit == "player" and health:GetAttribute("normalUnit") ~= "pet" then
 				health.value:SetFormattedText("|cffAF5050%d|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", min, r * 255, g * 255, b * 255, floor(min / max * 100))
 			elseif unit == "target" then
 				health.value:SetFormattedText("|cffAF5050%s|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", ShortValue(min), r * 255, g * 255, b * 255, floor(min / max * 100))
-			elseif health:GetParent():GetName():match("oUF_Raid") then
-				health.value:SetFormattedText("|cff%02x%02x%02x%s • %d%%|r", r * 255, g * 255, b * 255, ShortValue(floor(min - max)), floor(min / max * 100))
+			elseif health:GetParent():GetName():match("oUF_Party") or health:GetParent():GetName():match("oUF_Raid") then
+				health.value:SetFormattedText("|cff%02x%02x%02x%s|r", r * 255, g * 255, b * 255, ShortValue(floor(min - max)))
 			else
 				health.value:SetFormattedText("|cff%02x%02x%02x%d%%|r", r * 255, g * 255, b * 255, floor(min / max * 100))
 			end
@@ -557,8 +562,8 @@ end
 
 local SetStyle = function(self, unit)
 
-	local unitInRaid = self:GetParent():GetName():match"oUF_Raid" 
-	local unitInParty = self:GetParent():GetName():match"oUF_Party"
+	local unitInRaid = self:GetParent():GetName():match("oUF_Raid" )
+	local unitInParty = self:GetParent():GetName():match("oUF_Party")
 	local unitIsPartyPet = self:GetAttribute("unitsuffix") == "pet"
 	local unitIsPartyTarget = self:GetAttribute("unitsuffix") == "target"
 
@@ -598,7 +603,6 @@ local SetStyle = function(self, unit)
 
 	self.Health.colorTapping = true
 	self.Health.colorDisconnected = true
-	self.Health.colorSmooth = true
 
 	self.Health.frequentUpdates = true
 	self.Health.Smooth = true
@@ -608,7 +612,7 @@ local SetStyle = function(self, unit)
 	self.Health.bg = self.Health:CreateTexture(nil, "BORDER")
 	self.Health.bg:SetAllPoints()
 	self.Health.bg:SetTexture(normtex)
-	self.Health.bg.multiplier = 0.5
+--	self.Health.bg.multiplier = 0.5
 
 	self.Health.value = SetFontString(self.Health, font,(unit == "player" or unit == "target") and 11 or 9)
 	if unitInRaid then
