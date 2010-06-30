@@ -111,13 +111,6 @@ local function AddMessage(frame, text, red, green, blue, id)
 	return hooks[frame](frame, text, red, green, blue, id)
 end
 
-
--- Hide EditBox artwork.
-local a, b, c = select(6, ChatFrameEditBox:GetRegions())
-kill(a)
-kill(b)
-kill(c)
-
 -- Auto scroll to bottom after SCROLLDOWNDELAY seconds of no activity.
 local AutoScrollQueue = {}
 local function AutoScrollOnUpdate(self, elapsed)
@@ -139,7 +132,7 @@ local function AutoScrollOnUpdate(self, elapsed)
 	end
 end
 
-local function ScrollChat(self, delta)
+function FloatingChatFrame_OnMouseScroll(self, delta)
 	if delta > 0 then
 		if IsShiftKeyDown() then
 			self:ScrollToTop()
@@ -239,10 +232,10 @@ local function OnHyperlinkClickHook(self, link, text, button)
 			text = text:gsub("|c%x%x%x%x%x%x%x%x(.-)|r", "%1")
 			text = text:gsub("|H.-|h(.-)|h", "%1")
 			
-			ChatFrameEditBox:Insert(text)
-			ChatFrameEditBox:Show()
-			ChatFrameEditBox:HighlightText()
-			ChatFrameEditBox:SetFocus()
+			caelChat.GetChatFrameEditBox():Insert(text)
+			caelChat.GetChatFrameEditBox():Show()
+			caelChat.GetChatFrameEditBox():HighlightText()
+			caelChat.GetChatFrameEditBox():SetFocus()
 		end
 		return
 	elseif link:sub(1,6) == "player" and button == "LeftButton" and AltClickInvite(link) then
@@ -258,13 +251,12 @@ local blacklist = {
 }
 
 for i=1,7 do
-	local frame = _G['ChatFrame'..i]
+	local frame = _G[format("ChatFrame%s", i)]
 	frame:EnableMouseWheel(true)
-	frame:SetScript("OnMouseWheel", ScrollChat)
 	
-	kill(_G["ChatFrame"..i.."UpButton"])
-	kill(_G["ChatFrame"..i.."DownButton"])
-	kill(_G["ChatFrame"..i.."BottomButton"])
+	kill(_G[format("ChatFrame%sUpButton", i)])
+	kill(_G[format("ChatFrame%sDownButton", i)])
+	kill(_G[format("ChatFrame%sBottomButton", i)])
 	
 	if not blacklist[frame] then
 		frame:SetScript("OnHyperlinkClick", OnHyperlinkClickHook)
