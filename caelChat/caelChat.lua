@@ -14,45 +14,39 @@ local INVITE_WORD = "inviteraid"
 CHAT_TELL_ALERT_TIME = 0 -- sound on every whisper
 DEFAULT_CHATFRAME_ALPHA = 0 -- remove mouseover background
 
-local ChatFrameEditBox = ChatFrameEditBox
-ChatFrameEditBox:SetAltArrowKeyMode(nil)
-ChatFrameEditBox:ClearAllPoints()
-ChatFrameEditBox:SetHeight(20)
-ChatFrameEditBox:SetPoint("BOTTOMLEFT",  caelPanel1, "TOPLEFT", 0, caelLib.scale(1))
-ChatFrameEditBox:SetPoint("BOTTOMRIGHT", caelPanel1, "TOPRIGHT", caelLib.scale(-90), caelLib.scale(1))
-ChatFrameEditBox:SetFont(caelMedia.fonts.NORMAL, 12)
-ChatFrameEditBoxHeader:SetPoint("LEFT", caelPanel3a, caelLib.scale(5), caelLib.scale(1))
-ChatFrameEditBoxHeader:SetFont(caelMedia.fonts.NORMAL, 12)
-
--- save original function to alternate name
-ChatFrameEditBox.oldSetTextInsets = ChatFrameEditBox.SetTextInsets
--- override function to modify values.
-ChatFrameEditBox.SetTextInsets = function(self, left, right, top, bottom)
-	left = caelLib.scale(left - 10)
-	top = caelLib.scale(top - 2)
-	-- call original function
-	ChatFrameEditBox.oldSetTextInsets(self, left, right, top, bottom)
-end
-
-ChatFrameEditBox:HookScript("OnHide", function()
-	caelPanel3a:SetBackdropColor(0, 0, 0, 0.33)
-end)
+-- Hides the new Friends button next to the chatbox (possibly temporary)
+FriendsMicroButton:Hide()
 
 local colorize = function(r, g, b)
 	caelPanel3a:SetBackdropColor(r * 0.5, g * 0.5, b * 0.5, 0.5)
 end
 
+-- Handle the color changes to the chatbox edit frame panel (caelPanel3a)
 hooksecurefunc("ChatEdit_UpdateHeader", function()
-	local type = ChatFrameEditBox:GetAttribute("chatType")
-	if type == "CHANNEL" then
-		local chatType = GetChannelName(ChatFrameEditBox:GetAttribute("channelTarget"))
-		if chatType == 0 then
-			colorize(0.25, 0.25, 0.25)
+	if GetChatFrameID == nil then
+		local type = ChatFrame1EditBox:GetAttribute("chatType")
+		if type == "CHANNEL" then
+			local chatType = GetChannelName(ChatFrame1EditBox:GetAttribute("channelTarget"))
+			if chatType == 0 then
+				colorize(0.25, 0.25, 0.25)
+			else
+				colorize(ChatTypeInfo[type..chatType].r, ChatTypeInfo[type..chatType].g, ChatTypeInfo[type..chatType].b)
+			end
 		else
-			colorize(ChatTypeInfo[type..chatType].r, ChatTypeInfo[type..chatType].g, ChatTypeInfo[type..chatType].b)
+			colorize(ChatTypeInfo[type].r, ChatTypeInfo[type].g, ChatTypeInfo[type].b)
 		end
 	else
-		colorize(ChatTypeInfo[type].r, ChatTypeInfo[type].g,ChatTypeInfo[type].b)
+		local type = caelChat.GetChatFrameEditBox():GetAttribute("chatType")
+		if type == "CHANNEL" then
+			local chatType = GetChannelName(caelChat.GetChatFrameEditBox():GetAttribute("channelTarget"))
+			if chatType == 0 then
+				colorize(0.25, 0.25, 0.25)
+			else
+				colorize(ChatTypeInfo[type..chatType].r, ChatTypeInfo[type..chatType].g, ChatTypeInfo[type..chatType].b)
+			end
+		else
+			colorize(ChatTypeInfo[type].r, ChatTypeInfo[type].g, ChatTypeInfo[type].b)
+		end
 	end
 end)
 
@@ -122,6 +116,11 @@ local GetChatFrameID = function(...)
 	return ChatButtonBar.id
 end
 
+caelChat.GetChatFrameEditBox = function(...)
+--	Gets the current chat frame edit box which should be currently active
+	return _G[format("ChatFrame%sEditBox", GetChatFrameID())]
+end
+
 local ShowChatFrame = function(self)
 --	Set required id variables.
 	ChatButtonBar.id = self.id
@@ -132,6 +131,7 @@ local ShowChatFrame = function(self)
 		if i ~= 2 then
 			_G[format("ChatButton%s", i)]:SetBackdropColor(0, 0, 0, 0.33)
 			_G[format("ChatFrame%s", i)]:Hide()
+			_G[format("ChatFrame%sEditBox", i)]:Hide()
 		end
 	end
 
@@ -142,6 +142,10 @@ local ShowChatFrame = function(self)
 	self:SetBackdropColor(0.84, 0.75, 0.65, 0.5)
 
 	_G[format("ChatFrame%s", self.id)]:Show()
+	_G[format("ChatFrame%sEditBox", self.id)]:Show()
+
+	_G[format("ChatFrame%sEditBox", self.id)]:SetFocus()
+	_G[format("ChatFrame%sEditBox", self.id)]:ClearFocus()
 end
 
 local ctddm = CreateFrame("Frame", "ChatTabDropDown")
@@ -191,45 +195,170 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 			caelChat.eventFrame:UnregisterEvent("ADDON_LOADED")
 			for i = 1, NUM_CHAT_WINDOWS do 
 				local frame = _G[format("ChatFrame%s", i)]
-				local dockHighlight = _G[format("ChatFrame%sTabDockRegionHighlight", i)]
-				
---				kill chat tabs
+				local cfeb = _G[format("ChatFrame%sEditBox", i)]
+				local cfebh = _G[format("ChatFrame%sEditBoxHeader", i)]
 				local cft = _G[format("ChatFrame%sTab", i)]
 				local cftf = _G[format("ChatFrame%sTabFlash", i)]
+				--local dockHighlight = _G[format("ChatFrame%sTabDockRegionHighlight", i)] No longer needed
 
+				-- kill chat tabs
 				cft:EnableMouse(false)
 				cft:SetScript("OnEnter", nil)
 				cft:SetScript("OnLeave", nil)
-				cft:GetHighlightTexture():SetTexture(nil)
+				--cft:GetHighlightTexture():SetTexture(nil) No longer needed
 				cft.SetAlpha = function() end
 
 				cftf:SetScript("OnShow", nil)
 				cftf:SetScript("OnHide", nil)
 				cftf:GetRegions():SetTexture(nil)
+				--frame:GetRegions():SetTexture(nil)
 
+				-- Removes hover over textures
+				kill(_G[format("ChatFrame%sBackground",i)])
+				kill(_G[format("ChatFrame%sTopLeftTexture",i)])
+				kill(_G[format("ChatFrame%sBottomLeftTexture",i)])
+				kill(_G[format("ChatFrame%sBottomRightTexture",i)])
+				kill(_G[format("ChatFrame%sTopRightTexture",i)])
+				kill(_G[format("ChatFrame%sLeftTexture",i)])
+				kill(_G[format("ChatFrame%sRightTexture",i)])
+				kill(_G[format("ChatFrame%sBottomTexture",i)])
+				kill(_G[format("ChatFrame%sTopTexture",i)])
+
+				-- Removes Default ChatFrame Tabs texture
 				kill(_G[format("ChatFrame%sTabLeft", i)])
 				kill(_G[format("ChatFrame%sTabMiddle", i)])
 				kill(_G[format("ChatFrame%sTabRight", i)])
 				kill(_G[format("ChatFrame%sTabText", i)])
 
+				-- Killing off the new chat tab selected feature
+				kill(_G[format("ChatFrame%sTabSelectedLeft", i)])
+				kill(_G[format("ChatFrame%sTabSelectedMiddle", i)])
+				kill(_G[format("ChatFrame%sTabSelectedRight", i)])
+				kill(_G[format("ChatFrame%sTabSelectedTop", i)])
+
+				-- Kills off the new method of handling the Chat Frame scroll buttons as well as the resize button
+				-- Note: This also needs to include the actual frame textures for the ButtonFrame onHover
+				kill(_G[format("ChatFrame%sButtonFrameUpButton", i)]);
+				kill(_G[format("ChatFrame%sButtonFrameDownButton", i)]);
+				kill(_G[format("ChatFrame%sButtonFrameBottomButton", i)]);
+				kill(_G[format("ChatFrame%sResizeButton", i)])
+				kill(_G["ChatFrameMenuButton"])
+
+				-- Kills off the retarded new circle around the editbox
+				kill(_G[format("ChatFrame%sEditBoxFocusLeft", i)])
+				kill(_G[format("ChatFrame%sEditBoxFocusMid", i)])
+				kill(_G[format("ChatFrame%sEditBoxFocusRight", i)])
+
+				-- Kill off editbox artwork
+				local a, b, c = select(6, cfeb:GetRegions()); kill (a); kill (b); kill (c)
+
 				frame:SetFading(true)
 				frame:SetFadeDuration(5)
 				frame:SetTimeVisible(30)
 
-				dockHighlight:Hide()
+				-- Removes crap from the bottom of the chatbox so it can go to the bottom of the screen.
+				frame:SetClampedToScreen(false)
+
+				-- Allows the arrow keys to be used to move around the chatbox instead of needing to use the alt key.
+				cfeb:SetAltArrowKeyMode(false)
+
+				-- Change the positions of the chatframes and editboxes.
+				if (i ~= 2) then
+					frame:ClearAllPoints();
+					frame:SetPoint("TOPLEFT", caelPanel1, "TOPLEFT", caelLib.scale(5), caelLib.scale(-6)); -- 5, -6
+					frame:SetPoint("BOTTOMRIGHT", caelPanel1, "BOTTOMRIGHT", caelLib.scale(-5), caelLib.scale(10)); -- -5, 10
+					frame:SetMaxLines(1000);
+					frame.SetPoint = function() end;
+
+					cfeb:ClearAllPoints();
+					cfeb:SetHeight(20);
+					cfeb:SetPoint("BOTTOMLEFT",  caelPanel1, "TOPLEFT", 0, caelLib.scale(1));
+					cfeb:SetPoint("BOTTOMRIGHT", caelPanel1, "TOPRIGHT", caelLib.scale(-90), caelLib.scale(1));
+					cfeb:SetFont(caelMedia.fonts.NORMAL, 12);
+					cfebh:SetPoint("LEFT", caelPanel3a, caelLib.scale(5), caelLib.scale(1));
+					cfebh:SetFont(caelMedia.fonts.NORMAL, 12);
+
+					-- Redock the frames together.
+					if (i == 1) then
+						FCF_DockFrame(frame, frame:GetID());
+					else
+						FCF_DockFrame(frame, frame:GetID()-1);
+					end
+				end
+
+				-- Setup the chatframes
+				if (i==1) then
+					FCF_SetWindowName(frame, "• Gen •");
+				elseif (i==2) then
+					FCF_SetWindowName(frame, "• Log •");
+					FCF_UnDockFrame(frame)
+					frame:ClearAllPoints()
+					frame:SetPoint("TOPLEFT", caelPanel2, "TOPLEFT", caelLib.scale(5), caelLib.scale(-30))
+					frame:SetPoint("BOTTOMRIGHT", caelPanel2, "BOTTOMRIGHT", caelLib.scale(-5), caelLib.scale(-10))
+					frame.SetPoint = function() end
+					FCF_SetTabPosition(frame, 0)
+					frame:SetJustifyH"RIGHT"
+					frame:Hide()
+					frame:UnregisterEvent("COMBAT_LOG_EVENT")
+				elseif (i==3) then
+					FCF_SetWindowName(frame, "• w <-> •");
+
+					ChatFrame_RemoveAllChannels(frame)
+					ChatFrame_RemoveAllMessageGroups(frame)
+
+					ChatFrame_AddMessageGroup(frame, "WHISPER")
+					ChatFrame_AddMessageGroup(frame, "WHISPER_INFORM")
+				elseif (i==4) then
+					FCF_SetWindowName(frame, "• Loot •");
+
+					ChatFrame_RemoveAllChannels(frame)
+					ChatFrame_RemoveAllMessageGroups(frame)
+
+					ChatFrame_AddMessageGroup(frame, "LOOT")
+					ChatFrame_AddMessageGroup(frame, "MONEY")
+				else
+					frame.isInitialized = 0;
+					FCF_SetTabPosition(frame, 0);
+					FCF_Close(frame);
+					FCF_UnDockFrame(frame);
+					FCF_SetWindowName(frame, "");
+					ChatFrame_RemoveAllMessageGroups(frame);
+					ChatFrame_RemoveAllChannels(frame);
+				end
+
+				-- save original function to alternate name
+				cfeb.oldSetTextInsets = cfeb.SetTextInsets
+				-- override function to modify values.
+				cfeb.SetTextInsets = function(self, left, right, top, bottom)
+					left = caelLib.scale(left - 10)
+					top = caelLib.scale(top - 2)
+					-- call original function
+					cfeb.oldSetTextInsets(self, left, right, top, bottom)
+				end
+
+				cfeb:HookScript("OnHide", function()
+					caelPanel3a:SetBackdropColor(0, 0, 0, 0.33)
+				end)
+
+
+				--dockHighlight:Hide() No longer needed
 
 				if isCharListB then
 					ChatFrame_RemoveAllChannels(frame)
 					ChatFrame_RemoveAllMessageGroups(frame)
 				end
 
+				--[[
 				if(i == 1) then
 					FCF_SetWindowName(frame, "• Gen •")
+
+					<START COMMENT BLOCK>
 					frame:ClearAllPoints()
 					frame:SetPoint("TOPLEFT", caelPanel1, "TOPLEFT", caelLib.scale(5), caelLib.scale(-6))
 					frame:SetPoint("BOTTOMRIGHT", caelPanel1, "BOTTOMRIGHT", caelLib.scale(-5), caelLib.scale(10))
 					frame:SetMaxLines(1000)
 					frame.SetPoint = function() end
+					<END COMMENT BLOCK>
 
 					if isCharListB then
 						for i = 0, 28 do
@@ -246,7 +375,7 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 					FCF_UnDockFrame(frame)
 					frame:ClearAllPoints()
 					frame:SetPoint("TOPLEFT", caelPanel2, "TOPLEFT", caelLib.scale(5), caelLib.scale(-30))
-					frame:SetPoint("BOTTOMRIGHT", caelPanel2, "BOTTOMRIGHT", caelLib.scale(-5), caelLib.scale(10))
+					frame:SetPoint("BOTTOMRIGHT", caelPanel2, "BOTTOMRIGHT", caelLib.scale(-5), caelLib.scale(-10))
 					frame.SetPoint = function() end
 					FCF_SetTabPosition(frame, 0)
 					frame:SetJustifyH"RIGHT"
@@ -265,13 +394,14 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 				else
 					FCF_Close(frame)
 				end
+				]]--
 
 				if i < 5 then
 --					FCF_SetChatWindowFontSize(nil, frame, 9)
 					FCF_SetWindowColor(frame, 0, 0, 0)
 					FCF_SetWindowAlpha(frame, 0)
 					frame:SetFrameStrata("LOW")
-					FCF_SetLocked(frame, 1)
+					--FCF_SetLocked(frame, 1)
 					if i ~= 2 then frame:Show() end
 				end
 			end
