@@ -136,12 +136,11 @@ social:SetScript("OnEnter", function(self)
 				local color = RAID_CLASS_COLORS[class]
 				if isOnline then
 --					GameTooltip:AddDoubleLine(givenName.." "..surName, client, 0, 1, 1, 0.65, 0.63, 0.35)
-					GameTooltip:AddDoubleLine("•> |cffD7BEA5"..level.." |r"..toonName, zoneName, 0, 1, 1, 0.65, 0.63, 0.35)
---					GameTooltip:AddLine(" ")
+					GameTooltip:AddDoubleLine("|cffD7BEA5"..level.." |r"..toonName, zoneName, 0.55, 0.57, 0.61, 0.65, 0.63, 0.35)
 				end
 			else
 				if isOnline then
-					GameTooltip:AddDoubleLine(givenName.." "..surName, client, 0, 1, 1, 0.65, 0.63, 0.35)
+					GameTooltip:AddDoubleLine(givenName.." "..surName, client, 0.55, 0.57, 0.61, 0.65, 0.63, 0.35)
 				end
 			end
 		end
