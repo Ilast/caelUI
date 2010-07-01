@@ -12,14 +12,19 @@ social:RegisterEvent("CHAT_MSG_SYSTEM")
 social:RegisterEvent("FRIENDLIST_UPDATE")
 social:RegisterEvent("GUILD_ROSTER_UPDATE")
 social:RegisterEvent("PLAYER_ENTERING_WORLD")
-social:RegisterEvent("BN_FRIEND_LIST_CHANGED")
+social:RegisterEvent("BN_FRIEND_ACCOUNT_ONLINE")
+social:RegisterEvent("BN_FRIEND_ACCOUNT_OFFLINE")
 social:RegisterEvent("BN_CONNECTED")
+social:RegisterEvent("BN_DISCONNECTED")
+social:RegisterEvent("BN_FRIEND_LIST_CHANGED")
 
 local numGuildMembers = 0
 local numOnlineGuildMembers = 0
 
 local numFriends = 0
 local numOnlineFriends = 0
+
+local numBN = 0
 local numOnlineBN = 0
 
 local delay = 0
@@ -63,7 +68,7 @@ social:SetScript("OnEnter", function(self)
 			end
 		end
 
-		if numOnlineFriends > 0 then
+		if numOnlineFriends > 0 or (numOnlineBN > 0 and numOnlineFriends == 0) then
 			GameTooltip:AddLine(" ")
 		end
 	end
@@ -103,14 +108,14 @@ social:SetScript("OnEnter", function(self)
 	end
 
 	if numOnlineBN > 0 then
-		GameTooltip:AddLine("Online BN Friends", 0.84, 0.75, 0.65);
+		GameTooltip:AddLine("Online BN Friends", 0.84, 0.75, 0.65)
 		GameTooltip:AddLine(" ")
 		for i = 1, numBNFriends do
 			local presenceID = BNGetFriendInfo(i)
 			local _, givenName, surName, toonName, toonID, client, isOnline, _, isAFK, isDND, messageText = BNGetFriendInfoByID(presenceID)
 			
 			if (client == "WoW") then
-				local hasFocus, _, _, realmName, faction, race, class, guild, zoneName, level, gameText = BNGetFriendToonInfo(i, 1);
+				local hasFocus, _, _, realmName, faction, race, class, guild, zoneName, level, gameText = BNGetFriendToonInfo(i, 1)
 
 				if not isOnline then break end
 
@@ -130,9 +135,9 @@ social:SetScript("OnEnter", function(self)
 
 				local color = RAID_CLASS_COLORS[class]
 				if isOnline then
-					GameTooltip:AddDoubleLine(givenName.." "..surName, client, 0, 1, 1, 0.65, 0.63, 0.35)
+--					GameTooltip:AddDoubleLine(givenName.." "..surName, client, 0, 1, 1, 0.65, 0.63, 0.35)
 					GameTooltip:AddDoubleLine("•> |cffD7BEA5"..level.." |r"..toonName, zoneName, 0, 1, 1, 0.65, 0.63, 0.35)
-					GameTooltip:AddLine(" ")
+--					GameTooltip:AddLine(" ")
 				end
 			else
 				if isOnline then
@@ -216,15 +221,15 @@ social:SetScript("OnEvent", function(self, event, ...)
 	end
 
 	if numOnlineGuildMembers > 0 then
-		text = string.format("%s %d", numOnlineFriends > 0 and "|cffD7BEA5g|r" or "|cffD7BEA5guild|r", numOnlineGuildMembers)
+		text = string.format("%s %d", (numOnlineFriends > 0 or numOnlineBN > 0) and "|cffD7BEA5g|r" or "|cffD7BEA5guild|r", numOnlineGuildMembers)
 	end
 
 	if numOnlineFriends > 0 then
-		text = string.format("%s %s %d", (numOnlineGuildMembers > 0) and text or "", numOnlineGuildMembers > 0 and "- |cffD7BEA5f|r" or (numOnlineFriends > 1 and "|cffD7BEA5friends|r" or "|cffD7BEA5friend|r"), numOnlineFriends)
+		text = string.format("%s %s %d", (numOnlineGuildMembers > 0) and text or "", (numOnlineGuildMembers > 0 and "- |cffD7BEA5f|r" or numOnlineBN > 0 and "|cffD7BEA5f|r") or (numOnlineFriends > 1 and "|cffD7BEA5friends|r" or "|cffD7BEA5friend|r"), numOnlineFriends)
 	end
 
 	if numOnlineBN > 0 then
-		text = string.format("%s %s %d", (numOnlineFriends > 0 or numOnlineGuildMembers > 0) and text or "", (numOnlineGuildMembers > 0 or numOnlineFriends > 0) and "- |cffD7BEA5bn|r" or (numOnlineBN > 1 and "|cffD7BEA5realidr" or "|cffD7BEA5bnet|r"), numOnlineBN)
+		text = string.format("%s %s %d", (numOnlineFriends > 0 or numOnlineGuildMembers > 0) and text or "", (numOnlineFriends > 0 or numOnlineGuildMembers > 0) and "- |cffD7BEA5bn|r" or "|cffD7BEA5realid|r", numOnlineBN)
 	end
 
 	if numOnlineGuildMembers == 0 and numOnlineFriends == 0 and numOnlineBN == 0 then
