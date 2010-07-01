@@ -43,13 +43,13 @@ local CURRENT_GUILD_SORTING
 hooksecurefunc("SortGuildRoster", function(type) CURRENT_GUILD_SORTING = type end)
 
 social:SetScript("OnEnter", function(self)
-	numGuildMembers = GetNumGuildMembers() - 1
+	numGuildMembers = GetNumGuildMembers()
 	numFriends = GetNumFriends() 
 	numBNFriends = BNGetNumFriends()
 
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, caelLib.scale(4))
 
-	if numGuildMembers > 0 then
+	if numOnlineGuildMembers > 0 then
 
 		local sortingOrder = CURRENT_GUILD_SORTING
 		if sortingOrder ~= "class" then
