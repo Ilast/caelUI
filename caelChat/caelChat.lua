@@ -554,7 +554,7 @@ caelChat.eventFrame:HookScript("OnEvent", function(self, event, ...)
 		arg1, arg2 = ...
 
 
-		if ((IsRaidLeader() or IsRaidOfficer()) or (not UnitExists("party1") or IsPartyLeader()) and arg1:lower():match(INVITE_WORD)) then
+		if (((IsRaidLeader() or IsRaidOfficer()) or (not UnitExists("party1") or IsPartyLeader())) and arg1:lower():match(INVITE_WORD)) then
 			InviteUnit(arg2)
 		end
 	end
