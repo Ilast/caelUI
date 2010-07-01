@@ -155,6 +155,14 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"showNewbieTips 0",
 			"scriptErrors 1",
 
+			"showToastOnline 0",
+			"showToastOffline 0",
+			"showToastBroadcast 0",
+			"showToastFriendRequest 0",
+			"showToastConversation 0",
+			"showToastWindow 0",
+			"toastDuration 0",
+
 			"M2Faster 3", -- Adds additional threads used in rendering models on screen (0 = no additional threads, 1 - 3 = adds additional threads to the WoW Client)
 			"gxTextureCacheSize 512",
 			"gxMultisample 1",
