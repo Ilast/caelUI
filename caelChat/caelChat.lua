@@ -59,7 +59,7 @@ local mergedTable = {
 	[2] = "EMOTE",
 	[3] = "YELL",
 	[4] = "GUILD",
-	[5] = "GUILD_OFFICER",
+	[5] = "OFFICER",
 	[6] = "GUILD_ACHIEVEMENT",
 	[7] = "WHISPER",
 	[8] = "PARTY",
@@ -72,19 +72,21 @@ local mergedTable = {
 	[15] = "ACHIEVEMENT",
 	
 --	MessageGroups only.
-	[16] = "MONSTER_SAY",
-	[17] = "MONSTER_EMOTE",
-	[18] = "MONSTER_YELL",
-	[19] = "MONSTER_WHISPER",
-	[20] = "MONSTER_BOSS_EMOTE",
-	[21] = "MONSTER_BOSS_WHISPER",
-	[22] = "BG_HORDE",
-	[23] = "BG_ALLIANCE",
-	[24] = "BG_NEUTRAL",
-	[25] = "SYSTEM",
-	[26] = "ERRORS",
-	[27] = "IGNORED",
-	[28] = "CHANNEL",
+	[16] = "BN_WHISPER",
+	[17] = "BN_CONVERSATION",
+	[18] = "MONSTER_SAY",
+	[19] = "MONSTER_EMOTE",
+	[20] = "MONSTER_YELL",
+	[21] = "MONSTER_WHISPER",
+	[22] = "MONSTER_BOSS_EMOTE",
+	[23] = "MONSTER_BOSS_WHISPER",
+	[24] = "BG_HORDE",
+	[25] = "BG_ALLIANCE",
+	[26] = "BG_NEUTRAL",
+	[27] = "SYSTEM",
+	[28] = "ERRORS",
+	[29] = "IGNORED",
+	[30] = "CHANNEL",
 }
 
 -- Container frame for tab buttons
@@ -199,13 +201,11 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 				local cfebh = _G[format("ChatFrame%sEditBoxHeader", i)]
 				local cft = _G[format("ChatFrame%sTab", i)]
 				local cftf = _G[format("ChatFrame%sTabFlash", i)]
-				--local dockHighlight = _G[format("ChatFrame%sTabDockRegionHighlight", i)] No longer needed
 
 				-- kill chat tabs
 				cft:EnableMouse(false)
 				cft:SetScript("OnEnter", nil)
 				cft:SetScript("OnLeave", nil)
-				--cft:GetHighlightTexture():SetTexture(nil) No longer needed
 				cft.SetAlpha = function() end
 
 				cftf:SetScript("OnShow", nil)
@@ -238,9 +238,9 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 
 				-- Kills off the new method of handling the Chat Frame scroll buttons as well as the resize button
 				-- Note: This also needs to include the actual frame textures for the ButtonFrame onHover
-				kill(_G[format("ChatFrame%sButtonFrameUpButton", i)]);
-				kill(_G[format("ChatFrame%sButtonFrameDownButton", i)]);
-				kill(_G[format("ChatFrame%sButtonFrameBottomButton", i)]);
+				kill(_G[format("ChatFrame%sButtonFrameUpButton", i)])
+				kill(_G[format("ChatFrame%sButtonFrameDownButton", i)])
+				kill(_G[format("ChatFrame%sButtonFrameBottomButton", i)])
 				kill(_G[format("ChatFrame%sResizeButton", i)])
 				kill(_G["ChatFrameMenuButton"])
 
@@ -263,67 +263,80 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 				cfeb:SetAltArrowKeyMode(false)
 
 				-- Change the positions of the chatframes and editboxes.
-				if (i ~= 2) then
-					frame:ClearAllPoints();
-					frame:SetPoint("TOPLEFT", caelPanel1, "TOPLEFT", caelLib.scale(5), caelLib.scale(-6)); -- 5, -6
-					frame:SetPoint("BOTTOMRIGHT", caelPanel1, "BOTTOMRIGHT", caelLib.scale(-5), caelLib.scale(10)); -- -5, 10
-					frame:SetMaxLines(1000);
-					frame.SetPoint = function() end;
+				if i ~= 2 then
+					frame:ClearAllPoints()
+					frame:SetPoint("TOPLEFT", caelPanel1, "TOPLEFT", caelLib.scale(5), caelLib.scale(-6))
+					frame:SetPoint("BOTTOMRIGHT", caelPanel1, "BOTTOMRIGHT", caelLib.scale(-5), caelLib.scale(10))
+					frame:SetMaxLines(1000)
+					frame.SetPoint = function() end
 
-					cfeb:ClearAllPoints();
-					cfeb:SetHeight(20);
-					cfeb:SetPoint("BOTTOMLEFT",  caelPanel1, "TOPLEFT", 0, caelLib.scale(1));
-					cfeb:SetPoint("BOTTOMRIGHT", caelPanel1, "TOPRIGHT", caelLib.scale(-90), caelLib.scale(1));
-					cfeb:SetFont(caelMedia.fonts.NORMAL, 12);
-					cfebh:SetPoint("LEFT", caelPanel3a, caelLib.scale(5), caelLib.scale(1));
-					cfebh:SetFont(caelMedia.fonts.NORMAL, 12);
+					cfeb:ClearAllPoints()
+					cfeb:SetHeight(20)
+					cfeb:SetPoint("BOTTOMLEFT",  caelPanel1, "TOPLEFT", 0, caelLib.scale(1))
+					cfeb:SetPoint("BOTTOMRIGHT", caelPanel1, "TOPRIGHT", caelLib.scale(-90), caelLib.scale(1))
+					cfeb:SetFont(caelMedia.fonts.NORMAL, 12)
+					cfebh:SetPoint("LEFT", caelPanel3a, caelLib.scale(5), caelLib.scale(1))
+					cfebh:SetFont(caelMedia.fonts.NORMAL, 12)
 
 					-- Redock the frames together.
 					if (i == 1) then
-						FCF_DockFrame(frame, frame:GetID());
+						FCF_DockFrame(frame, frame:GetID())
 					else
-						FCF_DockFrame(frame, frame:GetID()-1);
+						FCF_DockFrame(frame, frame:GetID()-1)
 					end
 				end
 
 				-- Setup the chatframes
-				if (i==1) then
-					FCF_SetWindowName(frame, "• Gen •");
-				elseif (i==2) then
-					FCF_SetWindowName(frame, "• Log •");
+
+				if isCharListB then
+					ChatFrame_RemoveAllChannels(frame)
+					ChatFrame_RemoveAllMessageGroups(frame)
+				end
+
+				if i == 1 then
+					FCF_SetWindowName(frame, "• Gen •")
+
+					if isCharListB then
+						for i = 0, 30 do
+							if i < 16 then -- Everything up to 15
+								ToggleChatColorNamesByClassGroup(true, mergedTable[i])
+							end
+							if i > 0 then -- Everything except index 0
+								ChatFrame_AddMessageGroup(frame, mergedTable[i])
+							end
+						end
+					end
+				elseif i == 2 then
+					FCF_SetWindowName(frame, "• Log •")
 					FCF_UnDockFrame(frame)
 					frame:ClearAllPoints()
 					frame:SetPoint("TOPLEFT", caelPanel2, "TOPLEFT", caelLib.scale(5), caelLib.scale(-30))
 					frame:SetPoint("BOTTOMRIGHT", caelPanel2, "BOTTOMRIGHT", caelLib.scale(-5), caelLib.scale(-10))
 					frame.SetPoint = function() end
 					FCF_SetTabPosition(frame, 0)
-					frame:SetJustifyH"RIGHT"
+					frame:SetJustifyH("RIGHT")
 					frame:Hide()
 					frame:UnregisterEvent("COMBAT_LOG_EVENT")
-				elseif (i==3) then
-					FCF_SetWindowName(frame, "• w <-> •");
-
-					ChatFrame_RemoveAllChannels(frame)
-					ChatFrame_RemoveAllMessageGroups(frame)
+				elseif i == 3 then
+					FCF_SetWindowName(frame, "• w <-> •")
 
 					ChatFrame_AddMessageGroup(frame, "WHISPER")
 					ChatFrame_AddMessageGroup(frame, "WHISPER_INFORM")
-				elseif (i==4) then
-					FCF_SetWindowName(frame, "• Loot •");
-
-					ChatFrame_RemoveAllChannels(frame)
-					ChatFrame_RemoveAllMessageGroups(frame)
+					ChatFrame_AddMessageGroup(frame, "BN_WHISPER")
+					ChatFrame_AddMessageGroup(frame, "BN_WHISPER_INFORM")
+				elseif i == 4 then
+					FCF_SetWindowName(frame, "• Loot •")
 
 					ChatFrame_AddMessageGroup(frame, "LOOT")
 					ChatFrame_AddMessageGroup(frame, "MONEY")
 				else
-					frame.isInitialized = 0;
-					FCF_SetTabPosition(frame, 0);
-					FCF_Close(frame);
-					FCF_UnDockFrame(frame);
-					FCF_SetWindowName(frame, "");
-					ChatFrame_RemoveAllMessageGroups(frame);
-					ChatFrame_RemoveAllChannels(frame);
+					frame.isInitialized = 0
+					FCF_SetTabPosition(frame, 0)
+					FCF_Close(frame)
+					FCF_UnDockFrame(frame)
+					FCF_SetWindowName(frame, "")
+					ChatFrame_RemoveAllMessageGroups(frame)
+					ChatFrame_RemoveAllChannels(frame)
 				end
 
 				-- save original function to alternate name
@@ -339,62 +352,6 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 				cfeb:HookScript("OnHide", function()
 					caelPanel3a:SetBackdropColor(0, 0, 0, 0.33)
 				end)
-
-
-				--dockHighlight:Hide() No longer needed
-
-				if isCharListB then
-					ChatFrame_RemoveAllChannels(frame)
-					ChatFrame_RemoveAllMessageGroups(frame)
-				end
-
-				--[[
-				if(i == 1) then
-					FCF_SetWindowName(frame, "• Gen •")
-
-					<START COMMENT BLOCK>
-					frame:ClearAllPoints()
-					frame:SetPoint("TOPLEFT", caelPanel1, "TOPLEFT", caelLib.scale(5), caelLib.scale(-6))
-					frame:SetPoint("BOTTOMRIGHT", caelPanel1, "BOTTOMRIGHT", caelLib.scale(-5), caelLib.scale(10))
-					frame:SetMaxLines(1000)
-					frame.SetPoint = function() end
-					<END COMMENT BLOCK>
-
-					if isCharListB then
-						for i = 0, 28 do
-							if i < 16 then -- Everything up to 15
-								ToggleChatColorNamesByClassGroup(true, mergedTable[i])
-							end
-							if i > 0 then -- Everything except index 0
-								ChatFrame_AddMessageGroup(frame, mergedTable[i])
-							end
-						end
-					end
-				elseif(i == 2) then
-					FCF_SetWindowName(frame, "• Log •")
-					FCF_UnDockFrame(frame)
-					frame:ClearAllPoints()
-					frame:SetPoint("TOPLEFT", caelPanel2, "TOPLEFT", caelLib.scale(5), caelLib.scale(-30))
-					frame:SetPoint("BOTTOMRIGHT", caelPanel2, "BOTTOMRIGHT", caelLib.scale(-5), caelLib.scale(-10))
-					frame.SetPoint = function() end
-					FCF_SetTabPosition(frame, 0)
-					frame:SetJustifyH"RIGHT"
-					frame:Hide()
-					frame:UnregisterEvent("COMBAT_LOG_EVENT")
-				elseif(i == 3) then
-					FCF_SetWindowName(frame, "• w <-> •")
-					FCF_DockFrame(frame, frame:GetID()-1)
-					ChatFrame_AddMessageGroup(frame, "WHISPER")
-					ChatFrame_AddMessageGroup(frame, "WHISPER_INFORM")
-				elseif(i == 4) then
-					FCF_SetWindowName(frame, "• Loot •")
-					FCF_DockFrame(frame, frame:GetID()-1)
-					ChatFrame_AddMessageGroup(frame, "LOOT")
-					ChatFrame_AddMessageGroup(frame, "MONEY")
-				else
-					FCF_Close(frame)
-				end
-				]]--
 
 				if i < 5 then
 --					FCF_SetChatWindowFontSize(nil, frame, 9)
@@ -596,7 +553,8 @@ caelChat.eventFrame:HookScript("OnEvent", function(self, event, ...)
 
 		arg1, arg2 = ...
 
-		if (not UnitExists("party1") or IsPartyLeader("player")) and arg1:lower():match(INVITE_WORD) then
+
+		if ((IsRaidLeader() or IsRaidOfficer()) or (not UnitExists("party1") or IsPartyLeader()) and arg1:lower():match(INVITE_WORD)) then
 			InviteUnit(arg2)
 		end
 	end
