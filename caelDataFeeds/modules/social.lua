@@ -43,7 +43,7 @@ local CURRENT_GUILD_SORTING
 hooksecurefunc("SortGuildRoster", function(type) CURRENT_GUILD_SORTING = type end)
 
 social:SetScript("OnEnter", function(self)
-	numGuildMembers = GetNumGuildMembers()
+	numGuildMembers = GetNumGuildMembers() - 1
 	numFriends = GetNumFriends() 
 	numBNFriends = BNGetNumFriends()
 
