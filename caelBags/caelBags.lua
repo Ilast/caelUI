@@ -2,7 +2,7 @@
 
 local _, caelBags = ...
 
-_G.caelBags = caelBags
+_G["caelBags"] = caelBags
 
 -- Dummy func so we can trash some functions we can't avoid being called.
 local dummy = caelLib.dummy
