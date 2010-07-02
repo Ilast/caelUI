@@ -26,10 +26,10 @@ caelPanels.createPanel("caelPanel1", 401, 20, 321, 109, "BOTTOM", "BOTTOM", UIPa
 caelPanels.createPanel("caelPanel2", -401, 20, 321, 130, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- CombatLog
 caelPanels.createPanel("caelPanel3", 0, 20, 130, 130, "BOTTOM", "BOTTOM", UIParent, UIParent, "MEDIUM") -- Minimap
 caelPanels.createPanel("caelPanel3a", 356, 130, 230, 20, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- ChatFrameEditBox
-caelPanels.createPanel("caelPanel4", -153, 97, 172, 53, "BOTTOM", "BOTTOM", UIParent, UIParent, "HIGH") -- TopLeftBar
-caelPanels.createPanel("caelPanel5", 153, 97, 172, 53, "BOTTOM", "BOTTOM", UIParent, UIParent, "HIGH") -- TopRightBar
-caelPanels.createPanel("caelPanel6", -153, 20, 172, 53, "BOTTOM", "BOTTOM", UIParent, UIParent, "HIGH") -- BottomLeftBar
-caelPanels.createPanel("caelPanel7", 153, 20, 172, 53, "BOTTOM", "BOTTOM", UIParent, UIParent, "HIGH") -- BottomRightBar
+caelPanels.createPanel("caelPanel4", -153, 90, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "HIGH") -- TopLeftBar
+caelPanels.createPanel("caelPanel5", 153, 90, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "HIGH") -- TopRightBar
+caelPanels.createPanel("caelPanel6", -153, 20, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "HIGH") -- BottomLeftBar
+caelPanels.createPanel("caelPanel7", 153, 20, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "HIGH") -- BottomRightBar
 caelPanels.createPanel("caelPanel8", 0, 2, 1124, 18, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- DataFeeds bar
 
 caelPanels.eventFrame:RegisterEvent("PLAYER_LOGIN")
