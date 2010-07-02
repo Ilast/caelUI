@@ -2,9 +2,11 @@
 
 local _, caelChat = ...
 
-caelChat.eventFrame = CreateFrame("Frame", nil, UIParent)
-
 local _G = getfenv(0)
+
+_G["caelChat"] = caelChat
+
+caelChat.eventFrame = CreateFrame("Frame", nil, UIParent)
 
 local kill = caelLib.kill
 local isCharListB = caelLib.isCharListB
