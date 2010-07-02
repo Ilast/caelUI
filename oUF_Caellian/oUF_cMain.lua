@@ -1134,14 +1134,14 @@ oUF:Factory(function(self)
 	self:Spawn("focustarget", "oUF_Caellian_focustarget"):SetPoint("BOTTOMLEFT", oUF_Caellian_target, "TOPLEFT", 0, caelLib.scale(10))
 	self:Spawn("targettarget", "oUF_Caellian_targettarget"):SetPoint("BOTTOMRIGHT", oUF_Caellian_target, "TOPRIGHT", 0, caelLib.scale(10))
 
-	local party = self:SpawnHeader("oUF_Party", nil, "party",
+	local party = self:SpawnHeader("oUF_Party", nil, visible,
 		"showParty", true, "yOffset", caelLib.scale(-27.5))
 	party:SetAttribute("template", "oUF_cParty")
 	party:SetPoint("TOPLEFT", UIParent, caelLib.scale(cfg.partyX), caelLib.scale(cfg.partyY))
 
 	local raid = {}
 	for i = 1, NUM_RAID_GROUPS do
-		local raidgroup = self:SpawnHeader("oUF_Raid"..i, nil, "raid",
+		local raidgroup = self:SpawnHeader("oUF_Raid"..i, nil, visible,
 		"groupFilter", tostring(i), "showRaid", true, "yOffSet", caelLib.scale(-3.5)
 	)
 		insert(raid, raidgroup)
