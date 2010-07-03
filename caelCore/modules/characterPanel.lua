@@ -13,10 +13,12 @@ local cloak = characterpanel.cloak
 local undress = characterpanel.undress
 
 CharacterModelFrameRotateLeftButton:ClearAllPoints()
-CharacterModelFrameRotateLeftButton:SetPoint("LEFT", PaperDollFrame, "LEFT", caelLib.scale(70), caelLib.scale(5))
+CharacterModelFrameRotateLeftButton:SetScale(caelLib.scale(0.85))
+CharacterModelFrameRotateLeftButton:SetPoint("RIGHT", PaperDollFrame, "RIGHT", caelLib.scale(-140), 0)
     
 CharacterModelFrameRotateRightButton:ClearAllPoints()
-CharacterModelFrameRotateRightButton:SetPoint("RIGHT", PaperDollFrame, "RIGHT", caelLib.scale(-90), caelLib.scale(5))
+CharacterModelFrameRotateRightButton:SetScale(caelLib.scale(0.85))
+CharacterModelFrameRotateRightButton:SetPoint("RIGHT", PaperDollFrame, "RIGHT", caelLib.scale(-112.5), 0)
 
 local ShowCloak, ShowHelm = ShowCloak, ShowHelm
 _G.ShowCloak, _G.ShowHelm = dummy, dummy
