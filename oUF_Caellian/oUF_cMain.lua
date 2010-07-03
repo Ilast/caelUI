@@ -785,7 +785,7 @@ local SetStyle = function(self, unit)
 		self.Auras.numBuffs = 16
 		self.Auras.numDebuffs = 16
 		self.Auras.gap = true
-		self.Auras.PreSetPosition = PreSetPosition
+--		self.Auras.PreSetPosition = PreSetPosition
 		self.Auras.PostCreateIcon = PostCreateAura
 		self.Auras.PostUpdateIcon = PostUpdateIcon
 		if unit == "pet" then
