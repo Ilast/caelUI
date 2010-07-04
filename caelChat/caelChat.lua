@@ -24,6 +24,24 @@ local colorize = function(r, g, b)
 end
 
 -- Handle the color changes to the chatbox edit frame panel (caelPanel3a)
+hooksecurefunc("ChatEdit_UpdateHeader", function(editbox)
+	if ACTIVE_CHAT_EDIT_BOX then
+		local type = editbox:GetAttribute("chatType")
+		if type == "CHANNEL" then
+			local chatType = GetChannelName(editbox:GetAttribute("channelTarget"))
+			if chatType == 0 then
+				colorize(0.25, 0.25, 0.25)
+			else
+				colorize(ChatTypeInfo[type..chatType].r, ChatTypeInfo[type..chatType].g, ChatTypeInfo[type..chatType].b)
+			end
+		else
+			colorize(ChatTypeInfo[type].r, ChatTypeInfo[type].g, ChatTypeInfo[type].b)
+		end
+	else
+		colorize(0.25, 0.25, 0.25)
+	end
+end)
+--[[
 hooksecurefunc("ChatEdit_UpdateHeader", function()
 	if GetChatFrameID == nil then
 		local type = ChatFrame1EditBox:GetAttribute("chatType")
@@ -51,7 +69,7 @@ hooksecurefunc("ChatEdit_UpdateHeader", function()
 		end
 	end
 end)
-
+--]]
 local mergedTable = {
 --	coloredChats values only
 	[0] = "CHANNEL5",
