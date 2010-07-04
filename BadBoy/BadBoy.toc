@@ -1,5 +1,5 @@
 ## Interface: 30300
-## Version: 5.0.1.7
+## Version: 5.0.2.0
 ## Title: BadBoy
 ## Notes: A light, automatic spam blocker & reporter.
 ## Author: Funkydude
@@ -7,7 +7,7 @@
 ## X-Credits: Shadowed(API hunting), Ellipsis(remembering odd things), Anea(original SpamSentry blacklist)
 ## X-Category: Chat/Communication
 ## X-License: All Rights Reserved
-## X-Curse-Packaged-Version: v5.0.1.7
+## X-Curse-Packaged-Version: v5.0.2.0
 ## X-Curse-Project-Name: BadBoy: Anti Spam Automatic Reporter
 ## X-Curse-Project-ID: bad-boy
 ## X-Curse-Repository-ID: wow/bad-boy/mainline

@@ -82,6 +82,8 @@ local triggers = {
 	"blizz.*warcraft.*account.*info.*disable", --Hello! Blizzard World of Warcraft game found in violation of your game account, please visit our website [XYZ] enter your information, pending review, or we will permanently disable your game account. 
 	"blizz.*monk.*store.*log.*submit.*free", --Hello, In celebration of BlizzCon 2010 you have receieved a Pandaren Monk Pet from the Blizzard Pet Store. please log in at [XYZ] Submit your email, and your free pet will be sent to all of your characters!
 	"surprise.*summon.*worgen.*first.*conquer.*visit", --surprise!Summons from goblins and worgens, the first warrior to conquer Azeroth will be you!please visit:[XYZ]
+	"congratulation.*limited.*warcraft.*mounts.*log", --Congratulations, you get limited edition World of Warcraft flying mounts.  please log in to receive:  XYZ
+	"become.*blizz.*customer.*free.*log", --Hi! You have become a Blizz lucky Customer, 3 days later you'll get a Free unicorn zebra , please log in : XYZ
 
 	--Personal Whispers
 	"server.*purchase.*gold.*deliv", --sorry to bother,currently we have 29200g on this server, wondering if you might purchase some gold today? 15mins delivery:)
@@ -112,6 +114,16 @@ local triggers = {
 	"stock.*gold.*wonder.*buy.*so?rr?y", --Full stock gold! Wondering you might wanna buy some today ? sorry for bothering you.
 	"hi.*you.*need.*gold.*we.*promotion", --[hi.do] you need some gold atm?we now have a promotion for it ^^
 	"brbgame.*need.*gold.*only.*fast.*deliver", --sry to bother i am maria from brbgame, may i pease enquire as to whether u r in need of wow gold ?:P only 3$ per k with fast delivery !\
+
+	--Casino
+	--HATERZZ CASINO! 1-64 You lose.. 65-94 You get double, 95-100 TRIPLE! Starting at 10g, max is 400g!
+	--Tindrens Casino Is Now Open!!!1-63 I Win, 64-95 Double, 96-100 Triple!!!Min Bet 100 Max Bet 500!!!PST ME TO PLAY!
+	--CASINO 1-59 (lose)60-94(double) 95-100 (TRIPLE) min is 500 max is 2k PST
+	--warrior casino 1-64 you lose 65-94 you get dubble your bet and 95-100 is triple bets start at 5g and max at 500g pst!
+	--Little Horde House High Roller's Hide Out!!! 1-61 house, 62-92 DOUBLE, 93-100 TRIPLE!!  Min bet 500g, max 2k, bigger bets with better odds! For the High Rollers!
+	--Little Horde House Of Luck!! 1-62 i win, 63-95 DOUBLE YOUR BET, 96-100 TRIPLE YOUR BET!!! Only 10g to play! Max 1kg. Have some fun, and buy that new item you wanted!!
+	--1-63 lose 64-94 DOUBLE 95+ Triple! MIN IS 200G AND 7K IS MAX PST
+	"%d%-%d%d.*%d%d%-%d%d.*%d+.*triple.*%d+.*m[ai][xn]", --Euphoric rolls make you happy!  1-60 i win   61-91 you double your bet  92-99 you triple 100+ quad Min Bet 350g
 
 	--Advanced URL's/Misc
 	"^%W+neueaktion.*mmoggg.*%W+$", -->>>Neue Aktion bei [MMOGGG.DE] <<< --June 10
