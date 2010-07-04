@@ -1159,11 +1159,36 @@ oUF:Factory(function(self)
 		if i == 1 then
 			boss[i]:SetPoint("TOP", UIParent, 0, caelLib.scale(-15))
 		else
-			boss[i]:SetPoint("TOP", boss[i-1], "BOTTOM", 0, caelLib.scale(-7.5))
+			boss[i]:SetPoint("TOP", boss[i-1], "BOTTOM", 0, caelLib.scale(-26.5))
 		end
 	end
 
 	for i, v in ipairs(boss) do v:Show() end
+
+	local arena = {}
+	for i = 1, 5 do
+		arena[i] = oUF:Spawn("arena"..i, "oUF_Arena"..i)
+
+		if i == 1 then
+			arena[i]:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", caelLib.scale(-15), caelLib.scale(-15))
+		else
+			arena[i]:SetPoint("TOP", arena[i-1], "BOTTOM", 0, caelLib.scale(-26.5))
+		end
+	end
+
+	for i, v in ipairs(arena) do v:Show() end
+
+	local arenatarget = {}
+	for i = 1, 5 do
+		arenatarget[i] = oUF:Spawn("arena"..i.."target", "oUF_Arena"..i.."target")
+		if i == 1 then
+			arenatarget[i]:SetPoint("TOPRIGHT", arena[i], "TOPLEFT", caelLib.scale(-7.5), 0)
+		else
+			arenatarget[i]:SetPoint("TOP", arenatarget[i-1], "BOTTOM", 0, caelLib.scale(-26.5))
+		end
+	end
+
+	for i, v in ipairs(arenatarget) do v:Show() end
 
 	local partyToggle = CreateFrame("Frame")
 	partyToggle:RegisterEvent("PLAYER_LOGIN")
