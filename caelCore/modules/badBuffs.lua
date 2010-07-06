@@ -1,5 +1,7 @@
 --[[	$Id$	]]
 
+if not caelLib.isCharListA then return end
+
 local _, caelCore = ...
 
 --[[	Auto cancel various buffs	]]

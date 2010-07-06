@@ -10,7 +10,8 @@ local battleground = caelCore.battleground
 
 battleground:RegisterEvent("PLAYER_DEAD")
 battleground:SetScript("OnEvent", function(self, event)
-	if tostring(GetZoneText()) == "Wintergrasp" or MiniMapBattlefieldFrame.status == "active" then
+	local _, instanceType = IsInInstance()
+	if instanceType == "pvp" or tostring(GetZoneText()) == "Wintergrasp" then
 		RepopMe()
 	end
 end)
