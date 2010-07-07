@@ -1,10 +1,15 @@
 --[[	$Id$	]]
 
-if select(2, UnitClass("player")) ~= "HUNTER" then return end
+if caelLib.playerClass ~= "HUNTER" then return end
+
+local _, oUF_Caellian = ...
+
+oUF_Caellian.eventFrame = CreateFrame("Frame", nil, UIParent)
 
 local viperAspectName = GetSpellInfo(34074)
 
-local OnEvent = function(self, event, arg1, ...)
+oUF_Caellian.eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+oUF_Caellian.eventFrame:SetScript("OnEvent", function(self, event, arg1, ...)
 	if event == "LEARNED_SPELL_IN_TAB" then
 		AotV = GetSpellInfo(viperAspectName)
 		if AotV then
@@ -24,8 +29,4 @@ local OnEvent = function(self, event, arg1, ...)
 		self:UnregisterEvent("PLAYER_LEVEL_UP")
 		self:RegisterEvent("LEARNED_SPELL_IN_TAB")
 	end
-end
-
-local frame = CreateFrame("Frame")
-frame:RegisterEvent("PLAYER_ENTERING_WORLD")
-frame:SetScript("OnEvent", OnEvent)
+end)
