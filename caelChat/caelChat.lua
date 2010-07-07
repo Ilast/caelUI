@@ -9,7 +9,7 @@ _G["caelChat"] = caelChat
 caelChat.eventFrame = CreateFrame("Frame", nil, UIParent)
 
 local kill = caelLib.kill
-local isCharListB = caelLib.isCharListB
+local isCharListA = caelLib.isCharListA
 
 local INVITE_WORD = "inviteraid"
 
@@ -308,7 +308,7 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 
 				-- Setup the chatframes
 
-				if isCharListB then
+				if isCharListA then
 					ChatFrame_RemoveAllChannels(frame)
 					ChatFrame_RemoveAllMessageGroups(frame)
 				end
@@ -316,7 +316,7 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 				if i == 1 then
 					FCF_SetWindowName(frame, "• Gen •")
 
-					if isCharListB then
+					if isCharListA then
 						for i = 0, 30 do
 							if i < 16 then -- Everything up to 15
 								ToggleChatColorNamesByClassGroup(true, mergedTable[i])
@@ -542,10 +542,14 @@ local caelChat_OnUpdate = function(self, elapsed)
 			ChangeChatColor("WHISPER", 0.3, 0.6, 0.9)
 			ChangeChatColor("WHISPER_INFORM", 0.3, 0.6, 0.9)
 
-			if isCharListB and caelLib.playerClass == "HUNTER" then
+			if isCharListA and caelLib.playerClass == "HUNTER" then
 				JoinTemporaryChannel("WeDidHunter")
 				ChatFrame_AddChannel(_G.ChatFrame1, "WeDidHunter")
 				ChangeChatColor("CHANNEL5", 0.67, 0.83, 0.45)
+			elseif isCharListA and caelLib.playerClass == "DRUID" then
+				JoinTemporaryChannel("WeDidCaC")
+				ChatFrame_AddChannel(_G.ChatFrame1, "WeDidCaC")
+				ChangeChatColor("CHANNEL5", 1, 0.49, 0.04)
 			end
 			print("|cffD7BEA5cael|rChat: Chatframes setup complete")
 			self:SetScript("OnUpdate", nil) -- Done now, nil the OnUpdate completely.
