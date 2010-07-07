@@ -60,8 +60,12 @@ Minimap:SetScript("OnEvent", function(self, event, ...)
 	MiniMapTrackingButton:SetScript("OnEnter", function() MiniMapTracking:SetAlpha(1) end)
 	MiniMapTrackingButton:SetScript("OnLeave", function() MiniMapTracking:SetAlpha(0) end)
 
+	MiniMapInstanceDifficulty:ClearAllPoints()
+	MiniMapInstanceDifficulty:SetParent(Minimap)
+	MiniMapInstanceDifficulty:SetPoint("TOPRIGHT")
+	MiniMapInstanceDifficulty:SetScale(0.85)
+
 	DurabilityFrame:UnregisterAllEvents()
 	MiniMapMailFrame:UnregisterAllEvents()
---	MiniMapInstanceDifficulty:UnregisterAllEvents()
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 end)
