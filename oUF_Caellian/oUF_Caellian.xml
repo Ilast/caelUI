@@ -1,6 +1,4 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
-	<Include file="oUF_cParty.xml"/>
-
 	<Script file="oUF_cConfig.lua"/>
 	<Script file="oUF_AspectCheck.lua"/>
 	<Script file="oUF_cTags.lua"/>

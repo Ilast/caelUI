@@ -15,6 +15,8 @@ local highlightTex = mediaPath..[=[miscellaneous\highlighttex]=]
 local font = settings.font
 local fontn = caelMedia.fonts.OUF_CAELLIAN_NUMBERFONT
 
+local playerClass = caelLib.playerClass
+
 local lowThreshold = settings.lowThreshold
 local highThreshold = settings.highThreshold
 
@@ -518,7 +520,7 @@ local CustomFilter = function(icons, unit, icon, name, rank, texture, count, dty
 			casterClass = select(2, UnitClass(caster))
 		end
 
-		if not icon.debuff or (casterClass and casterClass == caelLib.playerClass) then
+		if not icon.debuff or (casterClass and casterClass == playerClass) then
 			return true
 		end
 	else
@@ -544,7 +546,7 @@ local PreSetPosition = function(auras)
 	sort(auras, SortAura)
 end
 
-local HidePortrait = function(self, unit)
+local PortraitPostUpdate = function(self, unit)
 	if self.unit == "target" then
 		if not UnitExists(self.unit) or not UnitIsConnected(self.unit) or not UnitIsVisible(self.unit) then
 			self.Portrait:SetAlpha(0)
@@ -588,7 +590,7 @@ local SetStyle = function(self, unit)
 	self.FrameBackdrop:SetBackdropColor(0, 0, 0, 0)
 	self.FrameBackdrop:SetBackdropBorderColor(0, 0, 0)
 
-	if unit == "player" and caelLib.playerClass == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and unit == "player" and caelLib.playerClass == "SHAMAN" then
+	if unit == "player" and playerClass == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and unit == "player" and playerClass == "SHAMAN" then
 		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, caelLib.scale(3), caelLib.scale(-11))
 	else
 		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, caelLib.scale(3), caelLib.scale(-3))
@@ -718,7 +720,7 @@ local SetStyle = function(self, unit)
 			self.PostUpdateEnchantIcons = CreateEnchantTimer
 		end
 
-		if caelLib.playerClass == "DEATHKNIGHT" then
+		if playerClass == "DEATHKNIGHT" then
 			self.Runes = CreateFrame("Frame", nil, self)
 			self.Runes:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, caelLib.scale(-1))
 			self.Runes:SetHeight(caelLib.scale(7))
@@ -746,7 +748,7 @@ local SetStyle = function(self, unit)
 			end
 		end
 
-		if IsAddOnLoaded("oUF_TotemBar") and caelLib.playerClass == "SHAMAN" then
+		if IsAddOnLoaded("oUF_TotemBar") and playerClass == "SHAMAN" then
 			self.TotemBar = {}
 			self.TotemBar.Destroy = true
 			for i = 1, 4 do
@@ -769,7 +771,7 @@ local SetStyle = function(self, unit)
 			end
 		end
 
-		if caelLib.playerClass == "DRUID" then
+		if playerClass == "DRUID" then
 			CreateFrame("Frame"):SetScript("OnUpdate", function() UpdateDruidMana(self) end)
 			self.DruidMana = SetFontString(self.Health, font, 11)
 			self.DruidMana:SetTextColor(1, 0.49, 0.04)
@@ -825,7 +827,7 @@ local SetStyle = function(self, unit)
 
 			self.Debuffs.initialAnchor = "TOPLEFT"
 			self.Debuffs["growth-y"] = "DOWN"
-			if caelLib.playerClass == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and caelLib.playerClass == "SHAMAN" then
+			if playerClass == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and playerClass == "SHAMAN" then
 				self.Debuffs:SetPoint("TOPLEFT", self, "BOTTOMLEFT", caelLib.scale(-1), caelLib.scale(-15))
 			else
 				self.Debuffs:SetPoint("TOPLEFT", self, "BOTTOMLEFT", caelLib.scale(-1), caelLib.scale(-7.5))
@@ -869,7 +871,8 @@ local SetStyle = function(self, unit)
 			self.Portrait:SetPoint("TOPLEFT", self, 0, caelLib.scale(-23))
 			self.Portrait:SetPoint("BOTTOMRIGHT", self, 0, caelLib.scale(8))
 
-			insert(self.__elements, HidePortrait)
+			self.Portrait.PostUpdate = PortraitPostUpdate
+--			insert(self.__elements, PortraitPostUpdate)
 	
 			self.PortraitOverlay = CreateFrame("StatusBar", self:GetName().."_PortraitOverlay", self.Portrait)
 			self.PortraitOverlay:SetFrameLevel(self.PortraitOverlay:GetFrameLevel() + 1)
@@ -1037,13 +1040,13 @@ local SetStyle = function(self, unit)
 		end
 	end
 
-	if caelLib.playerClass == "HUNTER" then
+	if playerClass == "HUNTER" then
 		self:SetAttribute("type3", "spell")
 		self:SetAttribute("spell3", "Misdirection")
-	elseif caelLib.playerClass == "DRUID" then
+	elseif playerClass == "DRUID" then
 		self:SetAttribute("type3", "spell")
 		self:SetAttribute("spell3", "Innervate")
-	elseif caelLib.playerClass == "PALADIN" then
+	elseif playerClass == "PALADIN" then
 		self:SetAttribute("type3", "spell")
 		self:SetAttribute("spell3", "Righteous Defense")
 	end
@@ -1121,9 +1124,8 @@ columnAnchorPoint = [STRING] - the anchor point of each new column (ie. use LEFT
 --]]
 
 oUF:RegisterStyle("Caellian", SetStyle)
-oUF:Factory(function(self)
-	oUF:SetActiveStyle("Caellian")
 
+oUF:Factory(function(self)
 	local cfg = settings.coords
 
 	self:Spawn("player", "oUF_Caellian_player"):SetPoint("BOTTOM", UIParent, caelLib.scale(cfg.playerX), caelLib.scale(cfg.playerY))
@@ -1136,8 +1138,20 @@ oUF:Factory(function(self)
 
 	local party = self:SpawnHeader("oUF_Party", nil, visible,
 		"showParty", true, "yOffset", caelLib.scale(-27.5))
-	party:SetAttribute("template", "oUF_cParty")
 	party:SetPoint("TOPLEFT", UIParent, caelLib.scale(cfg.partyX), caelLib.scale(cfg.partyY))
+
+	local partytargetcontainer = CreateFrame("Frame", nil, UIParent, "SecureHandlerStateTemplate")
+	RegisterStateDriver(partytargetcontainer, "visibility", "[group:raid]hide;show")
+	partytargetcontainer:SetPoint("TOPLEFT", party, "TOPRIGHT", caelLib.scale(7.5), 0)
+	local partytarget = {}
+	partytarget[1] = oUF:Spawn("party1target", "oUF_Party1Target")
+	partytarget[1]:SetParent(partytargetcontainer)
+	partytarget[1]:SetPoint("TOPLEFT", partytargetcontainer, "TOPLEFT")
+	for i = 2, 4 do
+		partytarget[i] = oUF:Spawn("party"..i.."target", "oUF_Party"..i.."Target")
+		partytarget[i]:SetPoint("TOP", partytarget[i-1], "BOTTOM", 0, caelLib.scale(-27.5))
+		partytarget[i]:SetParent(partytargetcontainer)
+	end
 
 	local raid = {}
 	for i = 1, NUM_RAID_GROUPS do
