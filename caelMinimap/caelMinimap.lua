@@ -62,6 +62,6 @@ Minimap:SetScript("OnEvent", function(self, event, ...)
 
 	DurabilityFrame:UnregisterAllEvents()
 	MiniMapMailFrame:UnregisterAllEvents()
-	MiniMapInstanceDifficulty:UnregisterAllEvents()
+--	MiniMapInstanceDifficulty:UnregisterAllEvents()
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 end)
