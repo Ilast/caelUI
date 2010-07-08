@@ -1,5 +1,7 @@
 --[[	$Id$	]]
 
+local _, oUF_Caellian = ...
+
 Caellian = {oUF = {
 
 noPlayerAuras = false, -- true to disable oUF buffs/debuffs on the player frame and enable default

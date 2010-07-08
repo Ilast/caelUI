@@ -1,5 +1,7 @@
 --[[	$Id$	]]
 
+local _, oUF_Caellian = ...
+
 oUF.TagEvents["caellian:diffcolor"] = "UNIT_LEVEL"
 if (not oUF.Tags["caellian:diffcolor"]) then
 	oUF.Tags["caellian:diffcolor"]  = function(unit)

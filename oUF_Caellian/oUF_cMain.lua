@@ -1,5 +1,11 @@
 ﻿--[[	$Id$	]]
 
+local _, oUF_Caellian = ...
+
+oUF_Caellian.Main = CreateFrame("Frame", nil, UIParent)
+
+Main = oUF_Caellian.Main
+
 local settings = Caellian.oUF
 local mediaPath = [=[Interface\Addons\caelMedia\]=]
 
@@ -566,8 +572,8 @@ local SetStyle = function(self, unit)
 
 	local unitInRaid = self:GetParent():GetName():match("oUF_Raid" )
 	local unitInParty = self:GetParent():GetName():match("oUF_Party")
-	local unitIsPartyPet = self:GetAttribute("unitsuffix") == "pet"
-	local unitIsPartyTarget = self:GetAttribute("unitsuffix") == "target"
+	local unitIsPartyPet = unit and unit:match("partypet%d")
+	local unitIsPartyTarget = unit and unit:match("party%dtarget")
 
 	self.menu = Menu
 	self.colors = colors
@@ -1136,21 +1142,34 @@ oUF:Factory(function(self)
 	self:Spawn("focustarget", "oUF_Caellian_focustarget"):SetPoint("BOTTOMLEFT", oUF_Caellian_target, "TOPLEFT", 0, caelLib.scale(10))
 	self:Spawn("targettarget", "oUF_Caellian_targettarget"):SetPoint("BOTTOMRIGHT", oUF_Caellian_target, "TOPRIGHT", 0, caelLib.scale(10))
 
-	local party = self:SpawnHeader("oUF_Party", nil, visible,
-		"showParty", true, "yOffset", caelLib.scale(-27.5))
-	party:SetPoint("TOPLEFT", UIParent, caelLib.scale(cfg.partyX), caelLib.scale(cfg.partyY))
+	local party = {}
+	for i = 1, 5 do
+		party[i] = self:Spawn("party"..i, "oUF_Party"..i)
+		if i == 1 then
+			party[i]:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 15, -15)
+		else
+			party[i]:SetPoint("TOP", party[i-1], "BOTTOM", 0, -26.5)
+		end
+	end
 
-	local partytargetcontainer = CreateFrame("Frame", nil, UIParent, "SecureHandlerStateTemplate")
-	RegisterStateDriver(partytargetcontainer, "visibility", "[group:raid]hide;show")
-	partytargetcontainer:SetPoint("TOPLEFT", party, "TOPRIGHT", caelLib.scale(7.5), 0)
 	local partytarget = {}
-	partytarget[1] = oUF:Spawn("party1target", "oUF_Party1Target")
-	partytarget[1]:SetParent(partytargetcontainer)
-	partytarget[1]:SetPoint("TOPLEFT", partytargetcontainer, "TOPLEFT")
-	for i = 2, 4 do
-		partytarget[i] = oUF:Spawn("party"..i.."target", "oUF_Party"..i.."Target")
-		partytarget[i]:SetPoint("TOP", partytarget[i-1], "BOTTOM", 0, caelLib.scale(-27.5))
-		partytarget[i]:SetParent(partytargetcontainer)
+	for i = 1, 5 do
+		partytarget[i] = self:Spawn("party"..i.."target", "oUF_Party"..i.."Target")
+		if i == 1 then
+			partytarget[i]:SetPoint("TOPLEFT", party[1], "TOPRIGHT", 7.5, 0)
+		else
+			partytarget[i]:SetPoint("TOP", partytarget[i-1], "BOTTOM", 0, -26.5)
+		end
+	end
+	
+	local partypet = {}
+	for i = 1, 5 do
+		partypet[i] = self:Spawn("partypet"..i, "oUF_PartyPet"..i)
+		if i == 1 then
+			partypet[i]:SetPoint("TOP", party[i], "BOTTOM", 0, caelLib.scale(-5))
+		else
+			partypet[i]:SetPoint("TOP", party[i-1], "BOTTOM", 0, caelLib.scale(-54))
+		end
 	end
 
 	local raid = {}
@@ -1181,7 +1200,7 @@ oUF:Factory(function(self)
 
 	local arena = {}
 	for i = 1, 5 do
-		arena[i] = oUF:Spawn("arena"..i, "oUF_Arena"..i)
+		arena[i] = self:Spawn("arena"..i, "oUF_Arena"..i)
 
 		if i == 1 then
 			arena[i]:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", caelLib.scale(-15), caelLib.scale(-15))
@@ -1194,7 +1213,7 @@ oUF:Factory(function(self)
 
 	local arenatarget = {}
 	for i = 1, 5 do
-		arenatarget[i] = oUF:Spawn("arena"..i.."target", "oUF_Arena"..i.."target")
+		arenatarget[i] = self:Spawn("arena"..i.."target", "oUF_Arena"..i.."target")
 		if i == 1 then
 			arenatarget[i]:SetPoint("TOPRIGHT", arena[i], "TOPLEFT", caelLib.scale(-7.5), 0)
 		else
@@ -1204,24 +1223,29 @@ oUF:Factory(function(self)
 
 	for i, v in ipairs(arenatarget) do v:Show() end
 
-	local partyToggle = CreateFrame("Frame")
-	partyToggle:RegisterEvent("PLAYER_LOGIN")
-	partyToggle:RegisterEvent("RAID_ROSTER_UPDATE")
-	partyToggle:RegisterEvent("PARTY_LEADER_CHANGED")
-	partyToggle:RegisterEvent("PARTY_MEMBERS_CHANGED")
-	partyToggle:SetScript("OnEvent", function(self)
+	Main:RegisterEvent("PLAYER_LOGIN")
+	Main:RegisterEvent("RAID_ROSTER_UPDATE")
+	Main:RegisterEvent("PARTY_LEADER_CHANGED")
+	Main:RegisterEvent("PARTY_MEMBERS_CHANGED")
+	Main:SetScript("OnEvent", function(self)
 		if InCombatLockdown() then
 			self:RegisterEvent("PLAYER_REGEN_ENABLED")
 		else
 			self:UnregisterEvent("PLAYER_REGEN_ENABLED")
 			local numraid = GetNumRaidMembers()
 			if numraid > 0 and (numraid > 5 or numraid ~= GetNumPartyMembers() + 1) then
-				party:Hide()
+				for i, v in ipairs(party) do v:Disable() end
+				for i, v in ipairs(partypet) do v:Disable() end
+				for i, v in ipairs(partytarget) do v:Disable() end
+	
 				if not settings.noRaid then
 					for i, v in ipairs(raid) do v:Show() end
 				end
 			else
-				party:Show()
+				for i, v in ipairs(party) do v:Enable() end
+				for i, v in ipairs(partypet) do v:Enable() end
+				for i, v in ipairs(partytarget) do v:Enable() end
+
 				if not settings.noRaid then
 					for i, v in ipairs(raid) do v:Hide() end
 				end
