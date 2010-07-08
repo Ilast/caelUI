@@ -2,6 +2,8 @@
 
 if not oUF then return end
 
+local _, oUF_Caellian = ...
+
 local _, playerClass = UnitClass("player")
 
 local canDispel = {

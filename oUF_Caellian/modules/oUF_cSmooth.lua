@@ -2,8 +2,10 @@
 
 if not oUF then return end
 
+local _, oUF_Caellian = ...
+
 local smoothing = {}
-local function Smooth(self, value)
+local Smooth = function(self, value)
 	if value ~= self:GetValue() or value == 0 then
 		smoothing[self] = value
 	else
@@ -11,12 +13,12 @@ local function Smooth(self, value)
 	end
 end
 
-local function SmoothBar(self, bar)
+local SmoothBar = function(self, bar)
 	bar.SetValue_ = bar.SetValue
 	bar.SetValue = Smooth
 end
 
-local function hook(frame)
+local hook = function(frame)
 	frame.SmoothBar = SmoothBar
 	if frame.Health and frame.Health.Smooth then
 		frame:SmoothBar(frame.Health)
