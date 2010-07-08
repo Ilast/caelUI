@@ -17,6 +17,7 @@ local ZoneChange = function(zone)
 		SetCVar("groundEffectDist", 0)
 		SetCVar("particleDensity", 0.11)
 		SetCVar("projectedTextures", 0)
+		SetCVar("chatBubbles", 0)
 	elseif instanceType == "raid" then
 		SetCVar("useWeatherShaders", "0")
 		SetCVar("weatherDensity", 0)
@@ -25,6 +26,7 @@ local ZoneChange = function(zone)
 		SetCVar("groundEffectDist", 45)
 		SetCVar("particleDensity", 1)
 		SetCVar("projectedTextures", 1)
+		SetCVar("chatBubbles", 1)
 	else
 		SetCVar("useWeatherShaders", "1")
 		SetCVar("weatherDensity", 3)
@@ -33,6 +35,7 @@ local ZoneChange = function(zone)
 		SetCVar("groundEffectDist", 45)
 		SetCVar("particleDensity", 1)
 		SetCVar("projectedTextures", 1)
+		SetCVar("chatBubbles", 0)
 	end
 end
 
@@ -119,7 +122,6 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"autoQuestProgress 1",
 			"mapQuestDifficulty 1",
 			"profanityFilter 0",
-			"chatBubbles 1",
 			"chatBubblesParty 0",
 			"spamFilter 0",
 			"guildMemberNotify 1",
