@@ -1179,7 +1179,7 @@ oUF:Factory(function(self)
 
 	local raid = {}
 	for i = 1, NUM_RAID_GROUPS do
-		local raidgroup = self:SpawnHeader("oUF_Raid"..i, nil, visible,
+		local raidgroup = self:SpawnHeader("oUF_Raid"..i, nil, nil,
 		"groupFilter", tostring(i), "showRaid", true, "yOffSet", pixelScale(-3.5)
 	)
 		insert(raid, raidgroup)
