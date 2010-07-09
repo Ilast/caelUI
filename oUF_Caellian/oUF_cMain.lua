@@ -178,7 +178,7 @@ local PostUpdateHealth = function(health, unit, min, max)
 	end
 end
 
-local PostNamePosition = function(self, power)
+local PostNameUpdate = function(self, power)
 	self.Info:ClearAllPoints()
 	if power.value:GetText() then
 		self.Info:SetPoint("CENTER", 0, caelLib.scale(1))
@@ -247,7 +247,7 @@ local PostUpdatePower = function(power, unit, min, max)
 		end
 	end
 	if self.Info then
-		if unit == "pet" or unit == "target" then PostNamePosition(self, power) end
+		if unit == "pet" or unit == "target" then PostNameUpdate(self, power) end
 	end
 end
 
