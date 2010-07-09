@@ -1081,10 +1081,14 @@ local SetStyle = function(self, unit)
 		self.RaidIcon:SetPoint("TOP", 0, caelLib.scale(10))
 	end
 
-	if unitInParty and not unitIsPartyPet and not unitIsPartyTarget or unitInRaid or (unit and not unit:match("boss%d")) then
+	if IsAddOnLoaded("oUF_SpellRange") then
 		self.outsideRangeAlpha = 0.5
 		self.inRangeAlpha = 1
 		self.SpellRange = true
+	else
+		self.Range = {
+		insideAlpha = 1,
+		outsideAlpha = 0.5,}
 	end
 
 	local AggroSelect = function()
