@@ -21,6 +21,7 @@ local highlightTex = mediaPath..[=[miscellaneous\highlighttex]=]
 local font = settings.font
 local fontn = caelMedia.fonts.OUF_CAELLIAN_NUMBERFONT
 
+local pixelScale = caelLib.scale
 local playerClass = caelLib.playerClass
 
 local lowThreshold = settings.lowThreshold
@@ -28,7 +29,7 @@ local highThreshold = settings.highThreshold
 
 local backdrop = {
 	bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
-	insets = {top = caelLib.scale(-1), left = caelLib.scale(-1), bottom = caelLib.scale(-1), right = caelLib.scale(-1)},
+	insets = {top = pixelScale(-1), left = pixelScale(-1), bottom = pixelScale(-1), right = pixelScale(-1)},
 }
 
 local runeloadcolors = {
@@ -181,9 +182,9 @@ end
 local PostUpdateName = function(self, power)
 	self.Info:ClearAllPoints()
 	if power.value:GetText() then
-		self.Info:SetPoint("CENTER", 0, caelLib.scale(1))
+		self.Info:SetPoint("CENTER", 0, pixelScale(1))
 	else
-		self.Info:SetPoint("LEFT", caelLib.scale(1), caelLib.scale(1))
+		self.Info:SetPoint("LEFT", pixelScale(1), pixelScale(1))
 	end
 end
 
@@ -301,10 +302,10 @@ local UpdateDruidMana = function(self)
 
 		if min ~= max then
 			if self.Power.value:GetText() then
-				self.DruidMana:SetPoint("LEFT", self.Power.value, "RIGHT", caelLib.scale(1), 0)
+				self.DruidMana:SetPoint("LEFT", self.Power.value, "RIGHT", pixelScale(1), 0)
 				self.DruidMana:SetFormattedText("|cffD7BEA5-|r %d%%|r", floor(min / max * 100))
 			else
-				self.DruidMana:SetPoint("LEFT", caelLib.scale(1), caelLib.scale(1))
+				self.DruidMana:SetPoint("LEFT", pixelScale(1), pixelScale(1))
 				self.DruidMana:SetFormattedText("%d%%", floor(min / max * 100))
 			end
 		else
@@ -331,7 +332,7 @@ local PostCastStart = function(Castbar, unit, name, rank, text, castid)
 		local latency = GetTime() - Castbar.castSent
 		latency = latency > Castbar.max and Castbar.max or latency
 		Castbar.Latency:SetText(("%dms"):format(latency * 1e3))
-		Castbar.SafeZone:SetWidth(caelLib.scale(Castbar:GetWidth() * latency / Castbar.max))
+		Castbar.SafeZone:SetWidth(pixelScale(Castbar:GetWidth() * latency / Castbar.max))
 		Castbar.SafeZone:ClearAllPoints()
 		Castbar.SafeZone:SetPoint("TOPRIGHT")
 		Castbar.SafeZone:SetPoint("BOTTOMRIGHT")
@@ -352,7 +353,7 @@ local PostChannelStart = function(Castbar, unit, name, rank, text)
 		local latency = GetTime() - Castbar.castSent
 		latency = latency > Castbar.max and Castbar.max or latency
 		Castbar.Latency:SetText(("%dms"):format(latency * 1e3))
-		Castbar.SafeZone:SetWidth(caelLib.scale(Castbar:GetWidth() * latency / Castbar.max))
+		Castbar.SafeZone:SetWidth(pixelScale(Castbar:GetWidth() * latency / Castbar.max))
 		Castbar.SafeZone:ClearAllPoints()
 		Castbar.SafeZone:SetPoint("TOPLEFT")
 		Castbar.SafeZone:SetPoint("BOTTOMLEFT")
@@ -446,14 +447,14 @@ end
 
 local PostCreateAura = function(auras, button)
 	button.backdrop = CreateFrame("Frame", nil, button)
-	button.backdrop:SetPoint("TOPLEFT", button, caelLib.scale(-3), caelLib.scale(3))
-	button.backdrop:SetPoint("BOTTOMRIGHT", button, caelLib.scale(3), caelLib.scale(-3))
+	button.backdrop:SetPoint("TOPLEFT", button, pixelScale(-3), pixelScale(3))
+	button.backdrop:SetPoint("BOTTOMRIGHT", button, pixelScale(3), pixelScale(-3))
 	button.backdrop:SetFrameStrata("BACKGROUND")
 	button.backdrop:SetBackdrop(caelMedia.borderTable)
 	button.backdrop:SetBackdropColor(0, 0, 0, 0)
 	button.backdrop:SetBackdropBorderColor(0, 0, 0)
 
-	button.count:SetPoint("BOTTOMRIGHT", caelLib.scale(1), caelLib.scale(1.5))
+	button.count:SetPoint("BOTTOMRIGHT", pixelScale(1), pixelScale(1.5))
 	button.count:SetJustifyH("RIGHT")
 	button.count:SetFont(fontn, 8, "THICKOUTLINE")
 	button.count:SetTextColor(0.84, 0.75, 0.65)
@@ -463,13 +464,13 @@ local PostCreateAura = function(auras, button)
 	auras.disableCooldown = true
 
 	button.overlay:SetTexture(buttonTex)
-	button.overlay:SetPoint("TOPLEFT", button, caelLib.scale(-1), caelLib.scale(1))
-	button.overlay:SetPoint("BOTTOMRIGHT", button, caelLib.scale(1), caelLib.scale(-1))
+	button.overlay:SetPoint("TOPLEFT", button, pixelScale(-1), pixelScale(1))
+	button.overlay:SetPoint("BOTTOMRIGHT", button, pixelScale(1), pixelScale(-1))
 	button.overlay:SetTexCoord(0, 1, 0.02, 1)
 	button.overlay.Hide = function(self) end
 
 	button.remaining = SetFontString(button, fontn, 8, "OUTLINE")
-	button.remaining:SetPoint("TOPLEFT", caelLib.scale(1), caelLib.scale(-1))
+	button.remaining:SetPoint("TOPLEFT", pixelScale(1), pixelScale(-1))
 
 	if unit == "player" then
 		button:SetScript("OnMouseUp", CancelAura)
@@ -590,20 +591,20 @@ local SetStyle = function(self, unit)
 	
 
 	self.FrameBackdrop = CreateFrame("Frame", nil, self)
-	self.FrameBackdrop:SetPoint("TOPLEFT", self, caelLib.scale(-3), caelLib.scale(3))
+	self.FrameBackdrop:SetPoint("TOPLEFT", self, pixelScale(-3), pixelScale(3))
 	self.FrameBackdrop:SetFrameStrata("MEDIUM")
 	self.FrameBackdrop:SetBackdrop(caelMedia.backdropTable)
 	self.FrameBackdrop:SetBackdropColor(0, 0, 0, 0)
 	self.FrameBackdrop:SetBackdropBorderColor(0, 0, 0)
 
 	if unit == "player" and playerClass == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and unit == "player" and playerClass == "SHAMAN" then
-		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, caelLib.scale(3), caelLib.scale(-11))
+		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, pixelScale(3), pixelScale(-11))
 	else
-		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, caelLib.scale(3), caelLib.scale(-3))
+		self.FrameBackdrop:SetPoint("BOTTOMRIGHT", self, pixelScale(3), pixelScale(-3))
 	end
 
 	self.Health = CreateFrame("StatusBar", self:GetName().."_Health", self)
-	self.Health:SetHeight((unit == "player" or unit == "target" or unitInRaid) and caelLib.scale(22) or unitIsPartyPet and caelLib.scale(10) or caelLib.scale(16))
+	self.Health:SetHeight((unit == "player" or unit == "target" or unitInRaid) and pixelScale(22) or unitIsPartyPet and pixelScale(10) or pixelScale(16))
 	self.Health:SetPoint("TOPLEFT")
 	self.Health:SetPoint("TOPRIGHT")
 	self.Health:SetStatusBarTexture(normtex)
@@ -624,17 +625,17 @@ local SetStyle = function(self, unit)
 
 	self.Health.value = SetFontString(self.Health, font,(unit == "player" or unit == "target") and 11 or 9)
 	if unitInRaid then
-		self.Health.value:SetPoint("BOTTOMRIGHT", caelLib.scale(-1), caelLib.scale(2))
+		self.Health.value:SetPoint("BOTTOMRIGHT", pixelScale(-1), pixelScale(2))
 	else
-		self.Health.value:SetPoint("RIGHT", caelLib.scale(-1), caelLib.scale(1))
+		self.Health.value:SetPoint("RIGHT", pixelScale(-1), pixelScale(1))
 	end
 
 	if not unitIsPartyPet then
 		self.Power = CreateFrame("StatusBar", self:GetName().."_Power", self)
-		self.Power:SetHeight((unit == "player" or unit == "target") and caelLib.scale(7) or caelLib.scale(5))
+		self.Power:SetHeight((unit == "player" or unit == "target") and pixelScale(7) or pixelScale(5))
 		if unitInRaid then
-			self.Power:SetPoint("TOPLEFT", self.Health, "BOTTOMLEFT", 0, caelLib.scale(-1))
-			self.Power:SetPoint("TOPRIGHT", self.Health, "BOTTOMRIGHT", 0, caelLib.scale(-1))
+			self.Power:SetPoint("TOPLEFT", self.Health, "BOTTOMLEFT", 0, pixelScale(-1))
+			self.Power:SetPoint("TOPRIGHT", self.Health, "BOTTOMRIGHT", 0, pixelScale(-1))
 		else
 			self.Power:SetPoint("BOTTOMLEFT")
 			self.Power:SetPoint("BOTTOMRIGHT")
@@ -657,8 +658,8 @@ local SetStyle = function(self, unit)
 		self.Power.bg:SetTexture(normtex)
 		self.Power.bg.multiplier = 0.5
 
-		self.Power.value = SetFontString(self.Health, font, (unit == "player" or unit == "target") and caelLib.scale(11) or caelLib.scale(9))
-		self.Power.value:SetPoint("LEFT", caelLib.scale(1), caelLib.scale(1))
+		self.Power.value = SetFontString(self.Health, font, (unit == "player" or unit == "target") and pixelScale(11) or pixelScale(9))
+		self.Power.value:SetPoint("LEFT", pixelScale(1), pixelScale(1))
 	end
 
 	if unitInRaid then
@@ -668,7 +669,7 @@ local SetStyle = function(self, unit)
 		self.Nameplate:SetBackdrop {
 			bgFile = caelMedia.files.bgFile,
 			edgeFile = caelMedia.files.bgFile,
-			tile = false, tileSize = 0, edgeSize = caelLib.scale(1),
+			tile = false, tileSize = 0, edgeSize = pixelScale(1),
 			insets = {left = 0, right = 0, top = 1, bottom = 0}
 		}
 		self.Nameplate:SetBackdropColor(0.15, 0.15, 0.15)
@@ -678,20 +679,20 @@ local SetStyle = function(self, unit)
 	if unit ~= "player" then
 		self.Info = SetFontString(unitInRaid and self.Nameplate or self.Health, font, unit == "target" and 11 or 9)
 		if unitInRaid then
-			self.Info:SetPoint("BOTTOM", self, 0, caelLib.scale(3))
+			self.Info:SetPoint("BOTTOM", self, 0, pixelScale(3))
 			self:Tag(self.Info, "[caellian:getnamecolor][caellian:nameshort]")
 		elseif unit == "target" then
-			self.Info:SetPoint("LEFT", caelLib.scale(1), caelLib.scale(1))
+			self.Info:SetPoint("LEFT", pixelScale(1), pixelScale(1))
 			self:Tag(self.Info, "[caellian:getnamecolor][caellian:namelong] [caellian:diffcolor][level] [shortclassification]")
 		else
-			self.Info:SetPoint("LEFT", caelLib.scale(1), caelLib.scale(1))
+			self.Info:SetPoint("LEFT", pixelScale(1), pixelScale(1))
 			self:Tag(self.Info, "[caellian:getnamecolor][caellian:namemedium]")
 		end
 	end
 
 	if unit == "player" then
 		self.Combat = self.Health:CreateTexture(nil, "OVERLAY")
-		self.Combat:SetSize(caelLib.scale(12), caelLib.scale(12))
+		self.Combat:SetSize(pixelScale(12), pixelScale(12))
 		self.Combat:SetPoint("CENTER")
 		self.Combat:SetTexture(bubbleTex)
 		self.Combat:SetVertexColor(0.69, 0.31, 0.31)
@@ -703,23 +704,23 @@ local SetStyle = function(self, unit)
 		self.FlashInfo:SetAllPoints(self.Health)
 
 		self.FlashInfo.ManaLevel = SetFontString(self.FlashInfo, font, 11)
-		self.FlashInfo.ManaLevel:SetPoint("CENTER", 0, caelLib.scale(1))
+		self.FlashInfo.ManaLevel:SetPoint("CENTER", 0, pixelScale(1))
 
 		if UnitLevel("player") ~= MAX_PLAYER_LEVEL then
 			self.Resting = self.Power:CreateTexture(nil, "OVERLAY")
-			self.Resting:SetSize(caelLib.scale(18), caelLib.scale(18))
-			self.Resting:SetPoint("BOTTOMLEFT", caelLib.scale(-8.5), caelLib.scale(-8.5))
+			self.Resting:SetSize(pixelScale(18), pixelScale(18))
+			self.Resting:SetPoint("BOTTOMLEFT", pixelScale(-8.5), pixelScale(-8.5))
 			self.Resting:SetTexture([=[Interface\CharacterFrame\UI-StateIcon]=])
 			self.Resting:SetTexCoord(0, 0.5, 0, 0.421875)
 		end
 
 		if IsAddOnLoaded("oUF_WeaponEnchant") then
 			self.Enchant = CreateFrame("Frame", nil, self)
-			self.Enchant:SetHeight(caelLib.scale(24))
-			self.Enchant:SetWidth(caelLib.scale(24 * 2))
-			self.Enchant:SetPoint("TOPLEFT", self, "TOPRIGHT", caelLib.scale(9), caelLib.scale(1))
-			self.Enchant.size = caelLib.scale(24)
-			self.Enchant.spacing = caelLib.scale(1)
+			self.Enchant:SetHeight(pixelScale(24))
+			self.Enchant:SetWidth(pixelScale(24 * 2))
+			self.Enchant:SetPoint("TOPLEFT", self, "TOPRIGHT", pixelScale(9), pixelScale(1))
+			self.Enchant.size = pixelScale(24)
+			self.Enchant.spacing = pixelScale(1)
 			self.Enchant.initialAnchor = "TOPLEFT"
 			self.Enchant["growth-x"] = "RIGHT"
 			self.PostCreateEnchantIcon = PostCreateAura
@@ -728,20 +729,20 @@ local SetStyle = function(self, unit)
 
 		if playerClass == "DEATHKNIGHT" then
 			self.Runes = CreateFrame("Frame", nil, self)
-			self.Runes:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, caelLib.scale(-1))
-			self.Runes:SetHeight(caelLib.scale(7))
-			self.Runes:SetWidth(caelLib.scale(230))
+			self.Runes:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, pixelScale(-1))
+			self.Runes:SetHeight(pixelScale(7))
+			self.Runes:SetWidth(pixelScale(230))
 			self.Runes:SetBackdrop(backdrop)
 			self.Runes:SetBackdropColor(0.25, 0.25, 0.25)
 
 			for i = 1, 6 do
 				self.Runes[i] = CreateFrame("StatusBar", self:GetName().."_Runes"..i, self)
-				self.Runes[i]:SetHeight(caelLib.scale(7))
-				self.Runes[i]:SetWidth(caelLib.scale(230 / 6) - 0.4)
+				self.Runes[i]:SetHeight(pixelScale(7))
+				self.Runes[i]:SetWidth(pixelScale(230 / 6) - 0.4)
 				if (i == 1) then
-					self.Runes[i]:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, caelLib.scale(-1))
+					self.Runes[i]:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, pixelScale(-1))
 				else
-					self.Runes[i]:SetPoint("TOPLEFT", self.Runes[i-1], "TOPRIGHT", caelLib.scale(1), 0)
+					self.Runes[i]:SetPoint("TOPLEFT", self.Runes[i-1], "TOPRIGHT", pixelScale(1), 0)
 				end
 				self.Runes[i]:SetStatusBarTexture(normtex)
 				self.Runes[i]:GetStatusBarTexture():SetHorizTile(false)
@@ -759,12 +760,12 @@ local SetStyle = function(self, unit)
 			self.TotemBar.Destroy = true
 			for i = 1, 4 do
 				self.TotemBar[i] = CreateFrame("StatusBar", self:GetName().."_TotemBar"..i, self)
-				self.TotemBar[i]:SetHeight(caelLib.scale(7))
-				self.TotemBar[i]:SetWidth(caelLib.scale(230/4 - 0.75))
+				self.TotemBar[i]:SetHeight(pixelScale(7))
+				self.TotemBar[i]:SetWidth(pixelScale(230/4 - 0.75))
 				if (i == 1) then
-					self.TotemBar[i]:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, caelLib.scale(-1))
+					self.TotemBar[i]:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, pixelScale(-1))
 				else
-					self.TotemBar[i]:SetPoint("TOPLEFT", self.TotemBar[i-1], "TOPRIGHT", caelLib.scale(1), 0)
+					self.TotemBar[i]:SetPoint("TOPLEFT", self.TotemBar[i-1], "TOPRIGHT", pixelScale(1), 0)
 				end
 				self.TotemBar[i]:SetStatusBarTexture(normtex)
 				self.TotemBar[i]:GetStatusBarTexture():SetHorizTile(false)
@@ -786,10 +787,10 @@ local SetStyle = function(self, unit)
 
 	if unit == "pet" or unit == "targettarget" then
 		self.Auras = CreateFrame("Frame", nil, self)
-		self.Auras:SetHeight(caelLib.scale(24))
-		self.Auras:SetWidth(caelLib.scale(24 * 8))
-		self.Auras.size = caelLib.scale(24)
-		self.Auras.spacing = caelLib.scale(1)
+		self.Auras:SetHeight(pixelScale(24))
+		self.Auras:SetWidth(pixelScale(24 * 8))
+		self.Auras.size = pixelScale(24)
+		self.Auras.spacing = pixelScale(1)
 		self.Auras.numBuffs = 16
 		self.Auras.numDebuffs = 16
 		self.Auras.gap = true
@@ -797,35 +798,35 @@ local SetStyle = function(self, unit)
 		self.Auras.PostCreateIcon = PostCreateAura
 		self.Auras.PostUpdateIcon = PostUpdateIcon
 		if unit == "pet" then
-			self.Auras:SetPoint("TOPRIGHT", self, "TOPLEFT", caelLib.scale(-9), caelLib.scale(1))
+			self.Auras:SetPoint("TOPRIGHT", self, "TOPLEFT", pixelScale(-9), pixelScale(1))
 			self.Auras.initialAnchor = "TOPRIGHT"
 			self.Auras["growth-x"] = "LEFT"
 		else
-			self.Auras:SetPoint("TOPLEFT", self, "TOPRIGHT", caelLib.scale(9), caelLib.scale(1))
+			self.Auras:SetPoint("TOPLEFT", self, "TOPRIGHT", pixelScale(9), pixelScale(1))
 			self.Auras.initialAnchor = "TOPLEFT"
 		end
 	end
 
 	if unit == "player" or unit == "target" then
 		self.Buffs = CreateFrame("Frame", nil, self)
-		self.Buffs:SetHeight(caelLib.scale(24))
-		self.Buffs:SetWidth(caelLib.scale(24 * 8))
-		self.Buffs.size = caelLib.scale(24)
-		self.Buffs.spacing = caelLib.scale(1)
+		self.Buffs:SetHeight(pixelScale(24))
+		self.Buffs:SetWidth(pixelScale(24 * 8))
+		self.Buffs.size = pixelScale(24)
+		self.Buffs.spacing = pixelScale(1)
 		self.Buffs.PreSetPosition = PreSetPosition
 		self.Buffs.PostCreateIcon = PostCreateAura
 		self.Buffs.PostUpdateIcon = PostUpdateIcon
 
 		self.Debuffs = CreateFrame("Frame", nil, self)
-		self.Debuffs:SetHeight(caelLib.scale(23 * 0.97))
-		self.Debuffs:SetWidth(caelLib.scale(230))
-		self.Debuffs.size = caelLib.scale(23 * 0.97)
-		self.Debuffs.spacing = caelLib.scale(1)
+		self.Debuffs:SetHeight(pixelScale(23 * 0.97))
+		self.Debuffs:SetWidth(pixelScale(230))
+		self.Debuffs.size = pixelScale(23 * 0.97)
+		self.Debuffs.spacing = pixelScale(1)
 		self.Debuffs.PreSetPosition = PreSetPosition
 		self.Debuffs.PostCreateIcon = PostCreateAura
 		self.Debuffs.PostUpdateIcon = PostUpdateIcon
 		if unit == "player" then
-			self.Buffs:SetPoint("TOPRIGHT", self, "TOPLEFT", caelLib.scale(-9), caelLib.scale(1))
+			self.Buffs:SetPoint("TOPRIGHT", self, "TOPLEFT", pixelScale(-9), pixelScale(1))
 			self.Buffs.initialAnchor = "TOPRIGHT"
 			self.Buffs["growth-x"] = "LEFT"
 			self.Buffs["growth-y"] = "DOWN"
@@ -834,17 +835,17 @@ local SetStyle = function(self, unit)
 			self.Debuffs.initialAnchor = "TOPLEFT"
 			self.Debuffs["growth-y"] = "DOWN"
 			if playerClass == "DEATHKNIGHT" or IsAddOnLoaded("oUF_TotemBar") and playerClass == "SHAMAN" then
-				self.Debuffs:SetPoint("TOPLEFT", self, "BOTTOMLEFT", caelLib.scale(-1), caelLib.scale(-15))
+				self.Debuffs:SetPoint("TOPLEFT", self, "BOTTOMLEFT", pixelScale(-1), pixelScale(-15))
 			else
-				self.Debuffs:SetPoint("TOPLEFT", self, "BOTTOMLEFT", caelLib.scale(-1), caelLib.scale(-7.5))
+				self.Debuffs:SetPoint("TOPLEFT", self, "BOTTOMLEFT", pixelScale(-1), pixelScale(-7.5))
 			end
 
 		elseif unit == "target" then
-			self.Buffs:SetPoint("TOPLEFT", self, "TOPRIGHT", caelLib.scale(9), caelLib.scale(1))
+			self.Buffs:SetPoint("TOPLEFT", self, "TOPRIGHT", pixelScale(9), pixelScale(1))
 			self.Buffs.initialAnchor = "TOPLEFT"
 			self.Buffs["growth-y"] = "DOWN"
 
-			self.Debuffs:SetPoint("TOPLEFT", self, "BOTTOMLEFT", caelLib.scale(-1), caelLib.scale(-8))
+			self.Debuffs:SetPoint("TOPLEFT", self, "BOTTOMLEFT", pixelScale(-1), pixelScale(-8))
 			self.Debuffs.initialAnchor = "TOPLEFT"
 			self.Debuffs["growth-y"] = "DOWN"
 			self.Debuffs.onlyShowPlayer = false
@@ -857,13 +858,13 @@ local SetStyle = function(self, unit)
 			self.CPoints.unit = PlayerFrame.unit
 			for i = 1, 5 do
 				self.CPoints[i] = self.CPoints:CreateTexture(nil, "ARTWORK")
-				self.CPoints[i]:SetSize(caelLib.scale(12), caelLib.scale(12))
+				self.CPoints[i]:SetSize(pixelScale(12), pixelScale(12))
 				self.CPoints[i]:SetTexture(bubbleTex)
 				if i == 1 then
 					self.CPoints[i]:SetPoint("LEFT")
 					self.CPoints[i]:SetVertexColor(0.69, 0.31, 0.31)
 				else
-					self.CPoints[i]:SetPoint("LEFT", self.CPoints[i-1], "RIGHT", caelLib.scale(1))
+					self.CPoints[i]:SetPoint("LEFT", self.CPoints[i-1], "RIGHT", pixelScale(1))
 				end
 			end
 			self.CPoints[2]:SetVertexColor(0.69, 0.31, 0.31)
@@ -874,8 +875,8 @@ local SetStyle = function(self, unit)
 		end
 
 			self.Portrait = CreateFrame("PlayerModel", nil, self)
-			self.Portrait:SetPoint("TOPLEFT", self, 0, caelLib.scale(-23))
-			self.Portrait:SetPoint("BOTTOMRIGHT", self, 0, caelLib.scale(8))
+			self.Portrait:SetPoint("TOPLEFT", self, 0, pixelScale(-23))
+			self.Portrait:SetPoint("BOTTOMRIGHT", self, 0, pixelScale(8))
 
 			self.Portrait.PostUpdate = PortraitPostUpdate
 --			insert(self.__elements, PortraitPostUpdate)
@@ -888,7 +889,7 @@ local SetStyle = function(self, unit)
 			self.PortraitOverlay:SetStatusBarColor(0.1, 0.1, 0.1, 0.75)
 
 			self.CombatFeedbackText = SetFontString(self.PortraitOverlay, font, 18, "OUTLINE")
-			self.CombatFeedbackText:SetPoint("CENTER", 0, caelLib.scale(1))
+			self.CombatFeedbackText:SetPoint("CENTER", 0, pixelScale(1))
 			self.CombatFeedbackText.colors = {
 				DAMAGE = {0.69, 0.31, 0.31},
 				CRUSHING = {0.69, 0.31, 0.31},
@@ -907,7 +908,7 @@ local SetStyle = function(self, unit)
 			}
 	
 			self.Status = SetFontString(self.PortraitOverlay, font, 18, "OUTLINE")
-			self.Status:SetPoint("CENTER", 0, caelLib.scale(2))
+			self.Status:SetPoint("CENTER", 0, pixelScale(2))
 			self.Status:SetTextColor(0.69, 0.31, 0.31, 0)
 			self:Tag(self.Status, "[pvp]")
 	
@@ -924,15 +925,15 @@ local SetStyle = function(self, unit)
 	self.cDebuffBackdrop:SetVertexColor(0, 0, 0, 0)
 
 	self.cDebuff = CreateFrame("StatusBar", nil, (unit == "player" or unit == "target") and self.PortraitOverlay or self.Health)
-	self.cDebuff:SetSize(caelLib.scale(16), caelLib.scale(16))
+	self.cDebuff:SetSize(pixelScale(16), pixelScale(16))
 	self.cDebuff:SetPoint("CENTER")
 
 	self.cDebuff.Icon = self.cDebuff:CreateTexture(nil, "ARTWORK")
 	self.cDebuff.Icon:SetAllPoints()
 
 	self.cDebuff.IconOverlay = self.cDebuff:CreateTexture(nil, "OVERLAY")
-	self.cDebuff.IconOverlay:SetPoint("TOPLEFT", caelLib.scale(-1), caelLib.scale(1))
-	self.cDebuff.IconOverlay:SetPoint("BOTTOMRIGHT", caelLib.scale(1), caelLib.scale(-1))
+	self.cDebuff.IconOverlay:SetPoint("TOPLEFT", pixelScale(-1), pixelScale(1))
+	self.cDebuff.IconOverlay:SetPoint("BOTTOMRIGHT", pixelScale(1), pixelScale(-1))
 	self.cDebuff.IconOverlay:SetTexture(buttonTex)
 	self.cDebuff.IconOverlay:SetVertexColor(0.25, 0.25, 0.25, 0)
 
@@ -950,47 +951,47 @@ local SetStyle = function(self, unit)
 --		self.Castbar.bg:SetTexture(normtex)
 
 		if unit == "player" or unit == "target" then
-			self.Castbar:SetPoint("TOPLEFT", self, 0, caelLib.scale(-23))
-			self.Castbar:SetPoint("BOTTOMRIGHT", self, 0, caelLib.scale(8))
+			self.Castbar:SetPoint("TOPLEFT", self, 0, pixelScale(-23))
+			self.Castbar:SetPoint("BOTTOMRIGHT", self, 0, pixelScale(8))
 		else
-			self.Castbar:SetHeight(caelLib.scale(5))
+			self.Castbar:SetHeight(pixelScale(5))
 			self.Castbar:SetAllPoints()
 		end
 
 		if unit == "player" or unit == "target" then
 			self.Castbar.Time = SetFontString(self.PortraitOverlay, font, 11)
-			self.Castbar.Time:SetPoint("RIGHT", caelLib.scale(-1), caelLib.scale(1))
+			self.Castbar.Time:SetPoint("RIGHT", pixelScale(-1), pixelScale(1))
 			self.Castbar.Time:SetTextColor(0.84, 0.75, 0.65)
 			self.Castbar.Time:SetJustifyH("RIGHT")
 			self.Castbar.CustomTimeText = CustomCastTimeText
 			self.Castbar.CustomDelayText = CustomCastDelayText
 
 			self.Castbar.Text = SetFontString(self.PortraitOverlay, font, 11)
-			self.Castbar.Text:SetPoint("LEFT", caelLib.scale(1), caelLib.scale(1))
-			self.Castbar.Text:SetPoint("RIGHT", self.Castbar.Time, "LEFT", caelLib.scale(-1), 0)
+			self.Castbar.Text:SetPoint("LEFT", pixelScale(1), pixelScale(1))
+			self.Castbar.Text:SetPoint("RIGHT", self.Castbar.Time, "LEFT", pixelScale(-1), 0)
 			self.Castbar.Text:SetTextColor(0.84, 0.75, 0.65)
 
 			self.Castbar:HookScript("OnShow", function() self.Castbar.Text:Show(); self.Castbar.Time:Show() end)
 			self.Castbar:HookScript("OnHide", function() self.Castbar.Text:Hide(); self.Castbar.Time:Hide() end)
 
 			self.Castbar.Icon = self.Castbar:CreateTexture(nil, "ARTWORK")
-			self.Castbar.Icon:SetSize(caelLib.scale(23 * 1.04), caelLib.scale(23 * 1.04))
+			self.Castbar.Icon:SetSize(pixelScale(23 * 1.04), pixelScale(23 * 1.04))
 			self.Castbar.Icon:SetTexCoord(0, 1, 0, 1)
 			if unit == "player" then
-				self.Castbar.Icon:SetPoint("RIGHT", caelLib.scale(33), 0)
+				self.Castbar.Icon:SetPoint("RIGHT", pixelScale(33), 0)
 			elseif unit == "target" then
-				self.Castbar.Icon:SetPoint("LEFT", caelLib.scale(-31.5), 0)
+				self.Castbar.Icon:SetPoint("LEFT", pixelScale(-31.5), 0)
 			end
 
 			self.IconOverlay = self.Castbar:CreateTexture(nil, "OVERLAY")
-			self.IconOverlay:SetPoint("TOPLEFT", self.Castbar.Icon, caelLib.scale(-1.5), caelLib.scale(1.5))
-			self.IconOverlay:SetPoint("BOTTOMRIGHT", self.Castbar.Icon, caelLib.scale(1.5), caelLib.scale(-1.5))
+			self.IconOverlay:SetPoint("TOPLEFT", self.Castbar.Icon, pixelScale(-1.5), pixelScale(1.5))
+			self.IconOverlay:SetPoint("BOTTOMRIGHT", self.Castbar.Icon, pixelScale(1.5), pixelScale(-1.5))
 			self.IconOverlay:SetTexture(buttonTex)
 			self.IconOverlay:SetVertexColor(0.84, 0.75, 0.65)
 
 			self.IconBackdrop = CreateFrame("Frame", nil, self.Castbar)
-			self.IconBackdrop:SetPoint("TOPLEFT", self.Castbar.Icon, caelLib.scale(-3), caelLib.scale(3))
-			self.IconBackdrop:SetPoint("BOTTOMRIGHT", self.Castbar.Icon, caelLib.scale(3), caelLib.scale(-3))
+			self.IconBackdrop:SetPoint("TOPLEFT", self.Castbar.Icon, pixelScale(-3), pixelScale(3))
+			self.IconBackdrop:SetPoint("BOTTOMRIGHT", self.Castbar.Icon, pixelScale(3), pixelScale(-3))
 			self.IconBackdrop:SetBackdrop(caelMedia.borderTable)
 			self.IconBackdrop:SetBackdropColor(0, 0, 0, 0)
 			self.IconBackdrop:SetBackdropBorderColor(0, 0, 0, 0.7)
@@ -1016,33 +1017,33 @@ local SetStyle = function(self, unit)
 
 	if unitInParty and not unitIsPartyPet and not unitIsPartyTarget or unitInRaid or unit == "player" then
 		self.Leader = self.Health:CreateTexture(nil, "ARTWORK")
-		self.Leader:SetSize(caelLib.scale(14), caelLib.scale(14))
-		self.Leader:SetPoint("TOPLEFT", 0, caelLib.scale(10))
+		self.Leader:SetSize(pixelScale(14), pixelScale(14))
+		self.Leader:SetPoint("TOPLEFT", 0, pixelScale(10))
 
 		self.Assistant = self:CreateTexture(nil, "ARTWORK")
 		self.Assistant:SetParent(unitInRaid and self.Nameplate or self.Health)
-		self.Assistant:SetSize(caelLib.scale(14), caelLib.scale(14))
-		self.Assistant:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, caelLib.scale(-4))
+		self.Assistant:SetSize(pixelScale(14), pixelScale(14))
+		self.Assistant:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, pixelScale(-4))
 
 		self.MasterLooter = self:CreateTexture(nil, "ARTWORK")
 		self.MasterLooter:SetParent(unitInRaid and self.Nameplate or self.Health)
-		self.MasterLooter:SetHeight(caelLib.scale(12), caelLib.scale(12))
-		self.MasterLooter:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 0, caelLib.scale(-4))
+		self.MasterLooter:SetHeight(pixelScale(12), pixelScale(12))
+		self.MasterLooter:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 0, pixelScale(-4))
 		if not unit == "player" then
 			self.ReadyCheck = self:CreateTexture(nil, "ARTWORK")
 			self.ReadyCheck:SetParent(unitInRaid and self.Nameplate or self.Health)
-			self.ReadyCheck:SetSize(caelLib.scale(12), caelLib.scale(12))
+			self.ReadyCheck:SetSize(pixelScale(12), pixelScale(12))
 			if unitInRaid then
-				self.ReadyCheck:SetPoint("BOTTOMLEFT", self, "BOTTOMRIGHT", caelLib.scale(-5), caelLib.scale(2))
+				self.ReadyCheck:SetPoint("BOTTOMLEFT", self, "BOTTOMRIGHT", pixelScale(-5), pixelScale(2))
 			else
-				self.ReadyCheck:SetPoint("TOPRIGHT", caelLib.scale(7), caelLib.scale(7))
+				self.ReadyCheck:SetPoint("TOPRIGHT", pixelScale(7), pixelScale(7))
 			end
 		end
 
 		if unitInParty and not unitIsPartyPet and not unitIsPartyTarget then
 			self.LFDRole = self.Health:CreateTexture(nil, "ARTWORK")
-			self.LFDRole:SetSize(caelLib.scale(14), caelLib.scale(14))
-			self.LFDRole:SetPoint("RIGHT", self, "LEFT", caelLib.scale(-1), 0)
+			self.LFDRole:SetSize(pixelScale(14), pixelScale(14))
+			self.LFDRole:SetPoint("RIGHT", self, "LEFT", pixelScale(-1), 0)
 		end
 	end
 
@@ -1058,27 +1059,27 @@ local SetStyle = function(self, unit)
 	end
 
 	if unit == "player" or unit == "target" then
-		self:SetAttribute("initial-height", caelLib.scale(53))
-		self:SetAttribute("initial-width", caelLib.scale(230))
+		self:SetAttribute("initial-height", pixelScale(53))
+		self:SetAttribute("initial-width", pixelScale(230))
 	elseif unitIsPartyPet then
-		self:SetAttribute("initial-height", caelLib.scale(10))
-		self:SetAttribute("initial-width", caelLib.scale(113))
+		self:SetAttribute("initial-height", pixelScale(10))
+		self:SetAttribute("initial-width", pixelScale(113))
 	elseif unitInRaid then
-		self:SetAttribute("initial-height", caelLib.scale(43))
-		self:SetAttribute("initial-width", caelLib.scale(64))
+		self:SetAttribute("initial-height", pixelScale(43))
+		self:SetAttribute("initial-width", pixelScale(64))
 	else
-		self:SetAttribute("initial-height", caelLib.scale(22))
-		self:SetAttribute("initial-width", caelLib.scale(113))
+		self:SetAttribute("initial-height", pixelScale(22))
+		self:SetAttribute("initial-width", pixelScale(113))
 	end
 
 	self.RaidIcon = self:CreateTexture(nil, "OVERLAY")
 	self.RaidIcon:SetParent(unitInRaid and self.Nameplate or self.Health)
 	self.RaidIcon:SetTexture(raidIcons)
-	self.RaidIcon:SetSize(unitInRaid and caelLib.scale(14) or caelLib.scale(18), unitInRaid and caelLib.scale(14) or caelLib.scale(18))
+	self.RaidIcon:SetSize(unitInRaid and pixelScale(14) or pixelScale(18), unitInRaid and pixelScale(14) or pixelScale(18))
 	if unitInRaid then
-		self.RaidIcon:SetPoint("CENTER", 0, caelLib.scale(10))
+		self.RaidIcon:SetPoint("CENTER", 0, pixelScale(10))
 	else
-		self.RaidIcon:SetPoint("TOP", 0, caelLib.scale(10))
+		self.RaidIcon:SetPoint("TOP", 0, pixelScale(10))
 	end
 
 	if IsAddOnLoaded("oUF_SpellRange") then
@@ -1138,21 +1139,21 @@ oUF:RegisterStyle("Caellian", SetStyle)
 oUF:Factory(function(self)
 	local cfg = settings.coords
 
-	self:Spawn("player", "oUF_Caellian_player"):SetPoint("BOTTOM", UIParent, caelLib.scale(cfg.playerX), caelLib.scale(cfg.playerY))
-	self:Spawn("target", "oUF_Caellian_target"):SetPoint("BOTTOM", UIParent, caelLib.scale(cfg.targetX), caelLib.scale(cfg.targetY))
+	self:Spawn("player", "oUF_Caellian_player"):SetPoint("BOTTOM", UIParent, pixelScale(cfg.playerX), pixelScale(cfg.playerY))
+	self:Spawn("target", "oUF_Caellian_target"):SetPoint("BOTTOM", UIParent, pixelScale(cfg.targetX), pixelScale(cfg.targetY))
 
-	self:Spawn("pet", "oUF_Caellian_pet"):SetPoint("BOTTOMLEFT", oUF_Caellian_player, "TOPLEFT", 0, caelLib.scale(10))
-	self:Spawn("focus", "oUF_Caellian_focus"):SetPoint("BOTTOMRIGHT", oUF_Caellian_player, "TOPRIGHT", 0, caelLib.scale(10))
-	self:Spawn("focustarget", "oUF_Caellian_focustarget"):SetPoint("BOTTOMLEFT", oUF_Caellian_target, "TOPLEFT", 0, caelLib.scale(10))
-	self:Spawn("targettarget", "oUF_Caellian_targettarget"):SetPoint("BOTTOMRIGHT", oUF_Caellian_target, "TOPRIGHT", 0, caelLib.scale(10))
+	self:Spawn("pet", "oUF_Caellian_pet"):SetPoint("BOTTOMLEFT", oUF_Caellian_player, "TOPLEFT", 0, pixelScale(10))
+	self:Spawn("focus", "oUF_Caellian_focus"):SetPoint("BOTTOMRIGHT", oUF_Caellian_player, "TOPRIGHT", 0, pixelScale(10))
+	self:Spawn("focustarget", "oUF_Caellian_focustarget"):SetPoint("BOTTOMLEFT", oUF_Caellian_target, "TOPLEFT", 0, pixelScale(10))
+	self:Spawn("targettarget", "oUF_Caellian_targettarget"):SetPoint("BOTTOMRIGHT", oUF_Caellian_target, "TOPRIGHT", 0, pixelScale(10))
 
 	local party = {}
 	for i = 1, 5 do
 		party[i] = self:Spawn("party"..i, "oUF_Party"..i)
 		if i == 1 then
-			party[i]:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 15, -15)
+			party[i]:SetPoint("TOPLEFT", UIParent, "TOPLEFT", pixelScale(15), pixelScale(-15))
 		else
-			party[i]:SetPoint("TOP", party[i-1], "BOTTOM", 0, -26.5)
+			party[i]:SetPoint("TOP", party[i-1], "BOTTOM", 0, pixelScale(-26.5))
 		end
 	end
 
@@ -1160,9 +1161,9 @@ oUF:Factory(function(self)
 	for i = 1, 5 do
 		partytarget[i] = self:Spawn("party"..i.."target", "oUF_Party"..i.."Target")
 		if i == 1 then
-			partytarget[i]:SetPoint("TOPLEFT", party[1], "TOPRIGHT", 7.5, 0)
+			partytarget[i]:SetPoint("TOPLEFT", party[1], "TOPRIGHT", pixelScale(7.5), 0)
 		else
-			partytarget[i]:SetPoint("TOP", partytarget[i-1], "BOTTOM", 0, -26.5)
+			partytarget[i]:SetPoint("TOP", partytarget[i-1], "BOTTOM", 0, pixelScale(-26.5))
 		end
 	end
 	
@@ -1170,22 +1171,22 @@ oUF:Factory(function(self)
 	for i = 1, 5 do
 		partypet[i] = self:Spawn("partypet"..i, "oUF_PartyPet"..i)
 		if i == 1 then
-			partypet[i]:SetPoint("TOP", party[i], "BOTTOM", 0, caelLib.scale(-5))
+			partypet[i]:SetPoint("TOP", party[i], "BOTTOM", 0, pixelScale(-5))
 		else
-			partypet[i]:SetPoint("TOP", party[i-1], "BOTTOM", 0, caelLib.scale(-54))
+			partypet[i]:SetPoint("TOP", party[i-1], "BOTTOM", 0, pixelScale(-54))
 		end
 	end
 
 	local raid = {}
 	for i = 1, NUM_RAID_GROUPS do
 		local raidgroup = self:SpawnHeader("oUF_Raid"..i, nil, visible,
-		"groupFilter", tostring(i), "showRaid", true, "yOffSet", caelLib.scale(-3.5)
+		"groupFilter", tostring(i), "showRaid", true, "yOffSet", pixelScale(-3.5)
 	)
 		insert(raid, raidgroup)
 		if i == 1 then
-			raidgroup:SetPoint("TOPLEFT", UIParent, caelLib.scale(cfg.raidX), caelLib.scale(cfg.raidY))
+			raidgroup:SetPoint("TOPLEFT", UIParent, pixelScale(cfg.raidX), pixelScale(cfg.raidY))
 		else
-			raidgroup:SetPoint("TOPLEFT", raid[i-1], "TOPRIGHT", caelLib.scale(60 * settings.scale - 60) + caelLib.scale(3.5), 0)
+			raidgroup:SetPoint("TOPLEFT", raid[i-1], "TOPRIGHT", pixelScale(60 * settings.scale - 60) + pixelScale(3.5), 0)
 		end
 	end
 
@@ -1194,9 +1195,9 @@ oUF:Factory(function(self)
 		boss[i] = self:Spawn("boss"..i, "oUF_Boss"..i)
 
 		if i == 1 then
-			boss[i]:SetPoint("TOP", UIParent, 0, caelLib.scale(-15))
+			boss[i]:SetPoint("TOP", UIParent, 0, pixelScale(-15))
 		else
-			boss[i]:SetPoint("TOP", boss[i-1], "BOTTOM", 0, caelLib.scale(-26.5))
+			boss[i]:SetPoint("TOP", boss[i-1], "BOTTOM", 0, pixelScale(-26.5))
 		end
 	end
 
@@ -1207,9 +1208,9 @@ oUF:Factory(function(self)
 		arena[i] = self:Spawn("arena"..i, "oUF_Arena"..i)
 
 		if i == 1 then
-			arena[i]:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", caelLib.scale(-15), caelLib.scale(-15))
+			arena[i]:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", pixelScale(-15), pixelScale(-15))
 		else
-			arena[i]:SetPoint("TOP", arena[i-1], "BOTTOM", 0, caelLib.scale(-26.5))
+			arena[i]:SetPoint("TOP", arena[i-1], "BOTTOM", 0, pixelScale(-26.5))
 		end
 	end
 
@@ -1219,9 +1220,9 @@ oUF:Factory(function(self)
 	for i = 1, 5 do
 		arenatarget[i] = self:Spawn("arena"..i.."target", "oUF_Arena"..i.."target")
 		if i == 1 then
-			arenatarget[i]:SetPoint("TOPRIGHT", arena[i], "TOPLEFT", caelLib.scale(-7.5), 0)
+			arenatarget[i]:SetPoint("TOPRIGHT", arena[i], "TOPLEFT", pixelScale(-7.5), 0)
 		else
-			arenatarget[i]:SetPoint("TOP", arenatarget[i-1], "BOTTOM", 0, caelLib.scale(-26.5))
+			arenatarget[i]:SetPoint("TOP", arenatarget[i-1], "BOTTOM", 0, pixelScale(-26.5))
 		end
 	end
 
