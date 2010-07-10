@@ -1082,14 +1082,14 @@ local SetStyle = function(self, unit)
 		self.RaidIcon:SetPoint("TOP", 0, pixelScale(10))
 	end
 
-	if IsAddOnLoaded("oUF_SpellRange") then
-		self.outsideRangeAlpha = 0.5
-		self.inRangeAlpha = 1
-		self.SpellRange = true
-	else
+	if unitInParty or unitInRaid then
 		self.Range = {
 		insideAlpha = 1,
 		outsideAlpha = 0.5,}
+	elseif IsAddOnLoaded("oUF_SpellRange") then
+		self.outsideRangeAlpha = 0.5
+		self.inRangeAlpha = 1
+		self.SpellRange = true
 	end
 
 	local AggroSelect = function()
