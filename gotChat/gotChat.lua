@@ -24,6 +24,9 @@ end
 -- Change the format strings where possible. 
 CHAT_WHISPER_GET = "From %s:\32"
 CHAT_WHISPER_INFORM_GET = "To %s:\32"
+CHAT_BN_WHISPER_GET = "From %s:\32"
+CHAT_BN_WHISPER_INFORM_GET = "To %s:\32"
+CHAT_BN_WHISPER_SEND = "Tell %s:\32"
 CHAT_PARTY_GET = "|Hchannel:Party|hP.|h %s:\32"
 CHAT_MONSTER_PARTY_GET = "|Hchannel:Party|hP.|h %s: "
 CHAT_PARTY_GUIDE_GET = "|Hchannel:Party|hPL.|h %s: "
@@ -158,6 +161,14 @@ end
 kill(ChatFrameMenuButton)
 
 -- Stickies! You know, those things we haven't got on the EU Interface forums.
+do
+	local stickys = {"SAY", "EMOTE", "YELL", "PARTY", "GUILD", "OFFICER", "RAID", "RAID_WARNING", 'BATTLEGROUND', "WHISPER", "CHANNEL"}
+	for _, chanType in ipairs(stickys) do
+		ChatTypeInfo[chanType].sticky = 1
+	end
+end
+
+--[[
 ChatTypeInfo.SAY.sticky = 1
 ChatTypeInfo.EMOTE.sticky = 0
 ChatTypeInfo.YELL.sticky = 0
@@ -169,6 +180,7 @@ ChatTypeInfo.RAID_WARNING.sticky = 0
 ChatTypeInfo.BATTLEGROUND.sticky = 1
 ChatTypeInfo.WHISPER.sticky = 1
 ChatTypeInfo.CHANNEL.sticky = 1
+--]]
 
 -- Chat Copy and AltClickInvite.
 local function AltClickInvite(link)
