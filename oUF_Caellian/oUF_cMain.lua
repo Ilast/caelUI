@@ -1085,11 +1085,11 @@ local SetStyle = function(self, unit)
 	if unitInParty or unitInRaid then
 		self.Range = {
 		insideAlpha = 1,
-		outsideAlpha = 0.5,}
+		outsideAlpha = 0.5}
 	elseif IsAddOnLoaded("oUF_SpellRange") then
-		self.outsideRangeAlpha = 0.5
-		self.inRangeAlpha = 1
-		self.SpellRange = true
+		self.SpellRange = {
+		insideAlpha = 1,
+		outsideAlpha = 0.5}
 	end
 
 	local AggroSelect = function()
