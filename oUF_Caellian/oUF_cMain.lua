@@ -509,14 +509,16 @@ local PostUpdateIcon = function(icons, unit, icon, index, offset)
 
 	if duration and duration > 0 then
 		icon.remaining:Show()
+		icon.timeLeft = expirationTime
+		icon:SetScript("OnUpdate", CreateAuraTimer)
 	else
 		icon.remaining:Hide()
+		icon.timeLeft = math.huge
+		icon:SetScript("OnUpdate", nil)
 	end
 
-	icon.duration = duration
-	icon.timeLeft = expirationTime
 	icon.first = true
-	icon:SetScript("OnUpdate", CreateAuraTimer)
+
 end
 
 local CustomFilter = function(icons, unit, icon, name, rank, texture, count, dtype, duration, expiration, caster)
@@ -546,7 +548,7 @@ local CustomFilter = function(icons, unit, icon, name, rank, texture, count, dty
 end
 
 local SortAura = function(a, b)
-	return (a.timeLeft) > (b.timeLeft)
+	return (a.timeLeft and a.timeLeft) > (b.timeLeft and b.timeLeft)
 end
 
 local PreSetPosition = function(auras)
