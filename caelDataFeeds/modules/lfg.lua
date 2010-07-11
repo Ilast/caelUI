@@ -10,15 +10,32 @@ lfg.text:SetPoint("CENTER", caelPanel8, "CENTER", caelLib.scale(-150), caelLib.s
 
 lfg:RegisterEvent("LFG_UPDATE")
 lfg:RegisterEvent("UPDATE_LFG_LIST")
+lfg:RegisterEvent("LFG_PROPOSAL_SHOW")
 lfg:RegisterEvent("LFG_PROPOSAL_UPDATE")
 lfg:RegisterEvent("PARTY_MEMBERS_CHANGED")
 lfg:RegisterEvent("LFG_ROLE_CHECK_UPDATE")
 lfg:RegisterEvent("PLAYER_ENTERING_WORLD")
+lfg:RegisterEvent("LFG_COMPLETION_REWARD")
 lfg:RegisterEvent("LFG_QUEUE_STATUS_UPDATE")
 
 local red, green = "AF5050", "559655"
 
 lfg:SetScript("OnEvent", function(self, event)
+
+	if event == "LFG_PROPOSAL_SHOW" then
+		local proposalExists, _, _, _, _, _, _, _, completedEncounters = GetLFGProposal()
+
+		if proposalExists and completedEncounters > 0 then
+			RaidNotice_AddMessage(RaidWarningFrame, "|cffAF5050".."Dungeon IN PROGRESS. Invite Declined.|r", ChatTypeInfo["RAID_WARNING"])
+			RejectProposal()
+--			LFDDungeonReadyDialogLeaveQueueButton:Click()
+			LFDQueueFrameFindGroupButton:Click()
+		end
+	elseif event == "LFG_COMPLETION_REWARD" then
+		SendChatMessage("Merci pour le groupe, bye.", "PARTY")
+		LeaveParty()
+	end
+
 	MiniMapLFGFrame:UnregisterAllEvents()
 	MiniMapLFGFrame:Hide()
 	MiniMapLFGFrame.Show = function() end
