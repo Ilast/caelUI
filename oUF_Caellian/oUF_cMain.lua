@@ -69,7 +69,6 @@ local colors = setmetatable({
 }, {__index = oUF.colors})
 
 oUF.colors.tapped = {0.55, 0.57, 0.61}
-oUF.colors.disconnected = {0.84, 0.75, 0.65}
 
 --	oUF.colors.smooth = {0.69, 0.31, 0.31, 0.25, 0.25, 0.25, 0.15, 0.15, 0.15}
 
@@ -555,13 +554,11 @@ local PreSetPosition = function(auras)
 	sort(auras, SortAura)
 end
 
-local PortraitPostUpdate = function(self, unit)
-	if self.unit == "target" then
-		if not UnitExists(self.unit) or not UnitIsConnected(self.unit) or not UnitIsVisible(self.unit) then
-			self.Portrait:SetAlpha(0)
-		else
-			self.Portrait:SetAlpha(1)
-		end
+local PortraitPostUpdate = function(element, unit)
+	if not UnitExists(unit) or not UnitIsConnected(unit) or not UnitIsVisible(unit) then
+		element:SetAlpha(0)
+	else
+		element:SetAlpha(1)
 	end
 end
 
@@ -613,7 +610,6 @@ local SetStyle = function(self, unit)
 	self.Health:GetStatusBarTexture():SetHorizTile(false)
 
 	self.Health.colorTapping = true
-	self.Health.colorDisconnected = true
 
 	self.Health.frequentUpdates = true
 	self.Health.Smooth = true
@@ -810,6 +806,18 @@ local SetStyle = function(self, unit)
 	end
 
 	if unit == "player" or unit == "target" then
+
+		self.Portrait = CreateFrame("PlayerModel", nil, self)
+		self.Portrait:SetPoint("TOPLEFT", self, 0, pixelScale(-23))
+		self.Portrait:SetPoint("BOTTOMRIGHT", self, 0, pixelScale(8))
+
+		self.PortraitOverlay = CreateFrame("StatusBar", self:GetName().."_PortraitOverlay", self.Portrait)
+		self.PortraitOverlay:SetFrameLevel(self.PortraitOverlay:GetFrameLevel() + 1)
+		self.PortraitOverlay:SetAllPoints()
+		self.PortraitOverlay:SetStatusBarTexture(shaderTex)
+		self.PortraitOverlay:GetStatusBarTexture():SetHorizTile(false)
+		self.PortraitOverlay:SetStatusBarColor(0.1, 0.1, 0.1, 0.75)
+
 		self.Buffs = CreateFrame("Frame", nil, self)
 		self.Buffs:SetHeight(pixelScale(24))
 		self.Buffs:SetWidth(pixelScale(24 * 8))
@@ -843,6 +851,9 @@ local SetStyle = function(self, unit)
 			end
 
 		elseif unit == "target" then
+			self.Portrait.PostUpdate = PortraitPostUpdate
+--			insert(self.__elements, PortraitPostUpdate)
+
 			self.Buffs:SetPoint("TOPLEFT", self, "TOPRIGHT", pixelScale(9), pixelScale(1))
 			self.Buffs.initialAnchor = "TOPLEFT"
 			self.Buffs["growth-y"] = "DOWN"
@@ -876,47 +887,33 @@ local SetStyle = function(self, unit)
 			self:RegisterEvent("UNIT_COMBO_POINTS", UpdateCPoints)
 		end
 
-			self.Portrait = CreateFrame("PlayerModel", nil, self)
-			self.Portrait:SetPoint("TOPLEFT", self, 0, pixelScale(-23))
-			self.Portrait:SetPoint("BOTTOMRIGHT", self, 0, pixelScale(8))
+		self.CombatFeedbackText = SetFontString(self.PortraitOverlay, font, 18, "OUTLINE")
+		self.CombatFeedbackText:SetPoint("CENTER", 0, pixelScale(1))
+		self.CombatFeedbackText.colors = {
+			DAMAGE = {0.69, 0.31, 0.31},
+			CRUSHING = {0.69, 0.31, 0.31},
+			CRITICAL = {0.69, 0.31, 0.31},
+			GLANCING = {0.69, 0.31, 0.31},
+			STANDARD = {0.84, 0.75, 0.65},
+			IMMUNE = {0.84, 0.75, 0.65},
+			ABSORB = {0.84, 0.75, 0.65},
+			BLOCK = {0.84, 0.75, 0.65},
+			RESIST = {0.84, 0.75, 0.65},
+			MISS = {0.84, 0.75, 0.65},
+			HEAL = {0.33, 0.59, 0.33},
+			CRITHEAL = {0.33, 0.59, 0.33},
+			ENERGIZE = {0.31, 0.45, 0.63},
+			CRITENERGIZE = {0.31, 0.45, 0.63},
+		}
 
-			self.Portrait.PostUpdate = PortraitPostUpdate
---			insert(self.__elements, PortraitPostUpdate)
-	
-			self.PortraitOverlay = CreateFrame("StatusBar", self:GetName().."_PortraitOverlay", self.Portrait)
-			self.PortraitOverlay:SetFrameLevel(self.PortraitOverlay:GetFrameLevel() + 1)
-			self.PortraitOverlay:SetAllPoints()
-			self.PortraitOverlay:SetStatusBarTexture(shaderTex)
-			self.PortraitOverlay:GetStatusBarTexture():SetHorizTile(false)
-			self.PortraitOverlay:SetStatusBarColor(0.1, 0.1, 0.1, 0.75)
+		self.Status = SetFontString(self.PortraitOverlay, font, 18, "OUTLINE")
+		self.Status:SetPoint("CENTER", 0, pixelScale(2))
+		self.Status:SetTextColor(0.69, 0.31, 0.31, 0)
+		self:Tag(self.Status, "[pvp]")
 
-			self.CombatFeedbackText = SetFontString(self.PortraitOverlay, font, 18, "OUTLINE")
-			self.CombatFeedbackText:SetPoint("CENTER", 0, pixelScale(1))
-			self.CombatFeedbackText.colors = {
-				DAMAGE = {0.69, 0.31, 0.31},
-				CRUSHING = {0.69, 0.31, 0.31},
-				CRITICAL = {0.69, 0.31, 0.31},
-				GLANCING = {0.69, 0.31, 0.31},
-				STANDARD = {0.84, 0.75, 0.65},
-				IMMUNE = {0.84, 0.75, 0.65},
-				ABSORB = {0.84, 0.75, 0.65},
-				BLOCK = {0.84, 0.75, 0.65},
-				RESIST = {0.84, 0.75, 0.65},
-				MISS = {0.84, 0.75, 0.65},
-				HEAL = {0.33, 0.59, 0.33},
-				CRITHEAL = {0.33, 0.59, 0.33},
-				ENERGIZE = {0.31, 0.45, 0.63},
-				CRITENERGIZE = {0.31, 0.45, 0.63},
-			}
-	
-			self.Status = SetFontString(self.PortraitOverlay, font, 18, "OUTLINE")
-			self.Status:SetPoint("CENTER", 0, pixelScale(2))
-			self.Status:SetTextColor(0.69, 0.31, 0.31, 0)
-			self:Tag(self.Status, "[pvp]")
-	
-			self:SetScript("OnEnter", function(self) self.Status:SetAlpha(0.5); UnitFrame_OnEnter(self) end)
-			self:SetScript("OnLeave", function(self) self.Status:SetAlpha(0); UnitFrame_OnLeave(self) end)
-		end
+		self:SetScript("OnEnter", function(self) self.Status:SetAlpha(0.5); UnitFrame_OnEnter(self) end)
+		self:SetScript("OnLeave", function(self) self.Status:SetAlpha(0); UnitFrame_OnLeave(self) end)
+	end
 
 	self.cDebuffFilter = true
 
