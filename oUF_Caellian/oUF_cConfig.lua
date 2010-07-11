@@ -8,6 +8,7 @@ noPlayerAuras = false, -- true to disable oUF buffs/debuffs on the player frame 
 noPetAuras = false, -- true to disable oUF buffs/debuffs on the pet frame
 noTargetAuras = false, -- true to disable oUF buffs/debuffs on the target frame
 noToTAuras = false, -- true to disable oUF buffs/debuffs on the ToT frame
+noParty = false, -- true to disable party frames
 noRaid = false, -- true to disable raid frames
 
 font = caelMedia.fonts.NORMAL,

@@ -1239,17 +1239,21 @@ oUF:Factory(function(self)
 			self:UnregisterEvent("PLAYER_REGEN_ENABLED")
 			local numraid = GetNumRaidMembers()
 			if numraid > 0 and (numraid > 5 or numraid ~= GetNumPartyMembers() + 1) then
-				for i, v in ipairs(party) do v:Disable() end
-				for i, v in ipairs(partypet) do v:Disable() end
-				for i, v in ipairs(partytarget) do v:Disable() end
+				if not settings.noParty then
+					for i, v in ipairs(party) do v:Disable() end
+					for i, v in ipairs(partypet) do v:Disable() end
+					for i, v in ipairs(partytarget) do v:Disable() end
+				end
 	
 				if not settings.noRaid then
 					for i, v in ipairs(raid) do v:Show() end
 				end
 			else
-				for i, v in ipairs(party) do v:Enable() end
-				for i, v in ipairs(partypet) do v:Enable() end
-				for i, v in ipairs(partytarget) do v:Enable() end
+				if not settings.noParty then
+					for i, v in ipairs(party) do v:Enable() end
+					for i, v in ipairs(partypet) do v:Enable() end
+					for i, v in ipairs(partytarget) do v:Enable() end
+				end
 
 				if not settings.noRaid then
 					for i, v in ipairs(raid) do v:Hide() end
