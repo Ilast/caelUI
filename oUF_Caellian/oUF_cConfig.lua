@@ -8,6 +8,7 @@ noPlayerAuras = false, -- true to disable oUF buffs/debuffs on the player frame 
 noPetAuras = false, -- true to disable oUF buffs/debuffs on the pet frame
 noTargetAuras = false, -- true to disable oUF buffs/debuffs on the target frame
 noToTAuras = false, -- true to disable oUF buffs/debuffs on the ToT frame
+noArena = false, -- true to disable arena frames
 noParty = false, -- true to disable party frames
 noRaid = false, -- true to disable raid frames
 
@@ -26,6 +27,9 @@ coords = {
 
 	targetX = 278.5, -- horizontal offset for the target block frames
 	targetY = 269.5, -- vertical offset for the target block frames
+
+	arenaX = -15, -- horizontal offset for the arena frames
+	arenaY = -15, -- vertical offset for the arena frames
 
 	partyX = 15, -- horizontal offset for the party frames
 	partyY = -15, -- vertical offset for the party frames

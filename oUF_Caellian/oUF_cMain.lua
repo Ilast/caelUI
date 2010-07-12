@@ -1150,7 +1150,7 @@ oUF:Factory(function(self)
 	for i = 1, 5 do
 		party[i] = self:Spawn("party"..i, "oUF_Party"..i)
 		if i == 1 then
-			party[i]:SetPoint("TOPLEFT", UIParent, "TOPLEFT", pixelScale(15), pixelScale(-15))
+			party[i]:SetPoint("TOPLEFT", UIParent, "TOPLEFT", pixelScale(cfg.partyX), pixelScale(cfg.partyY))
 		else
 			party[i]:SetPoint("TOP", party[i-1], "BOTTOM", 0, pixelScale(-26.5))
 		end
@@ -1202,30 +1202,32 @@ oUF:Factory(function(self)
 
 	for i, v in ipairs(boss) do v:Show() end
 
-	local arena = {}
-	for i = 1, 5 do
-		arena[i] = self:Spawn("arena"..i, "oUF_Arena"..i)
+	if not settings.noArena then
+		local arena = {}
+		for i = 1, 5 do
+			arena[i] = self:Spawn("arena"..i, "oUF_Arena"..i)
 
-		if i == 1 then
-			arena[i]:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", pixelScale(-15), pixelScale(-15))
-		else
-			arena[i]:SetPoint("TOP", arena[i-1], "BOTTOM", 0, pixelScale(-26.5))
+			if i == 1 then
+				arena[i]:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", pixelScale(cfg.arenaX), pixelScale(cfg.arenaY))
+			else
+				arena[i]:SetPoint("TOP", arena[i-1], "BOTTOM", 0, pixelScale(-26.5))
+			end
 		end
-	end
 
-	for i, v in ipairs(arena) do v:Show() end
+		for i, v in ipairs(arena) do v:Show() end
 
-	local arenatarget = {}
-	for i = 1, 5 do
-		arenatarget[i] = self:Spawn("arena"..i.."target", "oUF_Arena"..i.."target")
-		if i == 1 then
-			arenatarget[i]:SetPoint("TOPRIGHT", arena[i], "TOPLEFT", pixelScale(-7.5), 0)
-		else
-			arenatarget[i]:SetPoint("TOP", arenatarget[i-1], "BOTTOM", 0, pixelScale(-26.5))
+		local arenatarget = {}
+		for i = 1, 5 do
+			arenatarget[i] = self:Spawn("arena"..i.."target", "oUF_Arena"..i.."target")
+			if i == 1 then
+				arenatarget[i]:SetPoint("TOPRIGHT", arena[i], "TOPLEFT", pixelScale(-7.5), 0)
+			else
+				arenatarget[i]:SetPoint("TOP", arenatarget[i-1], "BOTTOM", 0, pixelScale(-26.5))
+			end
 		end
-	end
 
-	for i, v in ipairs(arenatarget) do v:Show() end
+		for i, v in ipairs(arenatarget) do v:Show() end
+	end
 
 	Main:RegisterEvent("PLAYER_LOGIN")
 	Main:RegisterEvent("RAID_ROSTER_UPDATE")
