@@ -18,6 +18,8 @@ lfg:RegisterEvent("PLAYER_ENTERING_WORLD")
 lfg:RegisterEvent("LFG_COMPLETION_REWARD")
 lfg:RegisterEvent("LFG_QUEUE_STATUS_UPDATE")
 
+local format = string.format
+
 local red, green = "AF5050", "559655"
 
 lfg:SetScript("OnEvent", function(self, event)
@@ -26,7 +28,7 @@ lfg:SetScript("OnEvent", function(self, event)
 		local proposalExists, _, _, _, _, _, _, _, completedEncounters = GetLFGProposal()
 
 		if proposalExists and completedEncounters > 0 then
-			RaidNotice_AddMessage(RaidWarningFrame, "|cffAF5050".."Dungeon IN PROGRESS. Invite Declined.|r", ChatTypeInfo["RAID_WARNING"])
+			RaidNotice_AddMessage(RaidWarningFrame, format("|cff%s%s|r", red, "Dungeon IN PROGRESS. Invite Declined."), ChatTypeInfo["RAID_WARNING"])
 			RejectProposal()
 --			LFDDungeonReadyDialogLeaveQueueButton:Click()
 			LFDQueueFrameFindGroupButton:Click()
@@ -56,12 +58,12 @@ lfg:SetScript("OnEvent", function(self, event)
 	end
 
 	self.text:SetText(
-		string.format("|cffD7BEA5lfg |r %s%s%s%s%s %s",
-			string.format("|cff%s%s|r", tankNeeds == 0 and green or red, "T"),
-			string.format("|cff%s%s|r", healerNeeds == 0 and green or red, "H"),
-			string.format("|cff%s%s|r", dpsNeeds == 3 and red or green, "D"),
-			string.format("|cff%s%s|r", dpsNeeds >= 2 and red or green, "D"),
-			string.format("|cff%s%s|r", dpsNeeds >= 1 and red or green, "D"),
+		format("|cffD7BEA5lfg |r %s%s%s%s%s %s",
+			format("|cff%s%s|r", tankNeeds == 0 and green or red, "T"),
+			format("|cff%s%s|r", healerNeeds == 0 and green or red, "H"),
+			format("|cff%s%s|r", dpsNeeds == 3 and red or green, "D"),
+			format("|cff%s%s|r", dpsNeeds >= 2 and red or green, "D"),
+			format("|cff%s%s|r", dpsNeeds >= 1 and red or green, "D"),
 			(myWait ~= -1 and SecondsToTime(myWait, false, false, 1) or "|cffD7BEA5Unknown|r")
 		)
 	)
