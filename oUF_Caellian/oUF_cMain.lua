@@ -697,13 +697,7 @@ local SetStyle = function(self, unit)
 		self.FlashInfo.ManaLevel = SetFontString(self.FlashInfo, font, 11)
 		self.FlashInfo.ManaLevel:SetPoint("CENTER", 0, pixelScale(1))
 
-		if UnitLevel("player") ~= MAX_PLAYER_LEVEL then
-			self.Resting = self.Power:CreateTexture(nil, "OVERLAY")
-			self.Resting:SetSize(pixelScale(18), pixelScale(18))
-			self.Resting:SetPoint("BOTTOMLEFT", pixelScale(-8.5), pixelScale(-8.5))
-			self.Resting:SetTexture([=[Interface\CharacterFrame\UI-StateIcon]=])
-			self.Resting:SetTexCoord(0, 0.5, 0, 0.421875)
-		end
+
 
 		if IsAddOnLoaded("oUF_WeaponEnchant") then
 			self.Enchant = CreateFrame("Frame", nil, self)
@@ -728,12 +722,11 @@ local SetStyle = function(self, unit)
 
 			for i = 1, 6 do
 				self.Runes[i] = CreateFrame("StatusBar", self:GetName().."_Runes"..i, self)
-				self.Runes[i]:SetHeight(pixelScale(7))
-				self.Runes[i]:SetWidth(pixelScale(230 / 6) - 0.4)
+				self.Runes[i]:SetSize(((230 - 5) / 6), pixelScale(7))
 				if (i == 1) then
 					self.Runes[i]:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, pixelScale(-1))
 				else
-					self.Runes[i]:SetPoint("TOPLEFT", self.Runes[i-1], "TOPRIGHT", pixelScale(1), 0)
+					self.Runes[i]:SetPoint("LEFT", self.Runes[i-1], "RIGHT", 1, 0)
 				end
 				self.Runes[i]:SetStatusBarTexture(normtex)
 				self.Runes[i]:GetStatusBarTexture():SetHorizTile(false)
@@ -751,16 +744,18 @@ local SetStyle = function(self, unit)
 			self.TotemBar.Destroy = true
 			for i = 1, 4 do
 				self.TotemBar[i] = CreateFrame("StatusBar", self:GetName().."_TotemBar"..i, self)
-				self.TotemBar[i]:SetHeight(pixelScale(7))
-				self.TotemBar[i]:SetWidth(pixelScale(230/4 - 0.75))
+				self.TotemBar[i]:SetSize(((230 - 3) / 4), pixelScale(7))
 				if (i == 1) then
 					self.TotemBar[i]:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, pixelScale(-1))
 				else
-					self.TotemBar[i]:SetPoint("TOPLEFT", self.TotemBar[i-1], "TOPRIGHT", pixelScale(1), 0)
+					self.TotemBar[i]:SetPoint("TOPLEFT", self.TotemBar[i-1], "TOPRIGHT", 1, 0)
 				end
 				self.TotemBar[i]:SetStatusBarTexture(normtex)
 				self.TotemBar[i]:GetStatusBarTexture():SetHorizTile(false)
 				self.TotemBar[i]:SetMinMaxValues(0, 1)
+
+				self.TotemBar[i]:SetBackdrop(backdrop)
+				self.TotemBar[i]:SetBackdropColor(0.25, 0.25, 0.25)
 
 				self.TotemBar[i].bg = self.TotemBar[i]:CreateTexture(nil, "BORDER")
 				self.TotemBar[i].bg:SetAllPoints()

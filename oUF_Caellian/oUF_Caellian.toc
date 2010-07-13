@@ -1,6 +1,6 @@
 ## Interface: 30300
 ## Author: Caellian, Gotai, Recluse
-## Title: |cffD7BEA5oUF|r Caellian
+## Title: |cffD7BEA5oUF|r|cffAF5050_|r|cffFFFFFFCaellian|r
 ## Notes: Caellian's oUF layout
 ## X-Revision: $Id$
 ## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
