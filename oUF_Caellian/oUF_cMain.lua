@@ -70,8 +70,6 @@ local colors = setmetatable({
 
 oUF.colors.tapped = {0.55, 0.57, 0.61}
 
---	oUF.colors.smooth = {0.69, 0.31, 0.31, 0.25, 0.25, 0.25, 0.15, 0.15, 0.15}
-
 local SetUpAnimGroup = function(self)
 	self.anim = self:CreateAnimationGroup("Flash")
 	self.anim.fadein = self.anim:CreateAnimation("ALPHA", "FadeIn")
@@ -402,11 +400,7 @@ local CreateAuraTimer = function(self, elapsed)
 			end
 			if self.timeLeft > 0 then
 				local time = FormatTime(self.timeLeft)
---				if type(time) == "string" or time >= 10 then
 					self.remaining:SetText(time)
---				else
---					self.remaining:SetFormattedText("%.1f", time)
---				end
 				if self.timeLeft < 5 then
 					self.remaining:SetTextColor(0.69, 0.31, 0.31)
 				else
@@ -523,7 +517,7 @@ end
 local CustomFilter = function(icons, unit, icon, name, rank, texture, count, dtype, duration, expiration, caster)
 	if UnitCanAttack("player", unit) then
 		local casterClass
---		if debuffFilter[name] then
+
 		if caster then
 			casterClass = select(2, UnitClass(caster))
 		end
@@ -619,7 +613,6 @@ local SetStyle = function(self, unit)
 	self.Health.bg = self.Health:CreateTexture(nil, "BORDER")
 	self.Health.bg:SetAllPoints()
 	self.Health.bg:SetTexture(normtex)
---	self.Health.bg.multiplier = 0.5
 
 	self.Health.value = SetFontString(self.Health, font,(unit == "player" or unit == "target") and 11 or 9)
 	if unitInRaid then
@@ -792,7 +785,6 @@ local SetStyle = function(self, unit)
 		self.Auras.numBuffs = 16
 		self.Auras.numDebuffs = 16
 		self.Auras.gap = true
---		self.Auras.PreSetPosition = PreSetPosition
 		self.Auras.PostCreateIcon = PostCreateAura
 		self.Auras.PostUpdateIcon = PostUpdateIcon
 		if unit == "pet" then
@@ -852,7 +844,6 @@ local SetStyle = function(self, unit)
 
 		elseif unit == "target" then
 			self.Portrait.PostUpdate = PortraitPostUpdate
---			insert(self.__elements, PortraitPostUpdate)
 
 			self.Buffs:SetPoint("TOPLEFT", self, "TOPRIGHT", pixelScale(9), pixelScale(1))
 			self.Buffs.initialAnchor = "TOPLEFT"
@@ -944,10 +935,6 @@ local SetStyle = function(self, unit)
 
 		self.Castbar.PostCastStart = PostCastStart
 		self.Castbar.PostChannelStart = PostChannelStart
-
---		self.Castbar.bg = self.Castbar:CreateTexture(nil, "BORDER")
---		self.Castbar.bg:SetAllPoints()
---		self.Castbar.bg:SetTexture(normtex)
 
 		if unit == "player" or unit == "target" then
 			self.Castbar:SetPoint("TOPLEFT", self, 0, pixelScale(-23))
