@@ -11,7 +11,7 @@ AspectCheck = oUF_Caellian.AspectCheck
 local viperAspectName = GetSpellInfo(34074)
 
 AspectCheck:RegisterEvent("PLAYER_ENTERING_WORLD")
-AspectCheck:SetScript("OnEvent", function(self, event, arg1, ...)
+AspectCheck:SetScript("OnEvent", function(self, event, arg1)
 	if event == "LEARNED_SPELL_IN_TAB" then
 		AotV = GetSpellInfo(viperAspectName)
 		if AotV then

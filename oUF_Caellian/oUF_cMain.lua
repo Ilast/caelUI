@@ -1143,6 +1143,8 @@ oUF:Factory(function(self)
 		end
 	end
 
+	for i, v in ipairs(party) do v:Disable() end
+
 	local partytarget = {}
 	for i = 1, 5 do
 		partytarget[i] = self:Spawn("party"..i.."target", "oUF_Party"..i.."Target")
@@ -1152,7 +1154,9 @@ oUF:Factory(function(self)
 			partytarget[i]:SetPoint("TOP", partytarget[i-1], "BOTTOM", 0, pixelScale(-26.5))
 		end
 	end
-	
+
+	for i, v in ipairs(partytarget) do v:Disable() end
+
 	local partypet = {}
 	for i = 1, 5 do
 		partypet[i] = self:Spawn("partypet"..i, "oUF_PartyPet"..i)
@@ -1162,6 +1166,8 @@ oUF:Factory(function(self)
 			partypet[i]:SetPoint("TOP", party[i-1], "BOTTOM", 0, pixelScale(-54))
 		end
 	end
+
+	for i, v in ipairs(partypet) do v:Disable() end
 
 	local raid = {}
 	for i = 1, NUM_RAID_GROUPS do
@@ -1175,6 +1181,8 @@ oUF:Factory(function(self)
 			raidgroup:SetPoint("TOPLEFT", raid[i-1], "TOPRIGHT", pixelScale(60 * settings.scale - 60) + pixelScale(3.5), 0)
 		end
 	end
+
+	for i, v in ipairs(raid) do v:Hide() end
 
 	local boss = {}
 	for i = 1, MAX_BOSS_FRAMES do
@@ -1216,6 +1224,8 @@ oUF:Factory(function(self)
 		for i, v in ipairs(arenatarget) do v:Show() end
 	end
 
+	if settings.noPartyRaid then return end
+
 	Main:RegisterEvent("PLAYER_LOGIN")
 	Main:RegisterEvent("RAID_ROSTER_UPDATE")
 	Main:RegisterEvent("PARTY_LEADER_CHANGED")
@@ -1227,25 +1237,15 @@ oUF:Factory(function(self)
 			self:UnregisterEvent("PLAYER_REGEN_ENABLED")
 			local numraid = GetNumRaidMembers()
 			if numraid > 0 and (numraid > 5 or numraid ~= GetNumPartyMembers() + 1) then
-				if not settings.noParty then
-					for i, v in ipairs(party) do v:Disable() end
-					for i, v in ipairs(partypet) do v:Disable() end
-					for i, v in ipairs(partytarget) do v:Disable() end
-				end
-	
-				if not settings.noRaid then
-					for i, v in ipairs(raid) do v:Show() end
-				end
+				for i, v in ipairs(party) do v:Disable() end
+				for i, v in ipairs(partypet) do v:Disable() end
+				for i, v in ipairs(partytarget) do v:Disable() end
+				for i, v in ipairs(raid) do v:Show() end
 			else
-				if not settings.noParty then
-					for i, v in ipairs(party) do v:Enable() end
-					for i, v in ipairs(partypet) do v:Enable() end
-					for i, v in ipairs(partytarget) do v:Enable() end
-				end
-
-				if not settings.noRaid then
-					for i, v in ipairs(raid) do v:Hide() end
-				end
+				for i, v in ipairs(party) do v:Enable() end
+				for i, v in ipairs(partypet) do v:Enable() end
+				for i, v in ipairs(partytarget) do v:Enable() end
+				for i, v in ipairs(raid) do v:Hide() end
 			end
 		end
 	end)
