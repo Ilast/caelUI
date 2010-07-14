@@ -564,8 +564,8 @@ end
 
 local SetStyle = function(self, unit)
 
-	local unitInRaid = self:GetParent():GetName():match("oUF_Raid" )
-	local unitInParty = self:GetParent():GetName():match("oUF_Party")
+	local unitInRaid = self:GetParent():GetName():match("oUF_Raid")
+	local unitInParty = unit and unit:match("party%d")
 	local unitIsPartyPet = unit and unit:match("partypet%d")
 	local unitIsPartyTarget = unit and unit:match("party%dtarget")
 
