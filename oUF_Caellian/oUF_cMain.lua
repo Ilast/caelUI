@@ -697,7 +697,13 @@ local SetStyle = function(self, unit)
 		self.FlashInfo.ManaLevel = SetFontString(self.FlashInfo, font, 11)
 		self.FlashInfo.ManaLevel:SetPoint("CENTER", 0, pixelScale(1))
 
-
+		if UnitLevel("player") ~= MAX_PLAYER_LEVEL then
+			self.Resting = self.Power:CreateTexture(nil, "OVERLAY")
+			self.Resting:SetSize(pixelScale(18), pixelScale(18))
+			self.Resting:SetPoint("BOTTOMLEFT", pixelScale(-8.5), pixelScale(-8.5))
+			self.Resting:SetTexture([=[Interface\CharacterFrame\UI-StateIcon]=])
+			self.Resting:SetTexCoord(0, 0.5, 0, 0.421875)
+		end
 
 		if IsAddOnLoaded("oUF_WeaponEnchant") then
 			self.Enchant = CreateFrame("Frame", nil, self)
