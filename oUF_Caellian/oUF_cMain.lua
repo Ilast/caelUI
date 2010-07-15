@@ -2,11 +2,11 @@
 
 local _, oUF_Caellian = ...
 
-oUF_Caellian.Main = CreateFrame("Frame", nil, UIParent)
+oUF_Caellian.main = CreateFrame("Frame", nil, UIParent)
 
-Main = oUF_Caellian.Main
+local main = oUF_Caellian.main
+local config = oUF_Caellian.config
 
-local settings = Caellian.oUF
 local mediaPath = [=[Interface\Addons\caelMedia\]=]
 
 local floor, format, insert, sort = math.floor, string.format, table.insert, table.sort
@@ -18,14 +18,14 @@ local bubbleTex = mediaPath..[=[miscellaneous\bubbletex]=]
 local shaderTex = mediaPath..[=[miscellaneous\smallshadertex]=]
 local highlightTex = mediaPath..[=[miscellaneous\highlighttex]=]
 
-local font = settings.font
+local font = config.font
 local fontn = caelMedia.fonts.OUF_CAELLIAN_NUMBERFONT
 
 local pixelScale = caelLib.scale
 local playerClass = caelLib.playerClass
 
-local lowThreshold = settings.lowThreshold
-local highThreshold = settings.highThreshold
+local lowThreshold = config.lowThreshold
+local highThreshold = config.highThreshold
 
 local backdrop = {
 	bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
@@ -417,16 +417,16 @@ end
 
 local HideAura = function(self)
 	if self.unit == "player" then
-		if settings.noPlayerAuras then
+		if config.noPlayerAuras then
 			self.Buffs:Hide()
 			self.Debuffs:Hide()
 		else
 			BuffFrame:Hide()
 			TemporaryEnchantFrame:Hide()
 		end
-	elseif self.unit == "pet" and settings.noPetAuras or self.unit == "targettarget" and settings.noToTAuras then
+	elseif self.unit == "pet" and config.noPetAuras or self.unit == "targettarget" and config.noToTAuras then
 		self.Auras:Hide()
-	elseif self.unit == "target" and settings.noTargetAuras then
+	elseif self.unit == "target" and config.noTargetAuras then
 		self.Buffs:Hide()
 		self.Debuffs:Hide()
 	end
@@ -848,7 +848,7 @@ local SetStyle = function(self, unit)
 			self.Debuffs.initialAnchor = "TOPLEFT"
 			self.Debuffs["growth-y"] = "DOWN"
 			self.Debuffs.onlyShowPlayer = false
-			if not settings.noClassDebuffs then
+			if not config.noClassDebuffs then
 				self.Debuffs.CustomFilter = CustomFilter
 			end
 
@@ -1080,10 +1080,10 @@ local SetStyle = function(self, unit)
 	end
 	self:RegisterEvent("PLAYER_TARGET_CHANGED", AggroSelect)
 
-	self:SetScale(settings.scale)
-	if self.Auras then self.Auras:SetScale(settings.scale) end
-	if self.Buffs then self.Buffs:SetScale(settings.scale) end
-	if self.Debuffs then self.Debuffs:SetScale(settings.scale) end
+	self:SetScale(config.scale)
+	if self.Auras then self.Auras:SetScale(config.scale) end
+	if self.Buffs then self.Buffs:SetScale(config.scale) end
+	if self.Debuffs then self.Debuffs:SetScale(config.scale) end
 
 	HideAura(self)
 	return self
@@ -1118,10 +1118,9 @@ columnAnchorPoint = [STRING] - the anchor point of each new column (ie. use LEFT
 oUF:RegisterStyle("Caellian", SetStyle)
 
 oUF:Factory(function(self)
-	local cfg = settings.coords
 
-	self:Spawn("player", "oUF_Caellian_player"):SetPoint("BOTTOM", UIParent, pixelScale(cfg.playerX), pixelScale(cfg.playerY))
-	self:Spawn("target", "oUF_Caellian_target"):SetPoint("BOTTOM", UIParent, pixelScale(cfg.targetX), pixelScale(cfg.targetY))
+	self:Spawn("player", "oUF_Caellian_player"):SetPoint("BOTTOM", UIParent, pixelScale(config.coords.playerX), pixelScale(config.coords.playerY))
+	self:Spawn("target", "oUF_Caellian_target"):SetPoint("BOTTOM", UIParent, pixelScale(config.coords.targetX), pixelScale(config.coords.targetY))
 
 	self:Spawn("pet", "oUF_Caellian_pet"):SetPoint("BOTTOMLEFT", oUF_Caellian_player, "TOPLEFT", 0, pixelScale(10))
 	self:Spawn("focus", "oUF_Caellian_focus"):SetPoint("BOTTOMRIGHT", oUF_Caellian_player, "TOPRIGHT", 0, pixelScale(10))
@@ -1132,7 +1131,7 @@ oUF:Factory(function(self)
 	for i = 1, 5 do
 		party[i] = self:Spawn("party"..i, "oUF_Party"..i)
 		if i == 1 then
-			party[i]:SetPoint("TOPLEFT", UIParent, "TOPLEFT", pixelScale(cfg.partyX), pixelScale(cfg.partyY))
+			party[i]:SetPoint("TOPLEFT", UIParent, "TOPLEFT", pixelScale(config.coords.partyX), pixelScale(config.coords.partyY))
 		else
 			party[i]:SetPoint("TOP", party[i-1], "BOTTOM", 0, pixelScale(-26.5))
 		end
@@ -1171,9 +1170,9 @@ oUF:Factory(function(self)
 	)
 		insert(raid, raidgroup)
 		if i == 1 then
-			raidgroup:SetPoint("TOPLEFT", UIParent, pixelScale(cfg.raidX), pixelScale(cfg.raidY))
+			raidgroup:SetPoint("TOPLEFT", UIParent, pixelScale(config.coords.raidX), pixelScale(config.coords.raidY))
 		else
-			raidgroup:SetPoint("TOPLEFT", raid[i-1], "TOPRIGHT", pixelScale(60 * settings.scale - 60) + pixelScale(3.5), 0)
+			raidgroup:SetPoint("TOPLEFT", raid[i-1], "TOPRIGHT", pixelScale(60 * config.scale - 60) + pixelScale(3.5), 0)
 		end
 	end
 
@@ -1192,13 +1191,13 @@ oUF:Factory(function(self)
 
 	for i, v in ipairs(boss) do v:Show() end
 
-	if not settings.noArena then
+	if not config.noArena then
 		local arena = {}
 		for i = 1, 5 do
 			arena[i] = self:Spawn("arena"..i, "oUF_Arena"..i)
 
 			if i == 1 then
-				arena[i]:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", pixelScale(cfg.arenaX), pixelScale(cfg.arenaY))
+				arena[i]:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", pixelScale(config.coords.arenaX), pixelScale(config.coords.arenaY))
 			else
 				arena[i]:SetPoint("TOP", arena[i-1], "BOTTOM", 0, pixelScale(-26.5))
 			end
@@ -1219,13 +1218,13 @@ oUF:Factory(function(self)
 		for i, v in ipairs(arenatarget) do v:Show() end
 	end
 
-	if settings.noPartyRaid then return end
+	if config.noPartyRaid then return end
 
-	Main:RegisterEvent("PLAYER_LOGIN")
-	Main:RegisterEvent("RAID_ROSTER_UPDATE")
-	Main:RegisterEvent("PARTY_LEADER_CHANGED")
-	Main:RegisterEvent("PARTY_MEMBERS_CHANGED")
-	Main:SetScript("OnEvent", function(self)
+	main:RegisterEvent("PLAYER_LOGIN")
+	main:RegisterEvent("RAID_ROSTER_UPDATE")
+	main:RegisterEvent("PARTY_LEADER_CHANGED")
+	main:RegisterEvent("PARTY_MEMBERS_CHANGED")
+	main:SetScript("OnEvent", function(self)
 		if InCombatLockdown() then
 			self:RegisterEvent("PLAYER_REGEN_ENABLED")
 		else

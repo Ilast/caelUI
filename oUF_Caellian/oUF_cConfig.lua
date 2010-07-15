@@ -2,26 +2,28 @@
 
 local _, oUF_Caellian = ...
 
-Caellian = {oUF = {
+oUF_Caellian.config = CreateFrame("Frame", nil, UIParent)
 
-noPlayerAuras = false, -- true to disable oUF buffs/debuffs on the player frame and enable default
-noPetAuras = false, -- true to disable oUF buffs/debuffs on the pet frame
-noTargetAuras = false, -- true to disable oUF buffs/debuffs on the target frame
-noToTAuras = false, -- true to disable oUF buffs/debuffs on the ToT frame
+local config = oUF_Caellian.config
 
-noPartyRaid = false, -- true to disable party/raid frames
-noArena = false, -- true to disable arena frames
+config.noPlayerAuras = false -- true to disable oUF buffs/debuffs on the player frame and enable default
+config.noPetAuras = false -- true to disable oUF buffs/debuffs on the pet frame
+config.noTargetAuras = false -- true to disable oUF buffs/debuffs on the target frame
+config.noToTAuras = false -- true to disable oUF buffs/debuffs on the ToT frame
 
-font = caelMedia.fonts.NORMAL,
+config.noPartyRaid = false -- true to disable party/raid frames
+config.noArena = false -- true to disable arena frames
 
-scale = 1, -- scale of the unitframes (1 being 100%)
+config.font = caelMedia.fonts.NORMAL
 
-lowThreshold = 20, -- low mana threshold for all mana classes
-highThreshold = 80, -- high mana treshold for hunters
+config.scale = 1 -- scale of the unitframes (1 being 100%)
 
-noClassDebuffs = false, -- true to show all debuffs
+config.lowThreshold = 20 -- low mana threshold for all mana classes
+config.highThreshold = 80 -- high mana treshold for hunters
 
-coords = {
+config.noClassDebuffs = false -- true to show all debuffs
+
+config.coords = {
 	playerX = -278.5, -- horizontal offset for the player block frames
 	playerY = 269.5, -- vertical offset for the player block frames
 
@@ -36,4 +38,4 @@ coords = {
 
 	raidX = 15, -- horizontal offset for the raid frames
 	raidY = -15, -- vertical offset for the raid frames
-}}}
+}
