@@ -167,7 +167,7 @@ cvardata:HookScript("OnEvent", function(self, event)
 
 			"M2Faster 3", -- Adds additional threads used in rendering models on screen (0 = no additional threads, 1 - 3 = adds additional threads to the WoW Client)
 			"gxTextureCacheSize 512",
-			"gxMultisample 1",
+			"gxMultisample 8",
 			"gxMultisampleQuality 0.000000",
 			"gxVSync 0",
 			"gxTripleBuffer 0",
@@ -176,7 +176,7 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"Maxfps 50",
 			"maxfpsbk 10",
 			"ffx 0",
-			"textureFilteringMode 0",
+			"textureFilteringMode 5",
 			"baseMip 0", -- 0 for max
 			"mapShadows 0",
 			"shadowLOD 0",
@@ -188,7 +188,7 @@ cvardata:HookScript("OnEvent", function(self, event)
 
 			"shadowLevel 0",
 			"componentCompress 0",
-			"componentThread 1",
+			"componentThread 3",
 			"componentTextureLevel 9", -- min 8
 			"violencelevel 5", -- 0-5 Level of violence, 0 == none, 1 == green blood 2-5 == red blood
 
