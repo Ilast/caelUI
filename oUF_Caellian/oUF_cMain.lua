@@ -1036,13 +1036,13 @@ local SetStyle = function(self, unit)
 
 	if playerClass == "HUNTER" then
 		self:SetAttribute("type3", "spell")
-		self:SetAttribute("spell3", "Misdirection")
+		self:SetAttribute("spell3", GetSpellInfo(34477)) -- Misdirection
 	elseif playerClass == "DRUID" then
 		self:SetAttribute("type3", "spell")
-		self:SetAttribute("spell3", "Innervate")
+		self:SetAttribute("spell3", GetSpellInfo(29166)) -- Innervate
 	elseif playerClass == "PALADIN" then
 		self:SetAttribute("type3", "spell")
-		self:SetAttribute("spell3", "Righteous Defense")
+		self:SetAttribute("spell3", GetSpellInfo(31789)) -- Righteous Defense
 	end
 
 	if unit == "player" or unit == "target" then
