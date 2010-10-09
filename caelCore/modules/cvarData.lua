@@ -109,15 +109,15 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"autoClearAFK 1",
 			"lootUnderMouse 0",
 			"autoLootDefault 1",
-			"autoRangedCombat 1", -- Automatically switch between auto attack & auto shot
+			--"autoRangedCombat 1", -- Automatically switch between auto attack & auto shot
 			"stopAutoAttackOnTargetChange 1",
 			"autoSelfCast 1",
 			"rotateMinimap 0",
 			"showLootSpam 1",
-			"showClock 0",
+			--"showClock 0",
 			"threatShowNumeric 0",
 			"threatPlaySounds 0",
-			"questFadingDisable 1",
+			--"questFadingDisable 1",
 			"autoQuestWatch 1",
 			"autoQuestProgress 1",
 			"mapQuestDifficulty 1",
@@ -144,14 +144,14 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"UnitNameEnemyPetName 1",
 			"UnitNameEnemyGuardianName 1",
 			"UnitNameEnemyTotemName 1",
-			"CombatDamage 0",
+			"CombatDamage 1",
 			"CombatHealing 0",
 			"fctSpellMechanics 0",
 			"enableCombatText 0",
-			"hidePartyInRaid 1",
+			--"hidePartyInRaid 1",
 			"showArenaEnemyFrames 0",
 			caelLib.isCharListA and "autointeract 1" or "autointeract 0",
-			"previewTalents 1",
+			--"previewTalents 1",
 			"showTutorials 0",
 			"UberTooltips 1",
 			"showNewbieTips 0",
@@ -166,8 +166,9 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"toastDuration 0",
 
 			"M2Faster 3", -- Adds additional threads used in rendering models on screen (0 = no additional threads, 1 - 3 = adds additional threads to the WoW Client)
+			--[[
 			"gxTextureCacheSize 512",
-			"gxMultisample 8",
+			"gxMultisample 1",
 			"gxMultisampleQuality 0.000000",
 			"gxVSync 0",
 			"gxTripleBuffer 0",
@@ -185,8 +186,9 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"ffxDeath 0",
 			"ffxGlow 0",
 			"specular 1",
+			]]--
 
-			"shadowLevel 0",
+			--"shadowLevel 0",
 			"componentCompress 0",
 			"componentThread 3",
 			"componentTextureLevel 9", -- min 8
@@ -204,13 +206,13 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"Sound_MusicVolume 0",
 			"Sound_SFXVolume 0.20000000298023",
 
-			"extShadowQuality 0",
+			--"extShadowQuality 0",
 			"cameraDistanceMax 50",
 			"cameraDistanceMaxFactor 3.4",
 			"cameraDistanceMoveSpeed 50",
 			"cameraViewBlendStyle 2",
 
-			"nameplateAllowOverlap 0",
+			--"nameplateAllowOverlap 0",
 
 			"nameplateShowFriends 0",
 			"nameplateShowFriendlyPets 0",
