@@ -144,7 +144,7 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"UnitNameEnemyPetName 1",
 			"UnitNameEnemyGuardianName 1",
 			"UnitNameEnemyTotemName 1",
-			"CombatDamage 0",
+			"CombatDamage 1",
 			"CombatHealing 0",
 			"fctSpellMechanics 0",
 			"enableCombatText 0",
@@ -166,8 +166,9 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"toastDuration 0",
 
 			"M2Faster 3", -- Adds additional threads used in rendering models on screen (0 = no additional threads, 1 - 3 = adds additional threads to the WoW Client)
+			--[[
 			"gxTextureCacheSize 512",
-			"gxMultisample 8",
+			"gxMultisample 1",
 			"gxMultisampleQuality 0.000000",
 			"gxVSync 0",
 			"gxTripleBuffer 0",
@@ -185,6 +186,7 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"ffxDeath 0",
 			"ffxGlow 0",
 			"specular 1",
+			]]--
 
 			"shadowLevel 0",
 			"componentCompress 0",
