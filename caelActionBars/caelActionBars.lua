@@ -5,6 +5,10 @@ local mouseOverPetBar = 1
 
 local _G = getfenv(0)
 
+function caelActionBars_OnLoad(self)
+  self:RegisterEvent("PLAYER_ENTERING_WORLD");
+}
+
 function caelActionBars_Initialize()
 	local FramesToHide = {
 		MainMenuBar,
@@ -51,7 +55,7 @@ function caelActionBars_Initialize()
 end
 
 function caelActionBars_OnEvent(self, event, ...)
-	if event == "PLAYER_ENTERING_WORLD" then
+	if ( event == "PLAYER_ENTERING_WORLD" ) then
 		caelActionBars_Initialize()
 	end
 end

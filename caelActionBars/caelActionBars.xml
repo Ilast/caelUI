@@ -2,7 +2,14 @@
 ..\FrameXML\UI.xsd">
 	<Script file="caelActionBars.lua" />
 
-	<OnEvent function="caelActionBars_OnEvent" />
+  <Scripts>
+    <OnLoad>
+      caelActionBars_OnLoad(self);
+    </OnLoad>
+    <OnEvent>
+      caelActionBars_OnEvent(self, event, ...);
+    </OnEvent>
+  </Scripts>
 
 	<Frame name="Bar1Holder" frameStrata="MEDIUM" parent="caelPanel5" setAllPoints="true" hidden="false">
 
