@@ -208,7 +208,7 @@ cvardata:HookScript("OnEvent", function(self, event)
 
 			--"extShadowQuality 0",
 			"cameraDistanceMax 50",
-			"cameraDistanceMaxFactor 3.4",
+			"cameraDistanceMaxFactor 1.5",
 			"cameraDistanceMoveSpeed 50",
 			"cameraViewBlendStyle 2",
 
