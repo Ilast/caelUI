@@ -1,0 +1,25 @@
+------------------------------------------------------------------------
+r79639 | starlon | 2008-08-01 23:43:44 -0400 (Fri, 01 Aug 2008) | 1 line
+Changed paths:
+   M /trunk/oUF_ReadyCheck/oUF_ReadyCheck.lua
+
+oUF_ReadyCheck: Is f a table?
+------------------------------------------------------------------------
+r79367 | starlon | 2008-07-29 00:35:34 -0400 (Tue, 29 Jul 2008) | 1 line
+Changed paths:
+   M /trunk/oUF_ReadyCheck/oUF_ReadyCheck.lua
+
+oUF_ReadyCheck: Go figure.
+------------------------------------------------------------------------
+r79366 | starlon | 2008-07-29 00:12:07 -0400 (Tue, 29 Jul 2008) | 1 line
+Changed paths:
+   M /trunk/oUF_ReadyCheck/oUF_ReadyCheck.lua
+
+oUF_ReadyCheck: Fix for update
+------------------------------------------------------------------------
+r79301 | starlon | 2008-07-27 20:03:54 -0400 (Sun, 27 Jul 2008) | 1 line
+Changed paths:
+   M /trunk/oUF_ReadyCheck/oUF_ReadyCheck.lua
+
+oUF_ReadyCheck: Update to reflect change made to oUF
+------------------------------------------------------------------------
