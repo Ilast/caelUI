@@ -405,7 +405,7 @@ end
 
 local getTagName = function(tag)
 	local s = (tag:match('>+()') or 2)
-	local e = tag:match('()<+')
+	local e = tag:match('.*()<+')
 	e = (e and e - 1) or -2
 
 	return tag:sub(s, e), s, e
@@ -567,7 +567,7 @@ local Untag = function(self, fs)
 	for _, timers in next, eventlessUnits do
 		for k, fontstr in next, timers do
 			if(fs == fontstr) then
-				table.remove(eventlessUnits, k)
+				table.remove(timers, k)
 			end
 		end
 	end

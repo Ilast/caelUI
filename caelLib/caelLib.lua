@@ -1,4 +1,4 @@
-﻿--[[	$Id$	]]
+﻿--[[	$Id: caelLib.lua 1434 2010-10-11 18:06:04Z sdkyron@gmail.com $	]]
 
 local _, caelLib = ...
 _G["caelLib"] = caelLib
@@ -62,7 +62,7 @@ caelLib.scales = {
 	["1768"] = { ["992"] = 0.93},
 	["1920"] = { ["1440"] = 0.7, ["1200"] = 0.84, ["1080"] = 0.93},
 	["2048"] = { ["1536"] = 0.7},
-	["2560"] = { ["1600"] = 0.64},
+	["2560"] = { ["1600"] = 0.84},
 }
 
 local ScaleFix
@@ -123,6 +123,9 @@ local charListA = {
 		},
 		["PRIEST"] = {
 			["Nïmue"] = true
+		},
+		["WARRIOR"] = {
+			["Tahllian"] = true
 		}
 	}
 }

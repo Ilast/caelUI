@@ -272,7 +272,7 @@ for k, v in pairs{
 
 		local updateFunc = element.update
 		local elementTable = self[name]
-		if(type(elementTable == 'table') and elementTable.Update) then
+		if(type(elementTable) == 'table' and elementTable.Update) then
 			updateFunc = elementTable.Update
 		end
 
@@ -299,7 +299,7 @@ for k, v in pairs{
 
 		local updateFunc = element.update
 		local elementTable = self[name]
-		if(type(elementTable == 'table') and elementTable.Update) then
+		if(type(elementTable) == 'table' and elementTable.Update) then
 			updateFunc = elementTable.Update
 		end
 
@@ -730,6 +730,8 @@ oUF.version = _VERSION
 oUF.units = units
 oUF.objects = objects
 oUF.colors = colors
+
+oUF.error = error
 
 if(global) then
 	if(parent ~= 'oUF' and global == 'oUF') then
