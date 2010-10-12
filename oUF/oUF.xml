@@ -21,8 +21,6 @@
 	<Script file='elements\assistant.lua' />
 	<Script file='elements\runebar.lua' />
 	<Script file='elements\lfdrole.lua' />
-<<<<<<< HEAD
-=======
 	<Script file='elements\healprediction.lua' />
 	<Script file='elements\holypower.lua' />
 	<Script file='elements\soulshards.lua' />
@@ -38,7 +36,6 @@
 			<Attribute name="_onleave" type="string" value="local snippet = self:GetAttribute('clickcast_onleave'); if snippet then self:Run(snippet) end"/>
 		</Attributes>
 	</Button>
->>>>>>> 2a58d9bb8444640ca65098b5cefcc7de16180f2f
 
 	<!--
 		This template requires the layout to set the anchoring positions from the
