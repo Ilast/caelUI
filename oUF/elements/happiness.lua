@@ -1,11 +1,11 @@
 local parent, ns = ...
 local oUF = ns.oUF
 
-local Update = function(self, event, unit, powerType)
+local Update = function(self, event, unit)
 	if(self.unit ~= unit) then return end
 
 	local happ = self.Happiness
-	if(happ and (powerType == 'HAPPINESS' or not powerType)) then
+	if(happ) then
 		local happiness = GetPetHappiness()
 		local _, hunterPet = HasPetUI()
 
@@ -28,21 +28,10 @@ local Update = function(self, event, unit, powerType)
 	end
 end
 
-local Path = function(self, ...)
-	return (self.Happiness.Override or Update) (self, ...)
-end
-
-local ForceUpdate = function(element)
-	return Path(element.__owner, 'ForceUpdate', element.__owner.unit)
-end
-
 local Enable = function(self)
 	local happiness = self.Happiness
 	if(happiness) then
-		happiness.__owner = self
-		happiness.ForceUpdate = ForceUpdate
-
-		self:RegisterEvent('UNIT_POWER', Path)
+		self:RegisterEvent("UNIT_HAPPINESS", happiness.Update or Update)
 
 		if(happiness:IsObjectType"Texture" and not happiness:GetTexture()) then
 			happiness:SetTexture[[Interface\PetPaperDollFrame\UI-PetHappiness]]
@@ -55,8 +44,8 @@ end
 local Disable = function(self)
 	local happiness = self.Happiness
 	if(happiness) then
-		self:UnregisterEvent('UNIT_POWER', Path)
+		self:UnregisterEvent("UNIT_HAPPINESS", happiness.Update or Update)
 	end
 end
 
-oUF:AddElement('Happiness', Path, Enable, Disable)
+oUF:AddElement('Happiness', Update, Enable, Disable)

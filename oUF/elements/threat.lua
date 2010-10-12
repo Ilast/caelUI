@@ -23,21 +23,10 @@ local Update = function(self, event, unit)
 	end
 end
 
-local Path = function(self, ...)
-	return (self.Threat.Override or Update) (self, ...)
-end
-
-local ForceUpdate = function(element)
-	return Path(element.__owner, 'ForceUpdate', element.__owner.unit)
-end
-
 local Enable = function(self)
 	local threat = self.Threat
 	if(threat) then
-		threat.__owner = self
-		threat.ForceUpdate = ForceUpdate
-
-		self:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE", Path)
+		self:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE", threat.Update or Update)
 		threat:Hide()
 
 		if(threat:IsObjectType"Texture" and not threat:GetTexture()) then
@@ -52,8 +41,8 @@ end
 local Disable = function(self)
 	local threat = self.Threat
 	if(threat) then
-		self:UnregisterEvent("UNIT_THREAT_SITUATION_UPDATE", Path)
+		self:UnregisterEvent("UNIT_THREAT_SITUATION_UPDATE", threat.Update or Update)
 	end
 end
 
-oUF:AddElement('Threat', Path, Enable, Disable)
+oUF:AddElement('Threat', Update, Enable, Disable)

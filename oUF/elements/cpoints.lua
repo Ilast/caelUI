@@ -24,22 +24,12 @@ local Update = function(self, event, unit)
 	end
 end
 
-local Path = function(self, ...)
-	return (self.CPoints.Override or Update) (self, ...)
-end
-
-local ForceUpdate = function(element)
-	return Path(element.__owner, 'ForceUpdate', element.__owner.unit)
-end
-
 local Enable = function(self)
 	local cpoints = self.CPoints
 	if(cpoints) then
-		cpoints.__owner = self
-		cpoints.ForceUpdate = ForceUpdate
-
-		self:RegisterEvent('UNIT_COMBO_POINTS', Path)
-		self:RegisterEvent('PLAYER_TARGET_CHANGED', Path)
+		local Update = cpoints.Update or Update
+		self:RegisterEvent('UNIT_COMBO_POINTS', Update)
+		self:RegisterEvent('PLAYER_TARGET_CHANGED', Update)
 
 		for index = 1, MAX_COMBO_POINTS do
 			local cpoint = cpoints[index]
@@ -56,9 +46,10 @@ end
 local Disable = function(self)
 	local cpoints = self.CPoints
 	if(cpoints) then
-		self:UnregisterEvent('UNIT_COMBO_POINTS', Path)
-		self:UnregisterEvent('PLAYER_TARGET_CHANGED', Path)
+		local Update = cpoints.Update or Update
+		self:UnregisterEvent('UNIT_COMBO_POINTS', Update)
+		self:UnregisterEvent('PLAYER_TARGET_CHANGED', Update)
 	end
 end
 
-oUF:AddElement('CPoints', Path, Enable, Disable)
+oUF:AddElement('CPoints', Update, Enable, Disable)
