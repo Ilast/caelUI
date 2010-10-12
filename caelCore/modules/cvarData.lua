@@ -224,6 +224,7 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"cameraViewBlendStyle 2",
 
 			--"nameplateAllowOverlap 0",
+			"ShowClassColorInNameplate 1",
 
 			"nameplateShowFriends 0",
 			"nameplateShowFriendlyPets 0",
@@ -239,6 +240,9 @@ cvardata:HookScript("OnEvent", function(self, event)
 			-- 0 = don't join
 			-- 1 = join
 			"guildRecruitmentChannel 0",
+
+			"colorChatNamesByClass 1",
+			"consolidateBuffs 0", -- Just in case
 		} do
 			SetCVar(string.split(" ", cvarData))
 		end
