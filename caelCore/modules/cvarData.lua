@@ -234,6 +234,11 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"nameplateShowEnemyPets 1",
 			"nameplateShowEnemyGuardians 1",
 			"nameplateShowEnemyTotems 1",
+
+			-- Used to remove us from the guild recruitment channel on auto-join. [annoying when we get kicked for fun.]
+			-- 0 = don't join
+			-- 1 = join
+			"guildRecruitmentChannel 0",
 		} do
 			SetCVar(string.split(" ", cvarData))
 		end
