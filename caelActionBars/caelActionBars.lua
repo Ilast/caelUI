@@ -420,8 +420,6 @@ local FramesToHide = {
 	LFGMicroButton,
 	MainMenuMicroButton,
 	HelpMicroButton,
-
-	TimeManagerClockButton, -- Used to drop the Clock (Needs to be moved to a more appropriate location)
 }  
   
 local function HideDefaultFrames()

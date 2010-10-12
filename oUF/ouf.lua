@@ -121,7 +121,6 @@ local iterateChildren = function(...)
 			local subUnit = conv[unit] or unit
 			units[subUnit] = obj
 			obj.unit = subUnit
-			obj.id = subUnit:match'^.-(%d+)'
 			obj:UpdateAllElements"PLAYER_ENTERING_WORLD"
 		end
 	end
@@ -400,8 +399,6 @@ local initObject = function(unit, style, styleFunc, header, ...)
 		if(not header) then
 			object:SetAttribute("*type1", "target")
 			object:SetAttribute('*type2', 'menu')
-
-			object:SetAttribute('toggleForVehicle', true)
 		end
 		object.style = style
 
@@ -606,27 +603,26 @@ do
 		self:GetChildList(frames)
 		for i=1, #frames do
 			local frame = frames[i]
-			local unit
 			-- There's no need to do anything on frames with onlyProcessChildren
 			if(not frame:GetAttribute'oUF-onlyProcessChildren') then
 				RegisterUnitWatch(frame)
 
 				-- Attempt to guess what the header is set to spawn.
+				local suffix = frame:GetAttribute'unitsuffix'
+
+				local unit
 				if(header:GetAttribute'showRaid') then
 					unit = 'raid'
 				elseif(header:GetAttribute'showParty') then
 					unit = 'party'
 				end
 
-				local suffix = frame:GetAttribute'unitsuffix'
 				if(unit and suffix) then
 					unit = unit .. suffix
 				end
 
-				frame:SetAttribute('*type1', 'target')
-				frame:SetAttribute('*type2', 'menu')
-				frame:SetAttribute('toggleForVehicle', true)
-				frame:SetAttribute('oUF-guessUnit', unit)
+				self:SetAttribute('*type2', 'menu')
+				self:SetAttribute('oUF-guessUnit', unit)
 			end
 
 			local body = header:GetAttribute'oUF-initialConfigFunction'

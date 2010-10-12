@@ -114,11 +114,9 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"autoSelfCast 1",
 			"rotateMinimap 0",
 			"showLootSpam 1",
-			-- TO-DO: Find a replacement option for showClock
-			--"showClock 0", -- showClock is gone
+			--"showClock 0",
 			"threatShowNumeric 0",
 			"threatPlaySounds 0",
-			-- TO-DO: Find a replacement for questFadingDisable
 			--"questFadingDisable 1",
 			"autoQuestWatch 1",
 			"autoQuestProgress 1",
@@ -150,10 +148,10 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"CombatHealing 0",
 			"fctSpellMechanics 0",
 			"enableCombatText 0",
-			--"hidePartyInRaid 1", -- CVar no longer needed as this is automatically true.
+			--"hidePartyInRaid 1",
 			"showArenaEnemyFrames 0",
 			caelLib.isCharListA and "autointeract 1" or "autointeract 0",
-			"previewTalentsOption 1", -- previewTalents is now previewTalentsOption
+			--"previewTalents 1",
 			"showTutorials 0",
 			"UberTooltips 1",
 			"showNewbieTips 0",
@@ -190,14 +188,7 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"specular 1",
 			]]--
 
-
-			-- shadowLevel is now named shadowMode with the following settings:
-			-- 0 = Precomputed terrain shadows, blob shadows.
-			-- 1 = Precomputed terrain shadows, dynamic shadows near player.
-			-- 2 = Static environment shadows, dynamic shadows near player.
-			-- 3 = Full dynamic shadows.
-			"shadowMode 0",
-
+			--"shadowLevel 0",
 			"componentCompress 0",
 			"componentThread 3",
 			"componentTextureLevel 9", -- min 8
@@ -215,9 +206,7 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"Sound_MusicVolume 0",
 			"Sound_SFXVolume 0.20000000298023",
 
-			-- TO-DO: Find out what this CVar previous did and see if a new one exists in its place or if shadowMode now covers
-			-- 	  this CVar too.
-			--"extShadowQuality 0", -- cvar missing
+			--"extShadowQuality 0",
 			"cameraDistanceMax 50",
 			"cameraDistanceMaxFactor 3.4",
 			"cameraDistanceMoveSpeed 50",
@@ -230,10 +219,10 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"nameplateShowFriendlyGuardians 0",
 			"nameplateShowFriendlyTotems 0",
 
-			"nameplateShowEnemies 1",
-			"nameplateShowEnemyPets 1",
-			"nameplateShowEnemyGuardians 1",
-			"nameplateShowEnemyTotems 1",
+			"nameplateShowEnemies 0",
+			"nameplateShowEnemyPets 0",
+			"nameplateShowEnemyGuardians 0",
+			"nameplateShowEnemyTotems 0",
 		} do
 			SetCVar(string.split(" ", cvarData))
 		end
