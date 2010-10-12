@@ -121,6 +121,7 @@ local iterateChildren = function(...)
 			local subUnit = conv[unit] or unit
 			units[subUnit] = obj
 			obj.unit = subUnit
+			obj.id = subUnit:match'^.-(%d+)'
 			obj:UpdateAllElements"PLAYER_ENTERING_WORLD"
 		end
 	end
@@ -419,6 +420,7 @@ local initObject = function(unit, style, styleFunc, ...)
 		object.__elements = {}
 		object = setmetatable(object, frame_metatable)
 
+<<<<<<< HEAD
 		-- Attempt to guess what the header is set to spawn.
 		local parent = object:GetParent()
 		if(not unit) then
@@ -427,6 +429,14 @@ local initObject = function(unit, style, styleFunc, ...)
 			elseif(parent:GetAttribute'showParty') then
 				unit = 'party'
 			end
+=======
+		-- Run it before the style function so they can override it.
+		if(not header) then
+			object:SetAttribute("*type1", "target")
+			object:SetAttribute('*type2', 'menu')
+
+			object:SetAttribute('toggleForVehicle', true)
+>>>>>>> 2a58d9bb8444640ca65098b5cefcc7de16180f2f
 		end
 
 		-- Run it before the style function so they can override it.
@@ -628,8 +638,79 @@ local generateName = function(unit, ...)
 	return name
 end
 
+<<<<<<< HEAD
 function oUF:SpawnHeader(overrideName, template, visibility, ...)
 	if(not style) then return error("Unable to create frame. No styles have been registered.") end
+=======
+do
+	local styleProxy = function(self, frame, ...)
+		return walkObject(_G[frame])
+	end
+
+	-- There has to be an easier way to do this.
+	local initialConfigFunction = [[
+		local header = self:GetParent()
+		local frames = table.new()
+		table.insert(frames, self)
+		self:GetChildList(frames)
+		for i=1, #frames do
+			local frame = frames[i]
+			local unit
+			-- There's no need to do anything on frames with onlyProcessChildren
+			if(not frame:GetAttribute'oUF-onlyProcessChildren') then
+				RegisterUnitWatch(frame)
+
+				-- Attempt to guess what the header is set to spawn.
+				if(header:GetAttribute'showRaid') then
+					unit = 'raid'
+				elseif(header:GetAttribute'showParty') then
+					unit = 'party'
+				end
+
+				local suffix = frame:GetAttribute'unitsuffix'
+				if(unit and suffix) then
+					unit = unit .. suffix
+				end
+
+				frame:SetAttribute('*type1', 'target')
+				frame:SetAttribute('*type2', 'menu')
+				frame:SetAttribute('toggleForVehicle', true)
+				frame:SetAttribute('oUF-guessUnit', unit)
+			end
+
+			local body = header:GetAttribute'oUF-initialConfigFunction'
+			if(body) then
+				frame:Run(body, unit)
+			end
+		end
+
+		header:CallMethod('styleFunction', self:GetName())
+
+		local clique = header:GetFrameRef("clickcast_header")
+		if(clique) then
+			clique:SetAttribute("clickcast_button", self)
+			clique:RunAttribute("clickcast_register")
+		end
+	]]
+
+	function oUF:SpawnHeader(overrideName, template, visibility, ...)
+		if(not style) then return error("Unable to create frame. No styles have been registered.") end
+
+		template = (template or 'SecureGroupHeaderTemplate') .. ',oUF_ClickCastUnitTemplate'
+
+		local name = overrideName or generateName(nil, ...)
+		local header = CreateFrame('Frame', name, UIParent, template)
+
+		header:SetAttribute("template", "SecureUnitButtonTemplate")
+		for i=1, select("#", ...), 2 do
+			local att, val = select(i, ...)
+			if(not att) then break end
+			header:SetAttribute(att, val)
+		end
+
+		header.style = style
+		header.styleFunction = styleProxy
+>>>>>>> 2a58d9bb8444640ca65098b5cefcc7de16180f2f
 
 	local name = overrideName or generateName(nil, ...)
 	local header = CreateFrame('Frame', name, UIParent, template or 'SecureGroupHeaderTemplate')
