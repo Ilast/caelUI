@@ -30,23 +30,12 @@ local Update = function(self, event, unit)
 	end
 end
 
-local Path = function(self, ...)
-	return (self.Portrait.Override or Update) (self, ...)
-end
-
-local ForceUpdate = function(element)
-	return Path(element.__owner, 'ForceUpdate', element.__owner.unit)
-end
-
 local Enable = function(self, unit)
 	local portrait = self.Portrait
 	if(portrait) then
-		portrait.__owner = self
-		portrait.ForceUpdate = ForceUpdate
-
-		self:RegisterEvent("UNIT_PORTRAIT_UPDATE", Path)
-		self:RegisterEvent("UNIT_MODEL_CHANGED", Path)
-		self:RegisterEvent('UNIT_CONNECTION', Path)
+		local Update = portrait.Update or Update
+		self:RegisterEvent("UNIT_PORTRAIT_UPDATE", Update)
+		self:RegisterEvent("UNIT_MODEL_CHANGED", Update)
 
 		-- The quest log uses PARTY_MEMBER_{ENABLE,DISABLE} to handle updating of
 		-- party members overlapping quests. This will probably be enough to handle
@@ -55,7 +44,7 @@ local Enable = function(self, unit)
 		-- DISABLE isn't used as it fires when we most likely don't have the
 		-- information we want.
 		if(unit == 'party') then
-			self:RegisterEvent('PARTY_MEMBER_ENABLE', Path)
+			self:RegisterEvent('PARTY_MEMBER_ENABLE', Update)
 		end
 
 		return true
@@ -65,11 +54,11 @@ end
 local Disable = function(self)
 	local portrait = self.Portrait
 	if(portrait) then
-		self:UnregisterEvent("UNIT_PORTRAIT_UPDATE", Path)
-		self:UnregisterEvent("UNIT_MODEL_CHANGED", Path)
-		self:UnregisterEvent('PARTY_MEMBER_ENABLE', Path)
-		self:UnregisterEvent('UNIT_CONNECTION', Path)
+		local Update = portrait.Update or Update
+		self:UnregisterEvent("UNIT_PORTRAIT_UPDATE", Update)
+		self:UnregisterEvent("UNIT_MODEL_CHANGED", Update)
+		self:UnregisterEvent('PARTY_MEMBER_ENABLE', Update)
 	end
 end
 
-oUF:AddElement('Portrait', Path, Enable, Disable)
+oUF:AddElement('Portrait', Update, Enable, Disable)

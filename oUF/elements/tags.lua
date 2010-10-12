@@ -246,7 +246,7 @@ local tagStrings = {
 		end
 	end]],
 
-	["deficit:name"] = [[function(u)
+	["defict:name"] = [[function(u)
 		local missinghp = _TAGS['missinghp'](u)
 		if(missinghp) then
 			return '-' .. missinghp
@@ -316,16 +316,22 @@ _ENV._TAGS = tags
 
 local tagEvents = {
 	["curhp"]               = "UNIT_HEALTH",
+	["curpp"]               = "UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE UNIT_RUNIC_POWER",
 	["dead"]                = "UNIT_HEALTH",
 	["leader"]              = "PARTY_LEADER_CHANGED",
 	["leaderlong"]          = "PARTY_LEADER_CHANGED",
 	["level"]               = "UNIT_LEVEL PLAYER_LEVEL_UP",
 	["maxhp"]               = "UNIT_MAXHEALTH",
+	["maxpp"]               = "UNIT_MAXENERGY UNIT_MAXFOCUS UNIT_MAXMANA UNIT_MAXRAGE UNIT_MAXRUNIC_POWER",
 	["missinghp"]           = "UNIT_HEALTH UNIT_MAXHEALTH",
+	["missingpp"]           = "UNIT_MAXENERGY UNIT_MAXFOCUS UNIT_MAXMANA UNIT_MAXRAGE UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE UNIT_MAXRUNIC_POWER UNIT_RUNIC_POWER",
 	["name"]                = "UNIT_NAME_UPDATE",
+	["offline"]             = "UNIT_HEALTH",
 	["perhp"]               = "UNIT_HEALTH UNIT_MAXHEALTH",
+	["perpp"]               = "UNIT_MAXENERGY UNIT_MAXFOCUS UNIT_MAXMANA UNIT_MAXRAGE UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE UNIT_MAXRUNIC_POWER UNIT_RUNIC_POWER",
 	["pvp"]                 = "UNIT_FACTION",
 	["resting"]             = "PLAYER_UPDATE_RESTING",
+	["status"]              = "UNIT_HEALTH PLAYER_UPDATE_RESTING",
 	["smartlevel"]          = "UNIT_LEVEL PLAYER_LEVEL_UP UNIT_CLASSIFICATION_CHANGED",
 	["threat"]              = "UNIT_THREAT_SITUATION_UPDATE",
 	["threatcolor"]         = "UNIT_THREAT_SITUATION_UPDATE",
@@ -334,13 +340,7 @@ local tagEvents = {
 	['classification']      = 'UNIT_CLASSIFICATION_CHANGED',
 	['shortclassification'] = 'UNIT_CLASSIFICATION_CHANGED',
 	["group"]               = "RAID_ROSTER_UPDATE",
-	["curpp"]               = 'UNIT_POWER',
-	["maxpp"]               = 'UNIT_MAXPOWER',
-	["missingpp"]           = 'UNIT_MAXPOWER UNIT_POWER',
-	["perpp"]               = 'UNIT_MAXPOWER UNIT_POWER',
-	['happiness']           = 'UNIT_POWER',
-	["offline"]             = "UNIT_HEALTH UNIT_CONNECTION",
-	["status"]              = "UNIT_HEALTH PLAYER_UPDATE_RESTING UNIT_CONNECTION",
+	['happiness']           = 'UNIT_HAPPINESS',
 }
 
 local unitlessEvents = {
