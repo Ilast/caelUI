@@ -243,6 +243,9 @@ cvardata:HookScript("OnEvent", function(self, event)
 
 			"colorChatNamesByClass 1",
 			"consolidateBuffs 0", -- Just in case
+
+			-- Fix blizzards screwed up method of nameplate size scaling
+			"bloattest 1",
 		} do
 			SetCVar(string.split(" ", cvarData))
 		end
