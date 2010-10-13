@@ -33,10 +33,13 @@ lfg:SetScript("OnEvent", function(self, event)
 --			LFDDungeonReadyDialogLeaveQueueButton:Click()
 			LFDQueueFrameFindGroupButton:Click()
 		end
+	end
+	--[[
 	elseif event == "LFG_COMPLETION_REWARD" then
 		SendChatMessage("Merci pour le groupe, bye.", "PARTY")
 		LeaveParty()
 	end
+	--]]
 
 	MiniMapLFGFrame:UnregisterAllEvents()
 	MiniMapLFGFrame:Hide()
