@@ -1,4 +1,4 @@
-﻿--[[	$Id$	]]
+--[[	$Id$	]]
 
 local _, caelCore = ...
 
@@ -90,11 +90,11 @@ cvardata:HookScript("OnEvent", function(self, event)
 
 --[[
 		http://forums.worldofwarcraft.com/thread.html?topicId=1778017311&sid=1&pageNo=5#96
-			╔════════╤════════╤════════╤════════╤════════╤════════╤════════╤════════╗
-			║ Core 8 │ Core 7 │ Core 6 │ Core 5 │ Core 4 │ Core 3 │ Core 2 │ Core 1 ║
-			╠════════╪════════╪════════╪════════╪════════╪════════╪════════╪════════╣
-			║  +128  │  +64   │  +32   │  +16   │   +8   │   +4   │   +2   │   +1   ║
-			╚════════╧════════╧════════╧════════╧════════╧════════╧════════╧════════╝
+			+-----------------------------------------------------------------------+
+			� Core 8 � Core 7 � Core 6 � Core 5 � Core 4 � Core 3 � Core 2 � Core 1 �
+			�--------+--------+--------+--------+--------+--------+--------+--------�
+			�  +128  �  +64   �  +32   �  +16   �   +8   �   +4   �   +2   �   +1   �
+			+-----------------------------------------------------------------------+
 --]]
 
 			"processAffinityMask 255",
@@ -109,15 +109,17 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"autoClearAFK 1",
 			"lootUnderMouse 0",
 			"autoLootDefault 1",
-			"autoRangedCombat 1", -- Automatically switch between auto attack & auto shot
+			--"autoRangedCombat 1", -- Automatically switch between auto attack & auto shot
 			"stopAutoAttackOnTargetChange 1",
 			"autoSelfCast 1",
 			"rotateMinimap 0",
 			"showLootSpam 1",
-			"showClock 0",
+			-- TO-DO: Find a replacement option for showClock
+			--"showClock 0", -- showClock is gone
 			"threatShowNumeric 0",
 			"threatPlaySounds 0",
-			"questFadingDisable 1",
+			-- TO-DO: Find a replacement for questFadingDisable
+			--"questFadingDisable 1",
 			"autoQuestWatch 1",
 			"autoQuestProgress 1",
 			"mapQuestDifficulty 1",
@@ -148,10 +150,10 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"CombatHealing 0",
 			"fctSpellMechanics 0",
 			"enableCombatText 0",
-			"hidePartyInRaid 1",
+			--"hidePartyInRaid 1", -- CVar no longer needed as this is automatically true.
 			"showArenaEnemyFrames 0",
 			caelLib.isCharListA and "autointeract 1" or "autointeract 0",
-			"previewTalents 1",
+			"previewTalentsOption 1", -- previewTalents is now previewTalentsOption
 			"showTutorials 0",
 			"UberTooltips 1",
 			"showNewbieTips 0",
@@ -188,7 +190,14 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"specular 1",
 			]]--
 
-			"shadowLevel 0",
+
+			-- shadowLevel is now named shadowMode with the following settings:
+			-- 0 = Precomputed terrain shadows, blob shadows.
+			-- 1 = Precomputed terrain shadows, dynamic shadows near player.
+			-- 2 = Static environment shadows, dynamic shadows near player.
+			-- 3 = Full dynamic shadows.
+			"shadowMode 0",
+
 			"componentCompress 0",
 			"componentThread 3",
 			"componentTextureLevel 9", -- min 8
@@ -206,23 +215,34 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"Sound_MusicVolume 0",
 			"Sound_SFXVolume 0.20000000298023",
 
-			"extShadowQuality 0",
+			-- TO-DO: Find out what this CVar previous did and see if a new one exists in its place or if shadowMode now covers
+			-- 	  this CVar too.
+			--"extShadowQuality 0", -- cvar missing
 			"cameraDistanceMax 50",
-			"cameraDistanceMaxFactor 1.5",
+			"cameraDistanceMaxFactor 3.4",
 			"cameraDistanceMoveSpeed 50",
 			"cameraViewBlendStyle 2",
 
-			"nameplateAllowOverlap 0",
+			--"nameplateAllowOverlap 0",
+			"ShowClassColorInNameplate 1",
 
 			"nameplateShowFriends 0",
 			"nameplateShowFriendlyPets 0",
 			"nameplateShowFriendlyGuardians 0",
 			"nameplateShowFriendlyTotems 0",
 
-			"nameplateShowEnemies 0",
-			"nameplateShowEnemyPets 0",
-			"nameplateShowEnemyGuardians 0",
-			"nameplateShowEnemyTotems 0",
+			"nameplateShowEnemies 1",
+			"nameplateShowEnemyPets 1",
+			"nameplateShowEnemyGuardians 1",
+			"nameplateShowEnemyTotems 1",
+
+			-- Used to remove us from the guild recruitment channel on auto-join. [annoying when we get kicked for fun.]
+			-- 0 = don't join
+			-- 1 = join
+			"guildRecruitmentChannel 0",
+
+			"colorChatNamesByClass 1",
+			"consolidateBuffs 0", -- Just in case
 		} do
 			SetCVar(string.split(" ", cvarData))
 		end

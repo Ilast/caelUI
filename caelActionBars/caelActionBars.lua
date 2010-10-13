@@ -128,8 +128,13 @@ end
 
 BonusActionBarFrame:SetParent(bar1Holder)
 BonusActionBarFrame:SetWidth(0.01)
-BonusActionBarTexture0:Hide()
-BonusActionBarTexture1:Hide()
+
+-- BonusActionBarTexture0:Hide()
+-- BonusActionBarTexture1:Hide()
+-- new method for the above
+for i = 1, BONUSACTIONBAR_NUM_TEXTURES do
+	_G["BonusActionBarFrameTexture" .. i]:Hide()
+end
 
 BonusActionButton1:ClearAllPoints()
 BonusActionButton1:SetPoint("TOPLEFT", bar1Holder, caelLib.scale(4.5), caelLib.scale(-4.5))
@@ -501,7 +506,9 @@ local function StyleBar(name, action)
 --	Set Texture position
 	nt:SetHeight(bu:GetHeight())
 	nt:SetWidth(bu:GetWidth())
-	nt:SetPoint("Center", 0, 0)
+--	nt:SetPoint("Center", 0, 0)
+	nt:SetPoint("TOPLEFT", bu, 0, 0)
+	nt:SetPoint("BOTTOMRIGHT", bu, 0, 0)
 
 	if action then
 --		Regular bar shortcuts

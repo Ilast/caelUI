@@ -41,6 +41,7 @@ local powerColors = {
 	[4]	= "|cff329696",	-- Happiness -- cff00FFFF -- 50, 150, 150
 	[5]	= "|cff8C919B",	-- Runes -- |cff323232 -- 140, 145, 155
 	[6]	= "|cff005264",	-- Runic Power
+	[7]	= "|cffD4A017", -- Holy Power (Needs color correction from Caellian [currently Goldish])
 }
 
 setmetatable(powerColors, {__index = function(t, k) return "|cffD7BEA5" end})
@@ -53,6 +54,7 @@ local powerStrings = {
   [SPELL_POWER_HAPPINESS] = HAPPINESS, -- 4
   [SPELL_POWER_RUNES] = RUNES, -- 5
   [SPELL_POWER_RUNIC_POWER] = RUNIC_POWER, -- 6
+  [SPELL_POWER_HOLY_POWER] = HOLY_POWER, -- 7
 }
 
 local eventTable = {

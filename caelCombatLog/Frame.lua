@@ -44,9 +44,9 @@ end
 local function OnHyperlinkClick(self, data, link)
 	local linktype, contents = data:sub(1, 4), data:sub(6)
 	if linktype == "Clog" and contents ~= "" and IsShiftKeyDown() then
-		local chatType = ChatFrameEditBox:GetAttribute("chatType")
-		local tellTarget = ChatFrameEditBox:GetAttribute("tellTarget")
-		local channelTarget = ChatFrameEditBox:GetAttribute("channelTarget")
+		local chatType = ChatFrame1EditBox:GetAttribute("chatType")
+		local tellTarget = ChatFrame1EditBox:GetAttribute("tellTarget")
+		local channelTarget = ChatFrame1EditBox:GetAttribute("channelTarget")
 --		ChatFrameEditBox:Show()
 		local from, to, pos
 		for i = 1, 5 do
