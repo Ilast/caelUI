@@ -506,6 +506,7 @@ local function StyleBar(name, action)
 --	Set Texture position
 	nt:SetHeight(bu:GetHeight())
 	nt:SetWidth(bu:GetWidth())
+--	nt:SetPoint("Center", 0, 0)
 	nt:SetPoint("TOPLEFT", bu, 0, 0)
 	nt:SetPoint("BOTTOMRIGHT", bu, 0, 0)
 
