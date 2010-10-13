@@ -157,6 +157,8 @@ social:SetScript("OnMouseDown", function(self, button)
 			LoadAddOn("Blizzard_GuildUI")
 		end
 
+		GuildRoster_SetView("playerStatus")
+		UIDropDownMenu_SetSelectedValue(GuildRosterViewDropdown, "playerStatus") -- Currently not performed in _SetView
 		ToggleFrame(GuildFrame)
 	end
 end)
