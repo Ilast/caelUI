@@ -1,4 +1,4 @@
---[[	$Id$	]]
+--[[	$Id: oUF_cConfig.lua 1428 2010-07-15 10:30:28Z sdkyron@gmail.com $	]]
 
 local _, oUF_Caellian = ...
 
@@ -21,7 +21,7 @@ config.scale = 1 -- scale of the unitframes (1 being 100%)
 config.lowThreshold = 20 -- low mana threshold for all mana classes
 config.highThreshold = 80 -- high mana treshold for hunters
 
-config.noClassDebuffs = true -- true to show all debuffs
+config.noClassDebuffs = false -- true to show all debuffs
 
 config.coords = {
 	playerX = -278.5, -- horizontal offset for the player block frames

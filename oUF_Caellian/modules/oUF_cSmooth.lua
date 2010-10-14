@@ -1,4 +1,4 @@
---[[	$Id$	]]
+--[[	$Id: oUF_cSmooth.lua 1408 2010-07-08 16:10:22Z sdkyron@gmail.com $	]]
 
 if not oUF then return end
 

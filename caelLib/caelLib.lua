@@ -1,4 +1,4 @@
-﻿--[[	$Id$	]]
+﻿--[[	$Id: caelLib.lua 1434 2010-10-11 18:06:04Z sdkyron@gmail.com $	]]
 
 local _, caelLib = ...
 _G["caelLib"] = caelLib
@@ -123,6 +123,9 @@ local charListA = {
 		},
 		["PRIEST"] = {
 			["Nïmue"] = true
+		},
+		["WARRIOR"] = {
+			["Tahllian"] = true
 		}
 	}
 }

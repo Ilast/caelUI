@@ -201,8 +201,10 @@ function GearScore_HookItem(ItemName, ItemLink, Tooltip)
     end
 end
 function GearScore_OnEnter(Name, ItemSlot, Argument)
-	if ( UnitName("target") ) then NotifyInspect("target"); GS_LastNotified = UnitName("target"); end
-	local OriginalOnEnter = GearScore_Original_SetInventoryItem(Name, ItemSlot, Argument); return OriginalOnEnter
+	if Name ~= nil then
+		if ( UnitName("target") ) then NotifyInspect("target"); GS_LastNotified = UnitName("target"); end
+		local OriginalOnEnter = GearScore_Original_SetInventoryItem("target", ItemSlot, Argument); return OriginalOnEnter
+	end
 end
 function MyPaperDoll()
 	if ( GS_PlayerIsInCombat ) then return; end
@@ -258,4 +260,3 @@ SlashCmdList["MY2SCRIPT"] = GS_MANSET
 SLASH_MY2SCRIPT1 = "/gset"
 SLASH_MY2SCRIPT2 = "/gs"
 SLASH_MY2SCRIPT3 = "/gearscore"
-

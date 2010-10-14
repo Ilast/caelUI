@@ -151,21 +151,15 @@ end)
 
 social:SetScript("OnMouseDown", function(self, button)
 	if button == "LeftButton" then
-		if GuildFrame:IsShown() then
-			FriendsFrame:Hide()
-		else
-			FriendsFrame:Show()
-			FriendsFrameTab3:Click()
-		end
+		ToggleFriendsFrame(1)
 	elseif button == "RightButton" then
-		if GuildFrame:IsShown() then
-			FriendsFrameTab1:Click()
-		elseif FriendsFrame:IsShown() then
-			FriendsFrame:Hide()
-		else
-			FriendsFrame:Show()
-			FriendsFrameTab1:Click()
+		if not IsAddOnLoaded("Blizzard_GuildUI") then
+			LoadAddOn("Blizzard_GuildUI")
 		end
+
+		GuildRoster_SetView("playerStatus")
+		UIDropDownMenu_SetSelectedValue(GuildRosterViewDropdown, "playerStatus") -- Currently not performed in _SetView
+		ToggleFrame(GuildFrame)
 	end
 end)
 

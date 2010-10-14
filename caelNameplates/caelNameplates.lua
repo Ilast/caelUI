@@ -1,4 +1,4 @@
---[[	$Id$	]]
+--[[	$Id: caelNameplates.lua 1443 2010-10-14 01:30:23Z sdkyron@gmail.com $	]]
 
 local _, caelNameplates = ...
 
@@ -327,6 +327,8 @@ function caelNameplates.eventFrame:ADDON_LOADED(event, addon)
 			end
 		end
 	end
+
+	SetCVar( "bloattest", 1) -- Quick fix for the nameplates bug in 4.0.1
 end
 
 SlashCmdList["caelNameplates"] = function(parameters)

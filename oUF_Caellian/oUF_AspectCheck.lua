@@ -1,4 +1,4 @@
---[[	$Id$	]]
+--[[	$Id: oUF_AspectCheck.lua 1425 2010-07-13 05:41:38Z sdkyron@gmail.com $	]]
 
 if caelLib.playerClass ~= "HUNTER" then return end
 

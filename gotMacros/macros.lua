@@ -1,4 +1,4 @@
-﻿--[[	$Id$	]]
+﻿--[[	$Id: macros.lua 1446 2010-10-14 10:25:08Z sdkyron@gmail.com $	]]
 
 --[==[ 0.89 with 2.30 base speed, 1.16 with 2.57 base speed (has to be verified)
 	gM_Macros = {
@@ -39,7 +39,7 @@ if playerClass == "HUNTER" then
 		["TGT"] = {
 			show = "Hunter's Mark",
 			body = [=[/targetenemy [noexists][noharm][dead]
-				/cast [nopet]Call Pet
+				/cast [nopet]Call Pet 3
 				/castsequence [harm]reset=target Hunter's Mark, null
 				/petpassive [target=pettarget,exists]
 				/stopmacro [target=pettarget,exists]
@@ -91,7 +91,6 @@ if playerClass == "HUNTER" then
 			show = "Auto Shot",
 			body = [=[/click [noexists][noharm][dead] gotMacros_T1
 				/click [combat, harm, nodead] gotMacros_CDsAll
-				/click [combat, harm, nodead] gotMacros_CDsHunter
 				/click [modifier, combat, harm, nodead] gotMacros_RfRd
 				/click [harm, nodead] gotMacros_RotC]=],
 			blizzmacro = true,
@@ -116,15 +115,13 @@ if playerClass == "HUNTER" then
 		["RotC"] = {
 			body = [=[/cast !Auto Shot
 				/click gotMacros_SrSa
-				/click gotMacros_AimS
-				/click gotMacros_ArcS
-				/click gotMacros_StdS]=],
+				/click gotMacros_ArcS]=],
 		},
 		["BlkA"] = {
 			body = [=[/castsequence reset=29.3 Black Arrow, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 		},
 		["SrSa"] = {
-			body = [=[/castsequence reset=20.4/target Serpent Sting, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+			body = [=[/castsequence reset=20.4/target Serpent Sting, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 		},
 		["SrSb"] = {
 			body = [=[/castsequence reset=target Serpent Sting, null]=],
@@ -133,16 +130,16 @@ if playerClass == "HUNTER" then
 			body = [=[/castsequence reset=5.6 Explosive Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 		},
 		["Mark"] = {
-			body = [=[/castsequence reset=9.3 Chimera Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+			body = [=[/castsequence reset=9.3 Chimera Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 		},
 		["AimS"] = {
-			body = [=[/castsequence reset=9.7 Aimed Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+			body = [=[/castsequence reset=9.7 Aimed Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 		},
 		["MulS"] = {
-			body = [=[/castsequence reset=9.7 Multi-Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+			body = [=[/castsequence reset=9.7 Multi-Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 		},
 		["ArcS"] = {
-			body = [=[/castsequence reset=5.8 Arcane Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+			body = [=[/castsequence Arcane Shot, Steady Shot]=],
 		},
 		["StdS"] = {
 			body = [=[/cast Steady Shot]=],
@@ -321,12 +318,38 @@ elseif playerClass == "PALADIN" then
 			nosound = true,
 		}
 	}
+elseif playerClass == "WARRIOR" then
+	gM_Macros = {
+		["DPS"] = {
+			show = "Bloodthirst",
+			body = [=[/click [noexists][noharm][dead] gotMacros_T2
+				/click [combat, harm, nodead] gotMacros_CDsAll
+				/click [combat, harm, nodead] gotMacros_CDsWarrior
+				/click gotMacros_Fury]=],
+			blizzmacro = true,
+			perChar = true,
+		},
+		["Fury"] = {
+			body = [=[/startattack [harm, nodead]
+				/cast [harm, nodead] Bloodthirst]=],
+		},
+		["CDsWarrior"] = {
+			body = [=[/cast Bloodrage]=],
+			nosound = true,
+		},
+		["Range"] = {
+			show = "[combat] Intercept; Charge",
+			body = [=[/cast [stance:1/2,combat] Berserker Stance; [stance:3,combat] Intercept; [stance:2/3,nocombat] Battle Stance; [stance:1,nocombat] Charge]=],
+			blizzmacro = true,
+			perChar = true,
+		}
+	}
 end
 
 multiClasses = {
 	["WDI"] = {
 		body = [=[/2 [[ - >> We Did It << - ]] Recrute
-			/2 Avancée: ICC10-HM:11/12, ICC25-HM:8/12
+			/2 Avancée: ICC10-HM:11/12, ICC25-HM:9/12
 			/2 4 soirs de raid 25 requis par semaine
 			/2 Toutes les candidatures seront étudiées
 			/2 Visitez: http://www.guilde-wedidit.fr]=],
