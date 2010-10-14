@@ -16,7 +16,7 @@ caelPanels.createPanel = function(name, x, y, width, height, point, rpoint, anch
 	panels[n]:SetHeight(caelLib.scale(height))
 	panels[n]:SetPoint(point, anchor, rpoint, caelLib.scale(x), caelLib.scale(y))
 	panels[n]:SetBackdrop(caelMedia.backdropTable)
-	panels[n]:SetBackdropColor(0, 0, 0, 0.33)
+	panels[n]:SetBackdropColor(0.1, 0.1, 0.1, 1)
 	panels[n]:SetBackdropBorderColor(0, 0, 0)
 	panels[n]:Show()
 	n = n + 1
@@ -47,28 +47,27 @@ caelPanels.eventFrame:SetScript("OnEvent", function(self, event)
 			recThreatMeter:SetPoint("TOPLEFT", caelPanel10, "TOPLEFT", caelLib.scale(3), caelLib.scale(-3))
 		end
 
+		--[[
 		for i = 1, 11 do
 			local panel = panels[i]
 			if panel then
 				local width = caelLib.scale(panel:GetWidth() - 6)
 				local height = caelLib.scale(panel:GetHeight() / 5)
 
-				panel:SetBackdropColor(.1, .1, .1, 1)
-				panel:SetFrameLevel(1)
-
 				local gradientTop = panel:CreateTexture(nil, "BORDER")
 				gradientTop:SetTexture(bgTexture)
 				gradientTop:SetSize(width, height)
 				gradientTop:SetPoint("TOPLEFT", caelLib.scale(3), caelLib.scale(-2))
-				gradientTop:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0, 0, 0, 0)
+				--gradientTop:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0, 0, 0, 0)
 
 				local gradientBottom = panel:CreateTexture(nil, "BORDER")
 				gradientBottom:SetTexture(bgTexture)
 				gradientBottom:SetSize(width, height)
 				gradientBottom:SetPoint("BOTTOMRIGHT", caelLib.scale(-3), caelLib.scale(2))
-				gradientBottom:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0, 0, 0, 0)
+				--gradientBottom:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0, 0, 0, 0)
 			end
 		end
+		--]]
 	end
 --	for i = 4, 7 do
 --		table.insert(fadePanels, panels[i])
