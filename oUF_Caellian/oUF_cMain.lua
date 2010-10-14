@@ -1,4 +1,4 @@
-﻿--[[	$Id: oUF_cMain.lua 1440 2010-10-14 01:17:48Z sdkyron@gmail.com $	]]
+﻿--[[	$Id: oUF_cMain.lua 1445 2010-10-14 04:03:21Z sdkyron@gmail.com $	]]
 
 local _, oUF_Caellian = ...
 
@@ -1116,7 +1116,25 @@ columnAnchorPoint = [STRING] - the anchor point of each new column (ie. use LEFT
 --]]
 
 oUF:RegisterStyle("Caellian", SetStyle)
+--[[
+for unit,layout in next, UnitSpecific do
+	oUF:RegisterStyle("Caellian - " .. unit:gsub("^%l", string.upper), layout)
+end
 
+local spawnHelper = function(self, unit, ...)
+	if(UnitSpecific[unit]) then
+		self:SetActiveStyle("Caellian - " .. unit:gsub("^%l", string.upper))
+		local object = self:Spawn(unit)
+		object:SetPoint(...)
+		return object
+	else
+		self:SetActiveStyle("Caellian")
+		local object = self:Spawn(unit)
+		object:SetPoint(...)
+		return object
+	end
+end
+--]]
 oUF:Factory(function(self)
 
 	self:SetActiveStyle("Caellian")
@@ -1129,7 +1147,7 @@ oUF:Factory(function(self)
 	self:Spawn("focustarget", "oUF_Caellian_focustarget"):SetPoint("BOTTOMLEFT", oUF_Caellian_target, "TOPLEFT", 0, pixelScale(10))
 	self:Spawn("targettarget", "oUF_Caellian_targettarget"):SetPoint("BOTTOMRIGHT", oUF_Caellian_target, "TOPRIGHT", 0, pixelScale(10))
 
-	local party = self:SpawnHeader("oUF_Party", nil, nil,
+	local party = self:SpawnHeader("oUF_Party", nil, "custom [@raid6,exists] hide; show",
 		"showParty", true,
 		"yOffset", caelLib.scale(-27.5),
 		"template", "oUF_cParty",
@@ -1138,10 +1156,17 @@ oUF:Factory(function(self)
 	party:SetPoint("TOPLEFT", UIParent, pixelScale(config.coords.partyX), pixelScale(config.coords.partyY))
 
 	local raid = {}
+	CompactRaidFrameManager:UnregisterAllEvents()
+	CompactRaidFrameManager:Hide()
+	CompactRaidFrameContainer:UnregisterAllEvents()
+	CompactRaidFrameContainer:Hide()
 	for i = 1, NUM_RAID_GROUPS do
-		local raidgroup = self:SpawnHeader("oUF_Raid"..i, nil, nil,
-		"groupFilter", tostring(i), "showRaid", true, "yOffSet", pixelScale(-3.5)
-	)
+		local raidgroup = self:SpawnHeader("oUF_Raid"..i, nil, "custom [@raid6,exists] show; hide",
+			"groupFilter", tostring(i),
+			"showRaid", true,
+			"yOffSet", pixelScale(-3.5),
+			"oUF-initialConfigFunction", ([[self:SetWidth(64) self:SetHeight(43)]])
+		)
 		insert(raid, raidgroup)
 		if i == 1 then
 			raidgroup:SetPoint("TOPLEFT", UIParent, pixelScale(config.coords.raidX), pixelScale(config.coords.raidY))
@@ -1189,7 +1214,7 @@ oUF:Factory(function(self)
 
 		for i, v in ipairs(arenatarget) do v:Show() end
 	end
-
+--[[
 	if config.noPartyRaid then return end
 
 	main:RegisterEvent("PLAYER_LOGIN")
@@ -1211,4 +1236,5 @@ oUF:Factory(function(self)
 			end
 		end
 	end)
+--]]
 end)
