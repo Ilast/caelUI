@@ -1,9 +1,9 @@
-﻿--[[	$Id: oUF_cMain.lua 1445 2010-10-14 04:03:21Z sdkyron@gmail.com $	]]
+﻿--[[	$Id: oUF_cMain.lua 1450 2010-10-14 11:13:24Z sdkyron@gmail.com $	]]
 
 local _, oUF_Caellian = ...
 
 oUF_Caellian.main = CreateFrame("Frame", nil, UIParent)
-local blankTex = "Interface\\Buttons\\WHITE8x8"
+
 local main = oUF_Caellian.main
 local config = oUF_Caellian.config
 
@@ -28,7 +28,7 @@ local lowThreshold = config.lowThreshold
 local highThreshold = config.highThreshold
 
 local backdrop = {
-	bgFile = blankTex,
+	bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
 	insets = {top = pixelScale(-1), left = pixelScale(-1), bottom = pixelScale(-1), right = pixelScale(-1)},
 }
 

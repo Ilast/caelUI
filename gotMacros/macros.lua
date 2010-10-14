@@ -1,4 +1,4 @@
-﻿--[[	$Id: macros.lua 1433 2010-10-11 18:05:52Z sdkyron@gmail.com $	]]
+﻿--[[	$Id: macros.lua 1446 2010-10-14 10:25:08Z sdkyron@gmail.com $	]]
 
 --[==[ 0.89 with 2.30 base speed, 1.16 with 2.57 base speed (has to be verified)
 	gM_Macros = {
@@ -39,7 +39,7 @@ if playerClass == "HUNTER" then
 		["TGT"] = {
 			show = "Hunter's Mark",
 			body = [=[/targetenemy [noexists][noharm][dead]
-				/cast [nopet]Call Pet
+				/cast [nopet]Call Pet 3
 				/castsequence [harm]reset=target Hunter's Mark, null
 				/petpassive [target=pettarget,exists]
 				/stopmacro [target=pettarget,exists]
@@ -91,7 +91,6 @@ if playerClass == "HUNTER" then
 			show = "Auto Shot",
 			body = [=[/click [noexists][noharm][dead] gotMacros_T1
 				/click [combat, harm, nodead] gotMacros_CDsAll
-				/click [combat, harm, nodead] gotMacros_CDsHunter
 				/click [modifier, combat, harm, nodead] gotMacros_RfRd
 				/click [harm, nodead] gotMacros_RotC]=],
 			blizzmacro = true,
@@ -116,15 +115,13 @@ if playerClass == "HUNTER" then
 		["RotC"] = {
 			body = [=[/cast !Auto Shot
 				/click gotMacros_SrSa
-				/click gotMacros_AimS
-				/click gotMacros_ArcS
-				/click gotMacros_StdS]=],
+				/click gotMacros_ArcS]=],
 		},
 		["BlkA"] = {
 			body = [=[/castsequence reset=29.3 Black Arrow, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 		},
 		["SrSa"] = {
-			body = [=[/castsequence reset=20.4/target Serpent Sting, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+			body = [=[/castsequence reset=20.4/target Serpent Sting, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 		},
 		["SrSb"] = {
 			body = [=[/castsequence reset=target Serpent Sting, null]=],
@@ -142,7 +139,7 @@ if playerClass == "HUNTER" then
 			body = [=[/castsequence reset=9.7 Multi-Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 		},
 		["ArcS"] = {
-			body = [=[/castsequence reset=5.8 Arcane Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+			body = [=[/castsequence Arcane Shot, Steady Shot]=],
 		},
 		["StdS"] = {
 			body = [=[/cast Steady Shot]=],

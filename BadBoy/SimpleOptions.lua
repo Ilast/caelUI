@@ -1,3 +1,4 @@
+--[[	$Id: SimpleOptions.lua 1448 2010-10-14 10:30:46Z sdkyron@gmail.com $	]]
 
 do
 	--Slash handler
@@ -155,4 +156,3 @@ do
 	ccleanerTitle:SetPoint("TOPLEFT", btnNoArtFilter, "BOTTOMLEFT", 0, -48)
 	ccleanerTitle:SetText("BadBoy_CCleaner ["..ADDON_MISSING.."]")
 end
-

@@ -105,21 +105,17 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"synchronizeBindings 0",
 			"synchronizeMacros 0",
 			"alwaysCompareItems 1",
+			"deselectOnClick 1",
 			"autoDismountFlying 1",
 			"autoClearAFK 1",
 			"lootUnderMouse 0",
 			"autoLootDefault 1",
-			--"autoRangedCombat 1", -- Automatically switch between auto attack & auto shot
 			"stopAutoAttackOnTargetChange 1",
 			"autoSelfCast 1",
 			"rotateMinimap 0",
 			"showLootSpam 1",
-			-- TO-DO: Find a replacement option for showClock
-			--"showClock 0", -- showClock is gone
 			"threatShowNumeric 0",
 			"threatPlaySounds 0",
-			-- TO-DO: Find a replacement for questFadingDisable
-			--"questFadingDisable 1",
 			"autoQuestWatch 1",
 			"autoQuestProgress 1",
 			"mapQuestDifficulty 1",
@@ -150,10 +146,8 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"CombatHealing 0",
 			"fctSpellMechanics 0",
 			"enableCombatText 0",
-			--"hidePartyInRaid 1", -- CVar no longer needed as this is automatically true.
 			"showArenaEnemyFrames 0",
 			caelLib.isCharListA and "autointeract 1" or "autointeract 0",
-			"previewTalentsOption 1", -- previewTalents is now previewTalentsOption
 			"showTutorials 0",
 			"UberTooltips 1",
 			"showNewbieTips 0",
@@ -181,13 +175,10 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"ffx 0",
 			"textureFilteringMode 5",
 			"baseMip 0", -- 0 for max
-			"mapShadows 0",
-			"shadowLOD 0",
 			"farclip 1277",
 			"showfootprints 0",
 			"ffxDeath 0",
 			"ffxGlow 0",
-			"specular 1",
 			]]--
 
 
@@ -215,16 +206,10 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"Sound_MusicVolume 0",
 			"Sound_SFXVolume 0.20000000298023",
 
-			-- TO-DO: Find out what this CVar previous did and see if a new one exists in its place or if shadowMode now covers
-			-- 	  this CVar too.
-			--"extShadowQuality 0", -- cvar missing
 			"cameraDistanceMax 50",
 			"cameraDistanceMaxFactor 3.4",
 			"cameraDistanceMoveSpeed 50",
 			"cameraViewBlendStyle 2",
-
-			--"nameplateAllowOverlap 0",
-			"ShowClassColorInNameplate 1",
 
 			"nameplateShowFriends 0",
 			"nameplateShowFriendlyPets 0",

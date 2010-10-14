@@ -1,3 +1,5 @@
+--[[	$Id: BadBoy.lua 1448 2010-10-14 10:30:46Z sdkyron@gmail.com $	]]
+
 --[[	BLIZZARD IF YOU'RE READING THIS I'M BEGGING FOR YOUR HELP.
 		PLEASE LET ME FETCH EITHER PLAYER LEVEL FROM THE GIVEN GUID (WILL ALSO HELP BADBOY_LEVELS)
 		OR LET ME FETCH IF THE PLAYER IS IN A GUILD OR NOT FROM THE GIVEN GUID (SPAMMERS NEVER GUILDED)
@@ -278,4 +280,3 @@ ChatFrame_AddMessageEventFilter("CHAT_MSG_TEXT_EMOTE", function(_, _, msg, playe
 	--fixed in v4?
 	if IsResting() and msg:find("zzz") then return true end
 end)
-
