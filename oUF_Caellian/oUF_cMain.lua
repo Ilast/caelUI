@@ -1,9 +1,9 @@
-﻿--[[	$Id$	]]
+﻿--[[	$Id: oUF_cMain.lua 1440 2010-10-14 01:17:48Z sdkyron@gmail.com $	]]
 
 local _, oUF_Caellian = ...
 
 oUF_Caellian.main = CreateFrame("Frame", nil, UIParent)
-
+local blankTex = "Interface\\Buttons\\WHITE8x8"
 local main = oUF_Caellian.main
 local config = oUF_Caellian.config
 
@@ -28,7 +28,7 @@ local lowThreshold = config.lowThreshold
 local highThreshold = config.highThreshold
 
 local backdrop = {
-	bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
+	bgFile = blankTex,
 	insets = {top = pixelScale(-1), left = pixelScale(-1), bottom = pixelScale(-1), right = pixelScale(-1)},
 }
 
@@ -250,7 +250,6 @@ local PostUpdatePower = function(power, unit, min, max)
 end
 
 local delay = 0
-local viperAspectName = GetSpellInfo(34074)
 local UpdateManaLevel = function(self, elapsed)
 	delay = delay + elapsed
 	if self.parent.unit ~= "player" or delay < 0.2 or UnitIsDeadOrGhost("player") or UnitPowerType("player") ~= 0 then return end
@@ -258,26 +257,12 @@ local UpdateManaLevel = function(self, elapsed)
 
 	local percMana = UnitMana("player") / UnitManaMax("player") * 100
 
-	if AotV then
-		local viper = UnitBuff("player", viperAspectName)
-		if percMana >= highThreshold and viper then
-			self.ManaLevel:SetText("|cffaf5050GO HAWK|r")
-			Flash(self, 0.3)
-		elseif percMana <= lowThreshold and not viper then
-			self.ManaLevel:SetText("|cffaf5050GO VIPER|r")
-			Flash(self, 0.3)
-		else
-			self.ManaLevel:SetText()
-			StopFlash(self)
-		end
+	if percMana <= lowThreshold then
+		self.ManaLevel:SetText("|cffaf5050LOW MANA|r")
+		Flash(self, 0.3)
 	else
-		if percMana <= lowThreshold then
-			self.ManaLevel:SetText("|cffaf5050LOW MANA|r")
-			Flash(self, 0.3)
-		else
-			self.ManaLevel:SetText()
-			StopFlash(self)
-		end
+		self.ManaLevel:SetText()
+		StopFlash(self)
 	end
 end
 
@@ -565,14 +550,14 @@ end
 local SetStyle = function(self, unit)
 
 	local unitInRaid = self:GetParent():GetName():match("oUF_Raid")
-	local unitInParty = unit and unit:match("party%d")
-	local unitIsPartyPet = unit and unit:match("partypet%d")
-	local unitIsPartyTarget = unit and unit:match("party%dtarget")
+	local unitInParty = self:GetParent():GetName():match("oUF_Party") -- unit and unit:match("party%d")
+	local unitIsPartyPet = self:GetAttribute("unitsuffix") == "pet" -- unit and unit:match("partypet%d")
+	local unitIsPartyTarget = self:GetAttribute("unitsuffix") == "target" -- unit and unit:match("party%dtarget")
 
 	self.menu = Menu
 	self.colors = colors
-	self:RegisterForClicks("AnyUp")
-	self:SetAttribute("type2", "menu")
+	self:RegisterForClicks("AnyDown")
+--	self:SetAttribute("type2", "menu")
 
 	self:SetScript("OnEnter", UnitFrame_OnEnter)
 	self:SetScript("OnLeave", UnitFrame_OnLeave)
@@ -602,6 +587,8 @@ local SetStyle = function(self, unit)
 	self.Health:SetPoint("TOPRIGHT")
 	self.Health:SetStatusBarTexture(normtex)
 	self.Health:GetStatusBarTexture():SetHorizTile(false)
+	self.Health:SetBackdrop(backdrop)
+	self.Health:SetBackdropColor(0.25, 0.25, 0.25)
 
 	self.Health.colorTapping = true
 
@@ -633,6 +620,8 @@ local SetStyle = function(self, unit)
 		end
 		self.Power:SetStatusBarTexture(normtex)
 		self.Power:GetStatusBarTexture():SetHorizTile(false)
+		self.Power:SetBackdrop(backdrop)
+		self.Power:SetBackdropColor(0.25, 0.25, 0.25)
 
 		self.Power.colorPower = unit == "player" or unit == "pet" and true
 		self.Power.colorClass = true
@@ -801,12 +790,13 @@ local SetStyle = function(self, unit)
 	if unit == "player" or unit == "target" then
 
 		self.Portrait = CreateFrame("PlayerModel", nil, self)
-		self.Portrait:SetPoint("TOPLEFT", self, 0, pixelScale(-23))
-		self.Portrait:SetPoint("BOTTOMRIGHT", self, 0, pixelScale(8))
+		self.Portrait:SetPoint("TOPLEFT", self, pixelScale(1), pixelScale(-24))
+		self.Portrait:SetPoint("BOTTOMRIGHT", self, pixelScale(-1), pixelScale(8))
 
-		self.PortraitOverlay = CreateFrame("StatusBar", self:GetName().."_PortraitOverlay", self.Portrait)
+		self.PortraitOverlay = CreateFrame("StatusBar", self:GetName().."_PortraitOverlay", self)
 		self.PortraitOverlay:SetFrameLevel(self.PortraitOverlay:GetFrameLevel() + 1)
-		self.PortraitOverlay:SetAllPoints()
+		self.PortraitOverlay:SetPoint("TOPLEFT", self.Health, "BOTTOMLEFT", 0, pixelScale(-1))
+		self.PortraitOverlay:SetPoint("BOTTOMRIGHT", self.Power, "TOPRIGHT", 0, pixelScale(1))
 		self.PortraitOverlay:SetStatusBarTexture(shaderTex)
 		self.PortraitOverlay:GetStatusBarTexture():SetHorizTile(false)
 		self.PortraitOverlay:SetStatusBarColor(0.1, 0.1, 0.1, 0.75)
@@ -938,8 +928,8 @@ local SetStyle = function(self, unit)
 		self.Castbar.PostChannelStart = PostChannelStart
 
 		if unit == "player" or unit == "target" then
-			self.Castbar:SetPoint("TOPLEFT", self, 0, pixelScale(-23))
-			self.Castbar:SetPoint("BOTTOMRIGHT", self, 0, pixelScale(8))
+			self.Castbar:SetPoint("TOPLEFT", self.Health, "BOTTOMLEFT", 0, pixelScale(-1))
+			self.Castbar:SetPoint("BOTTOMRIGHT", self.Power, "TOPRIGHT", 0, pixelScale(1))
 		else
 			self.Castbar:SetHeight(pixelScale(5))
 			self.Castbar:SetAllPoints()
@@ -1046,17 +1036,21 @@ local SetStyle = function(self, unit)
 	end
 
 	if unit == "player" or unit == "target" then
-		self:SetAttribute("initial-height", pixelScale(53))
-		self:SetAttribute("initial-width", pixelScale(230))
+--		self:SetAttribute("initial-height", pixelScale(53))
+--		self:SetAttribute("initial-width", pixelScale(230))
+		self:SetSize(pixelScale(230), pixelScale(53))
 	elseif unitIsPartyPet then
-		self:SetAttribute("initial-height", pixelScale(10))
-		self:SetAttribute("initial-width", pixelScale(113))
+--		self:SetAttribute("initial-height", pixelScale(10))
+--		self:SetAttribute("initial-width", pixelScale(113))
+		self:SetSize(pixelScale(113), pixelScale(10))
 	elseif unitInRaid then
-		self:SetAttribute("initial-height", pixelScale(43))
-		self:SetAttribute("initial-width", pixelScale(64))
+--		self:SetAttribute("initial-height", pixelScale(43))
+--		self:SetAttribute("initial-width", pixelScale(64))
+		self:SetSize(pixelScale(64), pixelScale(43))
 	else
-		self:SetAttribute("initial-height", pixelScale(22))
-		self:SetAttribute("initial-width", pixelScale(113))
+--		self:SetAttribute("initial-height", pixelScale(22))
+--		self:SetAttribute("initial-width", pixelScale(113))
+		self:SetSize(pixelScale(113), pixelScale(22))
 	end
 
 	self.RaidIcon = self:CreateTexture(nil, "OVERLAY")
@@ -1125,6 +1119,8 @@ oUF:RegisterStyle("Caellian", SetStyle)
 
 oUF:Factory(function(self)
 
+	self:SetActiveStyle("Caellian")
+
 	self:Spawn("player", "oUF_Caellian_player"):SetPoint("BOTTOM", UIParent, pixelScale(config.coords.playerX), pixelScale(config.coords.playerY))
 	self:Spawn("target", "oUF_Caellian_target"):SetPoint("BOTTOM", UIParent, pixelScale(config.coords.targetX), pixelScale(config.coords.targetY))
 
@@ -1133,41 +1129,13 @@ oUF:Factory(function(self)
 	self:Spawn("focustarget", "oUF_Caellian_focustarget"):SetPoint("BOTTOMLEFT", oUF_Caellian_target, "TOPLEFT", 0, pixelScale(10))
 	self:Spawn("targettarget", "oUF_Caellian_targettarget"):SetPoint("BOTTOMRIGHT", oUF_Caellian_target, "TOPRIGHT", 0, pixelScale(10))
 
-	local party = {}
-	for i = 1, 5 do
-		party[i] = self:Spawn("party"..i, "oUF_Party"..i)
-		if i == 1 then
-			party[i]:SetPoint("TOPLEFT", UIParent, "TOPLEFT", pixelScale(config.coords.partyX), pixelScale(config.coords.partyY))
-		else
-			party[i]:SetPoint("TOP", party[i-1], "BOTTOM", 0, pixelScale(-26.5))
-		end
-	end
-
-	for i, v in ipairs(party) do v:Disable() end
-
-	local partytarget = {}
-	for i = 1, 5 do
-		partytarget[i] = self:Spawn("party"..i.."target", "oUF_Party"..i.."Target")
-		if i == 1 then
-			partytarget[i]:SetPoint("TOPLEFT", party[1], "TOPRIGHT", pixelScale(7.5), 0)
-		else
-			partytarget[i]:SetPoint("TOP", partytarget[i-1], "BOTTOM", 0, pixelScale(-26.5))
-		end
-	end
-
-	for i, v in ipairs(partytarget) do v:Disable() end
-
-	local partypet = {}
-	for i = 1, 5 do
-		partypet[i] = self:Spawn("partypet"..i, "oUF_PartyPet"..i)
-		if i == 1 then
-			partypet[i]:SetPoint("TOP", party[i], "BOTTOM", 0, pixelScale(-5))
-		else
-			partypet[i]:SetPoint("TOP", party[i-1], "BOTTOM", 0, pixelScale(-54))
-		end
-	end
-
-	for i, v in ipairs(partypet) do v:Disable() end
+	local party = self:SpawnHeader("oUF_Party", nil, nil,
+		"showParty", true,
+		"yOffset", caelLib.scale(-27.5),
+		"template", "oUF_cParty",
+		"oUF-initialConfigFunction", ([[self:SetWidth(113) self:SetHeight(22)]])
+	)
+	party:SetPoint("TOPLEFT", UIParent, pixelScale(config.coords.partyX), pixelScale(config.coords.partyY))
 
 	local raid = {}
 	for i = 1, NUM_RAID_GROUPS do
@@ -1181,8 +1149,6 @@ oUF:Factory(function(self)
 			raidgroup:SetPoint("TOPLEFT", raid[i-1], "TOPRIGHT", pixelScale(60 * config.scale - 60) + pixelScale(3.5), 0)
 		end
 	end
-
-	for i, v in ipairs(raid) do v:Hide() end
 
 	local boss = {}
 	for i = 1, MAX_BOSS_FRAMES do
@@ -1237,14 +1203,10 @@ oUF:Factory(function(self)
 			self:UnregisterEvent("PLAYER_REGEN_ENABLED")
 			local numraid = GetNumRaidMembers()
 			if numraid > 0 and (numraid > 5 or numraid ~= GetNumPartyMembers() + 1) then
-				for i, v in ipairs(party) do v:Disable() end
-				for i, v in ipairs(partypet) do v:Disable() end
-				for i, v in ipairs(partytarget) do v:Disable() end
+				party:Hide()
 				for i, v in ipairs(raid) do v:Show() end
 			else
-				for i, v in ipairs(party) do v:Enable() end
-				for i, v in ipairs(partypet) do v:Enable() end
-				for i, v in ipairs(partytarget) do v:Enable() end
+				party:Show()
 				for i, v in ipairs(raid) do v:Hide() end
 			end
 		end
