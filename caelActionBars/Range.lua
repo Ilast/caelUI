@@ -1,5 +1,3 @@
-if not TukuiCF["actionbar"].enable == true then return end
-
 --[[
 	Thx to Tulla, most lowest cpu usage range script
 		Adds out of range coloring to action buttons
