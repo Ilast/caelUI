@@ -22,12 +22,12 @@ DEFAULT_CHATFRAME_ALPHA = 0 -- remove mouseover background
 FriendsMicroButton:Hide()
 
 local colorize = function(r, g, b)
-	caelPanel3a:SetBackdropColor(r * 0.5, g * 0.5, b * 0.5, 0.5)
+	caelPanel3a:SetBackdropBorderColor(r, g, b)
 end
 
 -- Handle the color changes to the chatbox edit frame panel (caelPanel3a)
 hooksecurefunc("ChatEdit_UpdateHeader", function(editbox)
-	if ACTIVE_CHAT_EDIT_BOX then
+	--if ACTIVE_CHAT_EDIT_BOX then
 		local type = editbox:GetAttribute("chatType")
 		if type == "CHANNEL" then
 			local chatType = GetChannelName(editbox:GetAttribute("channelTarget"))
@@ -39,9 +39,11 @@ hooksecurefunc("ChatEdit_UpdateHeader", function(editbox)
 		else
 			colorize(ChatTypeInfo[type].r, ChatTypeInfo[type].g, ChatTypeInfo[type].b)
 		end
+	--[[
 	else
 		colorize(0.25, 0.25, 0.25)
 	end
+	--]]
 end)
 --[[
 hooksecurefunc("ChatEdit_UpdateHeader", function()
@@ -300,11 +302,21 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 
 					cfeb:ClearAllPoints()
 					cfeb:SetHeight(20)
-					cfeb:SetPoint("BOTTOMLEFT",  caelPanel1, "TOPLEFT", 0, caelLib.scale(1))
-					cfeb:SetPoint("BOTTOMRIGHT", caelPanel1, "TOPRIGHT", caelLib.scale(-90), caelLib.scale(1))
+					cfeb:SetAllPoints(caelPanel3a)
+					cfeb:SetMaxLetters(99999)
+					cfeb:SetAutoFocus(false)
+					cfeb:EnableMouse(true)
 					cfeb:SetFont(caelMedia.fonts.NORMAL, 12)
 					cfebh:SetPoint("LEFT", caelPanel3a, caelLib.scale(5), caelLib.scale(1))
 					cfebh:SetFont(caelMedia.fonts.NORMAL, 12)
+
+					-- Hide editbox on load
+					cfeb:Hide()
+					caelPanel3a:Hide()
+
+					-- Show/Hide editbox
+					cfeb:HookScript("OnEditFocusGained", function(self) self:Show() caelPanel3a:Show() end)
+					cfeb:HookScript("OnEditFocusLost", function(self) self:Hide() caelPanel3a:Hide() end)
 
 					-- Redock the frames together.
 					if (i == 1) then
@@ -381,8 +393,9 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 					cfeb.oldSetTextInsets(self, left, right, top, bottom)
 				end
 
-				cfeb:HookScript("OnHide", function()
-					caelPanel3a:SetBackdropColor(0, 0, 0, 0.33)
+				cfeb:HookScript("OnEscapePressed", function()
+					frame:Hide()
+					--caelPanel3a:SetBackdropColor(0, 0, 0, 0.33)
 				end)
 
 				if i < 5 then
@@ -429,8 +442,8 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 				btn.t:SetText(txt)
 
 				btn:SetBackdrop(caelMedia.backdropTable)
-				btn:SetBackdropColor(0.1, 0.1, 0.1, 1)
-				btn:SetBackdropBorderColor(0, 0, 0)
+				btn:SetBackdropColor(0.1, 0.1, 0.1, 0)
+				btn:SetBackdropBorderColor(0.1, 0.1, 0.1)
 
 --				Create the flash frame
 				btn.flash = CreateFrame("Frame", format("ChatButton%sFlash", id), btn)
@@ -491,7 +504,7 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 			local cft3 = MakeButton(3, "W", "• w <-> •")
 			local cft4 = MakeButton(4, "L", "• Loot •")
 
-			cft4:SetPoint("BOTTOMRIGHT", caelPanel1, "TOPRIGHT", 0, 1.5)
+			cft4:SetPoint("TOPRIGHT", caelPanel1, "TOPRIGHT", 0, caelLib.scale(-1.5))
 			cft3:SetPoint("RIGHT", cft4, "LEFT")
 			cft1:SetPoint("RIGHT", cft3, "LEFT")
 
