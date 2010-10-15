@@ -294,10 +294,12 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 				-- Change the positions of the chatframes and editboxes.
 				if i ~= 2 then
 					frame:ClearAllPoints()
-					frame:SetAllPoints(caelPanel1)
-					--frame:SetPoint("TOPLEFT", caelPanel1, "TOPLEFT", caelLib.scale(5), caelLib.scale(-6))
-					--frame:SetPoint("BOTTOMRIGHT", caelPanel1, "BOTTOMRIGHT", caelLib.scale(-5), caelLib.scale(10))
-					frame:SetMaxLines(1000)
+					--frame:SetAllPoints(caelPanel1)
+					frame:SetWidth(caelPanel1:GetWidth() - caelLib.scale(10))
+					frame:SetHeight(caelPanel1:GetHeight() - caelLib.scale(5))
+					frame:SetPoint("TOPLEFT", caelPanel1, "TOPLEFT", caelLib.scale(5), caelLib.scale(-5))
+					frame:SetPoint("BOTTOMRIGHT", caelPanel1, "BOTTOMRIGHT", caelLib.scale(-5), caelLib.scale(5))
+					frame:SetMaxLines(1500)
 					--frame.SetPoint = function() end
 
 					cfeb:ClearAllPoints()
