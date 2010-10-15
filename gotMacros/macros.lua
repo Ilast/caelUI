@@ -39,7 +39,7 @@ if playerClass == "HUNTER" then
 		["TGT"] = {
 			show = "Hunter's Mark",
 			body = [=[/targetenemy [noexists][noharm][dead]
-				/cast [nopet]Call Pet 3
+				/cast [nopet]Call Pet 2
 				/castsequence [harm]reset=target Hunter's Mark, null
 				/petpassive [target=pettarget,exists]
 				/stopmacro [target=pettarget,exists]
@@ -89,6 +89,7 @@ if playerClass == "HUNTER" then
 			show = "Auto Shot",
 			body = [=[/click [noexists][noharm][dead] gotMacros_T1
 				/click [combat, harm, nodead] gotMacros_CDsAll
+				/click [combat, harm, nodead] gotMacros_CDsHunter
 				/click [modifier, combat, harm, nodead] gotMacros_RfRd
 				/click [harm, nodead] gotMacros_RotC]=],
 			blizzmacro = true,
@@ -110,29 +111,23 @@ if playerClass == "HUNTER" then
 		},
 		["RotC"] = {
 			body = [=[/cast !Auto Shot
-				/click gotMacros_SrSa
+				/click gotMacros_SrSb
 				/click gotMacros_ArcS]=],
+		},
+		["SrSa"] = {
+			body = [=[/castsequence reset=target Serpent Sting, null]=],
+		},
+		["Mark"] = {
+			body = [=[/castsequence reset=9.3 Chimera Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
+		},
+		["Filler"] = {
+			body = [=[/castsequence reset=1/combat Steady Shot, Steady Shot, Arcane Shot, Steady Shot, Steady Shot, Arcane Shot]=],
 		},
 		["BlkA"] = {
 			body = [=[/castsequence reset=29.3 Black Arrow, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 		},
-		["SrSa"] = {
-			body = [=[/castsequence reset=20.4/target Serpent Sting, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
-		},
 		["SrSb"] = {
-			body = [=[/castsequence reset=target Serpent Sting, null]=],
-		},
-		["Mark"] = {
-			body = [=[/castsequence reset=9.3 Chimera Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
-		},
-		["AimS"] = {
-			body = [=[/castsequence reset=9.7 Aimed Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
-		},
-		["MulS"] = {
-			body = [=[/castsequence reset=9.7 Multi-Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
-		},
-		["ArcS"] = {
-			body = [=[/castsequence Arcane Shot, Steady Shot]=],
+			body = [=[/castsequence reset=20.4/target Serpent Sting, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],
 		},
 		["ExpS"] = {
 			body = [=[/castsequence reset=5.6 Explosive Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot, !Auto Shot]=],

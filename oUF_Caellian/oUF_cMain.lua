@@ -1147,7 +1147,7 @@ oUF:Factory(function(self)
 	self:Spawn("focustarget", "oUF_Caellian_focustarget"):SetPoint("BOTTOMLEFT", oUF_Caellian_target, "TOPLEFT", 0, pixelScale(10))
 	self:Spawn("targettarget", "oUF_Caellian_targettarget"):SetPoint("BOTTOMRIGHT", oUF_Caellian_target, "TOPRIGHT", 0, pixelScale(10))
 
-	local party = self:SpawnHeader("oUF_Party", nil, "custom [@raid6,exists] hide; show",
+	local party = self:SpawnHeader("oUF_Party", nil, "party",
 		"showParty", true,
 		"yOffset", caelLib.scale(-27.5),
 		"template", "oUF_cParty",
@@ -1161,7 +1161,7 @@ oUF:Factory(function(self)
 	CompactRaidFrameContainer:UnregisterAllEvents()
 	CompactRaidFrameContainer:Hide()
 	for i = 1, NUM_RAID_GROUPS do
-		local raidgroup = self:SpawnHeader("oUF_Raid"..i, nil, "custom [@raid6,exists] show; hide",
+		local raidgroup = self:SpawnHeader("oUF_Raid"..i, nil, "raid",
 			"groupFilter", tostring(i),
 			"showRaid", true,
 			"yOffSet", pixelScale(-3.5),
