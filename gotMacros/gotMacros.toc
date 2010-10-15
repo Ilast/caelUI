@@ -3,7 +3,7 @@
 ## Title: |cffD7BEA5got|rMacros
 ## Notes: Macros management
 ## RequiredDeps: caelLib
-## X-Revision: $Id$
+## X-Revision: $Id: gotMacros.toc 913 2010-04-04 18:34:18Z sdkyron@gmail.com $
 ## X-Website: http://www.wowinterface.com/list.php?skinnerid=31773
 ## X-Category: Macros
 

@@ -1,4 +1,4 @@
---[[	$Id$	]]
+--[[	$Id: gotMacros.lua 930 2010-04-05 07:05:40Z sdkyron@gmail.com $	]]
 
 local _, gotMacros = ...
 
