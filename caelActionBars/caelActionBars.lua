@@ -203,7 +203,7 @@ bar1:SetScript("OnEvent", function(self, event, ...)
 			button:ClearAllPoints()
 			button:SetParent(bar1)
 			if i == 1 then
-				button:SetPoint("TOPLEFT", caelPanel5, caelLib.scale(4.5), caelLib.scale(-6.5))
+				button:SetPoint("TOPLEFT", caelPanel5, caelLib.scale(4.5), caelLib.scale(-4.5))
 			elseif i == 7 then
 				button:SetPoint("TOPLEFT", _G["ActionButton1"], "BOTTOMLEFT", 0, caelLib.scale(-6.5))
 			else
