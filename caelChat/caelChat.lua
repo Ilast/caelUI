@@ -6,6 +6,8 @@ local _G = getfenv(0)
 
 _G["caelChat"] = caelChat
 
+FCF_ResetChatWindows() -- This should fix issues with the Dimension problems a while ago in the chat-config.txt
+
 caelChat.eventFrame = CreateFrame("Frame", nil, UIParent)
 
 local kill = caelLib.kill
@@ -290,10 +292,11 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 				-- Change the positions of the chatframes and editboxes.
 				if i ~= 2 then
 					frame:ClearAllPoints()
-					frame:SetPoint("TOPLEFT", caelPanel1, "TOPLEFT", caelLib.scale(5), caelLib.scale(-6))
-					frame:SetPoint("BOTTOMRIGHT", caelPanel1, "BOTTOMRIGHT", caelLib.scale(-5), caelLib.scale(10))
+					frame:SetAllPoints(caelPanel1)
+					--frame:SetPoint("TOPLEFT", caelPanel1, "TOPLEFT", caelLib.scale(5), caelLib.scale(-6))
+					--frame:SetPoint("BOTTOMRIGHT", caelPanel1, "BOTTOMRIGHT", caelLib.scale(-5), caelLib.scale(10))
 					frame:SetMaxLines(1000)
-					frame.SetPoint = function() end
+					--frame.SetPoint = function() end
 
 					cfeb:ClearAllPoints()
 					cfeb:SetHeight(20)
@@ -331,6 +334,10 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 							end
 						end
 					end
+
+
+					-- Save chat position and dimension to combat the blizzard 3.3.5 bug with DIMENSION and POSITION in chat-config.txt
+					FCF_SavePositionAndDimensions(frame)
 				elseif i == 2 then
 					FCF_SetWindowName(frame, "• Log •")
 					FCF_UnDockFrame(frame)
