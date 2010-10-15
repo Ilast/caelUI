@@ -1148,6 +1148,7 @@ oUF:Factory(function(self)
 	self:Spawn("targettarget", "oUF_Caellian_targettarget"):SetPoint("BOTTOMRIGHT", oUF_Caellian_target, "TOPRIGHT", 0, pixelScale(10))
 
 	local party = self:SpawnHeader("oUF_Party", nil, "party",
+		"showPlayer", true,
 		"showParty", true,
 		"yOffset", caelLib.scale(-27.5),
 		"template", "oUF_cParty",
