@@ -243,12 +243,17 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 				kill(_G[format("ChatFrame%sRightTexture",i)])
 				kill(_G[format("ChatFrame%sBottomTexture",i)])
 				kill(_G[format("ChatFrame%sTopTexture",i)])
+				
+				-- Fixes annoying issue with glow texture when tab gets new text from whisper on Tab 3 that was placing the
+				-- pulse on the bottom of the invisible frame.
+				kill(_G[format("ChatFrame%sTabGlow", i)])
 
 				-- Removes Default ChatFrame Tabs texture
 				kill(_G[format("ChatFrame%sTabLeft", i)])
 				kill(_G[format("ChatFrame%sTabMiddle", i)])
 				kill(_G[format("ChatFrame%sTabRight", i)])
 				kill(_G[format("ChatFrame%sTabText", i)])
+				kill(_G[format("ChatFrame%sTabBottom", i)])
 
 				-- Killing off the new chat tab selected feature
 				kill(_G[format("ChatFrame%sTabSelectedLeft", i)])
@@ -417,7 +422,7 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 				btn.t:SetText(txt)
 
 				btn:SetBackdrop(caelMedia.backdropTable)
-				btn:SetBackdropColor(0, 0, 0, 0.15)
+				btn:SetBackdropColor(0.1, 0.1, 0.1, 1)
 				btn:SetBackdropBorderColor(0, 0, 0)
 
 --				Create the flash frame
@@ -454,6 +459,8 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 
 				btn.flash:Hide()
 
+
+				--[[
 				btn.skinTop = btn:CreateTexture(nil, "BORDER")
 				btn.skinTop:SetTexture(caelMedia.files.bgFile)
 				btn.skinTop:SetHeight(caelLib.scale(4))
@@ -467,6 +474,7 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 				btn.skinBottom:SetPoint("TOPLEFT", caelLib.scale(2), caelLib.scale(-12))
 				btn.skinBottom:SetPoint("BOTTOMRIGHT", caelLib.scale(-2), caelLib.scale(2))
 				btn.skinBottom:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.75, 0, 0, 0, 0)
+				--]]
 
 				return btn
 			end

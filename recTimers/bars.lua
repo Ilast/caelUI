@@ -37,6 +37,17 @@ if caelLib.playerLevel == 80 then
 end
 --]]
 
+-- 331
+-- 316
+-- 301
+-- 286
+-- 271
+-- 256
+-- 241
+-- 226
+-- 211
+-- 196
+
 if locale == "enUS" then
 
 	if playerClass == "HUNTER" then
@@ -70,6 +81,19 @@ if locale == "enUS" then
 		recTimers:make_bar("Demoralizing Roar", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 241)
 
 		recTimers:make_bar("Faerie Fire (Feral)", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 226)
+
+	elseif playerClass == "WARRIOR" then
+
+		-- Protection Buffs
+		recTimers:make_bar("Last Stand", "player", "buff", true, nil, 256, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 331)
+		recTimers:make_bar("Shield Wall", "player", "buff", true, nil, 256, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 316)
+		recTimers:make_bar("Commanding Shout", "player", "buff", true, nil, 256, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 301)
+
+		-- Protection Debuffs
+		recTimers:make_bar("Rend", "target", "debuff", true, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 286)
+		recTimers:make_bar("Sunder Armor", "target", "debuff", false, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 256)
+		recTimers:make_bar("Thunder Clap", "target", "debuff", false, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 241)
+		recTimers:make_bar("Demoralizing Shout", "target", "debuff", false, nil, nil, nil, 158, 10, "BOTTOM", UIParent, "BOTTOM", 0, 226)
 
 	end
 

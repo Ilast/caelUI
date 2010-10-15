@@ -6,7 +6,7 @@ _G["caelMedia"] = caelMedia
 caelMedia.DIRECTORY = [=[Interface\Addons\caelMedia]=]
 
 caelMedia.files = {
-	bgFile				= [=[Interface\ChatFrame\ChatFrameBackground]=],
+	bgFile				= [=[Interface\Addons\caelMedia\borders\blank]=],
 	edgeFile			= [=[Interface\Addons\caelMedia\borders\glowtex3]=],
 	raidIcons			= [=[Interface\Addons\caelMedia\miscellaneous\raidicons]=],
 	statusBarA			= [=[Interface\Addons\caelMedia\statusbars\normtexa]=],

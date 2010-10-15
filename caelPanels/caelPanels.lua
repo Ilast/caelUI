@@ -16,7 +16,7 @@ caelPanels.createPanel = function(name, x, y, width, height, point, rpoint, anch
 	panels[n]:SetHeight(caelLib.scale(height))
 	panels[n]:SetPoint(point, anchor, rpoint, caelLib.scale(x), caelLib.scale(y))
 	panels[n]:SetBackdrop(caelMedia.backdropTable)
-	panels[n]:SetBackdropColor(0, 0, 0, 0.33)
+	panels[n]:SetBackdropColor(0.1, 0.1, 0.1, 1)
 	panels[n]:SetBackdropBorderColor(0, 0, 0)
 	panels[n]:Show()
 	n = n + 1
@@ -24,12 +24,12 @@ end
 
 caelPanels.createPanel("caelPanel1", 401, 20, 321, 109, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- Chatframes
 caelPanels.createPanel("caelPanel2", -401, 20, 321, 130, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- CombatLog
-caelPanels.createPanel("caelPanel3", 0, 20, 130, 130, "BOTTOM", "BOTTOM", UIParent, UIParent, "MEDIUM") -- Minimap
+caelPanels.createPanel("caelPanel3", 0, 20, 130, 130, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- Minimap
 caelPanels.createPanel("caelPanel3a", 356, 130, 230, 20, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- ChatFrameEditBox
-caelPanels.createPanel("caelPanel4", -153, 90, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "HIGH") -- TopLeftBar
-caelPanels.createPanel("caelPanel5", 153, 90, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "HIGH") -- TopRightBar
-caelPanels.createPanel("caelPanel6", -153, 20, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "HIGH") -- BottomLeftBar
-caelPanels.createPanel("caelPanel7", 153, 20, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "HIGH") -- BottomRightBar
+caelPanels.createPanel("caelPanel4", -153, 90, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- TopLeftBar
+caelPanels.createPanel("caelPanel5", 153, 90, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- TopRightBar
+caelPanels.createPanel("caelPanel6", -153, 20, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- BottomLeftBar
+caelPanels.createPanel("caelPanel7", 153, 20, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- BottomRightBar
 caelPanels.createPanel("caelPanel8", 0, 2, 1124, 18, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- DataFeeds bar
 
 caelPanels.eventFrame:RegisterEvent("PLAYER_LOGIN")
@@ -47,6 +47,7 @@ caelPanels.eventFrame:SetScript("OnEvent", function(self, event)
 			recThreatMeter:SetPoint("TOPLEFT", caelPanel10, "TOPLEFT", caelLib.scale(3), caelLib.scale(-3))
 		end
 
+		--[[
 		for i = 1, 11 do
 			local panel = panels[i]
 			if panel then
@@ -57,15 +58,16 @@ caelPanels.eventFrame:SetScript("OnEvent", function(self, event)
 				gradientTop:SetTexture(bgTexture)
 				gradientTop:SetSize(width, height)
 				gradientTop:SetPoint("TOPLEFT", caelLib.scale(3), caelLib.scale(-2))
-				gradientTop:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0.84, 0.75, 0.65, 0.5)
+				--gradientTop:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0, 0, 0, 0)
 
 				local gradientBottom = panel:CreateTexture(nil, "BORDER")
 				gradientBottom:SetTexture(bgTexture)
 				gradientBottom:SetSize(width, height)
 				gradientBottom:SetPoint("BOTTOMRIGHT", caelLib.scale(-3), caelLib.scale(2))
-				gradientBottom:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.75, 0, 0, 0, 0)
+				--gradientBottom:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0, 0, 0, 0)
 			end
 		end
+		--]]
 	end
 --	for i = 4, 7 do
 --		table.insert(fadePanels, panels[i])

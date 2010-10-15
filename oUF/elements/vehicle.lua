@@ -6,6 +6,12 @@ local Update = function(self, event, unit)
 
 	-- Calculate units to work with
 	local realUnit, modUnit = SecureButton_GetUnit(self), SecureButton_GetModifiedUnit(self)
+
+	-- _GetUnit() doesn't rewrite playerpet -> pet like _GetModifiedUnit does.
+	if(realUnit == 'playerpet') then
+		realUnit = 'pet'
+	end
+
 	if(modUnit == "pet" and realUnit ~= "pet") then
 		modUnit = "vehicle"
 	end
@@ -27,7 +33,6 @@ end
 
 local Enable = function(self, unit)
 	if(
-		self.disallowVehicleSwap or
 		(unit and unit:match'target') or
 		self:GetAttribute'unitsuffix' == 'target'
 	) then return end
@@ -35,16 +40,12 @@ local Enable = function(self, unit)
 	self:RegisterEvent('UNIT_ENTERED_VEHICLE', Update)
 	self:RegisterEvent('UNIT_EXITED_VEHICLE', Update)
 
-	self:SetAttribute('toggleForVehicle', true)
-
 	return true
 end
 
 local Disable = function(self)
 	self:UnregisterEvent('UNIT_ENTERED_VEHICLE', Update)
 	self:UnregisterEvent('UNIT_EXITED_VEHICLE', Update)
-
-	self:SetAttribute('toggleForVehicle', nil)
 end
 
 oUF:AddElement("VehicleSwitch", Update, Enable, Disable)

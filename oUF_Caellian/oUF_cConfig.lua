@@ -1,4 +1,4 @@
---[[	$Id$	]]
+--[[	$Id: oUF_cConfig.lua 1428 2010-07-15 10:30:28Z sdkyron@gmail.com $	]]
 
 local _, oUF_Caellian = ...
 

@@ -38,7 +38,7 @@ Minimap:SetScript("OnEvent", function(self, event, ...)
 
 	self:ClearAllPoints()
 	self:SetParent(caelPanel3)
-	self:SetFrameLevel(caelPanel3:GetFrameLevel() - 1)
+	self:SetFrameLevel(caelPanel3:GetFrameLevel() + 1)
 	self:SetScale(0.88)
 	self:SetPoint("BOTTOM", caelPanel3, 0, caelLib.scale(4))
 

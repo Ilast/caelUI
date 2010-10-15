@@ -1,4 +1,4 @@
-﻿--[[	$Id$	]]
+--[[	$Id$	]]
 
 local _, caelCore = ...
 
@@ -90,11 +90,11 @@ cvardata:HookScript("OnEvent", function(self, event)
 
 --[[
 		http://forums.worldofwarcraft.com/thread.html?topicId=1778017311&sid=1&pageNo=5#96
-			╔════════╤════════╤════════╤════════╤════════╤════════╤════════╤════════╗
-			║ Core 8 │ Core 7 │ Core 6 │ Core 5 │ Core 4 │ Core 3 │ Core 2 │ Core 1 ║
-			╠════════╪════════╪════════╪════════╪════════╪════════╪════════╪════════╣
-			║  +128  │  +64   │  +32   │  +16   │   +8   │   +4   │   +2   │   +1   ║
-			╚════════╧════════╧════════╧════════╧════════╧════════╧════════╧════════╝
+			+-----------------------------------------------------------------------+
+			� Core 8 � Core 7 � Core 6 � Core 5 � Core 4 � Core 3 � Core 2 � Core 1 �
+			�--------+--------+--------+--------+--------+--------+--------+--------�
+			�  +128  �  +64   �  +32   �  +16   �   +8   �   +4   �   +2   �   +1   �
+			+-----------------------------------------------------------------------+
 --]]
 
 			"processAffinityMask 255",
@@ -105,19 +105,17 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"synchronizeBindings 0",
 			"synchronizeMacros 0",
 			"alwaysCompareItems 1",
+			"deselectOnClick 1",
 			"autoDismountFlying 1",
 			"autoClearAFK 1",
 			"lootUnderMouse 0",
 			"autoLootDefault 1",
-			"autoRangedCombat 1", -- Automatically switch between auto attack & auto shot
 			"stopAutoAttackOnTargetChange 1",
 			"autoSelfCast 1",
 			"rotateMinimap 0",
 			"showLootSpam 1",
-			"showClock 0",
 			"threatShowNumeric 0",
 			"threatPlaySounds 0",
-			"questFadingDisable 1",
 			"autoQuestWatch 1",
 			"autoQuestProgress 1",
 			"mapQuestDifficulty 1",
@@ -148,10 +146,8 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"CombatHealing 0",
 			"fctSpellMechanics 0",
 			"enableCombatText 0",
-			"hidePartyInRaid 1",
 			"showArenaEnemyFrames 0",
 			caelLib.isCharListA and "autointeract 1" or "autointeract 0",
-			"previewTalents 1",
 			"showTutorials 0",
 			"UberTooltips 1",
 			"showNewbieTips 0",
@@ -179,16 +175,20 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"ffx 0",
 			"textureFilteringMode 5",
 			"baseMip 0", -- 0 for max
-			"mapShadows 0",
-			"shadowLOD 0",
 			"farclip 1277",
 			"showfootprints 0",
 			"ffxDeath 0",
 			"ffxGlow 0",
-			"specular 1",
 			]]--
 
-			"shadowLevel 0",
+
+			-- shadowLevel is now named shadowMode with the following settings:
+			-- 0 = Precomputed terrain shadows, blob shadows.
+			-- 1 = Precomputed terrain shadows, dynamic shadows near player.
+			-- 2 = Static environment shadows, dynamic shadows near player.
+			-- 3 = Full dynamic shadows.
+			"shadowMode 0",
+
 			"componentCompress 0",
 			"componentThread 3",
 			"componentTextureLevel 9", -- min 8
@@ -206,23 +206,31 @@ cvardata:HookScript("OnEvent", function(self, event)
 			"Sound_MusicVolume 0",
 			"Sound_SFXVolume 0.20000000298023",
 
-			"extShadowQuality 0",
 			"cameraDistanceMax 50",
 			"cameraDistanceMaxFactor 3.4",
 			"cameraDistanceMoveSpeed 50",
 			"cameraViewBlendStyle 2",
-
-			"nameplateAllowOverlap 0",
 
 			"nameplateShowFriends 0",
 			"nameplateShowFriendlyPets 0",
 			"nameplateShowFriendlyGuardians 0",
 			"nameplateShowFriendlyTotems 0",
 
-			"nameplateShowEnemies 0",
-			"nameplateShowEnemyPets 0",
-			"nameplateShowEnemyGuardians 0",
-			"nameplateShowEnemyTotems 0",
+			"nameplateShowEnemies 1",
+			"nameplateShowEnemyPets 1",
+			"nameplateShowEnemyGuardians 1",
+			"nameplateShowEnemyTotems 1",
+
+			-- Used to remove us from the guild recruitment channel on auto-join. [annoying when we get kicked for fun.]
+			-- 0 = don't join
+			-- 1 = join
+			"guildRecruitmentChannel 0",
+
+			"colorChatNamesByClass 1",
+			"consolidateBuffs 0", -- Just in case
+
+			-- Fix blizzards screwed up method of nameplate size scaling
+			"bloattest 1",
 		} do
 			SetCVar(string.split(" ", cvarData))
 		end
