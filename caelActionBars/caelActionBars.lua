@@ -1,207 +1,442 @@
 --[[	$Id$	]]
+-- <author> Tukz = http://github.com/tukz/Tukui
+-- <author Caellian = http://caellian.googlecode.com/svn/trunk
+--
+-- <re-author> Jankly = http://github.com/jankly/caelUI
+--
+-- TukUI Bars rewritten for caelUI using mixture of both in feature usage.
 
---[[
-local mouseOverBar1 = 0
-local mouseOverBar2 = 0
-local mouseOverBar3 = 0
-local mouseOverBar45 = 0
-local mouseOverShiftBar = 0
---]]
-local mouseOverPetBar = 1
+---------------------------------------------
+-- Local variable settings for action bars.
+---------------------------------------------
 
+local actionBar = {
+  ["settings"] = {
+    ["mouseOverBar1"] = false,
+    ["mouseOverBar2"] = false,
+    ["mouseOverBar3"] = false,
+    ["mouseOverBar4"] = false,
+    ["mouseOverBar5"] = false,
+    ["mouseOverPetBar"] = true,
+    ["mouseOverShapeshiftBar"] = false,
+    ["showGrid"] = true,
+  },
+}
+
+----------------------------------
+-- DO NOT TOUCH THESE VARIABLES!
+----------------------------------
+
+-- Global variable
 local _G = getfenv(0)
 
-local actionBars = CreateFrame("Frame", nil, UIParent)
-actionBars:RegisterEvent("PLAYER_ENTERING_WORLD")
-actionBars:SetScript("OnEvent", function()
-	-- Force bottom left, bottom right and right bars to be shown.
-	SetActionBarToggles(true, true, true, false, ALWAYS_SHOW_MULTIBARS)
-	MultiActionBar_Update()
-	UIParent_ManageFramePositions()
-	
-	-- Force empty buttons to be shown.
-	ActionButton_HideGrid = function() end
-	for i = 1, 12 do
-		local button = _G[format("ActionButton%d", i)]
-		button:SetAttribute("showgrid", 1)
-		ActionButton_ShowGrid(button)
+-----------------------------------------------
+-- Hide default Blizzard frames we don't need
+-----------------------------------------------
 
-		button = _G[format("BonusActionButton%d", i)]
-		button:SetAttribute("showgrid", 1)
-		ActionButton_ShowGrid(button)
-	end
+do
+
+  -- Frame List
+  local elements = {
+    MainMenuBar, MainMenuBarArtFrame, BonusActionBarFrame, VehicleMenuBar,
+    PossessBarFrame, PetActionBarFrame,
+    ShapeshiftBarLeft, ShapeshiftBarMiddle, ShapeshiftBarRigth,
+  }
+
+  for _, element in pairs(elements) do
+    if element:GetObjectType() == "Frame" then
+      element:UnregisterAllEvents()
+    end
+    element:Hide()
+    element:SetAlpha(0)
+  end
+  elements = nil
+
+  -- UI Parent Manager frame nil'ing
+
+  -- Frame List
+  local uiManagedFrames = {
+    "MultiBarLeft", "MultiBarRight", "MultiBarBottomLeft", "MultiBarBottomRight",
+    "ShapeshiftBarFrame", "PossessBarFrame", "PETACTIONBAR_YPOS",
+    "MultiCastActionBarFrame", "MULTICASTACTIONBAR_YPOS",
+  }
+
+  for _, frame in pairs(uiManagedFrames) do
+    UIPARENT_MANAGED_FRAME_POSITIONS[frame] = nil
+  end
+  uiManagedFrames = nil
+
+end
+
+----------------------
+-- Setup button grid
+----------------------
+
+local buttonGrid = createFrame("Frame")
+buttonGrid:RegisterEvent("PLAYER_ENTERING_WORLD")
+buttonGrid:SetScript("OnEvent", function(self, event)
+  self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+  SetActionBarToggles(true, true, true, true, 0)
+  SetCVar("alwaysShowActionBars, 0")
+
+  if actionBar["Settings"].showGrid == true then
+    for index = 1, 12 do
+      local button = _G[format("ActionButton%d", index)]
+      button:SetAttribute("showgrid", true)
+      ActionButton_ShowGrid(button)
+
+      button = _G[format("BonusActionButton%d", index)]
+      button:SetAttribute("showgrid", true)
+      ActionButton_ShowGrid(button)
+
+      button = _G[format("MultiBarRightButton%d", index)]
+      button:SetAttribute("showgrid", true)
+      ActionButton_ShowGrid(button)
+
+      button = _G[format("MultiBarBottomRightButton%d", index)]
+      button:SetAttribute("showgrid", true)
+      ActionButton_ShowGrid(button)
+
+      button = _G[format("MultiBarLeftButton%d", index)]
+      button:SetAttribute("showgrid", true)
+      ActionButton_ShowGrid(button)
+
+      button = _G[format("MultiBarBottomLeftButton%d", index)]
+      button:SetAttribute("showgrid", true)
+      ActionButton_ShowGrid(button)
+    end
+  end
 end)
 
 ---------------------------------------------------
--- CREATE ALL THE HOLDER FRAMES
+-- BAR 1
 ---------------------------------------------------
-    
--- Frame to hold the ActionBar1 and the BonusActionBar
-local bar1Holder = CreateFrame("Frame", "Bar1Holder", caelPanel5)
-bar1Holder:SetFrameStrata("MEDIUM")
-bar1Holder:SetAllPoints()
 
--- Frame to hold the MultibarBottomLeft
-local bar2Holder = CreateFrame("Frame", "Bar2Holder", caelPanel6)
-bar2Holder:SetFrameStrata("MEDIUM")
-bar2Holder:SetAllPoints()
+local bar1 = CreateFrame("Frame", "bar1", caelPanel5, "SecureHandlerStateTemplate")
+bar1:ClearAllPoints()
+bar1:SetAllPoints(caelPanel5)
 
+-- Borrowing the next section of code from Tukui
+--++ Start copy Tukui (Tukui/actionbars/Bar1.lua)
 
--- Frame to hold the MultibarRight
-local bar3Holder = CreateFrame("Frame", "Bar3Holder", caelPanel7)
-bar3Holder:SetFrameStrata("MEDIUM")
-bar3Holder:SetAllPoints()
+--[[
+  Bonus Bar classes id
 
--- Frame to hold the right bars
-local bar45Holder = CreateFrame("Frame", "Bar45Holder", caelPanel4)
-bar45Holder:SetFrameStrata("MEDIUM")
-bar45Holder:SetAllPoints()
+  DRUID: Caster: 0, Cat: 1, Tree of Life: 2, Bear: 3, Moonkin: 4
+  WARRIOR: Battle Stance: 1, Defensive Stance: 2, Berserker Stance: 3
+  ROGUE: Normal: 0, Stealthed: 1
+  PRIEST: Normal: 0, Shadowform: 1
 
+  When Possesing a Target: 5
+--]]
 
--- Frame to hold the pet bars  
-local petBarHolder = CreateFrame("Frame", "PetBarHolder", UIParent)
-petBarHolder:SetWidth(caelLib.scale(120))
-petBarHolder:SetHeight(caelLib.scale(47))
-petBarHolder:SetPoint("BOTTOM", UIParent, caelLib.scale(-337), caelLib.scale(359))
-  
--- Frame to hold the shapeshift bars  
-local shiftBarHolder = CreateFrame("Frame", "ShapeShiftHolder", UIParent)
-shiftBarHolder:SetWidth(caelLib.scale(355))
-shiftBarHolder:SetHeight(caelLib.scale(50))
-shiftBarHolder:SetScale(0.01)
-shiftBarHolder:SetAlpha(0)
-shiftBarHolder:SetPoint("BOTTOM", caelLib.scale(-154), caelLib.scale(239)) 
- 
--- Frame to hold the vehicle button
-local vehicleButton = CreateFrame("Frame", "VEBHolder", UIParent)
-vehicleButton:SetSize(caelLib.scale(70), caelLib.scale(70))
-vehicleButton:SetPoint("BOTTOM", caelLib.scale(-150), caelLib.scale(277))
+-- Page listing for our BonusBar classes
+local Page = {
+   ["DRUID"] = "[bonusbar:1,nostealth] 7; [bonusbar:1,stealth] %s; [bonusbar:2] 8; [bonusbar:3] 9; [bonusbar:4] 10;",
+   ["WARRIOR"] = "[bonusbar:1] 7; [bonusbar:2] 8; [bonusbar:3] 9;",
+   ["PRIEST"] = "[bonusbar:1] 7;",
+   ["ROGUE"] = "[bonusbar:1] 7; [form:3] 6;",
+   ["WARLOCK"] = "[form:2] 6;",
+   ["DEFAULT"] = "[bar:2] 2; [bar:3] 3; [bar:4] 4; [bar:5] 5; [bar:6] 6; [bonusbar:5] 11;",
+}
 
----------------------------------------------------
--- CREATE MY OWN VEHICLE EXIT BUTTON
----------------------------------------------------
-  
-local veb = CreateFrame("BUTTON", "VehicleExitButton", vehicleButton, "SecureActionButtonTemplate")
-veb:SetSize(caelLib.scale(32.5), caelLib.scale(32.5))
-veb:SetPoint("CENTER", 0, 0)
-veb:SetAlpha(0)
-veb:RegisterForClicks("AnyUp")
-veb:SetNormalTexture([=[Interface\Vehicles\UI-Vehicles-Button-Exit-Up]=])
-veb:SetPushedTexture([=[Interface\Vehicles\UI-Vehicles-Button-Exit-Down]=])
-veb:SetHighlightTexture([=[Interface\Vehicles\UI-Vehicles-Button-Exit-Down]=])
-veb:SetScript("OnClick", function(self) VehicleExit() end)
-veb:RegisterEvent("UNIT_ENTERING_VEHICLE")
-veb:RegisterEvent("UNIT_ENTERED_VEHICLE")
-veb:RegisterEvent("UNIT_EXITING_VEHICLE")
-veb:RegisterEvent("UNIT_EXITED_VEHICLE")
-veb:SetScript("OnEvent", function(self,event,...)
-	local arg1 = ...
-	if(((event == "UNIT_ENTERING_VEHICLE") or (event == "UNIT_ENTERED_VEHICLE")) and arg1 == "player") then
-		veb:SetAlpha(1)
-	elseif(((event == "UNIT_EXITING_VEHICLE") or (event == "UNIT_EXITED_VEHICLE")) and arg1 == "player") then
-		veb:SetAlpha(0)
-	end
+-- Used to determine our bar for stance classes
+local function GetBar()
+  local condition = Page["DEFAULT"]
+  local class = caelLib.playerClass
+  local page = Page[class]
+  if page then
+    if class == "DRUID" then
+      --Handles prowling, prowling has no real stance, so this is a hack which utilizes the Tree of Life bar for non-resto druids.
+      if IsSpellKnown(33891) then -- Tree of Lifeform
+        page = page:format(7)
+      else
+        page = page:format(8)
+      end
+      condition = condition .. " " .. page
+    end
+  end
+  condition = condition .. " 1"
+  return condition
+end
+
+-- Register events for the bonusbar function
+bar1:RegisterEvent("PLAYER_LOGIN")
+bar1:RegisterEvent("PLAYER_ENTERING_WORLD")
+bar1:RegisterEvent("PLAYER_TALENT_UPDATE")
+bar1:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
+bar1:RegisterEvent("KNOWN_CURRENCY_TYPES_UPDATE")
+bar1:RegisterEvent("CURRENCY_DISPLAY_UPDATE")
+bar1:RegisterEvent("BAG_UPDATE")
+
+-- Handle the events
+bar1:SetScript("OnEvent", function(self, event, ...)
+  local button
+
+  if (event == "PLAYER_LOGIN") then
+    for index = 1, NUM_ACTIONBAR_BUTTONS do
+      button = _G["ActionButton" .. index]
+      self:SetFrameRef("ActionButton" .. index, button)
+    end
+
+    button = nil
+
+    self:Execute([[
+      buttons = table.new()
+      for index = 1, 12 do
+        table.insert(buttons, self:GetFrameRef("ActionButton" .. index))
+      end
+    ]])
+
+    self:SetAttribute("_onstate-page", [[
+      for index, button in ipairs(buttons) do
+        button:SetAttribute("actionpage", tonumber(newstate))
+      end
+    ]])
+
+    RegisterStateDriver(self, "page", GetBar())
+
+  elseif (event == "PLAYER_ENTERING_WORLD") then
+
+    MainMenuBar_UpdateKeyRing()
+
+    local button1 = _G["ActionButton1"]
+
+    for index = 1, 12 do
+
+      -- Previous button
+      local buttonPrev = _G["ActionButton" .. index - 1]
+
+      -- Assign the button to the bar frame and scale it down
+      button = _G["ActionButton" .. index]
+      button:SetScale(0.68625)
+      button:SetParent(bar1)
+
+      -- Move the buttons into place.
+      button:ClearAllPoints()
+      if index == 1 then
+        button:SetPoint("TOPLEFT", bar1, 4.5, -4.5)
+      elseif index == 7 then
+        button:SetPoint("TOPLEFT", _G["ActionButton"..index-6], "BOTTOMLEFT", 0, caelLib.scale(-6.5))
+      elseif index > 1 and index ~= 7 then
+        button:SetPoint("LEFT", buttonPrev, "RIGHT", caelLib.scale(5), 0)
+      end
+    end
+  elseif ((event == "PLAYER_TALENT_UPDATE") or (event == "ACTIVE_TALENT_GROUP_CHANGED")) then
+    if not InCombatLockdown() then -- Justin Case
+      RegisterStateDriver(self, "page", GetBar())
+
+      -- Handle MultiBarRight and MultiBarLeft changing positions
+      if (event == "ACTIVE_TALENT_GROUP_CHANGED") then
+        local time = 0
+        self:SetScript("OnUpdate", function(self, elapsed)
+          time = time + elapsed
+          MainMenuBar:Hide()
+          UIParent_ManageFramePositions()
+
+          if time > 5 then
+            time = 0
+            self:SetScript("OnUpdate", nil)
+          end
+        end)
+      end
+    end
+  else
+    MainMenuBar_OnEvent(self, event, ...)
+  end
 end)
- 
----------------------------------------------------
--- MOVE STUFF INTO POSITION
----------------------------------------------------
 
-local currentButton
+------------------------
+-- BAR 2, BAR 3, BAR 4
+------------------------
 
-ActionButton1:ClearAllPoints()
-ActionButton1:SetPoint("TOPLEFT", bar1Holder, 4.5, -4.5)
+-- Bar2 = caelPanel6 = MultiBarBottomLeft
+-- Bar3 = caelPanel7 = MultiBarBottomRight
+-- Bar4 = caelPanel4 = MultiBarRight
+-- Bar5 = caelPanel<NOT MADE> = MultiBarLeft
 
-for i = 1, 12 do
-	currentButton = _G["ActionButton"..i]
-	currentButton:SetParent(bar1Holder)
-	currentButton:SetScale(0.68625)
+local bar2 = CreateFrame("Frame", "bar2", UIParent)
+local bar3 = CreateFrame("Frame", "bar3", UIParent)
+local bar4 = CreateFrame("Frame", "bar4", UIParent)
 
-	if i > 1 and i ~= 7 then
-		currentButton:ClearAllPoints()
-		currentButton:SetPoint("LEFT", _G["ActionButton"..i-1], "RIGHT", caelLib.scale(5), 0)
-	elseif i == 7 then
-		currentButton:ClearAllPoints()
-		currentButton:SetPoint("TOPLEFT", _G["ActionButton"..i-6],"BOTTOMLEFT", 0, caelLib.scale(-6.5))
-	end
+do 
+  local bars = {
+    ["2"] = {
+      ["panel"] = caelPanel6,
+      ["button"] = "MultiBarBottomLeftButton",
+      ["barFrame"] = bar2,
+      ["realBar"] = MultiBarBottomLeft,
+    },
+    ["3"] = {
+      ["panel"] = caelPanel7,
+      ["button"] = "MultiBarBottomRightButton",
+      ["barFrame"] = bar3,
+      ["realBar"] = MultiBarBottomRight,
+    },
+    ["4"] = {
+      ["panel"] = caelPanel4,
+      ["button"] = "MultiBarRightButton",
+      ["barFrame"] = bar4,
+      ["realBar"] = MultiBarRight,
+    }
+  }
+
+  for indexPanels = 2, 4 do
+    local button1 = _G[bars[indexPanels].button .. "1"]
+
+    -- Set the bar frame to the panel cael panel it is tied to.
+    bars[indexPanels].barFrame:SetAllPoints(bars[indexPanels].panel)
+
+    -- Set the Blizzard bar parent.
+    bars[indexPanels].realBar:SetParent(bars[indexPanels].barFrame)
+
+    for indexButtons = 1, 12 do
+      local button = _G[bars[indexPanels].button .. indexButtons]
+      local buttonPrev = _G[bars[indexPanels.button .. indexButtons - 1]
+
+      button:ClearAllPoints()
+      if index == 1 then
+        button:SetPoint("TOPLEFT", bars[indexPanels].panel, caelLib.scale(4.5), caelLib.scale(-4.5))
+      elseif index == 7 then
+        button:SetPoint("TOPLEFT", button1, "BOTTOMLEFT", 0, caelLib.scale(-6.5))
+      else
+        button:SetPoint("LEFT", buttonPrev, "RIGHT", caelLib.scale(5), 0)
+      end
 end
 
-BonusActionBarFrame:SetParent(bar1Holder)
-BonusActionBarFrame:SetWidth(0.01)
+-------------------
+-- SHAPESHIFT BAR
+-------------------
 
-for i = 1, BONUSACTIONBAR_NUM_TEXTURES do
-	_G["BonusActionBarFrameTexture" .. i]:Hide()
+local barShift = CreateFrame("Frame", "barShift", UIParent)
+barShift:ClearAllPoints()
+barShift:SetPoint("BOTTOMLEFT", caelPanel5, "TOPLEFT", 0, caelLib.scale(-4))
+barShift:SetWidth(29)
+barShift:SetHeight(58)
+
+-- Place buttons in the bar frame and set the barShift as the parent frame
+ShapeshiftBarFrame:SetParent(barShift)
+ShapeshiftBarFrame:SetWidth(0.00001)
+for index = 1, NUM_SHAPESHIFT_SLOTS do
+  local button = _G["ShapeshiftButton" .. index]
+  local buttonPrev = _G["ShapeshiftButton" .. index - 1]
+  button:ClearAllPoints()
+  if index == 1 then
+    button:SetPoint("BOTTOMLEFT", barShift, 0, caelLib.scale(6.5))
+  else
+    button:SetPoint("LEFT", buttonPrev, "RIGHT", caelLib.scale(4.5), 0)
+  end
 end
 
-BonusActionButton1:ClearAllPoints()
-BonusActionButton1:SetPoint("TOPLEFT", bar1Holder, caelLib.scale(4.5), caelLib.scale(-4.5))
+-- Hook the updating of the shapeshift bar
+local function MoveShapeshift()
+  ShapeshiftButton1:SetPoint("BOTTOMLEFT", barShift, 0, caelLib.scale(6.5))
+end
+hooksecurefunc("ShapeshiftBar_Update", MoveShapeshift)
 
-BonusActionButton7:ClearAllPoints()
-BonusActionButton7:SetPoint("TOPLEFT", BonusActionButton1, "BOTTOMLEFT", 0, caelLib.scale(-5))
+------------
+-- PET BAR
+------------
 
-for i = 1, 12 do
-	currentButton = _G["BonusActionButton"..i]
-	currentButton:SetScale(0.68625)
+-- Create pet bar frame and put it into place
+local barPet = CreateFrame("Frame", "barPet", UIParent, "SecureHandlerStateTemplate")
+barPet:ClearAllPoints()
+barPet:SetWidth(caelLib.scale(120))
+barPet:SetHeight(caelLib.scale(47))
+barPet:SetPoint("BOTTOM", UIParent, caelLib.scale(-337), caelLib.scale(359))
 
-	if i > 1 and i ~= 7 then
-		currentButton:ClearAllPoints()
-		currentButton:SetPoint("LEFT", _G["BonusActionButton"..i-1], "RIGHT", caelLib.scale(5), 0)
-	elseif i == 7 then
-		currentButton:ClearAllPoints()
-		currentButton:SetPoint("TOPLEFT", _G["BonusActionButton"..i-6],"BOTTOMLEFT", 0, caelLib.scale(-6.5))
-	end
+-- Setup Blizzard pet action bar.
+PetActionBarFrame:SetParent(barPet)
+PetActionBarFrame:SetWidth(0.01)
+
+-- Never hide pet buttons
+PetActionBarFrame.showgrid = 1
+
+-- function to toggle the display of the pet bar
+local function togglePetBar(alpha)
+  for index = 1, NUM_PET_ACTION_SLOTS do
+    local button = _G["PetActionButton" .. index]
+    button:SetAlpha(alpha)
+  end
 end
 
-MultiBarBottomLeft:SetParent(bar2Holder)
-MultiBarBottomLeftButton1:ClearAllPoints()
-MultiBarBottomLeftButton1:SetPoint("TOPLEFT", bar2Holder, caelLib.scale(4.5), caelLib.scale(-4.5))
+do
+  local button1 = _G["PetActionButton1"]
+  for index = 1, NUM_PET_ACTION_SLOTS do
+    local button = _G["PetActionButton" .. index]
+    local buttonPrev = _G["PetActionButton" .. index - 1]
 
-for i = 1, 12 do
-	currentButton = _G["MultiBarBottomLeftButton"..i]
-	currentButton:SetScale(0.68625)
+    button:ClearAllPoints()
+    button:SetParent(barPet)
+    button:SetScale(0.63) 
 
-	if i > 1 and i ~= 7 then
-		currentButton:ClearAllPoints()
-		currentButton:SetPoint("LEFT", _G["MultiBarBottomLeftButton"..i-1], "RIGHT", caelLib.scale(5), 0)
-	elseif i == 7 then
-		currentButton:ClearAllPoints()
-		currentButton:SetPoint("TOPLEFT", _G["MultiBarBottomLeftButton"..i-6], "BOTTOMLEFT", 0, caelLib.scale(-6.5))
-	end
+    if index == 1 then
+      button:SetPoint("TOPLEFT", barPet, caelLib.scale(4.5), caelLib.scale(-4.5))
+    elseif index == (NUM_PET_ACTION_SLOTS / 2) then
+      button:SetPoint("TOPLEFT", button1, "BOTTOMLEFT", 0, caelLib.scale(-5))
+    else
+      button:SetPoint("LEFT", buttonPrev, "RIGHT", caelLib.scale(4.5), 0)
+    end
+
+    -- Toggle buttons if mouse over is turned on.
+    if actionBar["settings"].mouseOverPetBar == true then
+      button:SetAlpha(0)
+      button:HookScript("OnEnter", function(self) togglePetBar(1) end)
+      button:HookScript("OnLeave", function(self) togglePetBar(0) end)
+    end
+  end
 end
 
-MultiBarBottomRight:SetParent(bar3Holder)
-MultiBarBottomRightButton1:ClearAllPoints()
-MultiBarBottomRightButton1:SetPoint("TOPLEFT", bar3Holder, caelLib.scale(4.5), caelLib.scale(-4.5))
-
-for i = 1, 12 do
-	currentButton = _G["MultiBarBottomRightButton"..i]
-	currentButton:SetScale(0.68625)
-
-	if i > 1 and i ~= 7 then
-		currentButton:ClearAllPoints()
-		currentButton:SetPoint("LEFT", _G["MultiBarBottomRightButton"..i-1], "RIGHT", caelLib.scale(5), 0)
-	elseif i == 7 then
-		currentButton:ClearAllPoints()
-		currentButton:SetPoint("TOPLEFT", _G["MultiBarBottomRightButton"..i-6], "BOTTOMLEFT", 0, caelLib.scale(-6.5))
-	end
+-- Toggle pet bar if mouse over is turned on.
+if actionBar["settings"].mouseOverPetBar == true then
+  barPet:EnableMouse(true)
+  barPet:SetScript("OnEnter", function(self) togglePetBar(1) end)
+  barPet:SetScript("OnLeave", function(self) togglePetBar(0) end)
 end
 
-MultiBarRight:SetParent(bar45Holder)
-MultiBarRightButton1:ClearAllPoints()
-MultiBarRightButton1:SetPoint("TOPLEFT", bar45Holder, caelLib.scale(4.5), caelLib.scale(-4.5))
+------------
+-- VEHICLE
+------------
 
-for i = 1, 12 do
-	currentButton = _G["MultiBarRightButton"..i]
-	currentButton:SetScale(0.68625)
+-- Vehicle button
+local vehicleExitButton = CreateFrame("BUTTON", nil, UIParent, "SecureActionButtonTemplate")
 
-	if i > 1 and i ~= 7 then
-		currentButton:ClearAllPoints()
-		currentButton:SetPoint("LEFT", _G["MultiBarRightButton"..i-1], "RIGHT", caelLib.scale(5), 0)
-	elseif i == 7 then
-		currentButton:ClearAllPoints()
-		currentButton:SetPoint("TOPLEFT", _G["MultiBarRightButton"..i-6], "BOTTOMLEFT", 0, caelLib.scale(-6.5))
-	end
-end
+-- Move it into place
+vehicleExitButton:SetSize(caelLib.scale(70), caelLib.scale(70))
+vehicleExitButton:SetPoint("BOTTOM", caelLib.scale(-150), caelLib.scale(277))
+
+-- Handle clicking
+vehicleExitButton:RegisterForClicks("AnyUp")
+vehicleExitButton:SetScript("OnClick", function() VehicleExit() end)
+
+-- Set Textures on the button
+vehicleExitButton:SetNormalTexture([=[Interface\AddOns\caelMedia\miscellaneous\vehicleExit]=]
+vehicleExitButton:SetPushedTexture([=[Interface\AddOns\caelMedia\miscellaneous\vehicleExit]=]
+vehicleExitButton:SetHighlightTexture([=[Interface\AddOns\caelMedia\miscellaneous\vehicleExit]=]
+-- TukuiDB.SetTemplate(vehicleExitButton)
+
+-- Register and handle vehicle related events
+vehicleExitButton:RegisterEvent("UNIT_ENTERING_VEHICLE")
+vehicleExitButton:RegisterEvent("UNIT_ENTERED_VEHICLE")
+vehicleExitButton:RegisterEvent("UNIT_EXITING_VEHICLE")
+vehicleExitButton:RegisterEvent("UNIT_EXITED_VEHICLE")
+vehicleExitButton:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+vehicleExitButton:SetScript("OnEvent", function(self, event, arg1)
+  if (((event == "UNIT_ENTERING_VEHICLE") or (event == "UNIT_ENTERED_VEHICLE"))
+                 and arg1 == "player") then
+    vehicleExitButton:SetAlpha(1)
+  elseif (
+    (
+      (event == "UNIT_EXITING_VEHICLE") or (event == "UNIT_EXITED_VEHICLE")
+    ) and
+  arg1 == "player") or (
+    event == "ZONE_CHANGED_NEW_AREA" and no UnitHasVehicleUI("player")
+  ) then
+    vehicleExitButton:SetAlpha(0)
+  end
+end)
+-- Hide button on game load
+vehicleExitButton:SetAlpha(0)
 
 for i = 1, 12 do
 	_G["MultiBarLeftButton"..i]:SetScale(0.68625)
@@ -211,42 +446,7 @@ MultiBarLeft:SetParent(UIParent)
 MultiBarLeftButton1:ClearAllPoints()
 MultiBarLeftButton1:SetPoint("RIGHT", UIParent, "RIGHT", caelLib.scale(-15), 0)
 
-ShapeshiftBarFrame:SetParent(shiftBarHolder)
-ShapeshiftBarFrame:SetWidth(0.01)
-ShapeshiftButton1:ClearAllPoints()
-ShapeshiftButton1:SetPoint("BOTTOMLEFT",shiftBarHolder, caelLib.scale(10), caelLib.scale(10))
-
-PossessBarFrame:SetParent(shiftBarHolder)
-PossessButton1:ClearAllPoints()
-PossessButton1:SetPoint("BOTTOMLEFT", shiftBarHolder, caelLib.scale(10), caelLib.scale(10))
-
-for i = 1, 10 do
-	_G["PetActionButton"..i]:SetScale(0.63)
-end
-PetActionBarFrame:SetParent(petBarHolder)
-PetActionBarFrame:SetWidth(0.01)
-PetActionButton1:ClearAllPoints()
-PetActionButton1:SetPoint("TOPLEFT", petBarHolder, caelLib.scale(4.5), caelLib.scale(-4.5))
-PetActionButton6:ClearAllPoints()
-PetActionButton6:SetPoint("TOPLEFT", PetActionButton1, "BOTTOMLEFT" ,0, caelLib.scale(-5))
-
----------------------------------------------------
--- ACTIONBUTTONS MUST BE HIDDEN
----------------------------------------------------
-  
--- hide actionbuttons when the bonusbar is visible (rogue stealth and such)
-local function showhideactionbuttons(alpha)
-   local f = "ActionButton"
-   for i = 1, 12 do
-      _G[f..i]:SetAlpha(alpha)
-   end
-end
-BonusActionBarFrame:HookScript("OnShow", function(self) showhideactionbuttons(0) end)
-BonusActionBarFrame:HookScript("OnHide", function(self) showhideactionbuttons(1) end)
-if BonusActionBarFrame:IsShown() then
-   showhideactionbuttons(0)
-end
-
+--- YET TO BE IMPLEMENTED
 ---------------------------------------------------
 -- ON MOUSEOVER STUFF
 ---------------------------------------------------
@@ -374,59 +574,9 @@ if mouseOverBar45 == 1 then
 end
 --]]
 
-local function showhidepet(alpha)
-   for i = 1, NUM_PET_ACTION_SLOTS do
-      local pb = _G["PetActionButton"..i]
-      pb:SetAlpha(alpha)
-   end
-end
-
-if mouseOverPetBar == 1 then
-   petBarHolder:EnableMouse(true)
-   petBarHolder:SetScript("OnEnter", function(self) showhidepet(1) end)
-   petBarHolder:SetScript("OnLeave", function(self) showhidepet(0) end)  
-   for i = 1, NUM_PET_ACTION_SLOTS do
-      local pb = _G["PetActionButton"..i]
-      pb:SetAlpha(0)
-      pb:HookScript("OnEnter", function(self) showhidepet(1) end)
-      pb:HookScript("OnLeave", function(self) showhidepet(0) end)
-   end
-end
-
----------------------------------------------------
--- MAKE THE DEFAULT BARS UNVISIBLE
----------------------------------------------------
-
-local FramesToHide = {
-	MainMenuBar,
-	VehicleMenuBar,
-
---	MainMenuBarBackpackButton,
---	CharacterBag0Slot,
---	CharacterBag1Slot,
---	CharacterBag2Slot,
---	CharacterBag3Slot,
-
-	CharacterMicroButton,
-	SpellbookMicroButton,
-	TalentMicroButton,
-	AchievementMicroButton,
-	QuestLogMicroButton,
-	SocialsMicroButton,
-	PVPMicroButton,
-	LFGMicroButton,
-	MainMenuMicroButton,
-	HelpMicroButton,
-}  
-  
-local function HideDefaultFrames()
-	for _, frame in pairs(FramesToHide) do
-		frame:SetScale(0.001)
-		frame:SetAlpha(0)
-	end
-end
-
-HideDefaultFrames()
+------------
+-- STYLING (NEEDS TO BE RIPPED OUT AND PUT INTO style.lua FOR EASIER CHANGING)
+------------
 
 --	caelActionBars - roth 2009
 
