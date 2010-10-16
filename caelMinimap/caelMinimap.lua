@@ -65,6 +65,11 @@ Minimap:SetScript("OnEvent", function(self, event, ...)
 	MiniMapInstanceDifficulty:SetPoint("TOPRIGHT")
 	MiniMapInstanceDifficulty:SetScale(0.85)
 
+	GuildInstanceDifficulty:ClearAllPoints()
+	GuildInstanceDifficulty:SetParent(Minimap)
+	GuildInstanceDifficulty:SetPoint("TOPRIGHT")
+	GuildInstanceDifficulty:SetScale(0.85)
+
 	DurabilityFrame:UnregisterAllEvents()
 	MiniMapMailFrame:UnregisterAllEvents()
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
