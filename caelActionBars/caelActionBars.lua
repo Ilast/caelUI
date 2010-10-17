@@ -24,6 +24,11 @@ local actionBar = {
 		["mouseOverPetBar"] = true,
 		["mouseOverShapeshiftBar"] = false,
 		["showGrid"] = true,
+		["showBar1"] = true,
+		["showBar2"] = true,
+		["showBar3"] = true,
+		["showBar4"] = true,
+		["showBar5"] = false,
 	},
 }
 
@@ -80,7 +85,7 @@ local buttonGrid = CreateFrame("Frame")
 buttonGrid:RegisterEvent("PLAYER_ENTERING_WORLD")
 buttonGrid:SetScript("OnEvent", function(self, event)
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-	SetActionBarToggles(true, true, true, true, 0)
+	SetActionBarToggles(actionBar["settings"].showBar2, actionBar["settings"].showBar3, actionBar["settings"].showBar4, actionBar["settings"].showBar5)
 	--SetCVar("alwaysShowActionBars, 0")
 
 	if actionBar["settings"].showGrid == true then
@@ -116,7 +121,7 @@ end)
 -- BAR 1
 ---------------------------------------------------
 
--- Tukui/actionbars/Bar1.lua (modified for caelUI data)
+-- Tukz actionBar Bar1 mod
 ---------------------------------------------------------------------------
 -- Setup Main Action Bar.
 -- Now used for stances, Bonus, Vehicle at the same time.
