@@ -16,6 +16,8 @@
 
 local actionBar = {
 	["settings"] = {
+		["showGrid"] = true,
+		["showPetGrid"] = true,
 		["mouseOverBar1"] = false,
 		["mouseOverBar2"] = false,
 		["mouseOverBar3"] = false,
@@ -23,7 +25,6 @@ local actionBar = {
 		["mouseOverBar5"] = false,
 		["mouseOverPetBar"] = true,
 		["mouseOverShapeshiftBar"] = false,
-		["showGrid"] = true,
 		["showBar1"] = true,
 		["showBar2"] = true,
 		["showBar3"] = true,
@@ -121,54 +122,17 @@ end)
 -- BAR 1
 ---------------------------------------------------
 
--- Tukz actionBar Bar1 mod
+-- Tukz actionBar Bar1 mod simplified
 ---------------------------------------------------------------------------
 -- Setup Main Action Bar.
 -- Now used for stances, Bonus, Vehicle at the same time.
 -- Since t12, it's also working for druid cat stealth. (a lot requested)
 ---------------------------------------------------------------------------
-
 local bar1 = CreateFrame("Frame", "bar1", caelPanel5, "SecureHandlerStateTemplate")
 bar1:ClearAllPoints()
 bar1:SetAllPoints(caelPanel5)
 
---[[ 
-	Bonus bar classes id
-
-	DRUID: Caster: 0, Cat: 1, Tree of Life: 2, Bear: 3, Moonkin: 4
-	WARRIOR: Battle Stance: 1, Defensive Stance: 2, Berserker Stance: 3 
-	ROGUE: Normal: 0, Stealthed: 1
-	PRIEST: Normal: 0, Shadowform: 1
-	
-	When Possessing a Target: 5
-]]--
-
-local Page = {
-	["DRUID"] = "[bonusbar:1,nostealth] 7; [bonusbar:1,stealth] %s; [bonusbar:2] 8; [bonusbar:3] 9; [bonusbar:4] 10;",
-	["WARRIOR"] = "[bonusbar:1] 7; [bonusbar:2] 8; [bonusbar:3] 9;",
-	["PRIEST"] = "[bonusbar:1] 7;",
-	["ROGUE"] = "[bonusbar:1] 7;",
-	["DEFAULT"] = "[bar:2] 2; [bar:3] 3; [bar:4] 4; [bar:5] 5; [bar:6] 6; [bonusbar:5] 11;"
-}
-
-local function GetBar()
-	local condition = Page["DEFAULT"]
-	local class = caelLib.playerClass
-	local page = Page[class]
-	if page then
-		if class == "DRUID" then
-			-- Handles prowling, prowling has no real stance, so this is a hack which utilizes the Tree of Life bar for non-resto druids.
-			if IsSpellKnown(33891) then -- Tree of Life form
-				page = page:format(7)
-			else
-				page = page:format(8)
-			end
-		end
-		condition = condition.." "..page
-	end
-	condition = condition.." 1"
-	return condition
-end
+local barPage = "[bar:2] 2; [bar:3] 3; [bar:4] 4; [bar:5] 5; [bar:6] 6; [bonusbar:1] 7; [bonusbar:2] 8; [bonusbar:3] 9; [bonusbar:4] 10; [bonusbar:5] 11; 1"
 
 bar1:RegisterEvent("PLAYER_LOGIN")
 bar1:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -198,7 +162,7 @@ bar1:SetScript("OnEvent", function(self, event, ...)
 			end
 		]])
 		
-		RegisterStateDriver(self, "page", GetBar())
+		RegisterStateDriver(self, "page", barPage)
 	elseif event == "PLAYER_ENTERING_WORLD" then
 		MainMenuBar_UpdateKeyRing()
 		local button
@@ -217,21 +181,7 @@ bar1:SetScript("OnEvent", function(self, event, ...)
 		end
 	elseif event == "PLAYER_TALENT_UPDATE" or event == "ACTIVE_TALENT_GROUP_CHANGED" then
 		if not InCombatLockdown() then -- Just to be safe
-			RegisterStateDriver(self, "page", GetBar())
-			-- Due to some odd reason these bars (MultiBarRight, MultiBarLeft) are changing position after you spent a talent point, and switch spec,
-			-- I couldn't watch the exact event that does it even by using ':RegisterAllEvents()', until I'll figure it out, here is an awful hack. 
-			if event == "ACTIVE_TALENT_GROUP_CHANGED" then 
-				local t = 0
-				self:SetScript("OnUpdate", function(self, elapsed)
-					t = t + elapsed
-					MainMenuBar:Hide()
-					UIParent_ManageFramePositions()
-					if t > 5 then
-						t = 0
-						self:SetScript("OnUpdate", nil)
-					end
-				end)
-			end
+			RegisterStateDriver(self, "page", barPage)
 		end
 	else
 		MainMenuBar_OnEvent(self, event, ...)
@@ -346,9 +296,6 @@ barPet:SetPoint("BOTTOM", UIParent, caelLib.scale(-337), caelLib.scale(359))
 PetActionBarFrame:SetParent(barPet)
 PetActionBarFrame:SetWidth(0.01)
 
--- Never hide pet buttons
-PetActionBarFrame.showgrid = 1
-
 -- function to toggle the display of the pet bar
 local function togglePetBar(alpha)
 	for index = 1, NUM_PET_ACTION_SLOTS do
@@ -364,7 +311,11 @@ do
 		local buttonPrev = _G["PetActionButton" .. index - 1]
 
 		button:ClearAllPoints()
+
+		-- Set Parent for position purposes
 		button:SetParent(barPet)
+
+		-- Set Scale for the button size.
 		button:SetScale(0.63) 
 
 		if index == 1 then
