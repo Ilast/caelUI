@@ -1,5 +1,3 @@
---[[	$Id: BadBoy.lua 1448 2010-10-14 10:30:46Z sdkyron@gmail.com $	]]
-
 --[[	BLIZZARD IF YOU'RE READING THIS I'M BEGGING FOR YOUR HELP.
 		PLEASE LET ME FETCH EITHER PLAYER LEVEL FROM THE GIVEN GUID (WILL ALSO HELP BADBOY_LEVELS)
 		OR LET ME FETCH IF THE PLAYER IS IN A GUILD OR NOT FROM THE GIVEN GUID (SPAMMERS NEVER GUILDED)
@@ -131,14 +129,6 @@ local triggers = {
 	"may.*ask.*whether.*interest.*ing.*boe.*stuff.*rocket", --hmm, may i ask whether u r interested in g or boe stuffs such as X-53 Touring Rocket:P
 
 	--Casino
-	--HATERZZ CASINO! 1-64 You lose.. 65-94 You get double, 95-100 TRIPLE! Starting at 10g, max is 400g!
-	--Tindrens Casino Is Now Open!!!1-63 I Win, 64-95 Double, 96-100 Triple!!!Min Bet 100 Max Bet 500!!!PST ME TO PLAY!
-	--CASINO 1-59 (lose)60-94(double) 95-100 (TRIPLE) min is 500 max is 2k PST
-	--warrior casino 1-64 you lose 65-94 you get dubble your bet and 95-100 is triple bets start at 5g and max at 500g pst!
-	--Little Horde House High Roller's Hide Out!!! 1-61 house, 62-92 DOUBLE, 93-100 TRIPLE!!  Min bet 500g, max 2k, bigger bets with better odds! For the High Rollers!
-	--Little Horde House Of Luck!! 1-62 i win, 63-95 DOUBLE YOUR BET, 96-100 TRIPLE YOUR BET!!! Only 10g to play! Max 1kg. Have some fun, and buy that new item you wanted!!
-	--1-63 lose 64-94 DOUBLE 95+ Triple! MIN IS 200G AND 7K IS MAX PST
-	--Euphoric rolls make you happy!  1-60 i win   61-91 you double your bet  92-99 you triple 100+ quad Min Bet 350g
 	"%d+%-%d+.*d[ou][ub]ble.*%d+%-%d+.*tripp?le", --10 minimum 400 max\roll\61-97 double, 98-100 triple, come roll,
 	"casino.*%d+x2.*%d+x3", --{star} CASINO {star} roll 64-99x2 your wager roll 100x3 your wager min bet 50g max 10k will show gold 100% legit (no inbetween rolls plz){diamond} good luck {diamond}
 	"casino.*%d+.*double.*%d+.*tripp?le", --The Golden Casino is offering 60+ Doubles, and 80+ Tripples!
@@ -146,7 +136,10 @@ local triggers = {
 	"d[ou][ub]ble.*%d+%-%d+.*%d+%-%d+.*tripp?le", --come too the Free Roller  gaming house!  and have ur luck of winning gold! :) pst me for invite:)  double is  62-96 97-100 tripple we also play blackjack---- u win double if you beat the host in blackjack
 	"d[ou][ub]ble.*%d+%-%d+.*tripp?le.*%d+%-%d+", --come to free roller gaming house! and have u luck of winning gold :) pst for invite :) double is 62-96 triple is 97-100. we also play blacjack---u win doubleif u beat host in blacjack
 
-	--Advanced URL's/Misc --[[Re-evaluate after v4]]--
+	--Advanced URL's/Misc
+	"customer.*promotion.*cost.*gold", --Dear customer: This is kyla from promotion site : mmowin ^_^Long time no see , how is going? Been miss ya :)As the cataclysm coming and the market cost line for gold and boe item has been down a lot recently , we will send present if ya get 30k or 50k
+	--$45=10k + one X-53 Touring Rocket, $107=30K + X-53 Touring Rocket, the promotion will be done in 10 minutes, if you like it, plz whisper me :) ty 
+	"%d+k.*rocket.*%$.*%d+k.*rocket.*like", --$45 for 10k with a rocket {star} and 110$ for 30k with a Rocket{moon},if you like,plz pst
 	"{.*}.*mm4ss.*{.*}", --{triangle}www.mm4ss.com{triangle} --multi
 	"promotion.*serve.*%d+k", --Special promotion in this serve now, 21$ for 10k
 	"pkpkg.*gear.*pet", --WWW.PkPkg.C{circle}M more gears,mount,pet and items on
@@ -185,15 +178,6 @@ local function filter(_, event, msg, player, _, _, _, flag, channelId, _, _, _, 
 	local debug = msg --Save original message format
 	msg = (msg):lower() --Lower all text, remove capitals
 	msg = strreplace(msg, " ", "") --Remove spaces
-	--START: 12 line text buffer, this checks the current line, and blocks it if it's the same as one of the previous 12
-	--for i=1, #chatLines do
-	--	if chatLines[i] == msg and chatPlayers[i] == player then --If message same as one in previous 12 and from the same person...
-	--		result = true return true --...filter!
-	--	end
-	--	if i == 12 then tremove(chatLines, 1) tremove(chatPlayers, 1) end
-	--end
-	--tinsert(chatLines, msg) tinsert(chatPlayers, player)
-	--END: Text buffer
 	local points = 0
 	local phishPoints = 0
 	local strict = nil
@@ -235,14 +219,6 @@ local function filter(_, event, msg, player, _, _, _, flag, channelId, _, _, _, 
 			end
 		end
 	end
-	--START: Art remover after blacklist check to prevent hiding and not reporting
-	--Only applies for gen/trade/LFG/etc and for latin based languages, as %W only supports that... :(
-	--Exclude lines with item links "|cff", I think this whole thing is reasonably ugly, but the gold spammers like to draw sometimes...
-	--if channelId > 0 and not BADBOY_ALLOWART and not BADBOY_NOLATIN and not fnd(msg, "|cff") and fnd(msg, "%W%W%W%W%W%W%W") then
-	--	if BADBOY_DEBUG then print("|cFF33FF99BadBoy_ART|r:", debug, player) end
-	--	result = true return true
-	--end
-	--END: Art remover
 	result = nil
 end
 
@@ -275,8 +251,3 @@ ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", function(_, _, msg)
 	end
 end)
 
---Temporary, until Blizzard fix the floating spam bots, we need to fix the sleep spam
-ChatFrame_AddMessageEventFilter("CHAT_MSG_TEXT_EMOTE", function(_, _, msg, player)
-	--fixed in v4?
-	if IsResting() and msg:find("zzz") then return true end
-end)
