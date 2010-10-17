@@ -1,0 +1,11 @@
+﻿## Interface: 40000
+## Author: Elv, Tukz
+## Version: 2.00
+## Title: |cffC495DDtukNameplates|r
+## Notes: NAMPLATES of awesomeness!
+## SavedVariables: TukuiData, TukuiArena
+## SavedVariablesPerCharacter: ElvUIInstalled, TukuiUFpos
+## OptionalDeps: Tukui_ConfigUI, Recount, Omen, Skada, DXE, Blizzard_CombatText, OptionHouse, ACP
+## X-oUF: oUF
+
+tukNameplates.xml
