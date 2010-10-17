@@ -115,14 +115,15 @@ caelThreat.eventFrame:SetScript("OnEvent", function(self, event, unit)
 	if GetNumPartyMembers() > 0 then
 
 		if IsAddOnLoaded("caelPanels") then
+			local editboxPanel = caelPanel3a
 			for _, panel in pairs(caelPanels) do
 				local status = UnitThreatSituation("player")
 
-				if (status and status > 0) then
+				if ((status and status > 0) and panel ~= editboxPanel) then
 					local r, g, b = unpack(aggroColors[playerIsTank][status])
 					panel:SetBackdropBorderColor(r, g, b)
-				else
-					panel:SetBackdropBorderColor(0, 0, 0)
+				--else
+				--	panel:SetBackdropBorderColor(0, 0, 0)
 				end
 			end
 		end

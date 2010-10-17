@@ -396,8 +396,8 @@ caelChat.eventFrame:SetScript("OnEvent", function(self, event, addon)
 				end
 
 				cfeb:HookScript("OnEscapePressed", function()
-					frame:Hide()
-					--caelPanel3a:SetBackdropColor(0, 0, 0, 0.33)
+					caelPanel3a:SetBackdropColor(0.1, 0.1, 0.1)
+					caelPanel3a:SetBackdropBorderColor(0, 0, 0)
 				end)
 
 				if i < 5 then
