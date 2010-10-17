@@ -16,13 +16,13 @@
 local actionBar = {
 	["settings"] = {
 		["showGrid"] = true,
-		["showPetGrid"] = true,
+		["showPetGrid"] = false,
 		["mouseOverBar1"] = false,
 		["mouseOverBar2"] = false,
 		["mouseOverBar3"] = false,
 		["mouseOverBar4"] = false,
 		["mouseOverBar5"] = false,
-		["mouseOverPetBar"] = false,
+		["mouseOverPetBar"] = true,
 		["mouseOverShapeshiftBar"] = false,
 		["showBar1"] = true,
 		["showBar2"] = true,
@@ -294,6 +294,11 @@ barPet:SetPoint("BOTTOM", UIParent, caelLib.scale(-337), caelLib.scale(359))
 PetActionBarFrame:SetParent(barPet)
 PetActionBarFrame:SetWidth(0.01)
 
+-- Show grid for pet actionbar
+if actionBar["settings"].showPetGrid == true then
+	PetActionBar_ShowGrid()
+end
+
 -- function to toggle the display of the pet bar
 local function togglePetBar(alpha)
 	for index = 1, NUM_PET_ACTION_SLOTS do
@@ -318,7 +323,7 @@ do
 
 		if index == 1 then
 			button:SetPoint("TOPLEFT", barPet, caelLib.scale(4.5), caelLib.scale(-4.5))
-		elseif index == (NUM_PET_ACTION_SLOTS / 2) then
+		elseif index == ((NUM_PET_ACTION_SLOTS / 2) + 1) then -- Get our middle button + 1 to make the rows even
 			button:SetPoint("TOPLEFT", button1, "BOTTOMLEFT", 0, caelLib.scale(-5))
 		else
 			button:SetPoint("LEFT", buttonPrev, "RIGHT", caelLib.scale(4.5), 0)
