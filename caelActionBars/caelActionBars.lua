@@ -48,7 +48,8 @@ do
 	-- Frame List
 	local elements = {
 		MainMenuBar, MainMenuBarArtFrame, BonusActionBarFrame, VehicleMenuBar,
-		PossessBarFrame, PetActionBarFrame,
+		PossessBarFrame,
+		--PetActionBarFrame,
 		ShapeshiftBarLeft, ShapeshiftBarMiddle, ShapeshiftBarRigth,
 	}
 
