@@ -1,4 +1,3 @@
---[[	$Id$	]]
 --[[
 -- Action Bars
 --
@@ -23,7 +22,7 @@ local actionBar = {
 		["mouseOverBar3"] = false,
 		["mouseOverBar4"] = false,
 		["mouseOverBar5"] = false,
-		["mouseOverPetBar"] = true,
+		["mouseOverPetBar"] = false,
 		["mouseOverShapeshiftBar"] = false,
 		["showBar1"] = true,
 		["showBar2"] = true,
@@ -165,9 +164,8 @@ bar1:SetScript("OnEvent", function(self, event, ...)
 		RegisterStateDriver(self, "page", barPage)
 	elseif event == "PLAYER_ENTERING_WORLD" then
 		MainMenuBar_UpdateKeyRing()
-		local button
 		for i = 1, 12 do
-			button = _G["ActionButton"..i]
+			local button = _G["ActionButton"..i]
 			button:SetScale(0.68625)
 			button:ClearAllPoints()
 			button:SetParent(bar1)
