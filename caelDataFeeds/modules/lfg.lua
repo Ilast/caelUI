@@ -26,20 +26,18 @@ lfg:SetScript("OnEvent", function(self, event)
 
 	if event == "LFG_PROPOSAL_SHOW" then
 		local proposalExists, _, _, _, _, _, _, _, completedEncounters = GetLFGProposal()
+		local mode, _ = GetLFGMode()
 
 		if proposalExists and completedEncounters > 0 then
 			RaidNotice_AddMessage(RaidWarningFrame, format("|cff%s%s|r", red, "Dungeon IN PROGRESS. Invite Declined."), ChatTypeInfo["RAID_WARNING"])
 			RejectProposal()
---			LFDDungeonReadyDialogLeaveQueueButton:Click()
 			LFDQueueFrameFindGroupButton:Click()
 		end
+	elseif event == "PARTY_MEMBERS_CHANGED" then
+		if mode == "abandonedInDungeon" then
+			LFGTeleport(1)
+		end
 	end
-	--[[
-	elseif event == "LFG_COMPLETION_REWARD" then
-		SendChatMessage("Merci pour le groupe, bye.", "PARTY")
-		LeaveParty()
-	end
-	--]]
 
 	MiniMapLFGFrame:UnregisterAllEvents()
 	MiniMapLFGFrame:Hide()
@@ -86,6 +84,12 @@ lfg:SetScript("OnMouseDown", function(self, button)
 				StaticPopupSpecial_Show(LFDDungeonReadyPopup)
 				return
 			end
+		-- Enable the option to right click the LFG DataFeed to leave the dungeon after the group is over.
+		elseif mode == "lfgparty" then
+			LFGTeleport(1);
+		-- Auto teleport us out of the dungeon if we are abandoned in the dungeon.
+		elseif mode == "abandonedInDungeon" then
+			LFGTeleport(1);
 		end
 
 		MiniMapLFGFrameDropDown.point = "BOTTOM"
