@@ -133,14 +133,14 @@ bags:SetBackdropBorderColor(0, 0, 0)
 bags.preventCloseAll = true
 bags.hasButtons = true
 caelBags.bags = bags
-
+--[[
 local ammo = Container:New("ammo", numBagColumns)
 ammo:SetPoint("BOTTOM", bags, "TOP", 0, caelLib.scale(5))
 ammo:SetBackdropColor(0, 0, 0, 0.7)
 ammo:SetBackdropBorderColor(0, 0, 0)
 ammo.preventCloseAll = true
 caelBags.ammo = ammo
-
+--]]
 local bank = Container:New("bank", numBankColumns)
 bank:SetPoint("BOTTOMRIGHT", bags, "BOTTOMLEFT", 0, 0)
 bank:SetBackdropColor(0, 0, 0, 0.7)
@@ -158,7 +158,7 @@ caelBags.keys = keys
 -- Make em closable on escape.
 tinsert(UISpecialFrames, caelBags.bank)
 tinsert(UISpecialFrames, caelBags.bags)
-
+--[[
 -- Checks if the given bagID holds an ammo pouch or quiver.
 local function IsAmmoBag(bagID)
 	if not bagID then return end
@@ -168,13 +168,13 @@ local function IsAmmoBag(bagID)
 		return true
 	end
 end
-
+--]]
 -- Returns the holder frame for a given bagID.
 local function GetContainerForBag(bagID)
 	local type
-	if IsAmmoBag(bagID) then
-		type = "ammo" 
-	elseif bagID >= FIRST_BANKBAG or bagID == BANK then
+--	if IsAmmoBag(bagID) then
+--		type = "ammo" 
+	if bagID >= FIRST_BANKBAG or bagID == BANK then
 		type = "bank" 
 	elseif bagID >= BACKPACK then
 		type = "bags"
@@ -387,7 +387,7 @@ tinsert(UISpecialFrames, caelBags.bags)
 local closeBags = function()
 	caelBags.bank:Hide()
 	caelBags.bags:Hide()
-	caelBags.ammo:Hide()
+--	caelBags.ammo:Hide()
 	for i = 0, 11 do
 		CloseBag(i)
 	end
@@ -396,9 +396,9 @@ end
 
 local openBags = function()
 	for b = 0, 11 do
-		if not IsAmmoBag(b) then
+--		if not IsAmmoBag(b) then
 			OpenBag(b)
-		end
+--		end
 	end
 end
 
@@ -410,7 +410,7 @@ local toggleBags = function()
 		openBags()
 	end
 end
-
+--[[
 function OpenAmmo()
 	caelBags.ammo:Show()
 	for b = 0, 11 do
@@ -428,7 +428,7 @@ function CloseAmmo()
 		end
 	end
 end
-
+--]]
 hooksecurefunc(BankFrame, "Show", function()
 	openBags()
 end)
