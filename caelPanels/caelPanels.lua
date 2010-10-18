@@ -31,6 +31,7 @@ caelPanels.createPanel("caelPanel5", 153, 90, 172, 60, "BOTTOM", "BOTTOM", UIPar
 caelPanels.createPanel("caelPanel6", -153, 20, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- BottomLeftBar
 caelPanels.createPanel("caelPanel7", 153, 20, 172, 60, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- BottomRightBar
 caelPanels.createPanel("caelPanel8", 0, 2, 1124, 18, "BOTTOM", "BOTTOM", UIParent, UIParent, "BACKGROUND") -- DataFeeds bar
+caelPanels.createPanel("caelPanel11", -30, 0, 31, 336, "RIGHT", "RIGHT", UIParent, UIParent, "BACKGROUND") -- Side Action Bar
 
 caelPanels.eventFrame:RegisterEvent("PLAYER_LOGIN")
 caelPanels.eventFrame:SetScript("OnEvent", function(self, event)

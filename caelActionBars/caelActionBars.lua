@@ -21,14 +21,14 @@ local actionBar = {
 		["mouseOverBar2"] = false,
 		["mouseOverBar3"] = false,
 		["mouseOverBar4"] = false,
-		["mouseOverBar5"] = false,
+		["mouseOverBar5"] = true,
 		["mouseOverPetBar"] = true,
 		["mouseOverShapeshiftBar"] = false,
 		["showBar1"] = true,
 		["showBar2"] = true,
 		["showBar3"] = true,
 		["showBar4"] = true,
-		["showBar5"] = false,
+		["showBar5"] = true,
 	},
 }
 
@@ -47,9 +47,9 @@ do
 
 	-- Frame List
 	local elements = {
-		MainMenuBar, MainMenuBarArtFrame, BonusActionBarFrame, VehicleMenuBar,
+		MainMenuBar, MainMenuBarArtFrame, VehicleMenuBar,
 		PossessBarFrame,
-		--PetActionBarFrame,
+		--PetActionBarFrame, BonusActionBarFrame,
 		ShapeshiftBarLeft, ShapeshiftBarMiddle, ShapeshiftBarRigth,
 	}
 
@@ -76,6 +76,26 @@ do
 	end
 	uiManagedFrames = nil
 
+end
+
+---------------------------------
+-- Toggle for mouseover on bars
+---------------------------------
+
+local function mouseOverBar(panel, bar, button, alpha)
+	if bar ~= nil then
+		bar:SetAlpha(alpha)
+	end
+
+	if panel ~= nil then
+		panel:SetAlpha(alpha)
+	end
+
+	if button ~= nil then
+		for index = 1, 12 do
+			_G[button .. index]:SetAlpha(alpha)
+		end
+	end
 end
 
 ----------------------
@@ -199,6 +219,7 @@ end)
 local bar2 = CreateFrame("Frame", "bar2", UIParent)
 local bar3 = CreateFrame("Frame", "bar3", UIParent)
 local bar4 = CreateFrame("Frame", "bar4", UIParent)
+local bar5 = CreateFrame("Frame", "bar5", UIParent)
 
 do 
 	local bars = {{}, {}, {}}
@@ -208,18 +229,28 @@ do
 		["button"] = "MultiBarBottomLeftButton",
 		["barFrame"] = bar2,
 		["realBar"] = MultiBarBottomLeft,
+		["barNum"] = 2,
 	}
 	bars[2] = {
 		["panel"] = caelPanel7,
 		["button"] = "MultiBarBottomRightButton",
 		["barFrame"] = bar3,
 		["realBar"] = MultiBarBottomRight,
+		["barNum"] = 3,
 	}
 	bars[3] = {
 		["panel"] = caelPanel4,
 		["button"] = "MultiBarRightButton",
 		["barFrame"] = bar4,
 		["realBar"] = MultiBarRight,
+		["barNum"] = 4,
+	}
+	bars[4] = {
+		["panel"] = caelPanel11,
+		["button"] = "MultiBarLeftButton",
+		["barFrame"] = bar5,
+		["realBar"] = MultiBarLeft,
+		["barNum"] = 5,
 	}
 
 	for _, bar in ipairs(bars) do
@@ -240,11 +271,28 @@ do
 
 			if index == 1 then
 				button:SetPoint("TOPLEFT", bar.panel, caelLib.scale(4.5), caelLib.scale(-4.5))
+			elseif bar.barNum == 5 then
+				button:SetPoint("TOPLEFT", buttonPrev, "BOTTOMLEFT", 0, caelLib.scale(-4.5))
 			elseif index == 7 then
 				button:SetPoint("TOPLEFT", button1, "BOTTOMLEFT", 0, caelLib.scale(-6.5))
 			else
 				button:SetPoint("LEFT", buttonPrev, "RIGHT", caelLib.scale(5), 0)
 			end
+
+			-- mouse over enable
+			if actionBar["settings"]["mouseOverBar" .. bar.barNum] == true then
+				button:SetScript("OnEnter", function() mouseOverBar(bar.panel, bar.realBar, bar.button, 1) end)
+				button:SetScript("OnLeave", function() mouseOverBar(bar.panel, bar.realBar, bar.button, 0) end)
+				mouseOverBar(bar.panel, bar.realBar, bar.button, 0)
+			end
+		end
+
+		if actionBar["settings"]["mouseOverBar" .. bar.barNum] == true then
+			bar.panel:EnableMouse(true)
+			bar.panel:SetScript("OnEnter", function() mouseOverBar(bar.panel, bar.realBar, bar.button, 1) end)
+			bar.panel:SetScript("OnLeave", function() mouseOverBar(bar.panel, bar.realBar, bar.button, 0) end)
+			mouseOverBar(bar.panel, bar.realBar, bar.button, 0)
+		
 		end
 	end
 end
@@ -389,14 +437,6 @@ vehicleExitButton:SetScript("OnEvent", function(self, event, arg1)
 end)
 -- Hide button on game load
 vehicleExitButton:SetAlpha(0)
-
-for i = 1, 12 do
-	_G["MultiBarLeftButton"..i]:SetScale(0.68625)
-end
-
-MultiBarLeft:SetParent(UIParent)
-MultiBarLeftButton1:ClearAllPoints()
-MultiBarLeftButton1:SetPoint("RIGHT", UIParent, "RIGHT", caelLib.scale(-15), 0)
 
 --- YET TO BE IMPLEMENTED
 ---------------------------------------------------
