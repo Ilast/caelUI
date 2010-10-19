@@ -30,11 +30,11 @@ hooksecurefunc("ChatEdit_UpdateHeader", function(editbox)
 	local type = editbox:GetAttribute("chatType")
 	if type == "CHANNEL" then
 		local chatType = GetChannelName(editbox:GetAttribute("channelTarget"))
-		if chatType == 0 then
-			colorize(0.1, 0.1, 0.1)
-		else
+		--if chatType == 0 then
+		--	colorize(0.1, 0.1, 0.1)
+		--else
 			colorize(ChatTypeInfo[type..chatType].r, ChatTypeInfo[type..chatType].g, ChatTypeInfo[type..chatType].b)
-		end
+		--end
 	else
 		colorize(ChatTypeInfo[type].r, ChatTypeInfo[type].g, ChatTypeInfo[type].b)
 	end
