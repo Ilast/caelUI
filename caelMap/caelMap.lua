@@ -17,11 +17,6 @@ Cursor:SetPoint("TOPLEFT", WorldMapButton, 0, 20)
 Cursor:SetFont(caelMedia.fonts.NORMAL, 12)
 Cursor:SetTextColor(0.84, 0.75, 0.65)
 
-local caelMap_OnUpdate = function(self)
-	color = RAID_CLASS_COLORS[select(2, UnitClass(self.unit))]
-	self.icon:SetVertexColor(color.r, color.g, color.b)
-end
-
 local function setupMap(self)
 	WORLDMAP_QUESTLIST_SIZE = 0.7
 
@@ -155,27 +150,33 @@ local function setupMap(self)
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 end
 
+local function fixMapIcon(unit, size)
+	local frame = _G[unit]
+	if not frame then return end
+
+	frame:SetWidth(size)
+	frame:SetHeight(size)
+end
+
 caelMap.eventFrame:RegisterEvent("WORLD_MAP_UPDATE")
-caelMap.eventFrame:RegisterEvent("RAID_ROSTER_UPDATE")
-caelMap.eventFrame:RegisterEvent("PARTY_MEMBERS_CHANGED")
 caelMap.eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 caelMap.eventFrame:SetScript("OnEvent", function(self, event, ...)
-	if event == "RAID_ROSTER_UPDATE" or event == "PARTY_MEMBERS_CHANGED" then
-		for r = 1, 40 do
-			if UnitInParty(_G["WorldMapRaid"..r].unit) then
-				_G["WorldMapRaid"..r].icon:SetTexture([=[Interface\Addons\caelMedia\miscellaneous\partyicon]=])
-			else
-				_G["WorldMapRaid"..r].icon:SetTexture([=[Interface\Addons\caelMedia\miscellaneous\raidicon]=])
-			end
-			_G["WorldMapRaid"..r]:SetScript("OnUpdate", caelMap_OnUpdate)
-		end
-
-		for p = 1, 4 do
-			_G["WorldMapParty"..p].icon:SetTexture([=[Interface\Addons\caelMedia\miscellaneous\partyicon]=])
-			_G["WorldMapParty"..p]:SetScript("OnUpdate", caelMap_OnUpdate)
-		end
-	elseif event == "PLAYER_ENTERING_WORLD" then
+	if event == "PLAYER_ENTERING_WORLD" then
 		setupMap(self)
 		setupMap = nil
+
+		-- Scale the player icons on the map to be a little bigger then default width and height
+		for index = 1, 4 do
+			fixMapIcon(format("WorldMapParty%d", index), caelLib.scale(30))
+			if BattlefieldMinimap then
+				fixMapIcon(format("BattlefieldMinimapParty%d", index), caelLib.scale(30))
+			end
+		end
+		for index = 1, 40 do
+			fixMapIcon(format("WorldMapRaid%d", index), caelLib.scale(30))
+			if BattlefieldMinimap then
+				fixMapIcon(format("BattlefieldMinimapRaid%d", index), caelLib.scale(30))
+			end
+		end
 	end
 end)
