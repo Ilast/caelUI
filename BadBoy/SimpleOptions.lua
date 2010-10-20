@@ -41,7 +41,7 @@ do
 
 	local title = badboy:CreateFontString("BadBoyConfigTitle", "ARTWORK", "GameFontNormalLarge")
 	title:SetPoint("TOPLEFT", 16, -16)
-	title:SetText("BadBoy v6.150") --wowace magic, replaced with tag version
+	title:SetText("BadBoy v6.154") --wowace magic, replaced with tag version
 
 	local btnNoReportMsg = CreateFrame("CheckButton", "BadBoyConfigSilenceButton", badboy)
 	btnNoReportMsg:SetWidth(26)

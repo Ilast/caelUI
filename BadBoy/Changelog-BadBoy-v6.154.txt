@@ -1,0 +1,73 @@
+------------------------------------------------------------------------
+r679 | funkydude | 2010-10-19 21:35:19 +0000 (Tue, 19 Oct 2010) | 1 line
+Changed paths:
+   A /tags/v6.154 (from /trunk:678)
+
+Tagging as v6.154
+------------------------------------------------------------------------
+r678 | funkydude | 2010-10-19 21:33:51 +0000 (Tue, 19 Oct 2010) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+   M /trunk/BadBoy.toc
+
+anti-goldspam update
+------------------------------------------------------------------------
+r677 | funkydude | 2010-10-18 18:03:27 +0000 (Mon, 18 Oct 2010) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+   M /trunk/BadBoy.toc
+
+anti-goldspam update
+------------------------------------------------------------------------
+r675 | funkydude | 2010-10-17 18:02:50 +0000 (Sun, 17 Oct 2010) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+   M /trunk/BadBoy.toc
+
+anti-goldspam update
+------------------------------------------------------------------------
+r673 | funkydude | 2010-10-16 16:12:52 +0000 (Sat, 16 Oct 2010) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+   M /trunk/BadBoy.toc
+
+anti-goldspam update
+------------------------------------------------------------------------
+r672 | funkydude | 2010-10-15 15:00:01 +0000 (Fri, 15 Oct 2010) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+
+anti-goldspam update
+------------------------------------------------------------------------
+r671 | funkydude | 2010-10-15 00:17:15 +0000 (Fri, 15 Oct 2010) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+   M /trunk/SimpleOptions.lua
+
+Remove code for throttling chat, removing ascii art, and blocking sleep emotes from floating bots. Blizz public chat throttling should have fixed the first 2 and hopefully the bots have been fixed. This addon is now very much just a phishing/gold/hack/casino spam reporter, for now.
+------------------------------------------------------------------------
+r669 | funkydude | 2010-10-12 17:47:13 +0000 (Tue, 12 Oct 2010) | 4 lines
+Changed paths:
+   M /trunk/BadBoy.lua
+   M /trunk/BadBoy.toc
+   M /trunk/SimpleOptions.lua
+
+anti-goldspam update
+remove some old stuff
+disable repetitive spam filter & ASCII art filter to test if new Blizz throttle system is effective
+bump to 40000
+------------------------------------------------------------------------
+r667 | funkydude | 2010-10-09 01:16:35 +0000 (Sat, 09 Oct 2010) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+   M /trunk/BadBoy.toc
+
+anti-goldspam update
+------------------------------------------------------------------------
+r665 | funkydude | 2010-09-18 01:34:09 +0000 (Sat, 18 Sep 2010) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+   M /trunk/BadBoy.toc
+
+anti-goldspam update
+------------------------------------------------------------------------
