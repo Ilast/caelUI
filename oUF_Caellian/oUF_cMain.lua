@@ -1053,10 +1053,7 @@ local SetStyle = function(self, unit)
 		insideAlpha = 1,
 		outsideAlpha = 0.5}
 	elseif IsAddOnLoaded("oUF_SpellRange") then
-		self.SpellRange = {
-		insideAlpha = 1,
-		outsideAlpha = 0.5,
-		portraitAlpha = 0}
+		self.SpellRange = {};
 	end
 
 	local AggroSelect = function()

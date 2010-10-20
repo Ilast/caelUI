@@ -67,7 +67,6 @@ do
 	end
 end
 
-oUF_IsInRange = IsInRange;
 --- Rechecks range for a unit frame, and fires callbacks when the unit passes in or out of range.
 local function UpdateRange ( self )
 	local InRange = not not IsInRange( self.unit ); -- Cast to boolean
@@ -79,9 +78,9 @@ local function UpdateRange ( self )
 			SpellRange.Update( self, InRange );
 		else
 			if self.Portrait then 
-				self.Portrait:SetAlpha( SpellRange[ InRange and "insideAlpha" or "portraitAlpha" ] );
+				self.Portrait:SetAlpha( InRange and 1 or 0 );
 			end
-			self:SetAlpha( SpellRange[ InRange and "insideAlpha" or "outsideAlpha" ] );
+			self:SetAlpha( InRange and 1 or 0.5 );
 		end
 	end
 end
@@ -143,9 +142,7 @@ local function Enable ( self, UnitID )
 	local SpellRange = self.SpellRange;
 	if ( SpellRange ) then
 		assert( type( SpellRange ) == "table", "oUF layout addon using invalid SpellRange element." );
-		assert( type( SpellRange.Update ) == "function"
-			or ( tonumber( SpellRange.insideAlpha ) and tonumber( SpellRange.outsideAlpha ) and tonumber ( SpellRange.portraitAlpha ) ),
-			"oUF layout addon omitted required SpellRange properties." );
+		assert( type( SpellRange.Update ) == "function" or (true), "oUF layout addon omitted required SpellRange properties." );
 		if ( self.Range ) then -- Disable default range checking
 			self:DisableElement( "Range" );
 			self.Range = nil; -- Prevent range element from enabling, since enable order isn't stable
