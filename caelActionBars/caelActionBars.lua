@@ -28,7 +28,7 @@ local actionBar = {
 		["showBar2"] = true,
 		["showBar3"] = true,
 		["showBar4"] = true,
-		["showBar5"] = true,
+		["showBar5"] = false,
 	},
 }
 
