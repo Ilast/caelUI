@@ -183,6 +183,7 @@ caelMap.eventFrame:SetScript("OnEvent", function(self, event, ...)
 		-- because it is more special then the other 17 textures that make up the world map frame
 		if WorldMapFrameTexture18:IsShown() then
 			WorldMapFrameTexture18:Hide()
+			WorldMapFrameTexture18.Show = WorldMapFrameTexture18:Hide()
 		end
 	end
 end)
