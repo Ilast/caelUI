@@ -178,5 +178,11 @@ caelMap.eventFrame:SetScript("OnEvent", function(self, event, ...)
 				fixMapIcon(format("BattlefieldMinimapRaid%d", index), caelLib.scale(30))
 			end
 		end
+	elseif event == "WORLD_MAP_UPDATE" then
+		-- Hack to hide the bar at the bottom of the screen from showing
+		-- because it is more special then the other 17 textures that make up the world map frame
+		if WorldMapFrameTexture18:IsShown() then
+			WorldMapFrameTexture18:Hide()
+		end
 	end
 end)
