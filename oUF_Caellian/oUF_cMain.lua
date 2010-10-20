@@ -1,4 +1,4 @@
-﻿--[[	$Id: oUF_cMain.lua 1450 2010-10-14 11:13:24Z sdkyron@gmail.com $	]]
+﻿--[[	$Id: oUF_cMain.lua 1491 2010-10-20 21:29:38Z sdkyron@gmail.com $	]]
 
 local _, oUF_Caellian = ...
 
@@ -100,16 +100,22 @@ local StopFlash = function(self)
 end
 
 local Menu = function(self)
-	local unit = self.unit:gsub("(.)", string.upper, 1) 
-	if _G[unit.."FrameDropDown"] then
-		ToggleDropDownMenu(1, nil, _G[unit.."FrameDropDown"], "cursor")
-	elseif (self.unit:match("party")) then
-		ToggleDropDownMenu(1, nil, _G["PartyMemberFrame"..self.id.."DropDown"], "cursor")
-	else
+	local unit = self.unit:sub(1, -2)
+	local cunit = self.unit:gsub("^%l", string.upper)
+
+	if(cunit == "Vehicle") then
+		cunit = "Pet"
+	end
+
+	if(unit == "party") then
+		ToggleDropDownMenu(1, nil, _G["PartyMemberFrame"..self.id.."DropDown"], "cursor", 0, 0)
+	elseif(_G[cunit.."FrameDropDown"]) then
+		ToggleDropDownMenu(1, nil, _G[cunit.."FrameDropDown"], "cursor", 0, 0)
+	elseif unit == "raid" then
 		FriendsDropDown.unit = self.unit
 		FriendsDropDown.id = self.id
 		FriendsDropDown.initialize = RaidFrameDropDown_Initialize
-		ToggleDropDownMenu(1, nil, FriendsDropDown, "cursor")
+		ToggleDropDownMenu(1,nil,FriendsDropDown,"cursor")		
 	end
 end
 
@@ -179,9 +185,9 @@ end
 local PostUpdateName = function(self, power)
 	self.Info:ClearAllPoints()
 	if power.value:GetText() then
-		self.Info:SetPoint("CENTER", 0, pixelScale(1))
+		self.Info:SetPoint("TOP", 0, pixelScale(-3.5))
 	else
-		self.Info:SetPoint("LEFT", pixelScale(1), pixelScale(1))
+		self.Info:SetPoint("TOPLEFT", pixelScale(3.5), pixelScale(-3.5))
 	end
 end
 
@@ -287,7 +293,7 @@ local UpdateDruidMana = function(self)
 				self.DruidMana:SetPoint("LEFT", self.Power.value, "RIGHT", pixelScale(1), 0)
 				self.DruidMana:SetFormattedText("|cffD7BEA5-|r %d%%|r", floor(min / max * 100))
 			else
-				self.DruidMana:SetPoint("LEFT", pixelScale(1), pixelScale(1))
+				self.DruidMana:SetPoint("TOPLEFT", pixelScale(3.5), pixelScale(-3.5))
 				self.DruidMana:SetFormattedText("%d%%", floor(min / max * 100))
 			end
 		else
@@ -417,12 +423,6 @@ local HideAura = function(self)
 	end
 end
 
-local CancelAura = function(self, button)
-	if button == "RightButton" and not self.debuff then
-		CancelUnitBuff("player", self:GetID())
-	end
-end
-
 local PostCreateAura = function(auras, button)
 	button.backdrop = CreateFrame("Frame", nil, button)
 	button.backdrop:SetPoint("TOPLEFT", button, pixelScale(-3), pixelScale(3))
@@ -449,10 +449,6 @@ local PostCreateAura = function(auras, button)
 
 	button.remaining = SetFontString(button, fontn, 8, "OUTLINE")
 	button.remaining:SetPoint("TOPLEFT", pixelScale(1), pixelScale(-1))
-
-	if unit == "player" then
-		button:SetScript("OnMouseUp", CancelAura)
-	end
 end
 
 local CreateEnchantTimer = function(self, icons)
@@ -556,19 +552,16 @@ local SetStyle = function(self, unit)
 
 	self.menu = Menu
 	self.colors = colors
+--	Change to AnyUp when RegisterAttributeDriver doesn't cause clicks
 	self:RegisterForClicks("AnyDown")
---	self:SetAttribute("type2", "menu")
 
 	self:SetScript("OnEnter", UnitFrame_OnEnter)
 	self:SetScript("OnLeave", UnitFrame_OnLeave)
 
 	self:HookScript("OnShow", updateAllElements)
 
-	self:SetBackdrop(backdrop)
-	self:SetBackdropColor(0.25, 0.25, 0.25)
-	
-
 	self.FrameBackdrop = CreateFrame("Frame", nil, self)
+	self.FrameBackdrop:SetFrameLevel(self:GetFrameLevel() - 1)
 	self.FrameBackdrop:SetPoint("TOPLEFT", self, pixelScale(-3), pixelScale(3))
 	self.FrameBackdrop:SetFrameStrata("MEDIUM")
 	self.FrameBackdrop:SetBackdrop(caelMedia.backdropTable)
@@ -582,13 +575,13 @@ local SetStyle = function(self, unit)
 	end
 
 	self.Health = CreateFrame("StatusBar", self:GetName().."_Health", self)
-	self.Health:SetHeight((unit == "player" or unit == "target" or unitInRaid) and pixelScale(22) or unitIsPartyPet and pixelScale(10) or pixelScale(16))
-	self.Health:SetPoint("TOPLEFT")
-	self.Health:SetPoint("TOPRIGHT")
+	self.Health:SetHeight((unit == "player" or unit == "target") and pixelScale(30) or unitInRaid and pixelScale(22) or unitIsPartyPet and pixelScale(10) or pixelScale(16))
+	self.Health:SetPoint("TOPLEFT", pixelScale(1), pixelScale(-1))
+	self.Health:SetPoint("TOPRIGHT", pixelScale(-1), pixelScale(-1))
 	self.Health:SetStatusBarTexture(normtex)
 	self.Health:GetStatusBarTexture():SetHorizTile(false)
 	self.Health:SetBackdrop(backdrop)
-	self.Health:SetBackdropColor(0.25, 0.25, 0.25)
+	self.Health:SetBackdropColor(0, 0, 0)
 
 	self.Health.colorTapping = true
 
@@ -605,23 +598,23 @@ local SetStyle = function(self, unit)
 	if unitInRaid then
 		self.Health.value:SetPoint("BOTTOMRIGHT", pixelScale(-1), pixelScale(2))
 	else
-		self.Health.value:SetPoint("RIGHT", pixelScale(-1), pixelScale(1))
+		self.Health.value:SetPoint("TOPRIGHT", pixelScale(-3.5), pixelScale(-3.5))
 	end
 
 	if not unitIsPartyPet then
 		self.Power = CreateFrame("StatusBar", self:GetName().."_Power", self)
-		self.Power:SetHeight((unit == "player" or unit == "target") and pixelScale(7) or pixelScale(5))
+		self.Power:SetHeight((unit == "player" or unit == "target") and pixelScale(15) or pixelScale(5))
 		if unitInRaid then
 			self.Power:SetPoint("TOPLEFT", self.Health, "BOTTOMLEFT", 0, pixelScale(-1))
 			self.Power:SetPoint("TOPRIGHT", self.Health, "BOTTOMRIGHT", 0, pixelScale(-1))
 		else
-			self.Power:SetPoint("BOTTOMLEFT")
-			self.Power:SetPoint("BOTTOMRIGHT")
+			self.Power:SetPoint("BOTTOMLEFT", pixelScale(1), pixelScale(1))
+			self.Power:SetPoint("BOTTOMRIGHT", pixelScale(-1), pixelScale(1))
 		end
 		self.Power:SetStatusBarTexture(normtex)
 		self.Power:GetStatusBarTexture():SetHorizTile(false)
 		self.Power:SetBackdrop(backdrop)
-		self.Power:SetBackdropColor(0.25, 0.25, 0.25)
+		self.Power:SetBackdropColor(0, 0, 0)
 
 		self.Power.colorPower = unit == "player" or unit == "pet" and true
 		self.Power.colorClass = true
@@ -639,7 +632,7 @@ local SetStyle = function(self, unit)
 		self.Power.bg.multiplier = 0.5
 
 		self.Power.value = SetFontString(self.Health, font, (unit == "player" or unit == "target") and pixelScale(11) or pixelScale(9))
-		self.Power.value:SetPoint("LEFT", pixelScale(1), pixelScale(1))
+		self.Power.value:SetPoint("TOPLEFT", pixelScale(3.5), pixelScale(-3.5))
 	end
 
 	if unitInRaid then
@@ -662,7 +655,7 @@ local SetStyle = function(self, unit)
 			self.Info:SetPoint("BOTTOM", self, 0, pixelScale(3))
 			self:Tag(self.Info, "[caellian:getnamecolor][caellian:nameshort]")
 		elseif unit == "target" then
-			self.Info:SetPoint("LEFT", pixelScale(1), pixelScale(1))
+			self.Info:SetPoint("TOPLEFT", pixelScale(3.5), pixelScale(-3.5))
 			self:Tag(self.Info, "[caellian:getnamecolor][caellian:namelong] [caellian:diffcolor][level] [shortclassification]")
 		else
 			self.Info:SetPoint("LEFT", pixelScale(1), pixelScale(1))
@@ -673,7 +666,7 @@ local SetStyle = function(self, unit)
 	if unit == "player" then
 		self.Combat = self.Health:CreateTexture(nil, "OVERLAY")
 		self.Combat:SetSize(pixelScale(12), pixelScale(12))
-		self.Combat:SetPoint("CENTER")
+		self.Combat:SetPoint("TOP", 0, pixelScale(-3.5))
 		self.Combat:SetTexture(bubbleTex)
 		self.Combat:SetVertexColor(0.69, 0.31, 0.31)
 
@@ -693,6 +686,26 @@ local SetStyle = function(self, unit)
 			self.Resting:SetTexture([=[Interface\CharacterFrame\UI-StateIcon]=])
 			self.Resting:SetTexCoord(0, 0.5, 0, 0.421875)
 		end
+
+		self.MyHealBar = CreateFrame("StatusBar", nil, self.Health)
+		self.MyHealBar:SetWidth(pixelScale(230))
+		self.MyHealBar:SetPoint("TOPLEFT", self.Health:GetStatusBarTexture(), "TOPRIGHT")
+		self.MyHealBar:SetPoint("BOTTOMLEFT", self.Health:GetStatusBarTexture(), "BOTTOMRIGHT")
+		self.MyHealBar:SetStatusBarTexture(normtex)
+		self.MyHealBar:SetStatusBarColor(0.33, 0.59, 0.33, 0.75)
+
+		self.OtherHealBar = CreateFrame("StatusBar", nil, self.Health)
+		self.OtherHealBar:SetWidth(pixelScale(230))
+		self.OtherHealBar:SetPoint("TOPLEFT", self.MyHealBar:GetStatusBarTexture(), "TOPRIGHT")
+		self.OtherHealBar:SetPoint("BOTTOMLEFT", self.MyHealBar:GetStatusBarTexture(), "BOTTOMRIGHT")
+		self.OtherHealBar:SetStatusBarTexture(normtex)
+		self.OtherHealBar:SetStatusBarColor(0.33, 0.59, 0.33, 0.75)
+
+		self.HealPrediction = {
+			myBar = self.MyHealBar,
+			otherBar = self.OtherHealBar,
+			maxOverflow = 1,
+		}
 
 		if IsAddOnLoaded("oUF_WeaponEnchant") then
 			self.Enchant = CreateFrame("Frame", nil, self)
@@ -790,16 +803,19 @@ local SetStyle = function(self, unit)
 	if unit == "player" or unit == "target" then
 
 		self.Portrait = CreateFrame("PlayerModel", nil, self)
-		self.Portrait:SetPoint("TOPLEFT", self, pixelScale(1), pixelScale(-24))
-		self.Portrait:SetPoint("BOTTOMRIGHT", self, pixelScale(-1), pixelScale(8))
+		self.Portrait:SetPoint("TOPLEFT", self.Health, "BOTTOMLEFT", pixelScale(7.5), pixelScale(10))
+		self.Portrait:SetPoint("BOTTOMRIGHT", self.Power, "TOPRIGHT", pixelScale(-7.5), pixelScale(-7.5))
+		self.Portrait:SetFrameLevel(self:GetFrameLevel() + 2)
+		self.Portrait:SetBackdrop(backdrop)
+		self.Portrait:SetBackdropColor(0, 0, 0)
 
-		self.PortraitOverlay = CreateFrame("StatusBar", self:GetName().."_PortraitOverlay", self)
-		self.PortraitOverlay:SetFrameLevel(self.PortraitOverlay:GetFrameLevel() + 1)
-		self.PortraitOverlay:SetPoint("TOPLEFT", self.Health, "BOTTOMLEFT", 0, pixelScale(-1))
-		self.PortraitOverlay:SetPoint("BOTTOMRIGHT", self.Power, "TOPRIGHT", 0, pixelScale(1))
-		self.PortraitOverlay:SetStatusBarTexture(shaderTex)
-		self.PortraitOverlay:GetStatusBarTexture():SetHorizTile(false)
-		self.PortraitOverlay:SetStatusBarColor(0.1, 0.1, 0.1, 0.75)
+		self.Overlay = CreateFrame("StatusBar", self:GetName().."_Overlay", self)
+		self.Overlay:SetFrameLevel(self.Portrait:GetFrameLevel() + 1)
+		self.Overlay:SetPoint("TOPLEFT", self.Health, "BOTTOMLEFT", pixelScale(7.5), pixelScale(10))
+		self.Overlay:SetPoint("BOTTOMRIGHT", self.Power, "TOPRIGHT", pixelScale(-7.5), pixelScale(-7.5))
+		self.Overlay:SetStatusBarTexture(shaderTex)
+		self.Overlay:GetStatusBarTexture():SetHorizTile(false)
+		self.Overlay:SetStatusBarColor(0.1, 0.1, 0.1, 0.75)
 
 		self.Buffs = CreateFrame("Frame", nil, self)
 		self.Buffs:SetHeight(pixelScale(24))
@@ -869,8 +885,8 @@ local SetStyle = function(self, unit)
 			self:RegisterEvent("UNIT_COMBO_POINTS", UpdateCPoints)
 		end
 
-		self.CombatFeedbackText = SetFontString(self.PortraitOverlay, font, 18, "OUTLINE")
-		self.CombatFeedbackText:SetPoint("CENTER", 0, pixelScale(1))
+		self.CombatFeedbackText = SetFontString(self.Overlay, fontn, 14, "OUTLINE")
+		self.CombatFeedbackText:SetPoint("CENTER")
 		self.CombatFeedbackText.colors = {
 			DAMAGE = {0.69, 0.31, 0.31},
 			CRUSHING = {0.69, 0.31, 0.31},
@@ -888,7 +904,7 @@ local SetStyle = function(self, unit)
 			CRITENERGIZE = {0.31, 0.45, 0.63},
 		}
 
-		self.Status = SetFontString(self.PortraitOverlay, font, 18, "OUTLINE")
+		self.Status = SetFontString(self.Overlay, font, 18, "OUTLINE")
 		self.Status:SetPoint("CENTER", 0, pixelScale(2))
 		self.Status:SetTextColor(0.69, 0.31, 0.31, 0)
 		self:Tag(self.Status, "[pvp]")
@@ -905,7 +921,7 @@ local SetStyle = function(self, unit)
 	self.cDebuffBackdrop:SetBlendMode("ADD")
 	self.cDebuffBackdrop:SetVertexColor(0, 0, 0, 0)
 
-	self.cDebuff = CreateFrame("StatusBar", nil, (unit == "player" or unit == "target") and self.PortraitOverlay or self.Health)
+	self.cDebuff = CreateFrame("StatusBar", nil, (unit == "player" or unit == "target") and self.Overlay or self.Health)
 	self.cDebuff:SetSize(pixelScale(16), pixelScale(16))
 	self.cDebuff:SetPoint("CENTER")
 
@@ -928,50 +944,27 @@ local SetStyle = function(self, unit)
 		self.Castbar.PostChannelStart = PostChannelStart
 
 		if unit == "player" or unit == "target" then
-			self.Castbar:SetPoint("TOPLEFT", self.Health, "BOTTOMLEFT", 0, pixelScale(-1))
-			self.Castbar:SetPoint("BOTTOMRIGHT", self.Power, "TOPRIGHT", 0, pixelScale(1))
+			self.Castbar:SetAllPoints(self.Overlay)
 		else
 			self.Castbar:SetHeight(pixelScale(5))
 			self.Castbar:SetAllPoints()
 		end
 
 		if unit == "player" or unit == "target" then
-			self.Castbar.Time = SetFontString(self.PortraitOverlay, font, 11)
-			self.Castbar.Time:SetPoint("RIGHT", pixelScale(-1), pixelScale(1))
+			self.Castbar.Time = SetFontString(self.Overlay, font, 11)
+			self.Castbar.Time:SetPoint("RIGHT", pixelScale(-3.5), pixelScale(1))
 			self.Castbar.Time:SetTextColor(0.84, 0.75, 0.65)
 			self.Castbar.Time:SetJustifyH("RIGHT")
 			self.Castbar.CustomTimeText = CustomCastTimeText
 			self.Castbar.CustomDelayText = CustomCastDelayText
 
-			self.Castbar.Text = SetFontString(self.PortraitOverlay, font, 11)
-			self.Castbar.Text:SetPoint("LEFT", pixelScale(1), pixelScale(1))
+			self.Castbar.Text = SetFontString(self.Overlay, font, 11)
+			self.Castbar.Text:SetPoint("LEFT", pixelScale(3.5), pixelScale(1))
 			self.Castbar.Text:SetPoint("RIGHT", self.Castbar.Time, "LEFT", pixelScale(-1), 0)
 			self.Castbar.Text:SetTextColor(0.84, 0.75, 0.65)
 
 			self.Castbar:HookScript("OnShow", function() self.Castbar.Text:Show(); self.Castbar.Time:Show() end)
 			self.Castbar:HookScript("OnHide", function() self.Castbar.Text:Hide(); self.Castbar.Time:Hide() end)
-
-			self.Castbar.Icon = self.Castbar:CreateTexture(nil, "ARTWORK")
-			self.Castbar.Icon:SetSize(pixelScale(23 * 1.04), pixelScale(23 * 1.04))
-			self.Castbar.Icon:SetTexCoord(0, 1, 0, 1)
-			if unit == "player" then
-				self.Castbar.Icon:SetPoint("RIGHT", pixelScale(33), 0)
-			elseif unit == "target" then
-				self.Castbar.Icon:SetPoint("LEFT", pixelScale(-31.5), 0)
-			end
-
-			self.IconOverlay = self.Castbar:CreateTexture(nil, "OVERLAY")
-			self.IconOverlay:SetPoint("TOPLEFT", self.Castbar.Icon, pixelScale(-1.5), pixelScale(1.5))
-			self.IconOverlay:SetPoint("BOTTOMRIGHT", self.Castbar.Icon, pixelScale(1.5), pixelScale(-1.5))
-			self.IconOverlay:SetTexture(buttonTex)
-			self.IconOverlay:SetVertexColor(0.84, 0.75, 0.65)
-
-			self.IconBackdrop = CreateFrame("Frame", nil, self.Castbar)
-			self.IconBackdrop:SetPoint("TOPLEFT", self.Castbar.Icon, pixelScale(-3), pixelScale(3))
-			self.IconBackdrop:SetPoint("BOTTOMRIGHT", self.Castbar.Icon, pixelScale(3), pixelScale(-3))
-			self.IconBackdrop:SetBackdrop(caelMedia.borderTable)
-			self.IconBackdrop:SetBackdropColor(0, 0, 0, 0)
-			self.IconBackdrop:SetBackdropBorderColor(0, 0, 0, 0.7)
 		end
 
 		if unit == "player" then
@@ -1036,20 +1029,12 @@ local SetStyle = function(self, unit)
 	end
 
 	if unit == "player" or unit == "target" then
---		self:SetAttribute("initial-height", pixelScale(53))
---		self:SetAttribute("initial-width", pixelScale(230))
-		self:SetSize(pixelScale(230), pixelScale(53))
+		self:SetSize(pixelScale(230), pixelScale(52))
 	elseif unitIsPartyPet then
---		self:SetAttribute("initial-height", pixelScale(10))
---		self:SetAttribute("initial-width", pixelScale(113))
 		self:SetSize(pixelScale(113), pixelScale(10))
 	elseif unitInRaid then
---		self:SetAttribute("initial-height", pixelScale(43))
---		self:SetAttribute("initial-width", pixelScale(64))
 		self:SetSize(pixelScale(64), pixelScale(43))
 	else
---		self:SetAttribute("initial-height", pixelScale(22))
---		self:SetAttribute("initial-width", pixelScale(113))
 		self:SetSize(pixelScale(113), pixelScale(22))
 	end
 
@@ -1070,7 +1055,8 @@ local SetStyle = function(self, unit)
 	elseif IsAddOnLoaded("oUF_SpellRange") then
 		self.SpellRange = {
 		insideAlpha = 1,
-		outsideAlpha = 0.5}
+		outsideAlpha = 0.5,
+		portraitAlpha = 0}
 	end
 
 	local AggroSelect = function()
@@ -1147,8 +1133,7 @@ oUF:Factory(function(self)
 	self:Spawn("focustarget", "oUF_Caellian_focustarget"):SetPoint("BOTTOMLEFT", oUF_Caellian_target, "TOPLEFT", 0, pixelScale(10))
 	self:Spawn("targettarget", "oUF_Caellian_targettarget"):SetPoint("BOTTOMRIGHT", oUF_Caellian_target, "TOPRIGHT", 0, pixelScale(10))
 
-	local party = self:SpawnHeader("oUF_Party", nil, "party",
-		"showPlayer", true,
+	local party = self:SpawnHeader("oUF_Party", nil, "custom [@raid6,exists] hide; show",
 		"showParty", true,
 		"yOffset", caelLib.scale(-27.5),
 		"template", "oUF_cParty",
@@ -1162,7 +1147,7 @@ oUF:Factory(function(self)
 	CompactRaidFrameContainer:UnregisterAllEvents()
 	CompactRaidFrameContainer:Hide()
 	for i = 1, NUM_RAID_GROUPS do
-		local raidgroup = self:SpawnHeader("oUF_Raid"..i, nil, "raid",
+		local raidgroup = self:SpawnHeader("oUF_Raid"..i, nil, "custom [@raid6,exists] show; hide",
 			"groupFilter", tostring(i),
 			"showRaid", true,
 			"yOffSet", pixelScale(-3.5),
@@ -1239,3 +1224,25 @@ oUF:Factory(function(self)
 	end)
 --]]
 end)
+
+------------------------------------------------------------------------
+--	Just a command to test buffs/debuffs alignment -- Credits to tukz
+------------------------------------------------------------------------
+
+local testui = TestUI or function() end
+TestUI = function()
+	testui()
+	UnitAura = function()
+		-- name, rank, texture, count, dtype, duration, timeLeft, caster
+		return 'penancelol', 'Rank 2', 'Interface\\Icons\\Spell_Holy_Penance', random(5), 'Magic', 0, 0, "player"
+	end
+	if(oUF) then
+		for i, v in pairs(oUF.units) do
+			if(v.UNIT_AURA) then
+				v:UNIT_AURA("UNIT_AURA", v.unit)
+			end
+		end
+	end
+end
+SlashCmdList.TestUI = TestUI
+SLASH_TestUI1 = "/testui"

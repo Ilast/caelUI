@@ -9,6 +9,7 @@
   *   OR                                                                       *
   *   - .SpellRange.insideAlpha - Frame alpha value for units in range.        *
   *   - .SpellRange.outsideAlpha - Frame alpha for units out of range.         *
+  *   - .SpellRange.portraitAlpha - Frame alpha for portraits out of range.    *
   * Note that SpellRange will automatically disable Range elements of frames.  *
   ****************************************************************************]]
 
@@ -65,6 +66,8 @@ do
 		end
 	end
 end
+
+oUF_IsInRange = IsInRange;
 --- Rechecks range for a unit frame, and fires callbacks when the unit passes in or out of range.
 local function UpdateRange ( self )
 	local InRange = not not IsInRange( self.unit ); -- Cast to boolean
@@ -75,6 +78,9 @@ local function UpdateRange ( self )
 		if ( SpellRange.Update ) then
 			SpellRange.Update( self, InRange );
 		else
+			if self.Portrait then 
+				self.Portrait:SetAlpha( SpellRange[ InRange and "insideAlpha" or "portraitAlpha" ] );
+			end
 			self:SetAlpha( SpellRange[ InRange and "insideAlpha" or "outsideAlpha" ] );
 		end
 	end
@@ -119,6 +125,18 @@ do
 end
 
 
+--- Called by oUF when the unit frame's unit changes or otherwise needs a complete update.
+-- @param Event  Reason for the update.  Can be a real event, nil, or a string defined by oUF.
+local function Update ( self, Event, UnitID )
+	if ( Event ~= "OnTargetUpdate" ) then -- OnTargetUpdate is fired on a timer for *target units that don't have real events
+		ObjectRanges[ self ] = nil; -- Force update to fire
+		UpdateRange( self ); -- Update range immediately
+	end
+end
+--- Forces range to be recalculated for this element's frame immediately.
+local function ForceUpdate ( self )
+	return Update( self.__owner, "ForceUpdate", self.__owner.unit );
+end
 --- Called by oUF for new unit frames to setup range checking.
 -- @return True if the range element was actually enabled.
 local function Enable ( self, UnitID )
@@ -126,13 +144,15 @@ local function Enable ( self, UnitID )
 	if ( SpellRange ) then
 		assert( type( SpellRange ) == "table", "oUF layout addon using invalid SpellRange element." );
 		assert( type( SpellRange.Update ) == "function"
-			or ( tonumber( SpellRange.insideAlpha ) and tonumber( SpellRange.outsideAlpha ) ),
+			or ( tonumber( SpellRange.insideAlpha ) and tonumber( SpellRange.outsideAlpha ) and tonumber ( SpellRange.portraitAlpha ) ),
 			"oUF layout addon omitted required SpellRange properties." );
 		if ( self.Range ) then -- Disable default range checking
 			self:DisableElement( "Range" );
 			self.Range = nil; -- Prevent range element from enabling, since enable order isn't stable
 		end
 
+		SpellRange.__owner = self;
+		SpellRange.ForceUpdate = ForceUpdate;
 		if ( not UpdateFrame ) then
 			UpdateFrame = CreateFrame( "Frame" );
 			UpdateFrame:SetScript( "OnUpdate", OnUpdate );
@@ -156,14 +176,6 @@ local function Disable ( self )
 		UpdateFrame:UnregisterEvent( "SPELLS_CHANGED" );
 	end
 end
---- Called by oUF when the unit frame's unit changes or otherwise needs a complete update.
--- @param Event  Reason for the update.  Can be a real event, nil, or a string defined by oUF.
-local function Update ( self, Event, UnitID )
-	if ( Event ~= "OnTargetUpdate" ) then -- OnTargetUpdate is fired on a timer for *target units that don't have real events
-		ObjectRanges[ self ] = nil; -- Force update to fire
-		UpdateRange( self ); -- Update range immediately
-	end
-end
 
 
 
@@ -173,42 +185,32 @@ local _, Class = UnitClass( "player" );
 -- First known spell in the appropriate class list gets used.
 -- Note: Spells probably shouldn't have minimum ranges!
 HelpIDs = ( {
-	-- DEATHKNIGHT = {};
-	DRUID = { 5185 }; -- Healing Touch (40yd) - Starter
+	DEATHKNIGHT = { 47541 }; -- Death Coil (40yd) - Starter
+	DRUID = { 5185 }; -- Healing Touch (40yd) - Lvl 3
 	-- HUNTER = {};
-	MAGE = {
-		475, -- Remove Curse (40yd) - Lvl 18
-		1459, -- Arcane Intellect (30yd) - Lvl 1
-	};
-	PALADIN = { 635 }; -- Holy Light (40yd) - Starter
-	PRIEST = { 2050 }; -- Lesser Heal (40yd) - Starter
-	SHAMAN = { 331 }; -- Healing Wave (40yd) - Starter
+	MAGE = { 475 }; -- Remove Curse (40yd) - Lvl 30
+	PALADIN = { 85673 }; -- Word of Glory (40yd) - Lvl 9
+	PRIEST = { 2061 }; -- Flash Heal (40yd) - Lvl 3
+	-- ROGUE = {};
+	SHAMAN = { 331 }; -- Healing Wave (40yd) - Lvl 7
 	WARLOCK = { 5697 }; -- Unending Breath (30yd) - Lvl 16
 	-- WARRIOR = {};
 } )[ Class ];
 
 HarmIDs = ( {
-	DEATHKNIGHT = { 52375 }; -- Death Coil (30yd) - Lvl 55
-	DRUID = { 5176 }; -- Wrath (30yd, 36yd talent) - Starter
-	HUNTER = { 75 }; -- Auto Shot (5-35yd) - Starter
-	MAGE = {
-		44614, -- Frostfire Bolt (40yd) - Lvl 75
-		133, -- Fireball (35yd) - Starter
-	};
+	DEATHKNIGHT = { 47541 }; -- Death Coil (30yd) - Starter
+	DRUID = { 5176 }; -- Wrath (40yd) - Starter
+	HUNTER = { 75 }; -- Auto Shot (5-40yd) - Starter
+	MAGE = { 133 }; -- Fireball (40yd) - Starter
 	PALADIN = {
-		62124, -- Hand of Reckoning (30yd) - Lvl 16
-		879, -- Exorcism (30yd) - Lvl 20
+		62124, -- Hand of Reckoning (30yd) - Lvl 14
+		879, -- Exorcism (30yd) - Lvl 18
 	};
-	PRIEST = {
-		589, -- Shadow Word: Pain (30yd, 36yd talent) - Lvl 4
-		585, -- Smite (30yd) - Starter
-	};
-	SHAMAN = { 403 }; -- Lightning Bolt (30yd, 36yd talent) - Starter
-	WARLOCK = {
-		172, -- Corruption (30yd, 36yd talent) -- Lvl 4
-		686, -- Shadow Bolt (30yd) - Starter
-	};
-	WARRIOR = { 355 }; -- Taunt (30yd) - Lvl 10
+	PRIEST = { 589 }; -- Shadow Word: Pain (40yd) - Lvl 4
+	-- ROGUE = {};
+	SHAMAN = { 403 }; -- Lightning Bolt (30yd) - Starter
+	WARLOCK = { 686 }; -- Shadow Bolt (40yd) - Starter
+	WARRIOR = { 355 }; -- Taunt (30yd) - Lvl 12
 } )[ Class ];
 
 oUF:AddElement( "SpellRange", Update, Enable, Disable );
