@@ -280,19 +280,24 @@ do
 			end
 
 			-- mouse over enable
-			if actionBar["settings"]["mouseOverBar" .. bar.barNum] == true then
+			if actionBar["settings"]["showBar" .. bar.barNum] == true and actionBar["settings"]["mouseOverBar" .. bar.barNum] == true then
 				button:SetScript("OnEnter", function() mouseOverBar(bar.panel, bar.realBar, bar.button, 1) end)
 				button:SetScript("OnLeave", function() mouseOverBar(bar.panel, bar.realBar, bar.button, 0) end)
 				mouseOverBar(bar.panel, bar.realBar, bar.button, 0)
 			end
 		end
 
-		if actionBar["settings"]["mouseOverBar" .. bar.barNum] == true then
-			bar.panel:EnableMouse(true)
-			bar.panel:SetScript("OnEnter", function() mouseOverBar(bar.panel, bar.realBar, bar.button, 1) end)
-			bar.panel:SetScript("OnLeave", function() mouseOverBar(bar.panel, bar.realBar, bar.button, 0) end)
-			mouseOverBar(bar.panel, bar.realBar, bar.button, 0)
+		if actionBar["settings"]["showBar" .. bar.barNum] == true then
+			if actionBar["settings"]["mouseOverBar" .. bar.barNum] == true then
+				bar.panel:EnableMouse(true)
+				bar.panel:SetScript("OnEnter", function() mouseOverBar(bar.panel, bar.realBar, bar.button, 1) end)
+				bar.panel:SetScript("OnLeave", function() mouseOverBar(bar.panel, bar.realBar, bar.button, 0) end)
+				mouseOverBar(bar.panel, bar.realBar, bar.button, 0)
 		
+			end
+		else
+			bar.barFrame:Hide()
+			bar.panel:Hide()
 		end
 	end
 end
