@@ -155,16 +155,16 @@ social:SetScript("OnMouseDown", function(self, button)
 	elseif button == "RightButton" then
 		if not IsAddOnLoaded("Blizzard_GuildUI") then
 			LoadAddOn("Blizzard_GuildUI")
+		else
+			local view = "playerStatus"
+
+			if UIDropDownMenu_GetSelectedValue(GuildRosterViewDropdown) ~= view then
+				GuildRoster_SetView(view)
+				SetCVar("guildRosterView", view)
+				UIDropDownMenu_SetSelectedValue(GuildRosterViewDropdown, view) -- Currently not performed in _SetView
+			end
 		end
 
-		--[[
-		-- GuildRosterViewDropdown_OnClick()
-		GuildRoster_SetView("playerStatus")
-		GuildRoster()
-		GuildRoster_Update()
-		SetCVar("guildRosterView", "playerStatus")
-		UIDropDownMenu_SetSelectedValue(GuildRosterViewDropdown, "playerStatus") -- Currently not performed in _SetView
-		--]]
 		ToggleFrame(GuildFrame)
 	end
 end)
